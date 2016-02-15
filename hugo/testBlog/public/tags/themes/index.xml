@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>楽しいことしかやりたくない。 </title>
+    <link>http://localhost:1313/tags/themes/</link>
+    <language>en-us</language>
+    <author>m0a</author>
+    <rights>(C) 2015</rights>
+    <updated>2015-05-17 14:52:48 &#43;0900 JST</updated>
+
+    
+      
+        <item>
+          <title>secondRead</title>
+          <link>http://localhost:1313/blog/2015/05/17/secondread/</link>
+          <pubDate>Sun, 17 May 2015 14:52:48 JST</pubDate>
+          <author>m0a</author>
+          <guid>http://localhost:1313/blog/2015/05/17/secondread/</guid>
+          <description>&lt;p&gt;あああああ&lt;/p&gt;
+</description>
+        </item>
+      
+    
+
+  </channel>
+</rss>

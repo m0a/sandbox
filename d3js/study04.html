@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>D3 test 01</title>
+    <script type="text/javascript" src="d3/d3.js"></script>
+    <style>
+
+    svg {
+      font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+
+    .line {
+      fill: none;
+      stroke: DarkGreen;
+      stroke-width: 1.5px;
+    }
+
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+
+    .axis--y path {
+      display: none;
+    }
+
+    </style>
+  </head>
+  <body>
+    <div id="example"></div>
+    <script type="text/javascript">
+
+      var dataset = [
+      {
+        playNo : 1,
+        kana : "あ",
+        miss : 5,
+      },
+      {
+        playNo : 2,
+        kana : "あ",
+        miss : 3,
+      },
+      {
+        playNo :  3,
+        kana : "あ",
+        miss : 6,
+      },
+      {
+        playNo : 4,
+        kana : "あ",
+        miss : 3,
+      },
+      {
+        playNo : 5,
+        kana : "あ",
+        miss : 1,
+      },
+          ];
+
+      var margin = {top: 20, right: 30, bottom: 30, left: 40},
+          w = 900 - margin.left - margin.right,
+          h = 480 - margin.top - margin.bottom;
+
+
+
+      // 標準コード
+      var svg = d3.select("#example").append("svg")
+        .attr({
+          width: w  + margin.left + margin.right ,
+          height: h  + margin.top + margin.bottom,
+        })
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+
+        var xScale = d3.scale.linear()
+                  .domain([
+                    d3.min(dataset,function(d){return d.playNo}),
+                    d3.max(dataset,function(d){return d.playNo}),
+                  ])
+                  .range([0,w])
+                  .nice()
+                  ;
+
+
+        var yScale = d3.scale.linear()
+                  .domain([
+                    d3.min(dataset,function(d){return d.miss}),
+                    d3.max(dataset,function(d){return d.miss}),
+                  ])
+                  .range([h,0])
+                  .nice()
+                  ;
+        // lineの設定。
+        var line = d3.svg.line()
+            .x(function(d) { return xScale(d.playNo); })
+            .y(function(d) { return yScale(d.miss); })
+            .interpolate("cardinal"); // 線の形を決める。
+            ;
+
+
+        // line表示。
+        svg.append("path")
+             .datum(dataset)
+             .attr("class", "line")
+             .attr("d", line); // 上で作ったlineを入れて、ラインpathを作る。
+
+
+             svg
+               .selectAll("circle")
+               .data(dataset)
+               .enter()
+               .append("circle")
+               .attr({
+                 cx:function(d){ return xScale(d.playNo);},
+                 cy:function(d){ return yScale(d.miss); },
+                 r:5,
+                 fill:"red",
+               })
+
+
+        //axis
+        svg.append("g")
+            .attr("class", "axis axis--x")
+            .attr("transform", "translate(0," + h + ")")
+            .call(d3.svg.axis()
+              .scale(xScale)
+              .orient("bottom")
+              .ticks(5)
+            );
+
+        svg.append("g")
+            .attr("class", "axis axis--y")
+            .call(d3.svg.axis()
+              .scale(yScale)
+              .orient("left")
+              .ticks(10, "miss"))
+
+
+    </script>
+  </body>
+</html>

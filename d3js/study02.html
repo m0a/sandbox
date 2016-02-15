@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>D3 animation test</title>
+    <script src="d3/d3.js" charset="utf-8"></script>
+  </head>
+  <body>
+
+    <script type="text/javascript">
+    var w = 480;
+    var h = 200;
+      var svg = d3.select("body").append("svg")
+        .attr({
+          width:  w,
+          height: h
+        });
+
+      var dataset = [50,60,35,33,45,10,5];
+      svg.selectAll("circle")
+      .data(dataset)
+      .enter()
+      .append("circle")
+      .transition()
+      .duration(10000)
+      .ease("bounce")
+      .each("start", function(){
+        d3.select(this).attr({
+          fill: "green",
+          r: 0,
+          cy: h,
+        });
+      })
+      .attr({
+        cx: function(d,i){ return 50 + i * 100;},
+        cy: h / 2,
+        r: function(d){ return d;},
+        fill: "red",
+      })
+      .each("end",function(){
+        d3.select(this)
+        .transition()
+        .duration(8000)
+        .attr({
+          fill:"pink",
+          r:0,
+          cy:0
+        });
+      });
+      // .delay(function(d,i){
+      //   return i * 300;
+      // })
+
+
+    </script>
+
+  </body>
+</html>

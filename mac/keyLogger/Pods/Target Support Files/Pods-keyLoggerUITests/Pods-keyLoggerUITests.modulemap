@@ -1,0 +1,6 @@
+framework module Pods_keyLoggerUITests {
+  umbrella header "Pods-keyLoggerUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

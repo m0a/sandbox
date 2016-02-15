@@ -1,0 +1,16 @@
+.block {
+  position: relative;
+  z-index: auto;
+  width: 100px;
+  height: 100px;
+  background: tomato;
+}
+.block__bg {
+  position: absolute;
+  z-index: -1;
+  top: 15px;
+  left: 15px;
+  width: 100px;
+  height: 100px;
+  background: green;
+}

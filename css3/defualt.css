@@ -1,0 +1,50 @@
+/*
+
+*/
+
+html {
+  font-size: 32px;
+}
+
+h1 {
+  /*font-size: 2em;*/
+  /*64px*/
+  font-size: 2rem
+}
+
+span {
+  font-size: 0.5rem;
+}
+
+
+div {
+  width: 100px;
+  height: 50px;
+}
+
+#box1 {
+  background: rgb(255, 100, 100);
+}
+
+#box2 {
+  background: rgba(255, 100, 100, .2);
+}
+
+#box3 {
+  background: hsla(210, 100%, 50%, .7);
+}
+
+#box4 {
+  background: hsla(210, 100%, 40%, .7);
+}
+
+
+
+body {
+  background: skyblue;
+}
+
+img {
+  border: 7px solid blue;
+  opacity: 0.3;
+}

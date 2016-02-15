@@ -1,0 +1,14 @@
+# Uncomment this line to define a global platform for your project
+platform :ios, '9.0'
+use_frameworks!
+
+target 'nn_test' do
+pod 'GPUImage', '~> 0.1.6'
+#pod 'LinearAlgebraExtensions', :git => 'https://github.com/damienpontifex/LinearAlgebraExtensions.git'
+end
+
+target 'nn_testTests' do
+pod 'GPUImage', '~> 0.1.6'
+#pod 'LinearAlgebraExtensions', :git => 'https://github.com/damienpontifex/LinearAlgebraExtensions.git'
+end
+

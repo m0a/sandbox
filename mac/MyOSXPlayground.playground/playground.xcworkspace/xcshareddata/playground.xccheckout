@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>A945DE2F-1CF4-4F2D-952D-71CD20F03255</string>
+	<key>IDESourceControlProjectName</key>
+	<string>playground</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>943DDB7DBC08A82D1A100A1DFF9516BAADE097ED</key>
+		<string>github.com:m0a/sandbox.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>mac/MyOSXPlayground.playground/playground.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>943DDB7DBC08A82D1A100A1DFF9516BAADE097ED</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:m0a/sandbox.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>943DDB7DBC08A82D1A100A1DFF9516BAADE097ED</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>943DDB7DBC08A82D1A100A1DFF9516BAADE097ED</string>
+			<key>IDESourceControlWCCName</key>
+			<string>sandbox</string>
+		</dict>
+	</array>
+</dict>
+</plist>

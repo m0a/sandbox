@@ -1,0 +1,18 @@
+# Uncomment this line to define a global platform for your project
+platform :ios, '9.0'
+use_frameworks!
+
+target 'rxSwiftForVer2' do
+  pod 'RxSwift', :git => 'git@github.com:ReactiveX/RxSwift.git', :branch => 'rxswift-2.0'
+  pod 'RxCocoa', :git => 'git@github.com:ReactiveX/RxSwift.git', :branch => 'rxswift-2.0'
+end
+
+target 'rxSwiftForVer2Tests' do
+  pod 'RxSwift', :git => 'git@github.com:ReactiveX/RxSwift.git', :branch => 'rxswift-2.0'
+  pod 'RxCocoa', :git => 'git@github.com:ReactiveX/RxSwift.git', :branch => 'rxswift-2.0'
+end
+
+target 'rxSwiftForVer2UITests' do
+  pod 'RxSwift', :git => 'git@github.com:ReactiveX/RxSwift.git', :branch => 'rxswift-2.0'
+  pod 'RxCocoa', :git => 'git@github.com:ReactiveX/RxSwift.git', :branch => 'rxswift-2.0'
+end

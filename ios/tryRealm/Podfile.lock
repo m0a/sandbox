@@ -1,0 +1,22 @@
+PODS:
+  - ReactiveCocoa (2.4.2):
+    - ReactiveCocoa/UI (= 2.4.2)
+  - ReactiveCocoa/Core (2.4.2):
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/no-arc (2.4.2)
+  - ReactiveCocoa/UI (2.4.2):
+    - ReactiveCocoa/Core
+  - Realm (0.89.1):
+    - Realm/Headers (= 0.89.1)
+  - Realm/Headers (0.89.1)
+
+DEPENDENCIES:
+  - ReactiveCocoa
+  - Realm
+  - Realm/Headers
+
+SPEC CHECKSUMS:
+  ReactiveCocoa: 8418a82b67af2f1b7587baf29c329040a23c2063
+  Realm: 20b0bd13983d64fd22afeb47489729fd71b6b5c6
+
+COCOAPODS: 0.35.0

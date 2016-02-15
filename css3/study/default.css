@@ -1,0 +1,24 @@
+
+h1 {color: red; }
+#first {color: skyblue; }
+div > .points {color: black;}
+.points {color: skyblue; }
+div.t1 > p+p {
+  color: red;
+}
+
+div.t2 a[href="http://www.google.com"] {
+  color: orange;
+}
+
+div.t2 a[class~="bad"] {
+  color: red;
+}
+
+ul.t3 li:first-child {color:skyblue;}
+
+ul.t4 a:link { color: violet; }
+ul.t4 a:visited { color: orange; }
+ul.t4 a:hover { color: pink; }
+ul.t4 a:active { color: red; }
+ul.t4 input:focus { background: red; }

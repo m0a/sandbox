@@ -1,0 +1,13 @@
+PODS:
+  - GPUImage (0.1.7)
+  - SwiftFilePath (0.0.6)
+
+DEPENDENCIES:
+  - GPUImage (~> 0.1.6)
+  - SwiftFilePath
+
+SPEC CHECKSUMS:
+  GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
+  SwiftFilePath: 52c1db61018e0a3941191eb71002cb5cbdaa39e7
+
+COCOAPODS: 0.39.0

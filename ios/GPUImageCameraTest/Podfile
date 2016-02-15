@@ -1,0 +1,15 @@
+platform :ios, '9.0'
+use_frameworks!
+
+target 'GPUImageCameraTest' do
+  pod 'GPUImage', '~> 0.1.6'
+  pod 'SwiftFilePath'
+end
+
+target 'GPUImageCameraTestTests' do
+
+end
+
+target 'GPUImageCameraTestUITests' do
+
+end

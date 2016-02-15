@@ -1,0 +1,22 @@
+BaseUrl: "https://m0a.github.io"
+LanguageCode: "ja"
+Title: "楽しいことしかやりたくない。"
+
+Params:
+  Author: "m0a"
+  DateForm: "Mon, Jan 2, 2006"
+  GoogleAnalyticsUserID: "UA-55005303-5"
+  Facebook: "abe00makoto"
+  Twitter: "abe00makoto"
+  Github: "m0a"
+  ShowRelatedPost: True
+  Disqus: "m0a"
+  SyntaxHighlightTheme: "github.min.css"
+
+Indexes:
+  tag: "tags"
+
+permalinks:
+  post: /blog/:year/:month/:day/:slug/
+
+MetadataFormat: "yaml"

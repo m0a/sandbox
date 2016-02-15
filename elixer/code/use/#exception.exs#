@@ -1,0 +1,16 @@
+defmodule MyException do
+  @behaviour Exception
+
+  defstruct message: ""
+
+  def exception(msg),     do: %MyException{message: "BOOM: #{msg}"}
+  def message(exception), do: "#{exception.message}!!!"
+end
+
+try do
+#ex  raise MyException, "this is only a test"
+rescue
+  error ->
+    IO.inspect error
+    IO.puts error.message()
+end

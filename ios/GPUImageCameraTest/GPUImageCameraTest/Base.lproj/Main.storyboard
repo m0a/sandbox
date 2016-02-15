@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="7B2-53-Z2x">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="GPUImageCameraTest" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hOd-q2-BbN" customClass="GPUImageView">
+                                <rect key="frame" x="180" y="60" width="240" height="240"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="240" id="7HJ-QQ-zkj"/>
+                                    <constraint firstAttribute="width" constant="240" id="lcI-sB-XhK"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GPUImageView" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KzN-zg-0z1">
+                                <rect key="frame" x="180" y="29" width="118" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1gc-WC-BlI">
+                                <rect key="frame" x="180" y="380" width="120" height="120"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="Vm7-Wx-NfO"/>
+                                    <constraint firstAttribute="height" constant="120" id="dtP-SJ-FQS"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="imageView" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Un3-8q-HJ0">
+                                <rect key="frame" x="180" y="349.5" width="83" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="1gc-WC-BlI" firstAttribute="top" secondItem="Un3-8q-HJ0" secondAttribute="bottom" constant="10" id="Cr3-VQ-kcU"/>
+                            <constraint firstItem="1gc-WC-BlI" firstAttribute="leading" secondItem="Un3-8q-HJ0" secondAttribute="leading" id="FpN-Qn-jGc"/>
+                            <constraint firstItem="hOd-q2-BbN" firstAttribute="top" secondItem="KzN-zg-0z1" secondAttribute="bottom" constant="10" id="Tsj-jl-Iic"/>
+                            <constraint firstItem="hOd-q2-BbN" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="40" id="Z9i-xa-ECf"/>
+                            <constraint firstItem="1gc-WC-BlI" firstAttribute="top" secondItem="hOd-q2-BbN" secondAttribute="bottom" constant="80" id="arx-Fu-aED"/>
+                            <constraint firstItem="1gc-WC-BlI" firstAttribute="leading" secondItem="hOd-q2-BbN" secondAttribute="leading" id="giI-X0-VYt"/>
+                            <constraint firstItem="hOd-q2-BbN" firstAttribute="leading" secondItem="KzN-zg-0z1" secondAttribute="leading" id="kjL-35-blB"/>
+                            <constraint firstItem="hOd-q2-BbN" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vtm-Ti-aVa"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="copyImageView" destination="1gc-WC-BlI" id="iea-7y-fpf"/>
+                        <outlet property="outputView" destination="hOd-q2-BbN" id="KF4-sC-uTc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="414" y="486"/>
+        </scene>
+        <!--Mem Leaks View Controller-->
+        <scene sceneID="pde-KJ-nmW">
+            <objects>
+                <viewController id="7B2-53-Z2x" customClass="MemLeaksViewController" customModule="GPUImageCameraTest" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Rhg-4R-BZx"/>
+                        <viewControllerLayoutGuide type="bottom" id="qKb-wW-gM5"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="vpv-Tg-xlv">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xVz-jf-Vy9" customClass="GPUImageView">
+                                <rect key="frame" x="103" y="25" width="394" height="525"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="xVz-jf-Vy9" secondAttribute="height" multiplier="3:4" id="93L-6z-xXM"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cUr-0O-Phw">
+                                <rect key="frame" x="273" y="562" width="55" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="6Hq-T5-qOe"/>
+                                    <constraint firstAttribute="width" constant="55" id="Elh-JM-EyR"/>
+                                </constraints>
+                                <state key="normal" title="Capture"/>
+                                <connections>
+                                    <action selector="runCapture:" destination="7B2-53-Z2x" eventType="touchUpInside" id="tYq-Qf-b2p"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="xVz-jf-Vy9" firstAttribute="top" secondItem="Rhg-4R-BZx" secondAttribute="bottom" constant="5" id="1hO-VS-0Wy"/>
+                            <constraint firstItem="cUr-0O-Phw" firstAttribute="top" secondItem="xVz-jf-Vy9" secondAttribute="bottom" constant="12" id="G3J-et-nt8"/>
+                            <constraint firstItem="qKb-wW-gM5" firstAttribute="top" secondItem="xVz-jf-Vy9" secondAttribute="bottom" constant="50" id="Hgl-Ui-oYy"/>
+                            <constraint firstItem="xVz-jf-Vy9" firstAttribute="centerX" secondItem="vpv-Tg-xlv" secondAttribute="centerX" id="PtI-1F-2RA"/>
+                            <constraint firstItem="cUr-0O-Phw" firstAttribute="centerX" secondItem="vpv-Tg-xlv" secondAttribute="centerX" id="VAd-CS-qs8"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="outputView" destination="xVz-jf-Vy9" id="pGx-v2-uAe"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VUa-zm-9gH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="414" y="1188"/>
+        </scene>
+    </scenes>
+</document>
