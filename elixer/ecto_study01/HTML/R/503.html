@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>get_by!</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/56.html#L379'>get_by!</a>           379 deps/ecto/integration_test/cases/repo.exs     assert post1 == TestRepo.get_by!(Post, id: post1.id)</span>
+<span class='curline'><a href='../S/56.html#L380'>get_by!</a>           380 deps/ecto/integration_test/cases/repo.exs     assert post1 == TestRepo.get_by!(Post, text: post1.text)</span>
+<span class='curline'><a href='../S/56.html#L381'>get_by!</a>           381 deps/ecto/integration_test/cases/repo.exs     assert post1 == TestRepo.get_by!(Post, id: post1.id, text: post1.text)</span>
+<span class='curline'><a href='../S/56.html#L382'>get_by!</a>           382 deps/ecto/integration_test/cases/repo.exs     assert post2 == TestRepo.get_by!(Post, id: to_string(post2.id)) # With casting</span>
+<span class='curline'><a href='../S/56.html#L384'>get_by!</a>           384 deps/ecto/integration_test/cases/repo.exs     assert post1 == TestRepo.get_by!(Post, %{id: post1.id})</span>
+<span class='curline'><a href='../S/56.html#L387'>get_by!</a>           387 deps/ecto/integration_test/cases/repo.exs       TestRepo.get_by!(Post, id: post2.id, text: "hey")</span>
+<span class='curline'><a href='../S/129.html#L112'>get_by!</a>           112 deps/ecto/lib/ecto/repo.ex         Ecto.Repo.Queryable.get_by!(__MODULE__, unquote(adapter), queryable, clauses, opts)</span>
+</pre>
+</body>
+</html>

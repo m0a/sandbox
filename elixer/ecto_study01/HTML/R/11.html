@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Changeset</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/85.html#L145'>Changeset</a>         145 deps/ecto/lib/ecto/changeset.ex   @type t :: %Changeset{valid?: boolean(),</span>
+<span class='curline'><a href='../S/85.html#L227'>Changeset</a>         227 deps/ecto/lib/ecto/changeset.ex   def change(%Changeset{types: nil}, _changes) do</span>
+<span class='curline'><a href='../S/85.html#L231'>Changeset</a>         231 deps/ecto/lib/ecto/changeset.ex   def change(%Changeset{changes: changes, types: types} = changeset, new_changes)</span>
+<span class='curline'><a href='../S/85.html#L243'>Changeset</a>         243 deps/ecto/lib/ecto/changeset.ex     %Changeset{valid?: valid?, model: model, changes: changes,</span>
+<span class='curline'><a href='../S/85.html#L352'>Changeset</a>         352 deps/ecto/lib/ecto/changeset.ex   def cast(%Changeset{changes: changes, model: model} = changeset, params, required, optional) do</span>
+<span class='curline'><a href='../S/85.html#L368'>Changeset</a>         368 deps/ecto/lib/ecto/changeset.ex     %Changeset{params: nil, model: model, valid?: false, errors: [],</span>
+<span class='curline'><a href='../S/85.html#L385'>Changeset</a>         385 deps/ecto/lib/ecto/changeset.ex     %Changeset{params: params, model: model, valid?: valid?,</span>
+<span class='curline'><a href='../S/85.html#L560'>Changeset</a>         560 deps/ecto/lib/ecto/changeset.ex   defp cast_relation(type, %Changeset{model: model, types: types}, _name, _opts)</span>
+<span class='curline'><a href='../S/85.html#L566'>Changeset</a>         566 deps/ecto/lib/ecto/changeset.ex   defp cast_relation(type, %Changeset{} = changeset, key, opts) do</span>
+<span class='curline'><a href='../S/85.html#L663'>Changeset</a>         663 deps/ecto/lib/ecto/changeset.ex   def merge(%Changeset{model: model} = cs1, %Changeset{model: model} = cs2) do</span>
+<span class='curline'><a href='../S/85.html#L676'>Changeset</a>         676 deps/ecto/lib/ecto/changeset.ex   def merge(%Changeset{}, %Changeset{}) do</span>
+<span class='curline'><a href='../S/85.html#L726'>Changeset</a>         726 deps/ecto/lib/ecto/changeset.ex   def fetch_field(%Changeset{changes: changes, model: model, types: types}, key) do</span>
+<span class='curline'><a href='../S/85.html#L759'>Changeset</a>         759 deps/ecto/lib/ecto/changeset.ex   def get_field(%Changeset{changes: changes, model: model, types: types}, key, default \\ nil) do</span>
+<span class='curline'><a href='../S/85.html#L796'>Changeset</a>         796 deps/ecto/lib/ecto/changeset.ex   def fetch_change(%Changeset{changes: changes} = _changeset, key) when is_atom(key) do</span>
+<span class='curline'><a href='../S/85.html#L813'>Changeset</a>         813 deps/ecto/lib/ecto/changeset.ex   def get_change(%Changeset{changes: changes} = _changeset, key, default \\ nil) when is_atom(key) do</span>
+<span class='curline'><a href='../S/85.html#L833'>Changeset</a>         833 deps/ecto/lib/ecto/changeset.ex   def update_change(%Changeset{changes: changes} = changeset, key, function) when is_atom(key) do</span>
+<span class='curline'><a href='../S/85.html#L863'>Changeset</a>         863 deps/ecto/lib/ecto/changeset.ex   def put_change(%Changeset{types: nil}, _key, _value) do</span>
+<span class='curline'><a href='../S/85.html#L867'>Changeset</a>         867 deps/ecto/lib/ecto/changeset.ex   def put_change(%Changeset{types: types} = changeset, key, value) do</span>
+<span class='curline'><a href='../S/85.html#L932'>Changeset</a>         932 deps/ecto/lib/ecto/changeset.ex   defp put_relation(_type, %Changeset{types: nil}, _name, _value, _opts) do</span>
+<span class='curline'><a href='../S/85.html#L972'>Changeset</a>         972 deps/ecto/lib/ecto/changeset.ex   def force_change(%Changeset{types: nil}, _key, _value) do</span>
+<span class='curline'><a href='../S/85.html#L976'>Changeset</a>         976 deps/ecto/lib/ecto/changeset.ex   def force_change(%Changeset{types: types} = changeset, key, value) do</span>
+<span class='curline'><a href='../S/85.html#L1007'>Changeset</a>        1007 deps/ecto/lib/ecto/changeset.ex   def delete_change(%Changeset{} = changeset, key) when is_atom(key) do</span>
+<span class='curline'><a href='../S/85.html#L1024'>Changeset</a>        1024 deps/ecto/lib/ecto/changeset.ex   def apply_changes(%Changeset{changes: changes, model: model}) when changes == %{} do</span>
+<span class='curline'><a href='../S/85.html#L1028'>Changeset</a>        1028 deps/ecto/lib/ecto/changeset.ex   def apply_changes(%Changeset{changes: changes, model: model, types: types}) do</span>
+<span class='curline'><a href='../S/85.html#L1796'>Changeset</a>        1796 deps/ecto/lib/ecto/changeset.ex   def traverse_errors(%Changeset{errors: errors, changes: changes, types: types}, msg_func) do</span>
+<span class='curline'><a href='../S/84.html#L16'>Changeset</a>          16 deps/ecto/lib/ecto/changeset/relation.ex   defcallback on_replace(t, Changeset.t) :: {:update | :delete, Changeset.t}</span>
+<span class='curline'><a href='../S/84.html#L22'>Changeset</a>          22 deps/ecto/lib/ecto/changeset/relation.ex   defcallback on_repo_action(t, Changeset.t, Ecto.Schema.t, Ecto.Adapter.t, Ecto.Repo.t,</span>
+<span class='curline'><a href='../S/84.html#L58'>Changeset</a>          58 deps/ecto/lib/ecto/changeset/relation.ex     %Changeset{types: types, model: model, changes: changes, action: action} = changeset</span>
+<span class='curline'><a href='../S/84.html#L132'>Changeset</a>         132 deps/ecto/lib/ecto/changeset/relation.ex   defp apply_changes(%Changeset{action: :delete}), do: nil</span>
+<span class='curline'><a href='../S/84.html#L133'>Changeset</a>         133 deps/ecto/lib/ecto/changeset/relation.ex   defp apply_changes(changeset), do: Changeset.apply_changes(changeset)</span>
+<span class='curline'><a href='../S/84.html#L219'>Changeset</a>         219 deps/ecto/lib/ecto/changeset/relation.ex     changeset = Changeset.change(struct)</span>
+<span class='curline'><a href='../S/84.html#L246'>Changeset</a>         246 deps/ecto/lib/ecto/changeset/relation.ex   defp do_change(_relation, %Changeset{model: current} = changeset, current) do</span>
+<span class='curline'><a href='../S/84.html#L250'>Changeset</a>         250 deps/ecto/lib/ecto/changeset/relation.ex   defp do_change(_relation, %Changeset{}, _current) do</span>
+<span class='curline'><a href='../S/84.html#L256'>Changeset</a>         256 deps/ecto/lib/ecto/changeset/relation.ex     {:ok, Changeset.change(current, changes)</span>
+<span class='curline'><a href='../S/84.html#L267'>Changeset</a>         267 deps/ecto/lib/ecto/changeset/relation.ex           module.on_replace(relation, Changeset.change(changeset_or_model))</span>
+<span class='curline'><a href='../S/84.html#L408'>Changeset</a>         408 deps/ecto/lib/ecto/changeset/relation.ex   defp get_pks(%Changeset{model: model}, pks),</span>
+<span class='curline'><a href='../S/88.html#L70'>Changeset</a>          70 deps/ecto/lib/ecto/embedded.ex       Changeset.put_embed(acc, field, Ecto.Changeset.Relation.empty(embed))</span>
+<span class='curline'><a href='../S/88.html#L92'>Changeset</a>          92 deps/ecto/lib/ecto/embedded.ex   defp prepare_each(%Changeset{valid?: false}, %{related: model}, _adapter) do</span>
+<span class='curline'><a href='../S/88.html#L97'>Changeset</a>          97 deps/ecto/lib/ecto/embedded.ex   defp prepare_each(%Changeset{action: :update, changes: changes} = changeset,</span>
+<span class='curline'><a href='../S/88.html#L102'>Changeset</a>         102 deps/ecto/lib/ecto/embedded.ex   defp prepare_each(%Changeset{model: %{__struct__: model}, action: action} = changeset,</span>
+<span class='curline'><a href='../S/88.html#L111'>Changeset</a>         111 deps/ecto/lib/ecto/embedded.ex   defp prepare_each(%Changeset{model: model}, %{related: expected}, _adapter) do</span>
+<span class='curline'><a href='../S/88.html#L188'>Changeset</a>         188 deps/ecto/lib/ecto/embedded.ex   defp on_repo_action(%Changeset{action: :update, changes: changes} = changeset,</span>
+<span class='curline'><a href='../S/88.html#L193'>Changeset</a>         193 deps/ecto/lib/ecto/embedded.ex   defp on_repo_action(%Changeset{action: action, changes: changes} = changeset,</span>
+<span class='curline'><a href='../S/88.html#L203'>Changeset</a>         203 deps/ecto/lib/ecto/embedded.ex     changeset = Changeset.change(current)</span>
+<span class='curline'><a href='../S/88.html#L212'>Changeset</a>         212 deps/ecto/lib/ecto/embedded.ex     model = Changeset.apply_changes(changeset)</span>
+<span class='curline'><a href='../S/127.html#L46'>Changeset</a>          46 deps/ecto/lib/ecto/repo/schema.ex   def insert(repo, adapter, %Changeset{} = changeset, opts) when is_list(opts) do</span>
+<span class='curline'><a href='../S/127.html#L55'>Changeset</a>          55 deps/ecto/lib/ecto/repo/schema.ex   defp do_insert(repo, adapter, %Changeset{valid?: true, prepare: prepare} = changeset, opts) do</span>
+<span class='curline'><a href='../S/127.html#L94'>Changeset</a>          94 deps/ecto/lib/ecto/repo/schema.ex   defp do_insert(repo, _adapter, %Changeset{valid?: false} = changeset, _opts) do</span>
+<span class='curline'><a href='../S/127.html#L101'>Changeset</a>         101 deps/ecto/lib/ecto/repo/schema.ex   def update(repo, adapter, %Changeset{} = changeset, opts) when is_list(opts) do</span>
+<span class='curline'><a href='../S/127.html#L124'>Changeset</a>         124 deps/ecto/lib/ecto/repo/schema.ex   defp do_update(repo, adapter, %Changeset{valid?: true, prepare: prepare} = changeset, opts) do</span>
+<span class='curline'><a href='../S/127.html#L170'>Changeset</a>         170 deps/ecto/lib/ecto/repo/schema.ex   defp do_update(repo, _adapter, %Changeset{valid?: false} = changeset, _opts) do</span>
+<span class='curline'><a href='../S/127.html#L198'>Changeset</a>         198 deps/ecto/lib/ecto/repo/schema.ex   defp get_state(%Changeset{model: model}), do: model.__meta__.state</span>
+<span class='curline'><a href='../S/127.html#L208'>Changeset</a>         208 deps/ecto/lib/ecto/repo/schema.ex   def delete(repo, adapter, %Changeset{} = changeset, opts) when is_list(opts) do</span>
+<span class='curline'><a href='../S/127.html#L217'>Changeset</a>         217 deps/ecto/lib/ecto/repo/schema.ex   defp do_delete(repo, adapter, %Changeset{valid?: true, prepare: prepare} = changeset, opts) do</span>
+<span class='curline'><a href='../S/127.html#L259'>Changeset</a>         259 deps/ecto/lib/ecto/repo/schema.ex   defp do_delete(repo, _adapter, %Changeset{valid?: false} = changeset, _opts) do</span>
+</pre>
+</body>
+</html>

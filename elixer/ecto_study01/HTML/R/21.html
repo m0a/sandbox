@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Ecto</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/52.html#L115'>Ecto</a>              115 deps/ecto/integration_test/cases/joins.exs     [u2, u1] = TestRepo.all Ecto.assoc([p1, p2], :comments_authors)</span>
+<span class='curline'><a href='../S/55.html#L288'>Ecto</a>              288 deps/ecto/integration_test/cases/preload.exs     p = Ecto.put_meta(p, prefix: "this_surely_does_not_exist")</span>
+<span class='curline'><a href='../S/56.html#L361'>Ecto</a>              361 deps/ecto/integration_test/cases/repo.exs     custom = Ecto.put_meta(%Custom{}, source: "posts")</span>
+<span class='curline'><a href='../S/56.html#L546'>Ecto</a>              546 deps/ecto/integration_test/cases/repo.exs     [c1, c2] = TestRepo.all Ecto.assoc(p1, :comments)</span>
+<span class='curline'><a href='../S/56.html#L550'>Ecto</a>              550 deps/ecto/integration_test/cases/repo.exs     [c1, c2, c3] = TestRepo.all Ecto.assoc([p1, p2], :comments)</span>
+<span class='curline'><a href='../S/56.html#L564'>Ecto</a>              564 deps/ecto/integration_test/cases/repo.exs     [l1, l3] = TestRepo.all Ecto.assoc([p1, p2], :permalink)</span>
+<span class='curline'><a href='../S/56.html#L577'>Ecto</a>              577 deps/ecto/integration_test/cases/repo.exs     assert [p1, p2] = TestRepo.all Ecto.assoc([l1, l2, l3], :post)</span>
+<span class='curline'><a href='../S/60.html#L280'>Ecto</a>              280 deps/ecto/integration_test/sql/migration.exs     parent1 = TestRepo.insert! Ecto.put_meta(%Parent{}, source: "parent1")</span>
+<span class='curline'><a href='../S/60.html#L281'>Ecto</a>              281 deps/ecto/integration_test/sql/migration.exs     parent2 = TestRepo.insert! Ecto.put_meta(%Parent{}, source: "parent2")</span>
+<span class='curline'><a href='../S/83.html#L208'>Ecto</a>              208 deps/ecto/lib/ecto/association.ex     Ecto.put_meta(struct, source: source)</span>
+<span class='curline'><a href='../S/88.html#L137'>Ecto</a>              137 deps/ecto/lib/ecto/embedded.ex     for {_, nil} &lt;- Ecto.primary_key(changeset.model) do</span>
+<span class='curline'><a href='../S/92.html#L26'>Ecto</a>               26 deps/ecto/lib/ecto/migration/schema_migration.ex     repo.insert! %__MODULE__{version: version} |&gt; Ecto.put_meta(prefix: prefix), @opts</span>
+<span class='curline'><a href='../S/98.html#L42'>Ecto</a>               42 deps/ecto/lib/ecto/model.ex     Ecto.primary_key(struct)</span>
+<span class='curline'><a href='../S/98.html#L47'>Ecto</a>               47 deps/ecto/lib/ecto/model.ex     Ecto.primary_key!(struct)</span>
+<span class='curline'><a href='../S/98.html#L52'>Ecto</a>               52 deps/ecto/lib/ecto/model.ex     Ecto.build_assoc(struct, assoc, attributes)</span>
+<span class='curline'><a href='../S/98.html#L57'>Ecto</a>               57 deps/ecto/lib/ecto/model.ex     Ecto.assoc(model_or_models, assoc)</span>
+<span class='curline'><a href='../S/124.html#L40'>Ecto</a>               40 deps/ecto/lib/ecto/repo/assoc.ex         [{_, key}] = Ecto.primary_key!(struct)</span>
+<span class='curline'><a href='../S/125.html#L190'>Ecto</a>              190 deps/ecto/lib/ecto/repo/preloader.ex         [{_, pk}] = Ecto.primary_key!(child)</span>
+<span class='curline'><a href='../S/127.html#L404'>Ecto</a>              404 deps/ecto/lib/ecto/repo/schema.ex           assocs = repo.all Ecto.assoc(model, field)</span>
+<span class='curline'><a href='../S/127.html#L407'>Ecto</a>              407 deps/ecto/lib/ecto/repo/schema.ex           repo.delete_all Ecto.assoc(model, field)</span>
+<span class='curline'><a href='../S/127.html#L409'>Ecto</a>              409 deps/ecto/lib/ecto/repo/schema.ex           query = Ecto.assoc(model, field)</span>
+<span class='curline'><a href='../S/127.html#L464'>Ecto</a>              464 deps/ecto/lib/ecto/repo/schema.ex     Enum.reduce Ecto.primary_key!(struct), filters, fn</span>
+</pre>
+</body>
+</html>

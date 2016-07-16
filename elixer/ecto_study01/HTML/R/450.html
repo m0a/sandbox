@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>exception</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/44.html#L255'>exception</a>         255 deps/db_connection/lib/db_connection.ex           1 -&gt; {:error, RuntimeError.exception(message)}</span>
+<span class='curline'><a href='../S/44.html#L271'>exception</a>         271 deps/db_connection/lib/db_connection.ex           1 -&gt; {:error, RuntimeError.exception(message)}</span>
+<span class='curline'><a href='../S/44.html#L279'>exception</a>         279 deps/db_connection/lib/db_connection.ex           1 -&gt; {:error, RuntimeError.exception(message)}</span>
+<span class='curline'><a href='../S/44.html#L289'>exception</a>         289 deps/db_connection/lib/db_connection.ex           1 -&gt; {:error, RuntimeError.exception(message)}</span>
+<span class='curline'><a href='../S/44.html#L297'>exception</a>         297 deps/db_connection/lib/db_connection.ex           1 -&gt; {:error, RuntimeError.exception(message)}</span>
+<span class='curline'><a href='../S/44.html#L305'>exception</a>         305 deps/db_connection/lib/db_connection.ex           1 -&gt; {:error, RuntimeError.exception(message)}</span>
+<span class='curline'><a href='../S/44.html#L315'>exception</a>         315 deps/db_connection/lib/db_connection.ex           1 -&gt; {:error, RuntimeError.exception(message)}</span>
+<span class='curline'><a href='../S/44.html#L340'>exception</a>         340 deps/db_connection/lib/db_connection.ex           1 -&gt; {:error, RuntimeError.exception(message)}</span>
+<span class='curline'><a href='../S/23.html#L172'>exception</a>         172 deps/db_connection/lib/db_connection/connection.ex         err = DBConnection.Error.exception("connection not available")</span>
+<span class='curline'><a href='../S/23.html#L179'>exception</a>         179 deps/db_connection/lib/db_connection/connection.ex         err = DBConnection.Error.exception("connection not available")</span>
+<span class='curline'><a href='../S/23.html#L203'>exception</a>         203 deps/db_connection/lib/db_connection/connection.ex     exception = DBConnection.Error.exception(message)</span>
+<span class='curline'><a href='../S/23.html#L207'>exception</a>         207 deps/db_connection/lib/db_connection/connection.ex     {:stop, {exception, stack}, %{s | state: state}}</span>
+<span class='curline'><a href='../S/23.html#L273'>exception</a>         273 deps/db_connection/lib/db_connection/connection.ex     exception = DBConnection.Error.exception("client down")</span>
+<span class='curline'><a href='../S/23.html#L274'>exception</a>         274 deps/db_connection/lib/db_connection/connection.ex     {:disconnect, exception, %{s | client: {nil, :after_connect}}}</span>
+<span class='curline'><a href='../S/23.html#L277'>exception</a>         277 deps/db_connection/lib/db_connection/connection.ex     exception = DBConnection.Error.exception("client down")</span>
+<span class='curline'><a href='../S/23.html#L278'>exception</a>         278 deps/db_connection/lib/db_connection/connection.ex     {:disconnect, exception, %{s | client: {ref, nil}}}</span>
+<span class='curline'><a href='../S/23.html#L297'>exception</a>         297 deps/db_connection/lib/db_connection/connection.ex     exception = DBConnection.Error.exception("client timeout")</span>
+<span class='curline'><a href='../S/23.html#L305'>exception</a>         305 deps/db_connection/lib/db_connection/connection.ex         {:disconnect, exception, %{s | timer: nil, backoff: nil}}</span>
+<span class='curline'><a href='../S/23.html#L307'>exception</a>         307 deps/db_connection/lib/db_connection/connection.ex         {:disconnect, exception, %{s | timer: nil}}</span>
+<span class='curline'><a href='../S/23.html#L502'>exception</a>         502 deps/db_connection/lib/db_connection/connection.ex           err = DBConnection.Error.exception("connection not available")</span>
+<span class='curline'><a href='../S/31.html#L120'>exception</a>         120 deps/db_connection/lib/db_connection/ownership.ex             {:error, RuntimeError.exception(msg)}</span>
+<span class='curline'><a href='../S/31.html#L134'>exception</a>         134 deps/db_connection/lib/db_connection/ownership.ex   def disconnect(owner, exception, state, opts) do</span>
+<span class='curline'><a href='../S/31.html#L135'>exception</a>         135 deps/db_connection/lib/db_connection/ownership.ex     Owner.disconnect(owner, exception, state, opts)</span>
+<span class='curline'><a href='../S/27.html#L38'>exception</a>          38 deps/db_connection/lib/db_connection/ownership/owner.ex   def disconnect({owner, ref}, exception, state, _opts) do</span>
+<span class='curline'><a href='../S/27.html#L39'>exception</a>          39 deps/db_connection/lib/db_connection/ownership/owner.ex     GenServer.cast(owner, {:disconnect, ref, exception, state})</span>
+<span class='curline'><a href='../S/27.html#L88'>exception</a>          88 deps/db_connection/lib/db_connection/ownership/owner.ex         GenServer.reply(from, {:error, DBConnection.Error.exception(msg)})</span>
+<span class='curline'><a href='../S/27.html#L107'>exception</a>         107 deps/db_connection/lib/db_connection/ownership/owner.ex       err = DBConnection.Error.exception("connection not available")</span>
+<span class='curline'><a href='../S/27.html#L207'>exception</a>         207 deps/db_connection/lib/db_connection/ownership/owner.ex     error = DBConnection.Error.exception(reason)</span>
+<span class='curline'><a href='../S/27.html#L215'>exception</a>         215 deps/db_connection/lib/db_connection/ownership/owner.ex     error = DBConnection.Error.exception(reason)</span>
+<span class='curline'><a href='../S/34.html#L38'>exception</a>          38 deps/db_connection/lib/db_connection/poolboy.ex         err = DBConnection.Error.exception("connection not available")</span>
+<span class='curline'><a href='../S/41.html#L44'>exception</a>          44 deps/db_connection/lib/db_connection/sojourn.ex         {:error, DBConnection.Error.exception("connection not available")}</span>
+<span class='curline'><a href='../S/56.html#L197'>exception</a>         197 deps/ecto/integration_test/cases/repo.exs     exception =</span>
+<span class='curline'><a href='../S/56.html#L203'>exception</a>         203 deps/ecto/integration_test/cases/repo.exs     assert exception.message =~ "unique: posts_uuid_index"</span>
+<span class='curline'><a href='../S/56.html#L204'>exception</a>         204 deps/ecto/integration_test/cases/repo.exs     assert exception.message =~ "The changeset has not defined any constraint."</span>
+<span class='curline'><a href='../S/56.html#L207'>exception</a>         207 deps/ecto/integration_test/cases/repo.exs     exception =</span>
+<span class='curline'><a href='../S/56.html#L214'>exception</a>         214 deps/ecto/integration_test/cases/repo.exs     assert exception.message =~ "unique: posts_email_changeset"</span>
+<span class='curline'><a href='../S/56.html#L242'>exception</a>         242 deps/ecto/integration_test/cases/repo.exs     exception =</span>
+<span class='curline'><a href='../S/56.html#L248'>exception</a>         248 deps/ecto/integration_test/cases/repo.exs     assert exception.message =~ "foreign_key: comments_post_id_fkey"</span>
+<span class='curline'><a href='../S/56.html#L249'>exception</a>         249 deps/ecto/integration_test/cases/repo.exs     assert exception.message =~ "The changeset has not defined any constraint."</span>
+<span class='curline'><a href='../S/56.html#L252'>exception</a>         252 deps/ecto/integration_test/cases/repo.exs     exception =</span>
+<span class='curline'><a href='../S/56.html#L259'>exception</a>         259 deps/ecto/integration_test/cases/repo.exs     assert exception.message =~ "foreign_key: comments_post_id_other"</span>
+<span class='curline'><a href='../S/56.html#L272'>exception</a>         272 deps/ecto/integration_test/cases/repo.exs     exception =</span>
+<span class='curline'><a href='../S/56.html#L278'>exception</a>         278 deps/ecto/integration_test/cases/repo.exs     assert exception.message =~ "foreign_key: comments_post_id_fkey"</span>
+<span class='curline'><a href='../S/56.html#L279'>exception</a>         279 deps/ecto/integration_test/cases/repo.exs     assert exception.message =~ "The changeset has not defined any constraint."</span>
+<span class='curline'><a href='../S/56.html#L282'>exception</a>         282 deps/ecto/integration_test/cases/repo.exs     exception =</span>
+<span class='curline'><a href='../S/56.html#L289'>exception</a>         289 deps/ecto/integration_test/cases/repo.exs     assert exception.message =~ "foreign_key: comments_post_id_other"</span>
+<span class='curline'><a href='../S/56.html#L303'>exception</a>         303 deps/ecto/integration_test/cases/repo.exs     exception =</span>
+<span class='curline'><a href='../S/56.html#L308'>exception</a>         308 deps/ecto/integration_test/cases/repo.exs     assert exception.message =~ "foreign_key: permalinks_user_id_fkey"</span>
+<span class='curline'><a href='../S/56.html#L309'>exception</a>         309 deps/ecto/integration_test/cases/repo.exs     assert exception.message =~ "The changeset has not defined any constraint."</span>
+<span class='curline'><a href='../S/56.html#L318'>exception</a>         318 deps/ecto/integration_test/cases/repo.exs     exception =</span>
+<span class='curline'><a href='../S/56.html#L326'>exception</a>         326 deps/ecto/integration_test/cases/repo.exs     assert exception.message =~ "foreign_key: permalinks_user_id_pther"</span>
+<span class='curline'><a href='../S/121.html#L691'>exception</a>         691 deps/ecto/lib/ecto/query/planner.ex   defp reraise(exception) do</span>
+<span class='curline'><a href='../S/121.html#L692'>exception</a>         692 deps/ecto/lib/ecto/query/planner.ex     reraise exception, Enum.reject(System.stacktrace, &amp;match?({__MODULE__, _, _, _}, &amp;1))</span>
+<span class='curline'><a href='../S/125.html#L285'>exception</a>         285 deps/ecto/lib/ecto/repo/preloader.ex   defp reraise(exception) do</span>
+<span class='curline'><a href='../S/125.html#L286'>exception</a>         286 deps/ecto/lib/ecto/repo/preloader.ex     reraise exception, Enum.reject(System.stacktrace, &amp;match?({__MODULE__, _, _, _}, &amp;1))</span>
+<span class='curline'><a href='../S/190.html#L267'>exception</a>         267 deps/postgrex/lib/postgrex/protocol.ex     err = Postgrex.Error.exception(tag: :tcp, action: "async recv", reason: :closed)</span>
+<span class='curline'><a href='../S/190.html#L271'>exception</a>         271 deps/postgrex/lib/postgrex/protocol.ex     err = Postgrex.Error.exception(tag: :tcp, action: "async recv", reason: reason)</span>
+<span class='curline'><a href='../S/190.html#L278'>exception</a>         278 deps/postgrex/lib/postgrex/protocol.ex     err = Postgrex.Error.exception(tag: :ssl, action: "async recv", reason: :closed)</span>
+<span class='curline'><a href='../S/190.html#L282'>exception</a>         282 deps/postgrex/lib/postgrex/protocol.ex     err = Postgrex.Error.exception(tag: :ssl, action: "async recv", reason: reason)</span>
+<span class='curline'><a href='../S/190.html#L310'>exception</a>         310 deps/postgrex/lib/postgrex/protocol.ex         {:error, Postgrex.Error.exception(tag: :tcp, action: "connect", reason: reason)}</span>
+<span class='curline'><a href='../S/190.html#L330'>exception</a>         330 deps/postgrex/lib/postgrex/protocol.ex         err = Postgrex.Error.exception(tag: :tcp, action: "recv", reason: reason)</span>
+<span class='curline'><a href='../S/190.html#L340'>exception</a>         340 deps/postgrex/lib/postgrex/protocol.ex         err = Postgrex.Error.exception(tag: :ssl, action: "connect", reason: reason)</span>
+<span class='curline'><a href='../S/190.html#L369'>exception</a>         369 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, Postgrex.Error.exception(postgres: fields), buffer)</span>
+<span class='curline'><a href='../S/190.html#L407'>exception</a>         407 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, Postgrex.Error.exception(postgres: fields), buffer)</span>
+<span class='curline'><a href='../S/190.html#L453'>exception</a>         453 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, Postgrex.Error.exception(postgres: fields), buffer)</span>
+<span class='curline'><a href='../S/190.html#L468'>exception</a>         468 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, Postgrex.Error.exception(postgres: fields), buffer)</span>
+<span class='curline'><a href='../S/190.html#L525'>exception</a>         525 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, Postgrex.Error.exception(postgres: fields), buffer)</span>
+<span class='curline'><a href='../S/190.html#L549'>exception</a>         549 deps/postgrex/lib/postgrex/protocol.ex         err = Postgrex.Error.exception(postgres: fields)</span>
+<span class='curline'><a href='../S/190.html#L593'>exception</a>         593 deps/postgrex/lib/postgrex/protocol.ex         err =  Postgrex.Error.exception(postgres: fields)</span>
+<span class='curline'><a href='../S/190.html#L598'>exception</a>         598 deps/postgrex/lib/postgrex/protocol.ex         sync(s, status, Postgrex.Error.exception(postgres: fields), buffer)</span>
+<span class='curline'><a href='../S/190.html#L618'>exception</a>         618 deps/postgrex/lib/postgrex/protocol.ex         sync(s, status, Postgrex.Error.exception(postgres: fields), buffer)</span>
+<span class='curline'><a href='../S/190.html#L645'>exception</a>         645 deps/postgrex/lib/postgrex/protocol.ex     {:error, ArgumentError.exception(msg), s}</span>
+<span class='curline'><a href='../S/190.html#L707'>exception</a>         707 deps/postgrex/lib/postgrex/protocol.ex     err = Postgrex.Error.exception(postgres: fields)</span>
+<span class='curline'><a href='../S/190.html#L726'>exception</a>         726 deps/postgrex/lib/postgrex/protocol.ex         err = Postgrex.Error.exception(postgres: fields)</span>
+<span class='curline'><a href='../S/190.html#L783'>exception</a>         783 deps/postgrex/lib/postgrex/protocol.ex         ok(s, Postgrex.Error.exception(postgres: fields), buffer)</span>
+<span class='curline'><a href='../S/190.html#L854'>exception</a>         854 deps/postgrex/lib/postgrex/protocol.ex         err = Postgrex.Error.exception(postgres: fields)</span>
+<span class='curline'><a href='../S/190.html#L857'>exception</a>         857 deps/postgrex/lib/postgrex/protocol.ex         err = Postgrex.Error.exception(postgres: fields)</span>
+<span class='curline'><a href='../S/190.html#L901'>exception</a>         901 deps/postgrex/lib/postgrex/protocol.ex         err = Postgrex.Error.exception(postgres: fields)</span>
+<span class='curline'><a href='../S/190.html#L920'>exception</a>         920 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, Postgrex.Error.exception(postgres: fields), buffer)</span>
+<span class='curline'><a href='../S/190.html#L1108'>exception</a>        1108 deps/postgrex/lib/postgrex/protocol.ex     err = Postgrex.Error.exception(tag: tag, action: action, reason: reason)</span>
+<span class='curline'><a href='../S/190.html#L1117'>exception</a>        1117 deps/postgrex/lib/postgrex/protocol.ex     err = ArgumentError.exception("query #{inspect query} uses reserved name")</span>
+</pre>
+</body>
+</html>

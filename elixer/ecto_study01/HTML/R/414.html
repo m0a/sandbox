@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>encoders</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/191.html#L43'>encoders</a>           43 deps/postgrex/lib/postgrex/query.ex     {pfs, encoders} = encoders(poids, types)</span>
+<span class='curline'><a href='../S/191.html#L51'>encoders</a>           51 deps/postgrex/lib/postgrex/query.ex     %Postgrex.Query{query | param_formats: pfs, encoders: encoders,</span>
+<span class='curline'><a href='../S/191.html#L60'>encoders</a>           60 deps/postgrex/lib/postgrex/query.ex   def encode(%Postgrex.Query{encoders: encoders, null: null} = query, params, _) do</span>
+<span class='curline'><a href='../S/191.html#L61'>encoders</a>           61 deps/postgrex/lib/postgrex/query.ex     case do_encode(params || [], encoders, null, []) do</span>
+<span class='curline'><a href='../S/191.html#L64'>encoders</a>           64 deps/postgrex/lib/postgrex/query.ex         "parameters must be of length #{length encoders} for query #{inspect query}"</span>
+<span class='curline'><a href='../S/191.html#L95'>encoders</a>           95 deps/postgrex/lib/postgrex/query.ex   defp do_encode([null | params], [_encoder | encoders], null, encoded) do</span>
+<span class='curline'><a href='../S/191.html#L96'>encoders</a>           96 deps/postgrex/lib/postgrex/query.ex     do_encode(params, encoders, null, [&lt;&lt;-1::int32&gt;&gt; | encoded])</span>
+<span class='curline'><a href='../S/191.html#L99'>encoders</a>           99 deps/postgrex/lib/postgrex/query.ex   defp do_encode([param | params], [encoder | encoders], null, encoded) do</span>
+<span class='curline'><a href='../S/191.html#L102'>encoders</a>          102 deps/postgrex/lib/postgrex/query.ex     do_encode(params, encoders, null, encoded)</span>
+</pre>
+</body>
+</html>

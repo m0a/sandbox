@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>User</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/52.html#L14'>User</a>               14 deps/ecto/integration_test/cases/joins.exs     user = TestRepo.insert!(%User{name: "Tester"})</span>
+<span class='curline'><a href='../S/52.html#L21'>User</a>               21 deps/ecto/integration_test/cases/joins.exs     query = from(c in Comment, join: u in User, on: u.id == c.author_id,</span>
+<span class='curline'><a href='../S/52.html#L31'>User</a>               31 deps/ecto/integration_test/cases/joins.exs     user = TestRepo.insert!(%User{name: "Tester"})</span>
+<span class='curline'><a href='../S/52.html#L37'>User</a>               37 deps/ecto/integration_test/cases/joins.exs     query = from(c in Comment, join: u in User, on: u.id == c.author_id,</span>
+<span class='curline'><a href='../S/52.html#L107'>User</a>              107 deps/ecto/integration_test/cases/joins.exs     %User{id: uid1} = TestRepo.insert!(%User{name: "zzz"})</span>
+<span class='curline'><a href='../S/52.html#L108'>User</a>              108 deps/ecto/integration_test/cases/joins.exs     %User{id: uid2} = TestRepo.insert!(%User{name: "aaa"})</span>
+<span class='curline'><a href='../S/52.html#L172'>User</a>              172 deps/ecto/integration_test/cases/joins.exs     %User{id: uid1} = TestRepo.insert!(%User{})</span>
+<span class='curline'><a href='../S/52.html#L173'>User</a>              173 deps/ecto/integration_test/cases/joins.exs     %User{id: uid2} = TestRepo.insert!(%User{})</span>
+<span class='curline'><a href='../S/52.html#L199'>User</a>              199 deps/ecto/integration_test/cases/joins.exs     %User{id: uid1} = TestRepo.insert!(%User{})</span>
+<span class='curline'><a href='../S/52.html#L200'>User</a>              200 deps/ecto/integration_test/cases/joins.exs     %User{id: uid2} = TestRepo.insert!(%User{})</span>
+<span class='curline'><a href='../S/52.html#L239'>User</a>              239 deps/ecto/integration_test/cases/joins.exs     %User{id: uid1} = TestRepo.insert!(%User{name: "1"})</span>
+<span class='curline'><a href='../S/52.html#L240'>User</a>              240 deps/ecto/integration_test/cases/joins.exs     %User{id: uid2} = TestRepo.insert!(%User{name: "2"})</span>
+<span class='curline'><a href='../S/52.html#L274'>User</a>              274 deps/ecto/integration_test/cases/joins.exs     %User{id: uid1} = TestRepo.insert!(%User{name: "1"})</span>
+<span class='curline'><a href='../S/52.html#L275'>User</a>              275 deps/ecto/integration_test/cases/joins.exs     %User{id: uid2} = TestRepo.insert!(%User{name: "2"})</span>
+<span class='curline'><a href='../S/55.html#L121'>User</a>              121 deps/ecto/integration_test/cases/preload.exs     %User{id: uid1} = TestRepo.insert!(%User{name: "foo"})</span>
+<span class='curline'><a href='../S/55.html#L122'>User</a>              122 deps/ecto/integration_test/cases/preload.exs     %User{id: uid2} = TestRepo.insert!(%User{name: "bar"})</span>
+<span class='curline'><a href='../S/55.html#L167'>User</a>              167 deps/ecto/integration_test/cases/preload.exs     %User{id: uid1} = TestRepo.insert!(%User{name: "foo"})</span>
+<span class='curline'><a href='../S/55.html#L168'>User</a>              168 deps/ecto/integration_test/cases/preload.exs     %User{id: uid2} = TestRepo.insert!(%User{name: "bar"})</span>
+<span class='curline'><a href='../S/55.html#L174'>User</a>              174 deps/ecto/integration_test/cases/preload.exs     p1 = TestRepo.preload(p1, comments_authors: from(u in User, where: u.name == "foo"))</span>
+<span class='curline'><a href='../S/55.html#L212'>User</a>              212 deps/ecto/integration_test/cases/preload.exs     %User{id: uid1} = TestRepo.insert!(%User{name: "foo"})</span>
+<span class='curline'><a href='../S/55.html#L213'>User</a>              213 deps/ecto/integration_test/cases/preload.exs     %User{id: uid2} = TestRepo.insert!(%User{name: "bar"})</span>
+<span class='curline'><a href='../S/55.html#L222'>User</a>              222 deps/ecto/integration_test/cases/preload.exs                                   post_comments_authors: from(u in User, where: u.name == "foo"))</span>
+<span class='curline'><a href='../S/55.html#L250'>User</a>              250 deps/ecto/integration_test/cases/preload.exs     %User{id: uid1} = TestRepo.insert!(%User{})</span>
+<span class='curline'><a href='../S/55.html#L251'>User</a>              251 deps/ecto/integration_test/cases/preload.exs     %User{id: uid2} = TestRepo.insert!(%User{})</span>
+<span class='curline'><a href='../S/55.html#L356'>User</a>              356 deps/ecto/integration_test/cases/preload.exs     u = TestRepo.insert!(%User{custom_id: c.bid})</span>
+<span class='curline'><a href='../S/56.html#L300'>User</a>              300 deps/ecto/integration_test/cases/repo.exs     user = TestRepo.insert!(%User{})</span>
+<span class='curline'><a href='../S/56.html#L314'>User</a>              314 deps/ecto/integration_test/cases/repo.exs     user = TestRepo.insert!(%User{})</span>
+<span class='curline'><a href='../S/56.html#L331'>User</a>              331 deps/ecto/integration_test/cases/repo.exs     user = TestRepo.insert!(%User{})</span>
+<span class='curline'><a href='../S/56.html#L660'>User</a>              660 deps/ecto/integration_test/cases/repo.exs     author = TestRepo.insert!(%User{name: "john doe"})</span>
+<span class='curline'><a href='../S/56.html#L710'>User</a>              710 deps/ecto/integration_test/cases/repo.exs     user = TestRepo.insert!(%User{})</span>
+<span class='curline'><a href='../S/56.html#L722'>User</a>              722 deps/ecto/integration_test/cases/repo.exs     user = TestRepo.insert!(%User{})</span>
+</pre>
+</body>
+</html>

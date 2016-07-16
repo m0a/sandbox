@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/adapters/postgres.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/<a href='../files/235.html'>adapters</a>/postgres.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L64'>[^]</a><a href='#L104'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L64' title='Defined at 64.'>storage_up</a></li>
+<li><a href='#L94' title='Defined at 94.'>storage_down</a></li>
+<li><a href='#L104' title='Defined at 104.'>run_with_psql</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Adapters.Postgres <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc """
+<a id='L3' name='L3'></a>  Adapter module <strong class='reserved'>for</strong> PostgreSQL.
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a>  It uses `postgrex` <strong class='reserved'>for</strong> communicating to the database
+<a id='L6' name='L6'></a>  and a connection pool, such as `poolboy`.
+<a id='L7' name='L7'></a>
+<a id='L8' name='L8'></a><em class='sharp'>  #</em># Features
+<a id='L9' name='L9'></a>
+<a id='L10' name='L10'></a>    * Full query support (including joins, preloads and associations)
+<a id='L11' name='L11'></a>    * Support <strong class='reserved'>for</strong> transactions
+<a id='L12' name='L12'></a>    * Support <strong class='reserved'>for</strong> data migrations
+<a id='L13' name='L13'></a>    * Support <strong class='reserved'>for</strong> ecto.create and ecto.drop operations
+<a id='L14' name='L14'></a>    * Support <strong class='reserved'>for</strong> transactional tests via `Ecto.Adapters.SQL`
+<a id='L15' name='L15'></a>
+<a id='L16' name='L16'></a><em class='sharp'>  #</em># Options
+<a id='L17' name='L17'></a>
+<a id='L18' name='L18'></a>  Postgres options split in different categories described
+<a id='L19' name='L19'></a>  below. All options should be given via the repository
+<a id='L20' name='L20'></a>  configuration.
+<a id='L21' name='L21'></a>
+<a id='L22' name='L22'></a><em class='sharp'>  #</em>## Compile time options
+<a id='L23' name='L23'></a>
+<a id='L24' name='L24'></a>  Those options should be set in the config file and require
+<a id='L25' name='L25'></a>  recompilation in order to make an effect.
+<a id='L26' name='L26'></a>
+<a id='L27' name='L27'></a>    * `:adapter` - The adapter name, in this <strong class='reserved'>case</strong>, `Ecto.Adapters.Postgres`
+<a id='L28' name='L28'></a>    * `:name`- The name of the Repo supervisor process
+<a id='L29' name='L29'></a>    * `:pool` - The connection pool module, defaults to `Ecto.Pools.Poolboy`
+<a id='L30' name='L30'></a>    * `:pool_timeout` - The <strong class='reserved'>default</strong> timeout to use on pool calls, defaults to `5000`
+<a id='L31' name='L31'></a>    * `:timeout` - The <strong class='reserved'>default</strong> timeout to use on queries, defaults to `15000`
+<a id='L32' name='L32'></a>    * `:log_level` - The level to use when logging queries (<strong class='reserved'>default</strong>: `:debug`)
+<a id='L33' name='L33'></a>
+<a id='L34' name='L34'></a><em class='sharp'>  #</em>## Connection options
+<a id='L35' name='L35'></a>
+<a id='L36' name='L36'></a>    * `:hostname` - Server hostname
+<a id='L37' name='L37'></a>    * `:port` - Server port (<strong class='reserved'>default</strong>: 5432)
+<a id='L38' name='L38'></a>    * `:username` - Username
+<a id='L39' name='L39'></a>    * `:password` - User password
+<a id='L40' name='L40'></a>    * `:parameters` - Keyword list of connection parameters
+<a id='L41' name='L41'></a>    * `:ssl` - Set to true <strong class='reserved'>if</strong> ssl should be used (<strong class='reserved'>default</strong>: false)
+<a id='L42' name='L42'></a>    * `:ssl_opts` - A list of ssl options, see Erlang's `ssl` docs
+<a id='L43' name='L43'></a>    * `:connect_timeout` - The timeout <strong class='reserved'>for</strong> establishing new connections (<strong class='reserved'>default</strong>: 5000)
+<a id='L44' name='L44'></a>    * `:extensions` - Specify extensions to the postgres adapter
+<a id='L45' name='L45'></a>
+<a id='L46' name='L46'></a><em class='sharp'>  #</em>## Storage options
+<a id='L47' name='L47'></a>
+<a id='L48' name='L48'></a>    * `:encoding` - the database encoding (<strong class='reserved'>default</strong>: "UTF8")
+<a id='L49' name='L49'></a>    * `:template` - the template to create the database from
+<a id='L50' name='L50'></a>    * `:lc_collate` - the collation order
+<a id='L51' name='L51'></a>    * `:lc_ctype` - the character classification
+<a id='L52' name='L52'></a>
+<a id='L53' name='L53'></a>  """
+<a id='L54' name='L54'></a>
+<a id='L55' name='L55'></a>  # Inherit all behaviour from Ecto.Adapters.SQL
+<a id='L56' name='L56'></a>  use Ecto.Adapters.SQL, :postgrex
+<a id='L57' name='L57'></a>
+<a id='L58' name='L58'></a>  # And provide a custom storage implementation
+<a id='L59' name='L59'></a>  @behaviour Ecto.Adapter.Storage
+<a id='L60' name='L60'></a>
+<a id='L61' name='L61'></a><em class='sharp'>  #</em># Storage API
+<a id='L62' name='L62'></a>
+<a id='L63' name='L63'></a>  @doc false
+<a id='L64' name='L64'></a>  def <a href='../S/131.html#L15' title='Referred from 15 in deps/ecto/lib/ecto/storage.ex.'>storage_up</a>(opts) <strong class='reserved'>do</strong>
+<a id='L65' name='L65'></a>    database = Keyword.fetch!(opts, :database)
+<a id='L66' name='L66'></a>    encoding = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :encoding, "UTF8")
+<a id='L67' name='L67'></a>
+<a id='L68' name='L68'></a>    extra = ""
+<a id='L69' name='L69'></a>
+<a id='L70' name='L70'></a>    <strong class='reserved'>if</strong> template = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :template) <strong class='reserved'>do</strong>
+<a id='L71' name='L71'></a>      extra = extra &lt;&gt; " TEMPLATE=#{template}"
+<a id='L72' name='L72'></a>    end
+<a id='L73' name='L73'></a>
+<a id='L74' name='L74'></a>    <strong class='reserved'>if</strong> lc_collate = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :lc_collate) <strong class='reserved'>do</strong>
+<a id='L75' name='L75'></a>      extra = extra &lt;&gt; " LC_COLLATE='#{lc_collate}'"
+<a id='L76' name='L76'></a>    end
+<a id='L77' name='L77'></a>
+<a id='L78' name='L78'></a>    <strong class='reserved'>if</strong> lc_ctype = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :lc_ctype) <strong class='reserved'>do</strong>
+<a id='L79' name='L79'></a>      extra = extra &lt;&gt; " LC_CTYPE='#{lc_ctype}'"
+<a id='L80' name='L80'></a>    end
+<a id='L81' name='L81'></a>
+<a id='L82' name='L82'></a>    <em class='brace'>{</em>output, <a href='../S/149.html#L122' title='Defined at 122 in deps/poolboy/src/poolboy.erl.'>status</a><em class='brace'>}</em> =
+<a id='L83' name='L83'></a>      <a href='../S/78.html#L104' title='Defined at 104 in deps/ecto/lib/ecto/adapters/postgres.ex.'>run_with_psql</a> opts, "CREATE DATABASE \"" &lt;&gt; database &lt;&gt;
+<a id='L84' name='L84'></a>                          "\" ENCODING='#{encoding}'" &lt;&gt; extra
+<a id='L85' name='L85'></a>
+<a id='L86' name='L86'></a>    cond <strong class='reserved'>do</strong>
+<a id='L87' name='L87'></a>      <a href='../S/149.html#L122' title='Defined at 122 in deps/poolboy/src/poolboy.erl.'>status</a> == 0                       -&gt; :ok
+<a id='L88' name='L88'></a>      String.contains?(output, "42P04") -&gt; <em class='brace'>{</em>:error, :already_up<em class='brace'>}</em>
+<a id='L89' name='L89'></a>      true                              -&gt; <em class='brace'>{</em>:error, output<em class='brace'>}</em>
+<a id='L90' name='L90'></a>    end
+<a id='L91' name='L91'></a>  end
+<a id='L92' name='L92'></a>
+<a id='L93' name='L93'></a>  @doc false
+<a id='L94' name='L94'></a>  def <a href='../S/131.html#L27' title='Referred from 27 in deps/ecto/lib/ecto/storage.ex.'>storage_down</a>(opts) <strong class='reserved'>do</strong>
+<a id='L95' name='L95'></a>    <em class='brace'>{</em>output, <a href='../S/149.html#L122' title='Defined at 122 in deps/poolboy/src/poolboy.erl.'>status</a><em class='brace'>}</em> = <a href='../S/78.html#L104' title='Defined at 104 in deps/ecto/lib/ecto/adapters/postgres.ex.'>run_with_psql</a>(opts, "DROP DATABASE \"#{opts[:database]}\"")
+<a id='L96' name='L96'></a>
+<a id='L97' name='L97'></a>    cond <strong class='reserved'>do</strong>
+<a id='L98' name='L98'></a>      <a href='../S/149.html#L122' title='Defined at 122 in deps/poolboy/src/poolboy.erl.'>status</a> == 0                       -&gt; :ok
+<a id='L99' name='L99'></a>      String.contains?(output, "3D000") -&gt; <em class='brace'>{</em>:error, :already_down<em class='brace'>}</em>
+<a id='L100' name='L100'></a>      true                              -&gt; <em class='brace'>{</em>:error, output<em class='brace'>}</em>
+<a id='L101' name='L101'></a>    end
+<a id='L102' name='L102'></a>  end
+<a id='L103' name='L103'></a>
+<a id='L104' name='L104'></a>  defp <a href='../R/860.html' title='Multiple referred from 2 places.'>run_with_psql</a>(database, sql_command) <strong class='reserved'>do</strong>
+<a id='L105' name='L105'></a>    unless System.find_executable("psql") <strong class='reserved'>do</strong>
+<a id='L106' name='L106'></a>      raise "could not find executable `psql` in path, " &lt;&gt;
+<a id='L107' name='L107'></a>            "please guarantee it is available before running ecto commands"
+<a id='L108' name='L108'></a>    end
+<a id='L109' name='L109'></a>
+<a id='L110' name='L110'></a>    env =
+<a id='L111' name='L111'></a>      <strong class='reserved'>if</strong> password = database[:password] <strong class='reserved'>do</strong>
+<a id='L112' name='L112'></a>        [<em class='brace'>{</em>"PGPASSWORD", password<em class='brace'>}</em>]
+<a id='L113' name='L113'></a>      <strong class='reserved'>else</strong>
+<a id='L114' name='L114'></a>        []
+<a id='L115' name='L115'></a>      end
+<a id='L116' name='L116'></a>    env = [<em class='brace'>{</em>"PGCONNECT_TIMEOUT", "10"<em class='brace'>}</em> | env]
+<a id='L117' name='L117'></a>
+<a id='L118' name='L118'></a>    args = []
+<a id='L119' name='L119'></a>
+<a id='L120' name='L120'></a>    <strong class='reserved'>if</strong> username = database[:username] <strong class='reserved'>do</strong>
+<a id='L121' name='L121'></a>      args = ["-U", username|args]
+<a id='L122' name='L122'></a>    end
+<a id='L123' name='L123'></a>
+<a id='L124' name='L124'></a>    <strong class='reserved'>if</strong> port = database[:port] <strong class='reserved'>do</strong>
+<a id='L125' name='L125'></a>      args = ["-p", <a href='../D/1119.html' title='Multiple defined in 14 places.'>to_string</a>(port)|args]
+<a id='L126' name='L126'></a>    end
+<a id='L127' name='L127'></a>
+<a id='L128' name='L128'></a>    host = database[:hostname] || System.get_env("PGHOST") || "localhost"
+<a id='L129' name='L129'></a>    args = args ++ ["--quiet",
+<a id='L130' name='L130'></a>                    "--host", host,
+<a id='L131' name='L131'></a>                    "--no-password",
+<a id='L132' name='L132'></a>                    "--set", "ON_ERROR_STOP=1",
+<a id='L133' name='L133'></a>                    "--set", "VERBOSITY=verbose",
+<a id='L134' name='L134'></a>                    "--no-psqlrc",
+<a id='L135' name='L135'></a>                    "-d", "template1",
+<a id='L136' name='L136'></a>                    "-c", sql_command]
+<a id='L137' name='L137'></a>    System.cmd("psql", args, env: env, stderr_to_stdout: true)
+<a id='L138' name='L138'></a>  end
+<a id='L139' name='L139'></a>
+<a id='L140' name='L140'></a>  @doc false
+<a id='L141' name='L141'></a>
+<a id='L142' name='L142'></a>  def supports_ddl_transaction? <strong class='reserved'>do</strong>
+<a id='L143' name='L143'></a>    true
+<a id='L144' name='L144'></a>  end
+<a id='L145' name='L145'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L64'>[^]</a><a href='#L104'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

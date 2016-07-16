@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>preloads</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/116.html#L43'>preloads</a>           43 deps/ecto/lib/ecto/query/builder/preload.ex   def escape(preloads, vars) do</span>
+<span class='curline'><a href='../S/116.html#L44'>preloads</a>           44 deps/ecto/lib/ecto/query/builder/preload.ex     {preloads, assocs} = escape(preloads, :both, [], [], vars)</span>
+<span class='curline'><a href='../S/116.html#L45'>preloads</a>           45 deps/ecto/lib/ecto/query/builder/preload.ex     {Enum.reverse(preloads), Enum.reverse(assocs)}</span>
+<span class='curline'><a href='../S/116.html#L48'>preloads</a>           48 deps/ecto/lib/ecto/query/builder/preload.ex   defp escape(atom, mode, preloads, assocs, _vars) when is_atom(atom) do</span>
+<span class='curline'><a href='../S/116.html#L50'>preloads</a>           50 deps/ecto/lib/ecto/query/builder/preload.ex     {[atom|preloads], assocs}</span>
+<span class='curline'><a href='../S/116.html#L53'>preloads</a>           53 deps/ecto/lib/ecto/query/builder/preload.ex   defp escape(list, mode, preloads, assocs, vars) when is_list(list) do</span>
+<span class='curline'><a href='../S/116.html#L54'>preloads</a>           54 deps/ecto/lib/ecto/query/builder/preload.ex     Enum.reduce list, {preloads, assocs}, fn item, acc -&gt;</span>
+<span class='curline'><a href='../S/116.html#L59'>preloads</a>           59 deps/ecto/lib/ecto/query/builder/preload.ex   defp escape({:^, _, [inner]} = expr, mode, preloads, assocs, _vars) do</span>
+<span class='curline'><a href='../S/116.html#L61'>preloads</a>           61 deps/ecto/lib/ecto/query/builder/preload.ex     {[inner|preloads], assocs}</span>
+<span class='curline'><a href='../S/116.html#L71'>preloads</a>           71 deps/ecto/lib/ecto/query/builder/preload.ex   defp escape_each({key, {:^, _, [inner]}} = expr, mode, {preloads, assocs}, _vars) do</span>
+<span class='curline'><a href='../S/116.html#L74'>preloads</a>           74 deps/ecto/lib/ecto/query/builder/preload.ex     {[{key, inner}|preloads], assocs}</span>
+<span class='curline'><a href='../S/116.html#L77'>preloads</a>           77 deps/ecto/lib/ecto/query/builder/preload.ex   defp escape_each({key, {var, _, context}}, mode, {preloads, assocs}, vars) when is_atom(context) do</span>
+<span class='curline'><a href='../S/116.html#L81'>preloads</a>           81 deps/ecto/lib/ecto/query/builder/preload.ex     {preloads, [{key, {idx, []}}|assocs]}</span>
+<span class='curline'><a href='../S/116.html#L84'>preloads</a>           84 deps/ecto/lib/ecto/query/builder/preload.ex   defp escape_each({key, {{var, _, context}, list}}, mode, {preloads, assocs}, vars) when is_atom(context) do</span>
+<span class='curline'><a href='../S/116.html#L89'>preloads</a>           89 deps/ecto/lib/ecto/query/builder/preload.ex     {preloads,</span>
+<span class='curline'><a href='../S/116.html#L93'>preloads</a>           93 deps/ecto/lib/ecto/query/builder/preload.ex   defp escape_each({key, list}, mode, {preloads, assocs}, vars) do</span>
+<span class='curline'><a href='../S/116.html#L97'>preloads</a>           97 deps/ecto/lib/ecto/query/builder/preload.ex     {[{key, Enum.reverse(inner_preloads)}|preloads], assocs}</span>
+<span class='curline'><a href='../S/116.html#L100'>preloads</a>          100 deps/ecto/lib/ecto/query/builder/preload.ex   defp escape_each(other, mode, {preloads, assocs}, vars) do</span>
+<span class='curline'><a href='../S/116.html#L101'>preloads</a>          101 deps/ecto/lib/ecto/query/builder/preload.ex     escape(other, mode, preloads, assocs, vars)</span>
+<span class='curline'><a href='../S/116.html#L145'>preloads</a>          145 deps/ecto/lib/ecto/query/builder/preload.ex     {preloads, assocs} = escape(expr, binding)</span>
+<span class='curline'><a href='../S/116.html#L146'>preloads</a>          146 deps/ecto/lib/ecto/query/builder/preload.ex     Builder.apply_query(query, __MODULE__, [Enum.reverse(preloads), Enum.reverse(assocs)], env)</span>
+<span class='curline'><a href='../S/116.html#L153'>preloads</a>          153 deps/ecto/lib/ecto/query/builder/preload.ex   def apply(query, preloads, assocs) do</span>
+<span class='curline'><a href='../S/116.html#L155'>preloads</a>          155 deps/ecto/lib/ecto/query/builder/preload.ex     %{query | preloads: query.preloads ++ preloads, assocs: query.assocs ++ assocs}</span>
+<span class='curline'><a href='../S/120.html#L37'>preloads</a>           37 deps/ecto/lib/ecto/query/inspect.ex     preloads  = preloads(query.preloads)</span>
+<span class='curline'><a href='../S/120.html#L53'>preloads</a>           53 deps/ecto/lib/ecto/query/inspect.ex                  limit, offset, lock, distinct, updates, select, preloads, assocs]</span>
+<span class='curline'><a href='../S/121.html#L102'>preloads</a>          102 deps/ecto/lib/ecto/query/planner.ex                     assocs: assocs, preloads: preloads}, select) do</span>
+<span class='curline'><a href='../S/121.html#L104'>preloads</a>          104 deps/ecto/lib/ecto/query/planner.ex       assocs: assocs, preloads: preloads, select: select}</span>
+<span class='curline'><a href='../S/129.html#L163'>preloads</a>          163 deps/ecto/lib/ecto/repo.ex       def preload(model_or_models, preloads) do</span>
+<span class='curline'><a href='../S/129.html#L164'>preloads</a>          164 deps/ecto/lib/ecto/repo.ex         Ecto.Repo.Preloader.preload(model_or_models, __MODULE__, preloads)</span>
+<span class='curline'><a href='../S/129.html#L354'>preloads</a>          354 deps/ecto/lib/ecto/repo.ex   defcallback preload([Ecto.Schema.t] | Ecto.Schema.t, preloads :: term) ::</span>
+<span class='curline'><a href='../S/125.html#L16'>preloads</a>           16 deps/ecto/lib/ecto/repo/preloader.ex   def query(rows, repo, preloads, assocs, fun) do</span>
+<span class='curline'><a href='../S/125.html#L19'>preloads</a>           19 deps/ecto/lib/ecto/repo/preloader.ex     |&gt; do_preload(repo, preloads, assocs)</span>
+<span class='curline'><a href='../S/125.html#L35'>preloads</a>           35 deps/ecto/lib/ecto/repo/preloader.ex   def preload(structs, repo, preloads) when is_list(structs) do</span>
+<span class='curline'><a href='../S/125.html#L36'>preloads</a>           36 deps/ecto/lib/ecto/repo/preloader.ex     do_preload(structs, repo, preloads, nil)</span>
+<span class='curline'><a href='../S/125.html#L39'>preloads</a>           39 deps/ecto/lib/ecto/repo/preloader.ex   def preload(struct, repo, preloads) when is_map(struct) do</span>
+<span class='curline'><a href='../S/125.html#L40'>preloads</a>           40 deps/ecto/lib/ecto/repo/preloader.ex     do_preload([struct], repo, preloads, nil) |&gt; hd()</span>
+<span class='curline'><a href='../S/125.html#L43'>preloads</a>           43 deps/ecto/lib/ecto/repo/preloader.ex   defp do_preload(structs, repo, preloads, assocs) do</span>
+<span class='curline'><a href='../S/125.html#L44'>preloads</a>           44 deps/ecto/lib/ecto/repo/preloader.ex     preloads = normalize(preloads, assocs, preloads)</span>
+<span class='curline'><a href='../S/125.html#L45'>preloads</a>           45 deps/ecto/lib/ecto/repo/preloader.ex     preload_each(structs, repo, preloads)</span>
+<span class='curline'><a href='../S/125.html#L56'>preloads</a>           56 deps/ecto/lib/ecto/repo/preloader.ex   defp preload_each([sample|_] = structs, repo, preloads) do</span>
+<span class='curline'><a href='../S/125.html#L59'>preloads</a>           59 deps/ecto/lib/ecto/repo/preloader.ex     preloads    = expand(module, preloads, [])</span>
+<span class='curline'><a href='../S/125.html#L62'>preloads</a>           62 deps/ecto/lib/ecto/repo/preloader.ex       Enum.map preloads, fn</span>
+<span class='curline'><a href='../S/125.html#L85'>preloads</a>           85 deps/ecto/lib/ecto/repo/preloader.ex   defp preload_assoc(structs, module, repo, prefix, assoc, related_key, {query, preloads}) do</span>
+<span class='curline'><a href='../S/125.html#L96'>preloads</a>           96 deps/ecto/lib/ecto/repo/preloader.ex         preload_assoc(repo, query, prefix, assoc, related_key, preloads)</span>
+<span class='curline'><a href='../S/125.html#L100'>preloads</a>          100 deps/ecto/lib/ecto/repo/preloader.ex   defp preload_assoc(repo, query, prefix, %{cardinality: card} = assoc, related_key, preloads) do</span>
+<span class='curline'><a href='../S/125.html#L108'>preloads</a>          108 deps/ecto/lib/ecto/repo/preloader.ex     loaded = preload_each(repo.all(%{query | prefix: prefix}), repo, preloads)</span>
+<span class='curline'><a href='../S/125.html#L251'>preloads</a>          251 deps/ecto/lib/ecto/repo/preloader.ex   def expand(model, preloads, acc) do</span>
+<span class='curline'><a href='../S/125.html#L252'>preloads</a>          252 deps/ecto/lib/ecto/repo/preloader.ex     Enum.reduce(preloads, acc, fn {preload, sub_preloads}, acc -&gt;</span>
+<span class='curline'><a href='../S/126.html#L99'>preloads</a>           99 deps/ecto/lib/ecto/repo/queryable.ex         |&gt; Ecto.Repo.Preloader.query(repo, meta.preloads, meta.assocs, postprocess(meta.select))}</span>
+</pre>
+</body>
+</html>

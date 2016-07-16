@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>names</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/120.html#L28'>names</a>              28 deps/ecto/lib/ecto/query/inspect.ex     names =</span>
+<span class='curline'><a href='../S/120.html#L35'>names</a>              35 deps/ecto/lib/ecto/query/inspect.ex     from      = bound_from(query.from, elem(names, 0))</span>
+<span class='curline'><a href='../S/120.html#L36'>names</a>              36 deps/ecto/lib/ecto/query/inspect.ex     joins     = joins(query.joins, names)</span>
+<span class='curline'><a href='../S/120.html#L38'>names</a>              38 deps/ecto/lib/ecto/query/inspect.ex     assocs    = assocs(query.assocs, names)</span>
+<span class='curline'><a href='../S/120.html#L40'>names</a>              40 deps/ecto/lib/ecto/query/inspect.ex     wheres    = kw_exprs(:where, query.wheres, names)</span>
+<span class='curline'><a href='../S/120.html#L41'>names</a>              41 deps/ecto/lib/ecto/query/inspect.ex     group_bys = kw_exprs(:group_by, query.group_bys, names)</span>
+<span class='curline'><a href='../S/120.html#L42'>names</a>              42 deps/ecto/lib/ecto/query/inspect.ex     havings   = kw_exprs(:having, query.havings, names)</span>
+<span class='curline'><a href='../S/120.html#L43'>names</a>              43 deps/ecto/lib/ecto/query/inspect.ex     order_bys = kw_exprs(:order_by, query.order_bys, names)</span>
+<span class='curline'><a href='../S/120.html#L44'>names</a>              44 deps/ecto/lib/ecto/query/inspect.ex     updates   = kw_exprs(:update, query.updates, names)</span>
+<span class='curline'><a href='../S/120.html#L47'>names</a>              47 deps/ecto/lib/ecto/query/inspect.ex     limit     = kw_expr(:limit, query.limit, names)</span>
+<span class='curline'><a href='../S/120.html#L48'>names</a>              48 deps/ecto/lib/ecto/query/inspect.ex     offset    = kw_expr(:offset, query.offset, names)</span>
+<span class='curline'><a href='../S/120.html#L49'>names</a>              49 deps/ecto/lib/ecto/query/inspect.ex     select    = kw_expr(:select, query.select, names)</span>
+<span class='curline'><a href='../S/120.html#L50'>names</a>              50 deps/ecto/lib/ecto/query/inspect.ex     distinct  = kw_expr(:distinct, query.distinct, names)</span>
+<span class='curline'><a href='../S/120.html#L65'>names</a>              65 deps/ecto/lib/ecto/query/inspect.ex   defp joins(joins, names) do</span>
+<span class='curline'><a href='../S/120.html#L68'>names</a>              68 deps/ecto/lib/ecto/query/inspect.ex     |&gt; Enum.flat_map(fn {expr, ix} -&gt; join(expr, elem(names, expr.ix || ix + 1), names) end)</span>
+<span class='curline'><a href='../S/120.html#L71'>names</a>              71 deps/ecto/lib/ecto/query/inspect.ex   defp join(%JoinExpr{qual: qual, assoc: {ix, right}}, name, names) do</span>
+<span class='curline'><a href='../S/120.html#L72'>names</a>              72 deps/ecto/lib/ecto/query/inspect.ex     string = "#{name} in assoc(#{elem(names, ix)}, #{inspect right})"</span>
+<span class='curline'><a href='../S/120.html#L76'>names</a>              76 deps/ecto/lib/ecto/query/inspect.ex   defp join(%JoinExpr{qual: qual, source: {source, model}, on: on}, name, names) do</span>
+<span class='curline'><a href='../S/120.html#L78'>names</a>              78 deps/ecto/lib/ecto/query/inspect.ex     [{join_qual(qual), string}, on: expr(on, names)]</span>
+<span class='curline'><a href='../S/120.html#L81'>names</a>              81 deps/ecto/lib/ecto/query/inspect.ex   defp join(%JoinExpr{qual: qual, source: source, params: params, on: on}, name, names) do</span>
+<span class='curline'><a href='../S/120.html#L82'>names</a>              82 deps/ecto/lib/ecto/query/inspect.ex     string = "#{name} in #{expr(source, names, params)}"</span>
+<span class='curline'><a href='../S/120.html#L83'>names</a>              83 deps/ecto/lib/ecto/query/inspect.ex     [{join_qual(qual), string}, on: expr(on, names)]</span>
+<span class='curline'><a href='../S/120.html#L90'>names</a>              90 deps/ecto/lib/ecto/query/inspect.ex   defp assocs(assocs, names), do: [preload: expr(assocs(assocs), names, %{})]</span>
+<span class='curline'><a href='../S/120.html#L101'>names</a>             101 deps/ecto/lib/ecto/query/inspect.ex   defp kw_exprs(key, exprs, names) do</span>
+<span class='curline'><a href='../S/120.html#L102'>names</a>             102 deps/ecto/lib/ecto/query/inspect.ex     Enum.map exprs, &amp;{key, expr(&amp;1, names)}</span>
+<span class='curline'><a href='../S/120.html#L106'>names</a>             106 deps/ecto/lib/ecto/query/inspect.ex   defp kw_expr(key, expr, names),  do: [{key, expr(expr, names)}]</span>
+<span class='curline'><a href='../S/120.html#L111'>names</a>             111 deps/ecto/lib/ecto/query/inspect.ex   defp expr(%{expr: expr, params: params}, names) do</span>
+<span class='curline'><a href='../S/120.html#L112'>names</a>             112 deps/ecto/lib/ecto/query/inspect.ex     expr(expr, names, params)</span>
+<span class='curline'><a href='../S/120.html#L115'>names</a>             115 deps/ecto/lib/ecto/query/inspect.ex   defp expr(expr, names, params) do</span>
+<span class='curline'><a href='../S/120.html#L116'>names</a>             116 deps/ecto/lib/ecto/query/inspect.ex     Macro.to_string(expr, &amp;expr_to_string(&amp;1, &amp;2, names, params))</span>
+<span class='curline'><a href='../S/120.html#L120'>names</a>             120 deps/ecto/lib/ecto/query/inspect.ex   defp expr_to_string({:fragment, _, [{_, _}|_] = parts}, _, names, params) do</span>
+<span class='curline'><a href='../S/120.html#L121'>names</a>             121 deps/ecto/lib/ecto/query/inspect.ex     "fragment(" &lt;&gt; unmerge_fragments(parts, "", [], names, params) &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/120.html#L125'>names</a>             125 deps/ecto/lib/ecto/query/inspect.ex   defp expr_to_string({:&amp;, _, [ix]}, _, names, _) do</span>
+<span class='curline'><a href='../S/120.html#L126'>names</a>             126 deps/ecto/lib/ecto/query/inspect.ex     elem(names, ix)</span>
+<span class='curline'><a href='../S/120.html#L157'>names</a>             157 deps/ecto/lib/ecto/query/inspect.ex   defp expr_to_string(%Ecto.Query.Tagged{value: value, tag: tag}, _, names, params) do</span>
+<span class='curline'><a href='../S/120.html#L158'>names</a>             158 deps/ecto/lib/ecto/query/inspect.ex     {:type, [], [value, tag]} |&gt; expr(names, params)</span>
+<span class='curline'><a href='../S/120.html#L165'>names</a>             165 deps/ecto/lib/ecto/query/inspect.ex   defp unmerge_fragments([{:raw, s}, {:expr, v}|t], frag, args, names, params) do</span>
+<span class='curline'><a href='../S/120.html#L166'>names</a>             166 deps/ecto/lib/ecto/query/inspect.ex     unmerge_fragments(t, frag &lt;&gt; s &lt;&gt; "?", [expr(v, names, params)|args], names, params)</span>
+<span class='curline'><a href='../S/190.html#L832'>names</a>             832 deps/postgrex/lib/postgrex/protocol.ex   defp transaction_msgs(s, [name | names]) do</span>
+<span class='curline'><a href='../S/190.html#L836'>names</a>             836 deps/postgrex/lib/postgrex/protocol.ex      transaction_msgs(s, names)]</span>
+<span class='curline'><a href='../S/190.html#L867'>names</a>             867 deps/postgrex/lib/postgrex/protocol.ex   defp handle_savepoint(names, cmd, opts, s) do</span>
+<span class='curline'><a href='../S/190.html#L871'>names</a>             871 deps/postgrex/lib/postgrex/protocol.ex     savepoint_send(%{s | buffer: nil}, status, names, res, buffer)</span>
+</pre>
+</body>
+</html>

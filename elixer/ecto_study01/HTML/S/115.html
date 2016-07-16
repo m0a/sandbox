@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/query/builder/order_by.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/<a href='../files/245.html'>query</a>/<a href='../files/246.html'>builder</a>/order_by.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L22'>[^]</a><a href='#L125'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L22' title='Defined at 22.'>escape</a></li>
+<li><a href='#L26' title='Defined at 26.'>escape</a></li>
+<li><a href='#L31' title='Defined at 31.'>do_escape</a></li>
+<li><a href='#L35' title='Defined at 35.'>do_escape</a></li>
+<li><a href='#L39' title='Defined at 39.'>do_escape</a></li>
+<li><a href='#L43' title='Defined at 43.'>do_escape</a></li>
+<li><a href='#L47' title='Defined at 47.'>do_escape</a></li>
+<li><a href='#L52' title='Defined at 52.'>do_escape</a></li>
+<li><a href='#L61' title='Defined at 61.'>quoted_dir!</a></li>
+<li><a href='#L63' title='Defined at 63.'>quoted_dir!</a></li>
+<li><a href='#L65' title='Defined at 65.'>quoted_dir!</a></li>
+<li><a href='#L71' title='Defined at 71.'>dir!</a></li>
+<li><a href='#L73' title='Defined at 73.'>dir!</a></li>
+<li><a href='#L79' title='Defined at 79.'>field!</a></li>
+<li><a href='#L81' title='Defined at 81.'>field!</a></li>
+<li><a href='#L87' title='Defined at 87.'>order_by!</a></li>
+<li><a href='#L98' title='Defined at 98.'>to_field</a></li>
+<li><a href='#L108' title='Defined at 108.'>build</a></li>
+<li><a href='#L125' title='Defined at 125.'>apply</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Query.Builder.<a href='../S/122.html#L539' title='Referred from 539 in deps/ecto/lib/ecto/query.ex.'>OrderBy</a> <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc false
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>  alias Ecto.Query.Builder
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>  @doc """
+<a id='L7' name='L7'></a>  Escapes an order by query.
+<a id='L8' name='L8'></a>
+<a id='L9' name='L9'></a>  The query is escaped to a list of `<em class='brace'>{</em>direction, expression<em class='brace'>}</em>`
+<a id='L10' name='L10'></a>  pairs at runtime. Escaping also validates direction is one of
+<a id='L11' name='L11'></a>  `:asc` or `:desc`.
+<a id='L12' name='L12'></a>
+<a id='L13' name='L13'></a><em class='sharp'>  #</em># Examples
+<a id='L14' name='L14'></a>
+<a id='L15' name='L15'></a>      iex&gt; escape(quote <strong class='reserved'>do</strong> [x.x, desc: 13] end, [x: 0], __ENV__)
+<a id='L16' name='L16'></a>      <em class='brace'>{</em>[asc: <em class='brace'>{</em>:<em class='brace'>{</em><em class='brace'>}</em>, [], [<em class='brace'>{</em>:<em class='brace'>{</em><em class='brace'>}</em>, [], [:., [], [<em class='brace'>{</em>:<em class='brace'>{</em><em class='brace'>}</em>, [], [:&amp;, [], [0]]<em class='brace'>}</em>, :x]]<em class='brace'>}</em>, [], []]<em class='brace'>}</em>,
+<a id='L17' name='L17'></a>        desc: 13],
+<a id='L18' name='L18'></a>       %<em class='brace'>{</em><em class='brace'>}</em><em class='brace'>}</em>
+<a id='L19' name='L19'></a>
+<a id='L20' name='L20'></a>  """
+<a id='L21' name='L21'></a>  @spec <a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(Macro.t, Keyword.t, Macro.Env.t) :: Macro.t
+<a id='L22' name='L22'></a>  def <a href='../R/435.html' title='Multiple referred from 76 places.'>escape</a>(<em class='brace'>{</em>:^, _, [<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>]<em class='brace'>}</em>, _vars, _env) <strong class='reserved'>do</strong>
+<a id='L23' name='L23'></a>    <em class='brace'>{</em>quote(<strong class='reserved'>do</strong>: Ecto.Query.Builder.OrderBy.order_by!(unquote(<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>))), %<em class='brace'>{</em><em class='brace'>}</em><em class='brace'>}</em>
+<a id='L24' name='L24'></a>  end
+<a id='L25' name='L25'></a>
+<a id='L26' name='L26'></a>  def <a href='../R/435.html' title='Multiple referred from 76 places.'>escape</a>(<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>, vars, env) <strong class='reserved'>do</strong>
+<a id='L27' name='L27'></a>    List.<a href='../D/1209.html' title='Multiple defined in 3 places.'>wrap</a>(<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>)
+<a id='L28' name='L28'></a>    |&gt; Enum.map_reduce(%<em class='brace'>{</em><em class='brace'>}</em>, &amp;<a href='../D/486.html' title='Multiple defined in 6 places.'>do_escape</a>(&amp;1, &amp;2, vars, env))
+<a id='L29' name='L29'></a>  end
+<a id='L30' name='L30'></a>
+<a id='L31' name='L31'></a>  defp <a href='../S/115.html#L28' title='Referred from 28 in deps/ecto/lib/ecto/query/builder/order_by.ex.'>do_escape</a>(<em class='brace'>{</em>dir, <em class='brace'>{</em>:^, _, [<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>]<em class='brace'>}</em><em class='brace'>}</em>, params, _vars, _env) <strong class='reserved'>do</strong>
+<a id='L32' name='L32'></a>    <em class='brace'>{</em><em class='brace'>{</em>quoted_dir!(dir), quote(<strong class='reserved'>do</strong>: Ecto.Query.Builder.OrderBy.field!(unquote(<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>)))<em class='brace'>}</em>, params<em class='brace'>}</em>
+<a id='L33' name='L33'></a>  end
+<a id='L34' name='L34'></a>
+<a id='L35' name='L35'></a>  defp <a href='../S/115.html#L28' title='Referred from 28 in deps/ecto/lib/ecto/query/builder/order_by.ex.'>do_escape</a>(<em class='brace'>{</em>:^, _, [<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>]<em class='brace'>}</em>, params, _vars, _env) <strong class='reserved'>do</strong>
+<a id='L36' name='L36'></a>    <em class='brace'>{</em><em class='brace'>{</em>:asc, quote(<strong class='reserved'>do</strong>: Ecto.Query.Builder.OrderBy.field!(unquote(<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>)))<em class='brace'>}</em>, params<em class='brace'>}</em>
+<a id='L37' name='L37'></a>  end
+<a id='L38' name='L38'></a>
+<a id='L39' name='L39'></a>  defp <a href='../S/115.html#L28' title='Referred from 28 in deps/ecto/lib/ecto/query/builder/order_by.ex.'>do_escape</a>(<em class='brace'>{</em>dir, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a><em class='brace'>}</em>, params, _vars, _env) when is_atom(field) <strong class='reserved'>do</strong>
+<a id='L40' name='L40'></a>    <em class='brace'>{</em><em class='brace'>{</em>quoted_dir!(dir), Macro.<a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(<a href='../D/1111.html' title='Multiple defined in 2 places.'>to_field</a>(<a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>))<em class='brace'>}</em>, params<em class='brace'>}</em>
+<a id='L41' name='L41'></a>  end
+<a id='L42' name='L42'></a>
+<a id='L43' name='L43'></a>  defp <a href='../S/115.html#L28' title='Referred from 28 in deps/ecto/lib/ecto/query/builder/order_by.ex.'>do_escape</a>(<a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, params, _vars, _env) when is_atom(field) <strong class='reserved'>do</strong>
+<a id='L44' name='L44'></a>    <em class='brace'>{</em><em class='brace'>{</em>:asc, Macro.<a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(<a href='../D/1111.html' title='Multiple defined in 2 places.'>to_field</a>(<a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>))<em class='brace'>}</em>, params<em class='brace'>}</em>
+<a id='L45' name='L45'></a>  end
+<a id='L46' name='L46'></a>
+<a id='L47' name='L47'></a>  defp <a href='../S/115.html#L28' title='Referred from 28 in deps/ecto/lib/ecto/query/builder/order_by.ex.'>do_escape</a>(<em class='brace'>{</em>dir, <a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a><em class='brace'>}</em>, params, vars, env) <strong class='reserved'>do</strong>
+<a id='L48' name='L48'></a>    <em class='brace'>{</em>ast, params<em class='brace'>}</em> = <a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.<a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>, :any, params, vars, env)
+<a id='L49' name='L49'></a>    <em class='brace'>{</em><em class='brace'>{</em>quoted_dir!(dir), ast<em class='brace'>}</em>, params<em class='brace'>}</em>
+<a id='L50' name='L50'></a>  end
+<a id='L51' name='L51'></a>
+<a id='L52' name='L52'></a>  defp <a href='../S/115.html#L28' title='Referred from 28 in deps/ecto/lib/ecto/query/builder/order_by.ex.'>do_escape</a>(<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>, params, vars, env) <strong class='reserved'>do</strong>
+<a id='L53' name='L53'></a>    <em class='brace'>{</em>ast, params<em class='brace'>}</em> = <a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.<a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>, :any, params, vars, env)
+<a id='L54' name='L54'></a>    <em class='brace'>{</em><em class='brace'>{</em>:asc, ast<em class='brace'>}</em>, params<em class='brace'>}</em>
+<a id='L55' name='L55'></a>  end
+<a id='L56' name='L56'></a>
+<a id='L57' name='L57'></a>  @doc """
+<a id='L58' name='L58'></a>  Checks the variable is a quoted direction at compilation time or
+<a id='L59' name='L59'></a>  delegate the check to runtime <strong class='reserved'>for</strong> interpolation.
+<a id='L60' name='L60'></a>  """
+<a id='L61' name='L61'></a>  def quoted_dir!(<em class='brace'>{</em>:^, _, [<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>]<em class='brace'>}</em>),
+<a id='L62' name='L62'></a>    <strong class='reserved'>do</strong>: quote(<strong class='reserved'>do</strong>: Ecto.Query.Builder.OrderBy.dir!(unquote(<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>)))
+<a id='L63' name='L63'></a>  def quoted_dir!(dir) when dir in [:asc, :desc],
+<a id='L64' name='L64'></a>    <strong class='reserved'>do</strong>: dir
+<a id='L65' name='L65'></a>  def quoted_dir!(other),
+<a id='L66' name='L66'></a>    <strong class='reserved'>do</strong>: <a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.error!("expected :asc, :desc or interpolated value in `order_by`, got: `#{inspect other}`")
+<a id='L67' name='L67'></a>
+<a id='L68' name='L68'></a>  @doc """
+<a id='L69' name='L69'></a>  Called by at runtime to verify the direction.
+<a id='L70' name='L70'></a>  """
+<a id='L71' name='L71'></a>  def dir!(dir) when dir in [:asc, :desc],
+<a id='L72' name='L72'></a>    <strong class='reserved'>do</strong>: dir
+<a id='L73' name='L73'></a>  def dir!(other),
+<a id='L74' name='L74'></a>    <strong class='reserved'>do</strong>: <a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.error!("expected :asc or :desc in `order_by`, got: `#{inspect other}`")
+<a id='L75' name='L75'></a>
+<a id='L76' name='L76'></a>  @doc """
+<a id='L77' name='L77'></a>  Called at runtime to verify a field.
+<a id='L78' name='L78'></a>  """
+<a id='L79' name='L79'></a>  def <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>!(field) when is_atom(field),
+<a id='L80' name='L80'></a>    <strong class='reserved'>do</strong>: <a href='../D/1111.html' title='Multiple defined in 2 places.'>to_field</a>(<a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>)
+<a id='L81' name='L81'></a>  def field!(other),
+<a id='L82' name='L82'></a>    <strong class='reserved'>do</strong>: <a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.error!("expected a field as an atom in `order_by`, got: `#{inspect other}`")
+<a id='L83' name='L83'></a>
+<a id='L84' name='L84'></a>  @doc """
+<a id='L85' name='L85'></a>  Called at runtime to verify order_by.
+<a id='L86' name='L86'></a>  """
+<a id='L87' name='L87'></a>  def <a href='../D/839.html' title='Multiple defined in 3 places.'>order_by</a>!(order_by) <strong class='reserved'>do</strong>
+<a id='L88' name='L88'></a>    Enum.map List.<a href='../D/1209.html' title='Multiple defined in 3 places.'>wrap</a>(<a href='../D/839.html' title='Multiple defined in 3 places.'>order_by</a>), fn
+<a id='L89' name='L89'></a>      <em class='brace'>{</em>dir, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a><em class='brace'>}</em> when dir in [:asc, :desc] and is_atom(field) -&gt;
+<a id='L90' name='L90'></a>        <em class='brace'>{</em>dir, <a href='../D/1111.html' title='Multiple defined in 2 places.'>to_field</a>(<a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>)<em class='brace'>}</em>
+<a id='L91' name='L91'></a>      <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> when is_atom(field) -&gt;
+<a id='L92' name='L92'></a>        <em class='brace'>{</em>:asc, <a href='../D/1111.html' title='Multiple defined in 2 places.'>to_field</a>(<a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>)<em class='brace'>}</em>
+<a id='L93' name='L93'></a>      _ -&gt;
+<a id='L94' name='L94'></a>        <a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.error!("expected a list or keyword list of fields in `order_by`, got: `#{inspect order_by}`")
+<a id='L95' name='L95'></a>    end
+<a id='L96' name='L96'></a>  end
+<a id='L97' name='L97'></a>
+<a id='L98' name='L98'></a>  defp <a href='../R/948.html' title='Multiple referred from 7 places.'>to_field</a>(<a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>), <strong class='reserved'>do</strong>: <em class='brace'>{</em><em class='brace'>{</em>:., [], [<em class='brace'>{</em>:&amp;, [], [0]<em class='brace'>}</em>, field]<em class='brace'>}</em>, [], []<em class='brace'>}</em>
+<a id='L99' name='L99'></a>
+<a id='L100' name='L100'></a>  @doc """
+<a id='L101' name='L101'></a>  Builds a quoted expression.
+<a id='L102' name='L102'></a>
+<a id='L103' name='L103'></a>  The quoted expression should evaluate to a query at runtime.
+<a id='L104' name='L104'></a>  If possible, it does all calculations at compile time to avoid
+<a id='L105' name='L105'></a>  runtime work.
+<a id='L106' name='L106'></a>  """
+<a id='L107' name='L107'></a>  @spec <a href='../D/315.html' title='Multiple defined in 20 places.'>build</a>(Macro.t, [Macro.t], Macro.t, Macro.Env.t) :: Macro.t
+<a id='L108' name='L108'></a>  def <a href='../R/195.html' title='Multiple referred from 29 places.'>build</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, binding, <a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>, env) <strong class='reserved'>do</strong>
+<a id='L109' name='L109'></a>    binding        = <a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.<a href='../D/565.html' title='Multiple defined in 2 places.'>escape_binding</a>(binding)
+<a id='L110' name='L110'></a>    <em class='brace'>{</em><a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>, params<em class='brace'>}</em> = <a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(expr, binding, env)
+<a id='L111' name='L111'></a>    params         = <a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.<a href='../S/119.html#L344' title='Defined at 344 in deps/ecto/lib/ecto/query/builder.ex.'>escape_params</a>(params)
+<a id='L112' name='L112'></a>
+<a id='L113' name='L113'></a>    <a href='../D/839.html' title='Multiple defined in 3 places.'>order_by</a> = quote <strong class='reserved'>do</strong>: %Ecto.Query.QueryExpr<em class='brace'>{</em>
+<a id='L114' name='L114'></a>                           <a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>: unquote(expr),
+<a id='L115' name='L115'></a>                           params: unquote(params),
+<a id='L116' name='L116'></a>                           file: unquote(env.file),
+<a id='L117' name='L117'></a>                           line: unquote(env.line)<em class='brace'>}</em>
+<a id='L118' name='L118'></a>    <a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.<a href='../S/119.html#L601' title='Defined at 601 in deps/ecto/lib/ecto/query/builder.ex.'>apply_query</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, __MODULE__, [<a href='../D/839.html' title='Multiple defined in 3 places.'>order_by</a>], env)
+<a id='L119' name='L119'></a>  end
+<a id='L120' name='L120'></a>
+<a id='L121' name='L121'></a>  @doc """
+<a id='L122' name='L122'></a>  The callback applied by `build/4` to build the query.
+<a id='L123' name='L123'></a>  """
+<a id='L124' name='L124'></a>  @spec <a href='../D/244.html' title='Multiple defined in 16 places.'>apply</a>(Ecto.Queryable.t, term) :: Ecto.Query.t
+<a id='L125' name='L125'></a>  def <a href='../R/131.html' title='Multiple referred from 62 places.'>apply</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, <a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>) <strong class='reserved'>do</strong>
+<a id='L126' name='L126'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = Ecto.Queryable.<a href='../D/1117.html' title='Multiple defined in 5 places.'>to_query</a>(query)
+<a id='L127' name='L127'></a>    %<em class='brace'>{</em><a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> | order_bys: query.order_bys ++ [<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>]<em class='brace'>}</em>
+<a id='L128' name='L128'></a>  end
+<a id='L129' name='L129'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L22'>[^]</a><a href='#L125'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

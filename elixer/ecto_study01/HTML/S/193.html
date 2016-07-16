@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/postgrex/lib/postgrex/type_info.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/252.html'>postgrex</a>/<a href='../files/253.html'>lib</a>/<a href='../files/254.html'>postgrex</a>/type_info.ex</h2>
+<em class='comment'>/* [&lt;][&gt;][^][v][top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Postgrex.<a href='../R/87.html' title='Multiple referred from 22 places.'>TypeInfo</a> <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc """
+<a id='L3' name='L3'></a>  The information about a type that is provided to the custom encoder/decoder
+<a id='L4' name='L4'></a>  functions. See http:<em class='comment'>//www.postgresql.org/docs/9.4/static/catalog-pg-type.html</em>
+<a id='L5' name='L5'></a>  <strong class='reserved'>for</strong> clarifications of the fields.
+<a id='L6' name='L6'></a>
+<a id='L7' name='L7'></a>    * `oid` - The type's id;
+<a id='L8' name='L8'></a>    * `type` - The type name;
+<a id='L9' name='L9'></a>    * `send` - The name of the "send" function (the function postgres uses
+<a id='L10' name='L10'></a>      to convert the type to its binary format);
+<a id='L11' name='L11'></a>    * `receive` - The name of the "receive" function (the function postgres uses
+<a id='L12' name='L12'></a>      to convert the type from its binary format);
+<a id='L13' name='L13'></a>    * `output` - The name of the "output" function (the function postgres uses
+<a id='L14' name='L14'></a>      to convert the type to its text format);
+<a id='L15' name='L15'></a>    * `input` - The name of the "input" function (the function postgres uses
+<a id='L16' name='L16'></a>      to convert the type from its text format);
+<a id='L17' name='L17'></a>    * `array_elem` - If this is an array, the array elements' oid;
+<a id='L18' name='L18'></a>    * `base_type` - If this is a domain type, the base type's oid;
+<a id='L19' name='L19'></a>    * `comp_elems` - If this is a composite type (record), the tuple
+<a id='L20' name='L20'></a>      elements' oid;
+<a id='L21' name='L21'></a>  """
+<a id='L22' name='L22'></a>
+<a id='L23' name='L23'></a>  alias Postgrex.Types
+<a id='L24' name='L24'></a>
+<a id='L25' name='L25'></a>  @type t :: %__MODULE__<em class='brace'>{</em>
+<a id='L26' name='L26'></a>    oid:        <a href='../S/195.html#L1' title='Defined at 1 in deps/postgrex/lib/postgrex/types.ex.'>Types</a>.oid,
+<a id='L27' name='L27'></a>    type:       String.t,
+<a id='L28' name='L28'></a>    send:       String.t,
+<a id='L29' name='L29'></a>    receive:    String.t,
+<a id='L30' name='L30'></a>    output:     String.t,
+<a id='L31' name='L31'></a>    input:      String.t,
+<a id='L32' name='L32'></a>    array_elem: <a href='../S/195.html#L1' title='Defined at 1 in deps/postgrex/lib/postgrex/types.ex.'>Types</a>.oid,
+<a id='L33' name='L33'></a>    base_type:  <a href='../S/195.html#L1' title='Defined at 1 in deps/postgrex/lib/postgrex/types.ex.'>Types</a>.oid,
+<a id='L34' name='L34'></a>    comp_elems: [<a href='../S/195.html#L1' title='Defined at 1 in deps/postgrex/lib/postgrex/types.ex.'>Types</a>.oid]<em class='brace'>}</em>
+<a id='L35' name='L35'></a>
+<a id='L36' name='L36'></a>  defstruct [:oid, :type, :send, :receive, :output, :input, :array_elem,
+<a id='L37' name='L37'></a>             :base_type, :comp_elems]
+<a id='L38' name='L38'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;][^][v]<a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

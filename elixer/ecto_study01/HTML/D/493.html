@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>do_match?</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/132.html#L252'>do_match?</a>         252 deps/ecto/lib/ecto/type.ex defp do_match?(_left, :any), do: true</span>
+<span class='curline'><a href='../S/132.html#L253'>do_match?</a>         253 deps/ecto/lib/ecto/type.ex defp do_match?(:any, _right), do: true</span>
+<span class='curline'><a href='../S/132.html#L254'>do_match?</a>         254 deps/ecto/lib/ecto/type.ex defp do_match?({outer, left}, {outer, right}), do: match?(left, right)</span>
+<span class='curline'><a href='../S/132.html#L255'>do_match?</a>         255 deps/ecto/lib/ecto/type.ex defp do_match?({:array, :any}, {:embed, %{cardinality: :many}}), do: true</span>
+<span class='curline'><a href='../S/132.html#L256'>do_match?</a>         256 deps/ecto/lib/ecto/type.ex defp do_match?(:decimal, type) when type in [:float, :integer], do: true</span>
+<span class='curline'><a href='../S/132.html#L257'>do_match?</a>         257 deps/ecto/lib/ecto/type.ex defp do_match?(:binary_id, :binary), do: true</span>
+<span class='curline'><a href='../S/132.html#L258'>do_match?</a>         258 deps/ecto/lib/ecto/type.ex defp do_match?(:id, :integer), do: true</span>
+<span class='curline'><a href='../S/132.html#L259'>do_match?</a>         259 deps/ecto/lib/ecto/type.ex defp do_match?(type, type), do: true</span>
+<span class='curline'><a href='../S/132.html#L260'>do_match?</a>         260 deps/ecto/lib/ecto/type.ex defp do_match?(_, _), do: false</span>
+</pre>
+</body>
+</html>

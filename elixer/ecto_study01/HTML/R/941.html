@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>timestamp</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/44.html#L942'>timestamp</a>         942 deps/db_connection/lib/db_connection.ex       quote do: :os.timestamp()</span>
+<span class='curline'><a href='../S/22.html#L105'>timestamp</a>         105 deps/db_connection/lib/db_connection/backoff.ex     {_, sec, micro} = :os.timestamp()</span>
+<span class='curline'><a href='../S/77.html#L31'>timestamp</a>          31 deps/ecto/lib/ecto/adapters/postgres/datetime.ex     def encode(%TypeInfo{send: "timestamp_send"}, timestamp, _, _),</span>
+<span class='curline'><a href='../S/77.html#L32'>timestamp</a>          32 deps/ecto/lib/ecto/adapters/postgres/datetime.ex       do: encode_timestamp(timestamp)</span>
+<span class='curline'><a href='../S/77.html#L33'>timestamp</a>          33 deps/ecto/lib/ecto/adapters/postgres/datetime.ex     def encode(%TypeInfo{send: "timestamptz_send"}, timestamp, _, _),</span>
+<span class='curline'><a href='../S/77.html#L34'>timestamp</a>          34 deps/ecto/lib/ecto/adapters/postgres/datetime.ex       do: encode_timestamp(timestamp)</span>
+<span class='curline'><a href='../S/87.html#L368'>timestamp</a>         368 deps/ecto/lib/ecto/date_time.ex     now = {_, _, usec} = :os.timestamp</span>
+<span class='curline'><a href='../S/87.html#L620'>timestamp</a>         620 deps/ecto/lib/ecto/date_time.ex     timestamp = {_, _, usec} = :os.timestamp</span>
+<span class='curline'><a href='../S/87.html#L621'>timestamp</a>         621 deps/ecto/lib/ecto/date_time.ex     {date, {h, m, s}} =:calendar.now_to_datetime(timestamp)</span>
+<span class='curline'><a href='../S/105.html#L47'>timestamp</a>          47 deps/ecto/lib/ecto/pools/sojourn_broker/worker.ex     {_, sec, micro} = :os.timestamp()</span>
+<span class='curline'><a href='../S/138.html#L42'>timestamp</a>          42 deps/ecto/lib/mix/tasks/ecto.gen.migration.ex           file = Path.join(path, "#{timestamp}_#{underscore(name)}.exs")</span>
+</pre>
+</body>
+</html>

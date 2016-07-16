@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>update!</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/56.html#L79'>update!</a>            79 deps/ecto/integration_test/cases/repo.exs     assert %Post{text: "y", title: "world", temp: "unknown"} = TestRepo.update!(changeset)</span>
+<span class='curline'><a href='../S/56.html#L91'>update!</a>            91 deps/ecto/integration_test/cases/repo.exs     assert TestRepo.update!(changeset) == permalink</span>
+<span class='curline'><a href='../S/56.html#L92'>update!</a>            92 deps/ecto/integration_test/cases/repo.exs     assert TestRepo.update!(changeset) == permalink</span>
+<span class='curline'><a href='../S/56.html#L123'>update!</a>           123 deps/ecto/integration_test/cases/repo.exs     assert %{id: ^cid, counter: 11, visits: 0} = TestRepo.update!(changeset)</span>
+<span class='curline'><a href='../S/56.html#L160'>update!</a>           160 deps/ecto/integration_test/cases/repo.exs     assert %Post{id: 15} = TestRepo.update!(changeset)</span>
+<span class='curline'><a href='../S/56.html#L185'>update!</a>           185 deps/ecto/integration_test/cases/repo.exs     TestRepo.update!(cs_ok)</span>
+<span class='curline'><a href='../S/56.html#L188'>update!</a>           188 deps/ecto/integration_test/cases/repo.exs     assert_raise Ecto.StaleModelError, fn -&gt; TestRepo.update!(cs_stale) end</span>
+<span class='curline'><a href='../S/56.html#L598'>update!</a>           598 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.update!(changeset)</span>
+<span class='curline'><a href='../S/56.html#L609'>update!</a>           609 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.update!(changeset)</span>
+<span class='curline'><a href='../S/56.html#L637'>update!</a>           637 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.update!(changeset)</span>
+<span class='curline'><a href='../S/56.html#L650'>update!</a>           650 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.update!(changeset)</span>
+<span class='curline'><a href='../S/56.html#L679'>update!</a>           679 deps/ecto/integration_test/cases/repo.exs     author = TestRepo.update! changeset</span>
+<span class='curline'><a href='../S/57.html#L116'>update!</a>           116 deps/ecto/integration_test/cases/type.exs     tag = TestRepo.update!(Ecto.Changeset.change tag, ints: [3, 2, 1])</span>
+<span class='curline'><a href='../S/57.html#L153'>update!</a>           153 deps/ecto/integration_test/cases/type.exs     post = TestRepo.update!(Ecto.Changeset.change post, meta: %{hello: "world"})</span>
+<span class='curline'><a href='../S/58.html#L24'>update!</a>            24 deps/ecto/integration_test/sql/escape.exs     TestRepo.update!(Ecto.Changeset.change p, title: "'")</span>
+<span class='curline'><a href='../S/59.html#L42'>update!</a>            42 deps/ecto/integration_test/sql/lock.exs           post |&gt; Ecto.Changeset.change(count: post.count + 1) |&gt; PoolRepo.update!</span>
+<span class='curline'><a href='../S/59.html#L51'>update!</a>            51 deps/ecto/integration_test/sql/lock.exs       post |&gt; Ecto.Changeset.change(count: post.count + 1) |&gt; PoolRepo.update!</span>
+<span class='curline'><a href='../S/129.html#L152'>update!</a>           152 deps/ecto/lib/ecto/repo.ex         Ecto.Repo.Schema.update!(__MODULE__, @adapter, model, opts)</span>
+<span class='curline'><a href='../S/127.html#L192'>update!</a>           192 deps/ecto/lib/ecto/repo/schema.ex       :loaded -&gt; update! repo, adapter, changeset, opts</span>
+<span class='curline'><a href='../S/160.html#L32'>update!</a>            32 deps/postgrex/lib/postgrex/error.ex              |&gt; Map.update!(:code, &amp;Postgrex.ErrorCode.code_to_name/1)</span>
+<span class='curline'><a href='../S/195.html#L67'>update!</a>            67 deps/postgrex/lib/postgrex/types.ex           Map.update!(map, key, &amp;[value|&amp;1])</span>
+<span class='curline'><a href='../S/195.html#L70'>update!</a>            70 deps/postgrex/lib/postgrex/types.ex     Map.update!(map, :send, &amp;(@higher_types ++ &amp;1))</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Backoff</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/22.html#L22'>Backoff</a>            22 deps/db_connection/lib/db_connection/backoff.ex   def backoff(%Backoff{type: :rand, min: min, max: max, state: state} = s) do</span>
+<span class='curline'><a href='../S/22.html#L24'>Backoff</a>            24 deps/db_connection/lib/db_connection/backoff.ex     {backoff, %Backoff{s | state: state}}</span>
+<span class='curline'><a href='../S/22.html#L26'>Backoff</a>            26 deps/db_connection/lib/db_connection/backoff.ex   def backoff(%Backoff{type: :exp, min: min, state: nil} = s) do</span>
+<span class='curline'><a href='../S/22.html#L27'>Backoff</a>            27 deps/db_connection/lib/db_connection/backoff.ex     {min, %Backoff{s | state: min}}</span>
+<span class='curline'><a href='../S/22.html#L29'>Backoff</a>            29 deps/db_connection/lib/db_connection/backoff.ex   def backoff(%Backoff{type: :exp, max: max, state: prev} = s) do</span>
+<span class='curline'><a href='../S/22.html#L32'>Backoff</a>            32 deps/db_connection/lib/db_connection/backoff.ex     {next, %Backoff{s | state: next}}</span>
+<span class='curline'><a href='../S/22.html#L34'>Backoff</a>            34 deps/db_connection/lib/db_connection/backoff.ex   def backoff(%Backoff{type: :rand_exp, max: max, state: state} = s) do</span>
+<span class='curline'><a href='../S/22.html#L39'>Backoff</a>            39 deps/db_connection/lib/db_connection/backoff.ex     {next, %Backoff{s | state: {next, lower, rand_state}}}</span>
+<span class='curline'><a href='../S/22.html#L42'>Backoff</a>            42 deps/db_connection/lib/db_connection/backoff.ex   def reset(%Backoff{type: :rand} = s), do: s</span>
+<span class='curline'><a href='../S/22.html#L43'>Backoff</a>            43 deps/db_connection/lib/db_connection/backoff.ex   def reset(%Backoff{type: :exp} = s), do: %Backoff{s | state: nil}</span>
+<span class='curline'><a href='../S/22.html#L44'>Backoff</a>            44 deps/db_connection/lib/db_connection/backoff.ex   def reset(%Backoff{type: :rand_exp, min: min, state: state} = s) do</span>
+<span class='curline'><a href='../S/22.html#L46'>Backoff</a>            46 deps/db_connection/lib/db_connection/backoff.ex     %Backoff{s | state: {min, lower, rand_state}}</span>
+<span class='curline'><a href='../S/22.html#L71'>Backoff</a>            71 deps/db_connection/lib/db_connection/backoff.ex     %Backoff{type: :rand, min: min, max: max, state: seed()}</span>
+<span class='curline'><a href='../S/22.html#L75'>Backoff</a>            75 deps/db_connection/lib/db_connection/backoff.ex     %Backoff{type: :exp, min: min, max: max, state: nil}</span>
+<span class='curline'><a href='../S/22.html#L80'>Backoff</a>            80 deps/db_connection/lib/db_connection/backoff.ex     %Backoff{type: :rand_exp, min: min, max: max, state: {min, lower, seed()}}</span>
+<span class='curline'><a href='../S/23.html#L97'>Backoff</a>            97 deps/db_connection/lib/db_connection/connection.ex           queue: queue, timer: nil, backoff: Backoff.new(opts),</span>
+<span class='curline'><a href='../S/23.html#L120'>Backoff</a>           120 deps/db_connection/lib/db_connection/connection.ex         backoff = backoff &amp;&amp; Backoff.reset(backoff)</span>
+<span class='curline'><a href='../S/23.html#L125'>Backoff</a>           125 deps/db_connection/lib/db_connection/connection.ex         backoff = backoff &amp;&amp; Backoff.reset(backoff)</span>
+<span class='curline'><a href='../S/23.html#L134'>Backoff</a>           134 deps/db_connection/lib/db_connection/connection.ex         {timeout, backoff} = Backoff.backoff(backoff)</span>
+<span class='curline'><a href='../S/23.html#L156'>Backoff</a>           156 deps/db_connection/lib/db_connection/connection.ex         {timeout, backoff} = Backoff.backoff(backoff)</span>
+<span class='curline'><a href='../S/23.html#L397'>Backoff</a>           397 deps/db_connection/lib/db_connection/connection.ex     backoff = backoff &amp;&amp; Backoff.reset(backoff)</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/integration_test/support/models.exs</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/228.html'>integration_test</a>/<a href='../files/231.html'>support</a>/models.exs</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L2'>[^]</a><a href='#L49'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L2' title='Defined at 2.'>__using__</a></li>
+<li><a href='#L49' title='Defined at 49.'>changeset</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Integration.Schema <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  defmacro __using__(_) <strong class='reserved'>do</strong>
+<a id='L3' name='L3'></a>    quote <strong class='reserved'>do</strong>
+<a id='L4' name='L4'></a>      use Ecto.Schema
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>      <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a> =
+<a id='L7' name='L7'></a>        <a href='../S/82.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/application.ex.'>Application</a>.get_env(:ecto, :primary_key_type) ||
+<a id='L8' name='L8'></a>        raise ":primary_key_type not set in :ecto application"
+<a id='L9' name='L9'></a>      @primary_key <em class='brace'>{</em>:id, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, autogenerate: true<em class='brace'>}</em>
+<a id='L10' name='L10'></a>      @foreign_key_type <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>
+<a id='L11' name='L11'></a>    end
+<a id='L12' name='L12'></a>  end
+<a id='L13' name='L13'></a>end
+<a id='L14' name='L14'></a>
+<a id='L15' name='L15'></a>defmodule Ecto.Integration.<a href='../R/57.html' title='Multiple referred from 397 places.'>Post</a> <strong class='reserved'>do</strong>
+<a id='L16' name='L16'></a>  @moduledoc """
+<a id='L17' name='L17'></a>  This module is used to test:
+<a id='L18' name='L18'></a>
+<a id='L19' name='L19'></a>    * Overall functionality
+<a id='L20' name='L20'></a>    * Overall types
+<a id='L21' name='L21'></a>    * Non-null timestamps
+<a id='L22' name='L22'></a>    * Relationships
+<a id='L23' name='L23'></a>    * Dependent callbacks
+<a id='L24' name='L24'></a>
+<a id='L25' name='L25'></a>  """
+<a id='L26' name='L26'></a>  use Ecto.Integration.Schema
+<a id='L27' name='L27'></a>  import Ecto.Changeset
+<a id='L28' name='L28'></a>
+<a id='L29' name='L29'></a>  <a href='../S/130.html#L310' title='Defined at 310 in deps/ecto/lib/ecto/schema.ex.'>schema</a> "posts" <strong class='reserved'>do</strong>
+<a id='L30' name='L30'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :counter, :id # Same as integer
+<a id='L31' name='L31'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :title, :string
+<a id='L32' name='L32'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :text, :binary
+<a id='L33' name='L33'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :temp, :string, <strong class='reserved'>default</strong>: "temp", virtual: true
+<a id='L34' name='L34'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :public, :boolean, <strong class='reserved'>default</strong>: true
+<a id='L35' name='L35'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :cost, :decimal
+<a id='L36' name='L36'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :visits, :integer
+<a id='L37' name='L37'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :intensity, :<strong class='reserved'>float</strong>
+<a id='L38' name='L38'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :bid, :binary_id
+<a id='L39' name='L39'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :uuid, Ecto.UUID, autogenerate: true
+<a id='L40' name='L40'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :meta, :map
+<a id='L41' name='L41'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :posted, Ecto.Date
+<a id='L42' name='L42'></a>    <a href='../D/672.html' title='Multiple defined in 2 places.'>has_many</a> :comments, Ecto.Integration.Comment, on_delete: :delete_all, on_replace: :delete
+<a id='L43' name='L43'></a>    <a href='../D/673.html' title='Multiple defined in 2 places.'>has_one</a> :permalink, Ecto.Integration.Permalink, on_delete: :fetch_and_delete, on_replace: :delete
+<a id='L44' name='L44'></a>    <a href='../D/672.html' title='Multiple defined in 2 places.'>has_many</a> :comments_authors, through: [:comments, :author]
+<a id='L45' name='L45'></a>    <a href='../D/297.html' title='Multiple defined in 2 places.'>belongs_to</a> :author, Ecto.Integration.User
+<a id='L46' name='L46'></a>    <a href='../D/1103.html' title='Multiple defined in 2 places.'>timestamps</a>
+<a id='L47' name='L47'></a>  end
+<a id='L48' name='L48'></a>
+<a id='L49' name='L49'></a>  def <a href='../R/222.html' title='Multiple referred from 399 places.'>changeset</a>(<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, params) <strong class='reserved'>do</strong>
+<a id='L50' name='L50'></a>    <a href='../D/331.html' title='Multiple defined in 58 places.'>cast</a>(<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, params, [], ~w(counter title text temp public cost visits
+<a id='L51' name='L51'></a>                               intensity bid uuid meta posted))
+<a id='L52' name='L52'></a>  end
+<a id='L53' name='L53'></a>end
+<a id='L54' name='L54'></a>
+<a id='L55' name='L55'></a>defmodule Ecto.Integration.<a href='../R/58.html' title='Multiple referred from 2 places.'>PostUsecTimestamps</a> <strong class='reserved'>do</strong>
+<a id='L56' name='L56'></a>  @moduledoc """
+<a id='L57' name='L57'></a>  This module is used to test:
+<a id='L58' name='L58'></a>
+<a id='L59' name='L59'></a>    * Usec timestamps
+<a id='L60' name='L60'></a>
+<a id='L61' name='L61'></a>  """
+<a id='L62' name='L62'></a>  use Ecto.Integration.Schema
+<a id='L63' name='L63'></a>
+<a id='L64' name='L64'></a>  <a href='../S/130.html#L310' title='Defined at 310 in deps/ecto/lib/ecto/schema.ex.'>schema</a> "posts" <strong class='reserved'>do</strong>
+<a id='L65' name='L65'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :title, :string
+<a id='L66' name='L66'></a>    <a href='../D/1103.html' title='Multiple defined in 2 places.'>timestamps</a> usec: true
+<a id='L67' name='L67'></a>  end
+<a id='L68' name='L68'></a>end
+<a id='L69' name='L69'></a>
+<a id='L70' name='L70'></a>defmodule Ecto.Integration.<a href='../R/12.html' title='Multiple referred from 118 places.'>Comment</a> <strong class='reserved'>do</strong>
+<a id='L71' name='L71'></a>  @moduledoc """
+<a id='L72' name='L72'></a>  This module is used to test:
+<a id='L73' name='L73'></a>
+<a id='L74' name='L74'></a>    * Optimistic lock
+<a id='L75' name='L75'></a>    * Relationships
+<a id='L76' name='L76'></a>    * Dependent callbacks
+<a id='L77' name='L77'></a>
+<a id='L78' name='L78'></a>  """
+<a id='L79' name='L79'></a>  use Ecto.Integration.Schema
+<a id='L80' name='L80'></a>
+<a id='L81' name='L81'></a>  <a href='../S/130.html#L310' title='Defined at 310 in deps/ecto/lib/ecto/schema.ex.'>schema</a> "comments" <strong class='reserved'>do</strong>
+<a id='L82' name='L82'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :text, :string
+<a id='L83' name='L83'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :lock_version, :integer, <strong class='reserved'>default</strong>: 1
+<a id='L84' name='L84'></a>    <a href='../D/297.html' title='Multiple defined in 2 places.'>belongs_to</a> :post, Ecto.Integration.Post
+<a id='L85' name='L85'></a>    <a href='../D/297.html' title='Multiple defined in 2 places.'>belongs_to</a> :author, Ecto.Integration.User
+<a id='L86' name='L86'></a>    <a href='../D/673.html' title='Multiple defined in 2 places.'>has_one</a> :post_permalink, through: [:post, :permalink]
+<a id='L87' name='L87'></a>  end
+<a id='L88' name='L88'></a>end
+<a id='L89' name='L89'></a>
+<a id='L90' name='L90'></a>defmodule Ecto.Integration.<a href='../R/53.html' title='Multiple referred from 49 places.'>Permalink</a> <strong class='reserved'>do</strong>
+<a id='L91' name='L91'></a>  @moduledoc """
+<a id='L92' name='L92'></a>  This module is used to test:
+<a id='L93' name='L93'></a>
+<a id='L94' name='L94'></a>    * Relationships
+<a id='L95' name='L95'></a>    * Dependent callbacks
+<a id='L96' name='L96'></a>
+<a id='L97' name='L97'></a>  """
+<a id='L98' name='L98'></a>  use Ecto.Integration.Schema
+<a id='L99' name='L99'></a>
+<a id='L100' name='L100'></a>  <a href='../S/130.html#L310' title='Defined at 310 in deps/ecto/lib/ecto/schema.ex.'>schema</a> "permalinks" <strong class='reserved'>do</strong>
+<a id='L101' name='L101'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :url, :string
+<a id='L102' name='L102'></a>    <a href='../D/297.html' title='Multiple defined in 2 places.'>belongs_to</a> :post, Ecto.Integration.Post
+<a id='L103' name='L103'></a>    <a href='../D/297.html' title='Multiple defined in 2 places.'>belongs_to</a> :user, Ecto.Integration.User
+<a id='L104' name='L104'></a>    <a href='../D/672.html' title='Multiple defined in 2 places.'>has_many</a> :post_comments_authors, through: [:post, :comments_authors]
+<a id='L105' name='L105'></a>  end
+<a id='L106' name='L106'></a>end
+<a id='L107' name='L107'></a>
+<a id='L108' name='L108'></a>defmodule Ecto.Integration.<a href='../R/91.html' title='Multiple referred from 31 places.'>User</a> <strong class='reserved'>do</strong>
+<a id='L109' name='L109'></a>  @moduledoc """
+<a id='L110' name='L110'></a>  This module is used to test:
+<a id='L111' name='L111'></a>
+<a id='L112' name='L112'></a>    * Timestamps
+<a id='L113' name='L113'></a>    * Relationships
+<a id='L114' name='L114'></a>    * Dependent callbacks
+<a id='L115' name='L115'></a>
+<a id='L116' name='L116'></a>  """
+<a id='L117' name='L117'></a>  use Ecto.Integration.Schema
+<a id='L118' name='L118'></a>
+<a id='L119' name='L119'></a>  <a href='../S/130.html#L310' title='Defined at 310 in deps/ecto/lib/ecto/schema.ex.'>schema</a> "users" <strong class='reserved'>do</strong>
+<a id='L120' name='L120'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :name, :string
+<a id='L121' name='L121'></a>    <a href='../D/672.html' title='Multiple defined in 2 places.'>has_many</a> :comments, Ecto.Integration.Comment, foreign_key: :author_id, on_delete: :nilify_all
+<a id='L122' name='L122'></a>    <a href='../D/672.html' title='Multiple defined in 2 places.'>has_many</a> :posts, Ecto.Integration.Post, foreign_key: :author_id, on_delete: :nothing, on_replace: :delete
+<a id='L123' name='L123'></a>    <a href='../D/672.html' title='Multiple defined in 2 places.'>has_many</a> :permalinks, Ecto.Integration.Permalink
+<a id='L124' name='L124'></a>    <a href='../D/297.html' title='Multiple defined in 2 places.'>belongs_to</a> :custom, Ecto.Integration.Custom, references: :bid, type: :binary_id
+<a id='L125' name='L125'></a>    <a href='../D/1103.html' title='Multiple defined in 2 places.'>timestamps</a>
+<a id='L126' name='L126'></a>  end
+<a id='L127' name='L127'></a>end
+<a id='L128' name='L128'></a>
+<a id='L129' name='L129'></a>defmodule Ecto.Integration.<a href='../R/16.html' title='Multiple referred from 11 places.'>Custom</a> <strong class='reserved'>do</strong>
+<a id='L130' name='L130'></a>  @moduledoc """
+<a id='L131' name='L131'></a>  This module is used to test:
+<a id='L132' name='L132'></a>
+<a id='L133' name='L133'></a>    * binary_id primary key
+<a id='L134' name='L134'></a>    * Tying another schemas to an existing model
+<a id='L135' name='L135'></a>
+<a id='L136' name='L136'></a>  Due to the second item, it must be a subset of posts.
+<a id='L137' name='L137'></a>  """
+<a id='L138' name='L138'></a>  use Ecto.Integration.Schema
+<a id='L139' name='L139'></a>
+<a id='L140' name='L140'></a>  @primary_key <em class='brace'>{</em>:bid, :binary_id, autogenerate: true<em class='brace'>}</em>
+<a id='L141' name='L141'></a>  <a href='../S/130.html#L310' title='Defined at 310 in deps/ecto/lib/ecto/schema.ex.'>schema</a> "customs" <strong class='reserved'>do</strong>
+<a id='L142' name='L142'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :uuid, Ecto.UUID
+<a id='L143' name='L143'></a>  end
+<a id='L144' name='L144'></a>end
+<a id='L145' name='L145'></a>
+<a id='L146' name='L146'></a>defmodule Ecto.Integration.<a href='../R/7.html' title='Multiple referred from 5 places.'>Barebone</a> <strong class='reserved'>do</strong>
+<a id='L147' name='L147'></a>  @moduledoc """
+<a id='L148' name='L148'></a>  This module is used to test:
+<a id='L149' name='L149'></a>
+<a id='L150' name='L150'></a>    * A model wthout primary keys
+<a id='L151' name='L151'></a>
+<a id='L152' name='L152'></a>  """
+<a id='L153' name='L153'></a>  use Ecto.Integration.Schema
+<a id='L154' name='L154'></a>
+<a id='L155' name='L155'></a>  @primary_key false
+<a id='L156' name='L156'></a>  <a href='../S/130.html#L310' title='Defined at 310 in deps/ecto/lib/ecto/schema.ex.'>schema</a> "barebones" <strong class='reserved'>do</strong>
+<a id='L157' name='L157'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :num, :integer
+<a id='L158' name='L158'></a>  end
+<a id='L159' name='L159'></a>end
+<a id='L160' name='L160'></a>
+<a id='L161' name='L161'></a>defmodule Ecto.Integration.<a href='../R/83.html' title='Multiple referred from 17 places.'>Tag</a> <strong class='reserved'>do</strong>
+<a id='L162' name='L162'></a>  @moduledoc """
+<a id='L163' name='L163'></a>  This module is used to test:
+<a id='L164' name='L164'></a>
+<a id='L165' name='L165'></a>    * The array type
+<a id='L166' name='L166'></a>    * Embedding many models (uses array)
+<a id='L167' name='L167'></a>
+<a id='L168' name='L168'></a>  """
+<a id='L169' name='L169'></a>  use Ecto.Integration.Schema
+<a id='L170' name='L170'></a>
+<a id='L171' name='L171'></a>  <a href='../S/130.html#L310' title='Defined at 310 in deps/ecto/lib/ecto/schema.ex.'>schema</a> "tags" <strong class='reserved'>do</strong>
+<a id='L172' name='L172'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :ints, <em class='brace'>{</em>:array, :integer<em class='brace'>}</em>
+<a id='L173' name='L173'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :uuids, <em class='brace'>{</em>:array, Ecto.UUID<em class='brace'>}</em>
+<a id='L174' name='L174'></a>    <a href='../S/130.html#L943' title='Defined at 943 in deps/ecto/lib/ecto/schema.ex.'>embeds_many</a> :items, Ecto.Integration.Item
+<a id='L175' name='L175'></a>  end
+<a id='L176' name='L176'></a>end
+<a id='L177' name='L177'></a>
+<a id='L178' name='L178'></a>defmodule Ecto.Integration.<a href='../R/32.html' title='Multiple referred from 2 places.'>Item</a> <strong class='reserved'>do</strong>
+<a id='L179' name='L179'></a>  @moduledoc """
+<a id='L180' name='L180'></a>  This module is used to test:
+<a id='L181' name='L181'></a>
+<a id='L182' name='L182'></a>    * Embedding
+<a id='L183' name='L183'></a>
+<a id='L184' name='L184'></a>  """
+<a id='L185' name='L185'></a>  use Ecto.Integration.Schema
+<a id='L186' name='L186'></a>
+<a id='L187' name='L187'></a>  <a href='../S/130.html#L300' title='Defined at 300 in deps/ecto/lib/ecto/schema.ex.'>embedded_schema</a> <strong class='reserved'>do</strong>
+<a id='L188' name='L188'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :price, :integer
+<a id='L189' name='L189'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :valid_at, Ecto.Date
+<a id='L190' name='L190'></a>  end
+<a id='L191' name='L191'></a>end
+<a id='L192' name='L192'></a>
+<a id='L193' name='L193'></a>defmodule Ecto.Integration.<a href='../R/48.html' title='Multiple referred from 3 places.'>Order</a> <strong class='reserved'>do</strong>
+<a id='L194' name='L194'></a>  @moduledoc """
+<a id='L195' name='L195'></a>  This module is used to test:
+<a id='L196' name='L196'></a>
+<a id='L197' name='L197'></a>    * Embedding one model
+<a id='L198' name='L198'></a>
+<a id='L199' name='L199'></a>  """
+<a id='L200' name='L200'></a>  use Ecto.Integration.Schema
+<a id='L201' name='L201'></a>
+<a id='L202' name='L202'></a>  <a href='../S/130.html#L310' title='Defined at 310 in deps/ecto/lib/ecto/schema.ex.'>schema</a> "orders" <strong class='reserved'>do</strong>
+<a id='L203' name='L203'></a>    <a href='../S/130.html#L846' title='Defined at 846 in deps/ecto/lib/ecto/schema.ex.'>embeds_one</a> :item, Ecto.Integration.Item
+<a id='L204' name='L204'></a>  end
+<a id='L205' name='L205'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L2'>[^]</a><a href='#L49'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>prefix</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/134.html#L554'>prefix</a>            554 deps/ecto/lib/ecto.ex   defp update_meta([{:source, source}|t], %{source: {prefix, _}} = meta) do</span>
+<span class='curline'><a href='../S/134.html#L555'>prefix</a>            555 deps/ecto/lib/ecto.ex     update_meta t, %{meta | source: {prefix, source}}</span>
+<span class='curline'><a href='../S/134.html#L558'>prefix</a>            558 deps/ecto/lib/ecto.ex   defp update_meta([{:prefix, prefix}|t], %{source: {_, source}} = meta) do</span>
+<span class='curline'><a href='../S/134.html#L559'>prefix</a>            559 deps/ecto/lib/ecto.ex     update_meta t, %{meta | source: {prefix, source}}</span>
+<span class='curline'><a href='../S/72.html#L15'>prefix</a>             15 deps/ecto/lib/ecto/adapter.ex   @type schema_meta :: %{source: {prefix :: binary | nil, table :: binary}, model: atom, context: term}</span>
+<span class='curline'><a href='../S/75.html#L166'>prefix</a>            166 deps/ecto/lib/ecto/adapters/mysql.ex   def insert(repo, %{source: {prefix, source}}, params, {pk, :id, nil}, [], opts) do</span>
+<span class='curline'><a href='../S/75.html#L168'>prefix</a>            168 deps/ecto/lib/ecto/adapters/mysql.ex     sql = @conn.insert(prefix, source, fields, [])</span>
+<span class='curline'><a href='../S/74.html#L130'>prefix</a>            130 deps/ecto/lib/ecto/adapters/mysql/connection.ex     def insert(prefix, table, [], _returning),</span>
+<span class='curline'><a href='../S/74.html#L131'>prefix</a>            131 deps/ecto/lib/ecto/adapters/mysql/connection.ex       do: "INSERT INTO #{quote_table(prefix, table)} () VALUES ()"</span>
+<span class='curline'><a href='../S/74.html#L132'>prefix</a>            132 deps/ecto/lib/ecto/adapters/mysql/connection.ex     def insert(prefix, table, fields, _returning) do</span>
+<span class='curline'><a href='../S/74.html#L136'>prefix</a>            136 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "INSERT INTO #{quote_table(prefix, table)} " &lt;&gt; values</span>
+<span class='curline'><a href='../S/74.html#L139'>prefix</a>            139 deps/ecto/lib/ecto/adapters/mysql/connection.ex     def update(prefix, table, fields, filters, _returning) do</span>
+<span class='curline'><a href='../S/74.html#L148'>prefix</a>            148 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "UPDATE #{quote_table(prefix, table)} SET " &lt;&gt; Enum.join(fields, ", ") &lt;&gt;</span>
+<span class='curline'><a href='../S/74.html#L152'>prefix</a>            152 deps/ecto/lib/ecto/adapters/mysql/connection.ex     def delete(prefix, table, filters, _returning) do</span>
+<span class='curline'><a href='../S/74.html#L157'>prefix</a>            157 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "DELETE FROM #{quote_table(prefix, table)} WHERE " &lt;&gt;</span>
+<span class='curline'><a href='../S/74.html#L440'>prefix</a>            440 deps/ecto/lib/ecto/adapters/mysql/connection.ex     defp create_names(%{prefix: prefix, sources: sources}) do</span>
+<span class='curline'><a href='../S/74.html#L441'>prefix</a>            441 deps/ecto/lib/ecto/adapters/mysql/connection.ex       create_names(prefix, sources, 0, tuple_size(sources)) |&gt; List.to_tuple()</span>
+<span class='curline'><a href='../S/74.html#L444'>prefix</a>            444 deps/ecto/lib/ecto/adapters/mysql/connection.ex     defp create_names(prefix, sources, pos, limit) when pos &lt; limit do</span>
+<span class='curline'><a href='../S/74.html#L449'>prefix</a>            449 deps/ecto/lib/ecto/adapters/mysql/connection.ex             {quote_table(prefix, table), name, model}</span>
+<span class='curline'><a href='../S/74.html#L453'>prefix</a>            453 deps/ecto/lib/ecto/adapters/mysql/connection.ex       [current|create_names(prefix, sources, pos + 1, limit)]</span>
+<span class='curline'><a href='../S/74.html#L472'>prefix</a>            472 deps/ecto/lib/ecto/adapters/mysql/connection.ex         " #{quote_table(table.prefix, table.name)} (#{column_definitions(table, columns)})" &lt;&gt; engine &lt;&gt; options</span>
+<span class='curline'><a href='../S/74.html#L478'>prefix</a>            478 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "DROP TABLE" &lt;&gt; if_exists &lt;&gt; " #{quote_table(table.prefix, table.name)}"</span>
+<span class='curline'><a href='../S/74.html#L482'>prefix</a>            482 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "ALTER TABLE #{quote_table(table.prefix, table.name)} #{column_changes(table, changes)}"</span>
+<span class='curline'><a href='../S/74.html#L492'>prefix</a>            492 deps/ecto/lib/ecto/adapters/mysql/connection.ex                 quote_table(index.prefix, index.table),</span>
+<span class='curline'><a href='../S/74.html#L504'>prefix</a>            504 deps/ecto/lib/ecto/adapters/mysql/connection.ex                 "ON #{quote_table(index.prefix, index.table)}",</span>
+<span class='curline'><a href='../S/74.html#L512'>prefix</a>            512 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "RENAME TABLE #{quote_table(current_table.prefix, current_table.name)} TO #{quote_table(new_table.prefix, new_table.name)}"</span>
+<span class='curline'><a href='../S/74.html#L518'>prefix</a>            518 deps/ecto/lib/ecto/adapters/mysql/connection.ex         "SET @rename_stmt = concat('ALTER TABLE #{quote_table(table.prefix, table.name)} CHANGE COLUMN `#{current_column}` `#{new_column}` ', @column_type)",</span>
+<span class='curline'><a href='../S/74.html#L625'>prefix</a>            625 deps/ecto/lib/ecto/adapters/mysql/connection.ex           "REFERENCES #{quote_table(table.prefix, ref.table)}(#{quote_name(ref.column)})" &lt;&gt;</span>
+<span class='curline'><a href='../S/74.html#L631'>prefix</a>            631 deps/ecto/lib/ecto/adapters/mysql/connection.ex           "#{quote_table(table.prefix, ref.table)}(#{quote_name(ref.column)})" &lt;&gt;</span>
+<span class='curline'><a href='../S/74.html#L660'>prefix</a>            660 deps/ecto/lib/ecto/adapters/mysql/connection.ex     defp quote_table(prefix, name), do: quote_table(prefix) &lt;&gt; "." &lt;&gt; quote_table(name)</span>
+<span class='curline'><a href='../S/76.html#L144'>prefix</a>            144 deps/ecto/lib/ecto/adapters/postgres/connection.ex     def insert(prefix, table, fields, returning) do</span>
+<span class='curline'><a href='../S/76.html#L153'>prefix</a>            153 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "INSERT INTO #{quote_table(prefix, table)} " &lt;&gt; values &lt;&gt; returning(returning)</span>
+<span class='curline'><a href='../S/76.html#L156'>prefix</a>            156 deps/ecto/lib/ecto/adapters/postgres/connection.ex     def update(prefix, table, fields, filters, returning) do</span>
+<span class='curline'><a href='../S/76.html#L165'>prefix</a>            165 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "UPDATE #{quote_table(prefix, table)} SET " &lt;&gt; Enum.join(fields, ", ") &lt;&gt;</span>
+<span class='curline'><a href='../S/76.html#L170'>prefix</a>            170 deps/ecto/lib/ecto/adapters/postgres/connection.ex     def delete(prefix, table, filters, returning) do</span>
+<span class='curline'><a href='../S/76.html#L175'>prefix</a>            175 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "DELETE FROM #{quote_table(prefix, table)} WHERE " &lt;&gt;</span>
+<span class='curline'><a href='../S/76.html#L516'>prefix</a>            516 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp create_names(%{prefix: prefix, sources: sources}) do</span>
+<span class='curline'><a href='../S/76.html#L517'>prefix</a>            517 deps/ecto/lib/ecto/adapters/postgres/connection.ex       create_names(prefix, sources, 0, tuple_size(sources)) |&gt; List.to_tuple()</span>
+<span class='curline'><a href='../S/76.html#L520'>prefix</a>            520 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp create_names(prefix, sources, pos, limit) when pos &lt; limit do</span>
+<span class='curline'><a href='../S/76.html#L525'>prefix</a>            525 deps/ecto/lib/ecto/adapters/postgres/connection.ex             {quote_table(prefix, table), name, model}</span>
+<span class='curline'><a href='../S/76.html#L529'>prefix</a>            529 deps/ecto/lib/ecto/adapters/postgres/connection.ex       [current|create_names(prefix, sources, pos + 1, limit)]</span>
+<span class='curline'><a href='../S/76.html#L549'>prefix</a>            549 deps/ecto/lib/ecto/adapters/postgres/connection.ex         " #{quote_table(table.prefix, table.name)} (#{column_definitions(table, columns)})" &lt;&gt; options</span>
+<span class='curline'><a href='../S/76.html#L555'>prefix</a>            555 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "DROP TABLE" &lt;&gt; if_exists &lt;&gt; " #{quote_table(table.prefix, table.name)}"</span>
+<span class='curline'><a href='../S/76.html#L559'>prefix</a>            559 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "ALTER TABLE #{quote_table(table.prefix, table.name)} #{column_changes(table, changes)}"</span>
+<span class='curline'><a href='../S/76.html#L571'>prefix</a>            571 deps/ecto/lib/ecto/adapters/postgres/connection.ex                 quote_table(index.prefix, index.table),</span>
+<span class='curline'><a href='../S/76.html#L590'>prefix</a>            590 deps/ecto/lib/ecto/adapters/postgres/connection.ex                 quote_table(index.prefix, index.name)])</span>
+<span class='curline'><a href='../S/76.html#L594'>prefix</a>            594 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "ALTER TABLE #{quote_table(current_table.prefix, current_table.name)} RENAME TO #{quote_table(new_table.prefix, new_table.name)}"</span>
+<span class='curline'><a href='../S/76.html#L598'>prefix</a>            598 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "ALTER TABLE #{quote_table(table.prefix, table.name)} RENAME #{quote_name(current_column)} TO #{quote_name(new_column)}"</span>
+<span class='curline'><a href='../S/76.html#L726'>prefix</a>            726 deps/ecto/lib/ecto/adapters/postgres/connection.ex           "#{quote_table(table.prefix, ref.table)}(#{quote_name(ref.column)})" &lt;&gt;</span>
+<span class='curline'><a href='../S/76.html#L732'>prefix</a>            732 deps/ecto/lib/ecto/adapters/postgres/connection.ex           "REFERENCES #{quote_table(table.prefix, ref.table)}(#{quote_name(ref.column)})" &lt;&gt;</span>
+<span class='curline'><a href='../S/76.html#L761'>prefix</a>            761 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp quote_table(prefix, name), do: quote_table(prefix) &lt;&gt; "." &lt;&gt; quote_table(name)</span>
+<span class='curline'><a href='../S/81.html#L88'>prefix</a>             88 deps/ecto/lib/ecto/adapters/sql.ex       def insert(repo, %{source: {prefix, source}}, params, _autogenerate, returning, opts) do</span>
+<span class='curline'><a href='../S/81.html#L90'>prefix</a>             90 deps/ecto/lib/ecto/adapters/sql.ex         sql = @conn.insert(prefix, source, fields, returning)</span>
+<span class='curline'><a href='../S/81.html#L95'>prefix</a>             95 deps/ecto/lib/ecto/adapters/sql.ex       def update(repo, %{source: {prefix, source}}, fields, filter, _autogenerate, returning, opts) do</span>
+<span class='curline'><a href='../S/81.html#L98'>prefix</a>             98 deps/ecto/lib/ecto/adapters/sql.ex         sql = @conn.update(prefix, source, fields, filter, returning)</span>
+<span class='curline'><a href='../S/81.html#L103'>prefix</a>            103 deps/ecto/lib/ecto/adapters/sql.ex       def delete(repo, %{source: {prefix, source}}, filter, _autogenarate, opts) do</span>
+<span class='curline'><a href='../S/81.html#L105'>prefix</a>            105 deps/ecto/lib/ecto/adapters/sql.ex         sql = @conn.delete(prefix, source, filter, [])</span>
+<span class='curline'><a href='../S/79.html#L62'>prefix</a>             62 deps/ecto/lib/ecto/adapters/sql/query.ex   defcallback insert(prefix ::String.t, table :: String.t,</span>
+<span class='curline'><a href='../S/79.html#L69'>prefix</a>             69 deps/ecto/lib/ecto/adapters/sql/query.ex   defcallback update(prefix :: String.t, table :: String.t, fields :: [atom],</span>
+<span class='curline'><a href='../S/79.html#L75'>prefix</a>             75 deps/ecto/lib/ecto/adapters/sql/query.ex   defcallback delete(prefix :: String.t, table :: String.t,</span>
+<span class='curline'><a href='../S/83.html#L132'>prefix</a>            132 deps/ecto/lib/ecto/association.ex     prefix = module |&gt; Module.split |&gt; List.last |&gt; underscore</span>
+<span class='curline'><a href='../S/83.html#L133'>prefix</a>            133 deps/ecto/lib/ecto/association.ex     :"#{prefix}_#{suffix}"</span>
+<span class='curline'><a href='../S/94.html#L664'>prefix</a>            664 deps/ecto/lib/ecto/migration.ex   def __prefix__(%{prefix: prefix} = index_or_table) do</span>
+<span class='curline'><a href='../S/94.html#L665'>prefix</a>            665 deps/ecto/lib/ecto/migration.ex     runner_prefix = Runner.prefix()</span>
+<span class='curline'><a href='../S/94.html#L668'>prefix</a>            668 deps/ecto/lib/ecto/migration.ex       is_nil(prefix) -&gt;</span>
+<span class='curline'><a href='../S/94.html#L670'>prefix</a>            670 deps/ecto/lib/ecto/migration.ex       is_nil(runner_prefix) or runner_prefix == prefix -&gt;</span>
+<span class='curline'><a href='../S/94.html#L674'>prefix</a>            674 deps/ecto/lib/ecto/migration.ex           "the :prefix option `#{inspect prefix}` does match the migrator prefix `#{inspect runner_prefix}`"</span>
+<span class='curline'><a href='../S/91.html#L69'>prefix</a>             69 deps/ecto/lib/ecto/migration/runner.ex       %{prefix: prefix} -&gt; prefix</span>
+<span class='curline'><a href='../S/91.html#L218'>prefix</a>            218 deps/ecto/lib/ecto/migration/runner.ex     do: "create table #{quote_table(table.prefix, table.name)}"</span>
+<span class='curline'><a href='../S/91.html#L220'>prefix</a>            220 deps/ecto/lib/ecto/migration/runner.ex     do: "create table if not exists #{quote_table(table.prefix, table.name)}"</span>
+<span class='curline'><a href='../S/91.html#L222'>prefix</a>            222 deps/ecto/lib/ecto/migration/runner.ex     do: "alter table #{quote_table(table.prefix, table.name)}"</span>
+<span class='curline'><a href='../S/91.html#L224'>prefix</a>            224 deps/ecto/lib/ecto/migration/runner.ex     do: "drop table #{quote_table(table.prefix, table.name)}"</span>
+<span class='curline'><a href='../S/91.html#L226'>prefix</a>            226 deps/ecto/lib/ecto/migration/runner.ex     do: "drop table if exists #{quote_table(table.prefix, table.name)}"</span>
+<span class='curline'><a href='../S/91.html#L229'>prefix</a>            229 deps/ecto/lib/ecto/migration/runner.ex     do: "create index #{quote_table(index.prefix, index.name)}"</span>
+<span class='curline'><a href='../S/91.html#L231'>prefix</a>            231 deps/ecto/lib/ecto/migration/runner.ex     do: "create index if not exists #{quote_table(index.prefix, index.name)}"</span>
+<span class='curline'><a href='../S/91.html#L233'>prefix</a>            233 deps/ecto/lib/ecto/migration/runner.ex     do: "drop index #{quote_table(index.prefix, index.name)}"</span>
+<span class='curline'><a href='../S/91.html#L235'>prefix</a>            235 deps/ecto/lib/ecto/migration/runner.ex     do: "drop index if exists #{quote_table(index.prefix, index.name)}"</span>
+<span class='curline'><a href='../S/91.html#L237'>prefix</a>            237 deps/ecto/lib/ecto/migration/runner.ex     do: "rename table #{quote_table(current_table.prefix, current_table.name)} to #{quote_table(new_table.prefix, new_table.name)}"</span>
+<span class='curline'><a href='../S/91.html#L239'>prefix</a>            239 deps/ecto/lib/ecto/migration/runner.ex     do: "rename column #{current_column} to #{new_column} on table #{quote_table(table.prefix, table.name)}"</span>
+<span class='curline'><a href='../S/91.html#L242'>prefix</a>            242 deps/ecto/lib/ecto/migration/runner.ex   defp quote_table(prefix, name), do: quote_table(prefix) &lt;&gt; "." &lt;&gt; quote_table(name)</span>
+<span class='curline'><a href='../S/92.html#L16'>prefix</a>             16 deps/ecto/lib/ecto/migration/schema_migration.ex   def ensure_schema_migrations_table!(repo, prefix) do</span>
+<span class='curline'><a href='../S/92.html#L18'>prefix</a>             18 deps/ecto/lib/ecto/migration/schema_migration.ex     create_migrations_table(adapter, repo, prefix)</span>
+<span class='curline'><a href='../S/92.html#L21'>prefix</a>             21 deps/ecto/lib/ecto/migration/schema_migration.ex   def migrated_versions(repo, prefix) do</span>
+<span class='curline'><a href='../S/92.html#L22'>prefix</a>             22 deps/ecto/lib/ecto/migration/schema_migration.ex     repo.all from(p in __MODULE__, select: p.version) |&gt; Map.put(:prefix, prefix), @opts</span>
+<span class='curline'><a href='../S/92.html#L25'>prefix</a>             25 deps/ecto/lib/ecto/migration/schema_migration.ex   def up(repo, version, prefix) do</span>
+<span class='curline'><a href='../S/92.html#L26'>prefix</a>             26 deps/ecto/lib/ecto/migration/schema_migration.ex     repo.insert! %__MODULE__{version: version} |&gt; Ecto.put_meta(prefix: prefix), @opts</span>
+<span class='curline'><a href='../S/92.html#L29'>prefix</a>             29 deps/ecto/lib/ecto/migration/schema_migration.ex   def down(repo, version, prefix) do</span>
+<span class='curline'><a href='../S/92.html#L30'>prefix</a>             30 deps/ecto/lib/ecto/migration/schema_migration.ex     repo.delete_all from(p in __MODULE__, where: p.version == ^version) |&gt; Map.put(:prefix, prefix), @opts</span>
+<span class='curline'><a href='../S/92.html#L33'>prefix</a>             33 deps/ecto/lib/ecto/migration/schema_migration.ex   defp create_migrations_table(adapter, repo, prefix) do</span>
+<span class='curline'><a href='../S/92.html#L34'>prefix</a>             34 deps/ecto/lib/ecto/migration/schema_migration.ex     table = %Ecto.Migration.Table{name: :schema_migrations, prefix: prefix}</span>
+<span class='curline'><a href='../S/121.html#L101'>prefix</a>            101 deps/ecto/lib/ecto/query/planner.ex   defp build_meta(%{prefix: prefix, sources: sources,</span>
+<span class='curline'><a href='../S/121.html#L103'>prefix</a>            103 deps/ecto/lib/ecto/query/planner.ex     %{prefix: prefix, sources: sources,</span>
+<span class='curline'><a href='../S/121.html#L198'>prefix</a>            198 deps/ecto/lib/ecto/query/planner.ex     if prefix = query.prefix do</span>
+<span class='curline'><a href='../S/121.html#L199'>prefix</a>            199 deps/ecto/lib/ecto/query/planner.ex       cache = [prefix: prefix] ++ cache</span>
+<span class='curline'><a href='../S/125.html#L58'>prefix</a>             58 deps/ecto/lib/ecto/repo/preloader.ex     {prefix, _} = sample.__meta__.source</span>
+<span class='curline'><a href='../S/125.html#L64'>prefix</a>             64 deps/ecto/lib/ecto/repo/preloader.ex           preload_assoc(structs, module, repo, prefix, assoc, related_key, sub_preloads)</span>
+<span class='curline'><a href='../S/125.html#L85'>prefix</a>             85 deps/ecto/lib/ecto/repo/preloader.ex   defp preload_assoc(structs, module, repo, prefix, assoc, related_key, {query, preloads}) do</span>
+<span class='curline'><a href='../S/125.html#L96'>prefix</a>             96 deps/ecto/lib/ecto/repo/preloader.ex         preload_assoc(repo, query, prefix, assoc, related_key, preloads)</span>
+<span class='curline'><a href='../S/125.html#L100'>prefix</a>            100 deps/ecto/lib/ecto/repo/preloader.ex   defp preload_assoc(repo, query, prefix, %{cardinality: card} = assoc, related_key, preloads) do</span>
+<span class='curline'><a href='../S/125.html#L108'>prefix</a>            108 deps/ecto/lib/ecto/repo/preloader.ex     loaded = preload_each(repo.all(%{query | prefix: prefix}), repo, preloads)</span>
+<span class='curline'><a href='../S/126.html#L94'>prefix</a>             94 deps/ecto/lib/ecto/repo/queryable.ex       preprocess = preprocess(meta.prefix, meta.sources, adapter)</span>
+<span class='curline'><a href='../S/126.html#L105'>prefix</a>            105 deps/ecto/lib/ecto/repo/queryable.ex   defp preprocess(prefix, sources, adapter) do</span>
+<span class='curline'><a href='../S/126.html#L106'>prefix</a>            106 deps/ecto/lib/ecto/repo/queryable.ex     &amp;preprocess(&amp;1, &amp;2, prefix, &amp;3, sources, adapter)</span>
+<span class='curline'><a href='../S/126.html#L109'>prefix</a>            109 deps/ecto/lib/ecto/repo/queryable.ex   defp preprocess({:&amp;, _, [ix]}, value, prefix, context, sources, adapter) do</span>
+<span class='curline'><a href='../S/126.html#L111'>prefix</a>            111 deps/ecto/lib/ecto/repo/queryable.ex     Ecto.Schema.__load__(model, prefix, source, context, value, &amp;adapter.load/2)</span>
+<span class='curline'><a href='../S/130.html#L952'>prefix</a>            952 deps/ecto/lib/ecto/schema.ex   def __load__(model, prefix, source, context, data, loader) do</span>
+<span class='curline'><a href='../S/130.html#L959'>prefix</a>            959 deps/ecto/lib/ecto/schema.ex                      %Metadata{state: :loaded, source: {prefix, source}, context: context})</span>
+</pre>
+</body>
+</html>

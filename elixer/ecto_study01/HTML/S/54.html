@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/integration_test/cases/pool.exs</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/228.html'>integration_test</a>/<a href='../files/229.html'>cases</a>/pool.exs</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L21'>[^]</a><a href='#L27'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L21' title='Defined at 21.'>after_connect</a></li>
+<li><a href='#L27' title='Defined at 27.'>start_link</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>Code.require_file "../support/file_helpers.exs", __DIR__
+<a id='L2' name='L2'></a>
+<a id='L3' name='L3'></a>defmodule Ecto.Integration.PoolTest <strong class='reserved'>do</strong>
+<a id='L4' name='L4'></a>  use ExUnit.Case, async: true
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>  <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a> =
+<a id='L7' name='L7'></a>    <strong class='reserved'>case</strong> System.get_env("ECTO_POOL") || "poolboy" <strong class='reserved'>do</strong>
+<a id='L8' name='L8'></a>      "poolboy"        -&gt; Ecto.Pools.Poolboy
+<a id='L9' name='L9'></a>      "sojourn_broker" -&gt; Ecto.Pools.SojournBroker
+<a id='L10' name='L10'></a>    end
+<a id='L11' name='L11'></a>
+<a id='L12' name='L12'></a>  <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a> = <a href='../S/82.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/application.ex.'>Application</a>.get_env(:ecto, Ecto.Integration.TestRepo) ||
+<a id='L13' name='L13'></a>         raise "could not find configuration for Ecto.Integration.TestRepo"
+<a id='L14' name='L14'></a>
+<a id='L15' name='L15'></a>  <a href='../S/82.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/application.ex.'>Application</a>.put_env(:ecto, __MODULE__.<a href='../S/54.html#L18' title='Defined at 18 in deps/ecto/integration_test/cases/pool.exs.'>MockRepo</a>,
+<a id='L16' name='L16'></a>                      [<a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>: pool, pool_size: 1] ++ <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>)
+<a id='L17' name='L17'></a>
+<a id='L18' name='L18'></a>  defmodule <a href='../R/42.html' title='Multiple referred from 7 places.'>MockRepo</a> <strong class='reserved'>do</strong>
+<a id='L19' name='L19'></a>    use Ecto.Repo, otp_app: :ecto
+<a id='L20' name='L20'></a>
+<a id='L21' name='L21'></a>    def <a href='../R/125.html' title='Multiple referred from 6 places.'>after_connect</a>(conn) <strong class='reserved'>do</strong>
+<a id='L22' name='L22'></a>      <a href='../S/17.html#L19' title='Defined at 19 in deps/connection/lib/connection.ex.'>send</a> <a href='../S/82.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/application.ex.'>Application</a>.get_env(:ecto, :pool_test_pid), <em class='brace'>{</em>:after_connect, conn<em class='brace'>}</em>
+<a id='L23' name='L23'></a>    end
+<a id='L24' name='L24'></a>  end
+<a id='L25' name='L25'></a>
+<a id='L26' name='L26'></a>  defmodule <a href='../S/54.html#L55' title='Referred from 55 in deps/ecto/integration_test/cases/pool.exs.'>MockPool</a> <strong class='reserved'>do</strong>
+<a id='L27' name='L27'></a>    def <a href='../R/900.html' title='Multiple referred from 71 places.'>start_link</a>(_conn_mod, opts) <strong class='reserved'>do</strong>
+<a id='L28' name='L28'></a>      assert opts[:pool_name] == MockRepo.Alternative.Pool
+<a id='L29' name='L29'></a>      assert opts[:repo] == <a href='../S/54.html#L18' title='Defined at 18 in deps/ecto/integration_test/cases/pool.exs.'>MockRepo</a>
+<a id='L30' name='L30'></a>      assert opts[:foo] == :bar # Custom options are passed through
+<a id='L31' name='L31'></a>      <a href='../D/177.html' title='Multiple defined in 2 places.'>Task</a>.<a href='../D/1059.html' title='Multiple defined in 41 places.'>start_link</a>(fn -&gt; :timer.sleep(:infinity) end)
+<a id='L32' name='L32'></a>    end
+<a id='L33' name='L33'></a>  end
+<a id='L34' name='L34'></a>
+<a id='L35' name='L35'></a>  setup <strong class='reserved'>do</strong>
+<a id='L36' name='L36'></a>    <a href='../S/82.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/application.ex.'>Application</a>.put_env(:ecto, :pool_test_pid, self())
+<a id='L37' name='L37'></a>    :ok
+<a id='L38' name='L38'></a>  end
+<a id='L39' name='L39'></a>
+<a id='L40' name='L40'></a>  test "starts repo with after_connect" <strong class='reserved'>do</strong>
+<a id='L41' name='L41'></a>    assert <em class='brace'>{</em>:ok, _<em class='brace'>}</em> = <a href='../S/54.html#L18' title='Defined at 18 in deps/ecto/integration_test/cases/pool.exs.'>MockRepo</a>.<a href='../D/1059.html' title='Multiple defined in 41 places.'>start_link</a>(lazy: false, name: MockRepo.AfterConnect, query_cache_owner: false)
+<a id='L42' name='L42'></a>    assert_receive <em class='brace'>{</em>:after_connect, pid<em class='brace'>}</em> when is_pid(pid)
+<a id='L43' name='L43'></a>  end
+<a id='L44' name='L44'></a>
+<a id='L45' name='L45'></a>  test "starts repo with different names" <strong class='reserved'>do</strong>
+<a id='L46' name='L46'></a>    assert <em class='brace'>{</em>:ok, pool1<em class='brace'>}</em> = <a href='../S/54.html#L18' title='Defined at 18 in deps/ecto/integration_test/cases/pool.exs.'>MockRepo</a>.<a href='../D/1059.html' title='Multiple defined in 41 places.'>start_link</a>()
+<a id='L47' name='L47'></a>    assert <em class='brace'>{</em>:error, <em class='brace'>{</em>:already_started, _<em class='brace'>}</em><em class='brace'>}</em> = <a href='../S/54.html#L18' title='Defined at 18 in deps/ecto/integration_test/cases/pool.exs.'>MockRepo</a>.<a href='../D/1059.html' title='Multiple defined in 41 places.'>start_link</a>()
+<a id='L48' name='L48'></a>
+<a id='L49' name='L49'></a>    assert <em class='brace'>{</em>:ok, pool2<em class='brace'>}</em> = <a href='../S/54.html#L18' title='Defined at 18 in deps/ecto/integration_test/cases/pool.exs.'>MockRepo</a>.<a href='../D/1059.html' title='Multiple defined in 41 places.'>start_link</a>(name: MockRepo.Named, query_cache_owner: false)
+<a id='L50' name='L50'></a>    assert pool1 != pool2
+<a id='L51' name='L51'></a>  end
+<a id='L52' name='L52'></a>
+<a id='L53' name='L53'></a>  test "starts repo with custom pool" <strong class='reserved'>do</strong>
+<a id='L54' name='L54'></a>    assert <em class='brace'>{</em>:ok, _<em class='brace'>}</em> =
+<a id='L55' name='L55'></a>      <a href='../S/54.html#L18' title='Defined at 18 in deps/ecto/integration_test/cases/pool.exs.'>MockRepo</a>.<a href='../D/1059.html' title='Multiple defined in 41 places.'>start_link</a>(name: MockRepo.Alternative, pool: <a href='../S/54.html#L26' title='Defined at 26 in deps/ecto/integration_test/cases/pool.exs.'>MockPool</a>, foo: :bar, query_cache_owner: false)
+<a id='L56' name='L56'></a>  end
+<a id='L57' name='L57'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L21'>[^]</a><a href='#L27'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

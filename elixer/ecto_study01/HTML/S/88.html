@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/embedded.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/embedded.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L30'>[^]</a><a href='#L223'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L30' title='Defined at 30.'>struct</a></li>
+<li><a href='#L48' title='Defined at 48.'>prepare</a></li>
+<li><a href='#L50' title='Defined at 50.'>prepare</a></li>
+<li><a href='#L67' title='Defined at 67.'>merge_delete_changes</a></li>
+<li><a href='#L74' title='Defined at 74.'>merge_delete_changes</a></li>
+<li><a href='#L76' title='Defined at 76.'>prepare_each</a></li>
+<li><a href='#L80' title='Defined at 80.'>prepare_each</a></li>
+<li><a href='#L85' title='Defined at 85.'>prepare_each</a></li>
+<li><a href='#L92' title='Defined at 92.'>prepare_each</a></li>
+<li><a href='#L97' title='Defined at 97.'>prepare_each</a></li>
+<li><a href='#L102' title='Defined at 102.'>prepare_each</a></li>
+<li><a href='#L111' title='Defined at 111.'>prepare_each</a></li>
+<li><a href='#L116' title='Defined at 116.'>check_action!</a></li>
+<li><a href='#L118' title='Defined at 118.'>check_action!</a></li>
+<li><a href='#L120' title='Defined at 120.'>check_action!</a></li>
+<li><a href='#L122' title='Defined at 122.'>autogenerate_id</a></li>
+<li><a href='#L136' title='Defined at 136.'>autogenerate_id</a></li>
+<li><a href='#L143' title='Defined at 143.'>autogenerate</a></li>
+<li><a href='#L147' title='Defined at 147.'>autogenerate</a></li>
+<li><a href='#L160' title='Defined at 160.'>load!</a></li>
+<li><a href='#L170' title='Defined at 170.'>build</a></li>
+<li><a href='#L175' title='Defined at 175.'>on_replace</a></li>
+<li><a href='#L180' title='Defined at 180.'>on_repo_action</a></li>
+<li><a href='#L188' title='Defined at 188.'>on_repo_action</a></li>
+<li><a href='#L193' title='Defined at 193.'>on_repo_action</a></li>
+<li><a href='#L202' title='Defined at 202.'>maybe_replace_one!</a></li>
+<li><a href='#L208' title='Defined at 208.'>maybe_replace_one!</a></li>
+<li><a href='#L210' title='Defined at 210.'>apply_changes</a></li>
+<li><a href='#L211' title='Defined at 211.'>apply_changes</a></li>
+<li><a href='#L220' title='Defined at 220.'>callback_for</a></li>
+<li><a href='#L223' title='Defined at 223.'>callback_for</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.<a href='../R/22.html' title='Multiple referred from 4 places.'>Embedded</a> <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc false
+<a id='L3' name='L3'></a>  alias __MODULE__
+<a id='L4' name='L4'></a>  alias Ecto.Changeset
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>  @type t :: %<a href='../S/88.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/embedded.ex.'>Embedded</a><em class='brace'>{</em>cardinality: :one | :many,
+<a id='L7' name='L7'></a>                       strategy: :replace | atom,
+<a id='L8' name='L8'></a>                       <a href='../D/830.html' title='Multiple defined in 5 places.'>on_replace</a>: Changeset.Relation.on_replace,
+<a id='L9' name='L9'></a>                       field: atom, owner: atom, related: atom,
+<a id='L10' name='L10'></a>                       on_cast: Changeset.Relation.on_cast<em class='brace'>}</em>
+<a id='L11' name='L11'></a>
+<a id='L12' name='L12'></a>  @behaviour Ecto.Changeset.Relation
+<a id='L13' name='L13'></a>  @on_replace_opts [:raise, :mark_as_invalid, :delete]
+<a id='L14' name='L14'></a>  defstruct [:cardinality, :field, :owner, :related, :on_replace,
+<a id='L15' name='L15'></a>             strategy: :replace, on_cast: :changeset]
+<a id='L16' name='L16'></a>
+<a id='L17' name='L17'></a>  @doc """
+<a id='L18' name='L18'></a>  Builds the embedded <strong class='reserved'>struct</strong>.
+<a id='L19' name='L19'></a>
+<a id='L20' name='L20'></a><em class='sharp'>  #</em># Options
+<a id='L21' name='L21'></a>
+<a id='L22' name='L22'></a>    * `:cardinality` - tells <strong class='reserved'>if</strong> there is one embedded model or many
+<a id='L23' name='L23'></a>    * `:strategy` - which strategy to use when storing items
+<a id='L24' name='L24'></a>    * `:related` - name of the embedded model
+<a id='L25' name='L25'></a>    * `:on_cast` - the changeset function to call during casting
+<a id='L26' name='L26'></a>    * `:on_replace` - the action taken on embedded models when the model is
+<a id='L27' name='L27'></a>      replaced
+<a id='L28' name='L28'></a>
+<a id='L29' name='L29'></a>  """
+<a id='L30' name='L30'></a>  def <strong class='reserved'>struct</strong>(module, name, opts) <strong class='reserved'>do</strong>
+<a id='L31' name='L31'></a>    opts =
+<a id='L32' name='L32'></a>      opts
+<a id='L33' name='L33'></a>      |&gt; Keyword.put_new(:on_cast, :changeset)
+<a id='L34' name='L34'></a>      |&gt; Keyword.put_new(:on_replace, :raise)
+<a id='L35' name='L35'></a>
+<a id='L36' name='L36'></a>    unless opts[:on_replace] in @on_replace_opts <strong class='reserved'>do</strong>
+<a id='L37' name='L37'></a>      raise ArgumentError, "invalid `:on_replace` option for #{inspect name}. " &lt;&gt;
+<a id='L38' name='L38'></a>        "The only valid options are: " &lt;&gt;
+<a id='L39' name='L39'></a>        Enum.map_join(@on_replace_opts, ", ", &amp;"`#{inspect &amp;1}`")
+<a id='L40' name='L40'></a>    end
+<a id='L41' name='L41'></a>
+<a id='L42' name='L42'></a>    <strong class='reserved'>struct</strong>(%<a href='../S/88.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/embedded.ex.'>Embedded</a><em class='brace'>{</em>field: name, owner: module<em class='brace'>}</em>, opts)
+<a id='L43' name='L43'></a>  end
+<a id='L44' name='L44'></a>
+<a id='L45' name='L45'></a>  @doc """
+<a id='L46' name='L46'></a>  Callback invoked by repository to prepare embeds.
+<a id='L47' name='L47'></a>  """
+<a id='L48' name='L48'></a>  def <a href='../R/741.html' title='Multiple referred from 33 places.'>prepare</a>(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, [], _adapter, _repo_action), <strong class='reserved'>do</strong>: changeset
+<a id='L49' name='L49'></a>
+<a id='L50' name='L50'></a>  def <a href='../R/741.html' title='Multiple referred from 33 places.'>prepare</a>(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, embeds, adapter, repo_action) <strong class='reserved'>do</strong>
+<a id='L51' name='L51'></a>    <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>     = <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.types
+<a id='L52' name='L52'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> = <a href='../D/760.html' title='Multiple defined in 2 places.'>merge_delete_changes</a>(changeset, embeds, <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>, repo_action)
+<a id='L53' name='L53'></a>
+<a id='L54' name='L54'></a>    update_in <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.changes, fn changes -&gt;
+<a id='L55' name='L55'></a>      Enum.<a href='../D/959.html' title='Multiple defined in 4 places.'>reduce</a>(embeds, changes, fn name, changes -&gt;
+<a id='L56' name='L56'></a>        <strong class='reserved'>case</strong> Map.<a href='../D/597.html' title='Multiple defined in 2 places.'>fetch</a>(changes, name) <strong class='reserved'>do</strong>
+<a id='L57' name='L57'></a>          <em class='brace'>{</em>:ok, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a><em class='brace'>}</em> -&gt;
+<a id='L58' name='L58'></a>            <em class='brace'>{</em>:<a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>, embed<em class='brace'>}</em> = Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(<a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>, name)
+<a id='L59' name='L59'></a>            Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(changes, name, <a href='../D/895.html' title='Multiple defined in 7 places.'>prepare_each</a>(<a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, adapter, repo_action))
+<a id='L60' name='L60'></a>          :error -&gt;
+<a id='L61' name='L61'></a>            changes
+<a id='L62' name='L62'></a>        end
+<a id='L63' name='L63'></a>      end)
+<a id='L64' name='L64'></a>    end
+<a id='L65' name='L65'></a>  end
+<a id='L66' name='L66'></a>
+<a id='L67' name='L67'></a>  defp <a href='../S/88.html#L52' title='Referred from 52 in deps/ecto/lib/ecto/embedded.ex.'>merge_delete_changes</a>(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, embeds, <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>, :delete) <strong class='reserved'>do</strong>
+<a id='L68' name='L68'></a>    Enum.<a href='../D/959.html' title='Multiple defined in 4 places.'>reduce</a>(embeds, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, fn <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, acc -&gt;
+<a id='L69' name='L69'></a>      <em class='brace'>{</em>:<a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>, embed<em class='brace'>}</em> = Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(<a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>)
+<a id='L70' name='L70'></a>      <a href='../S/85.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/changeset.ex.'>Changeset</a>.<a href='../S/85.html#L928' title='Defined at 928 in deps/ecto/lib/ecto/changeset.ex.'>put_embed</a>(acc, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, Ecto.Changeset.Relation.<a href='../D/524.html' title='Multiple defined in 3 places.'>empty</a>(<a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>))
+<a id='L71' name='L71'></a>    end)
+<a id='L72' name='L72'></a>  end
+<a id='L73' name='L73'></a>
+<a id='L74' name='L74'></a>  defp <a href='../S/88.html#L52' title='Referred from 52 in deps/ecto/lib/ecto/embedded.ex.'>merge_delete_changes</a>(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, _, _, _), <strong class='reserved'>do</strong>: changeset
+<a id='L75' name='L75'></a>
+<a id='L76' name='L76'></a>  defp <a href='../R/745.html' title='Multiple referred from 3 places.'>prepare_each</a>(%<em class='brace'>{</em>cardinality: :one<em class='brace'>}</em>, nil, _adapter, _action) <strong class='reserved'>do</strong>
+<a id='L77' name='L77'></a>    nil
+<a id='L78' name='L78'></a>  end
+<a id='L79' name='L79'></a>
+<a id='L80' name='L80'></a>  defp <a href='../R/745.html' title='Multiple referred from 3 places.'>prepare_each</a>(%<em class='brace'>{</em>cardinality: :one<em class='brace'>}</em> = <a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, adapter, action) <strong class='reserved'>do</strong>
+<a id='L81' name='L81'></a>    check_action!(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.action, action, <a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>)
+<a id='L82' name='L82'></a>    <a href='../D/895.html' title='Multiple defined in 7 places.'>prepare_each</a>(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, <a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>, adapter)
+<a id='L83' name='L83'></a>  end
+<a id='L84' name='L84'></a>
+<a id='L85' name='L85'></a>  defp <a href='../R/745.html' title='Multiple referred from 3 places.'>prepare_each</a>(%<em class='brace'>{</em>cardinality: :many<em class='brace'>}</em> = <a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>, changesets, adapter, action) <strong class='reserved'>do</strong>
+<a id='L86' name='L86'></a>    <strong class='reserved'>for</strong> <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> &lt;- changesets <strong class='reserved'>do</strong>
+<a id='L87' name='L87'></a>      check_action!(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.action, action, <a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>)
+<a id='L88' name='L88'></a>      <a href='../D/895.html' title='Multiple defined in 7 places.'>prepare_each</a>(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, <a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>, adapter)
+<a id='L89' name='L89'></a>    end
+<a id='L90' name='L90'></a>  end
+<a id='L91' name='L91'></a>
+<a id='L92' name='L92'></a>  defp <a href='../R/745.html' title='Multiple referred from 3 places.'>prepare_each</a>(%<a href='../S/85.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/changeset.ex.'>Changeset</a><em class='brace'>{</em>valid?: false<em class='brace'>}</em>, %<em class='brace'>{</em>related: <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a><em class='brace'>}</em>, _adapter) <strong class='reserved'>do</strong>
+<a id='L93' name='L93'></a>    raise ArgumentError, "changeset for embedded #{model} is invalid, " &lt;&gt;
+<a id='L94' name='L94'></a>                         "but the parent changeset was not marked as invalid"
+<a id='L95' name='L95'></a>  end
+<a id='L96' name='L96'></a>
+<a id='L97' name='L97'></a>  defp <a href='../R/745.html' title='Multiple referred from 3 places.'>prepare_each</a>(%<a href='../S/85.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/changeset.ex.'>Changeset</a><em class='brace'>{</em>action: :update, changes: changes<em class='brace'>}</em> = <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>,
+<a id='L98' name='L98'></a>                    _embed, _adapter) when changes == %<em class='brace'>{</em><em class='brace'>}</em> <strong class='reserved'>do</strong>
+<a id='L99' name='L99'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>
+<a id='L100' name='L100'></a>  end
+<a id='L101' name='L101'></a>
+<a id='L102' name='L102'></a>  defp <a href='../R/745.html' title='Multiple referred from 3 places.'>prepare_each</a>(%<a href='../S/85.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/changeset.ex.'>Changeset</a><em class='brace'>{</em><a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>: %<em class='brace'>{</em>__struct__: model<em class='brace'>}</em>, action: action<em class='brace'>}</em> = <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>,
+<a id='L103' name='L103'></a>                    %<em class='brace'>{</em>related: <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a><em class='brace'>}</em> = <a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>, adapter) <strong class='reserved'>do</strong>
+<a id='L104' name='L104'></a>    callback = <a href='../D/325.html' title='Multiple defined in 2 places.'>callback_for</a>(:before, action)
+<a id='L105' name='L105'></a>    Ecto.Model.Callbacks.<a href='../S/96.html#L252' title='Defined at 252 in deps/ecto/lib/ecto/model/callbacks.ex.'>__apply__</a>(<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, callback, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>)
+<a id='L106' name='L106'></a>    |&gt; <a href='../D/282.html' title='Multiple defined in 3 places.'>autogenerate_id</a>(action, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, <a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>, adapter)
+<a id='L107' name='L107'></a>    |&gt; <a href='../D/280.html' title='Multiple defined in 6 places.'>autogenerate</a>(action, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, adapter)
+<a id='L108' name='L108'></a>    |&gt; <a href='../D/891.html' title='Multiple defined in 9 places.'>prepare</a>(<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>.<a href='../D/220.html' title='Multiple defined in 18 places.'>__schema__</a>(:embeds), adapter, action)
+<a id='L109' name='L109'></a>  end
+<a id='L110' name='L110'></a>
+<a id='L111' name='L111'></a>  defp <a href='../R/745.html' title='Multiple referred from 3 places.'>prepare_each</a>(%<a href='../S/85.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/changeset.ex.'>Changeset</a><em class='brace'>{</em><a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>: model<em class='brace'>}</em>, %<em class='brace'>{</em>related: expected<em class='brace'>}</em>, _adapter) <strong class='reserved'>do</strong>
+<a id='L112' name='L112'></a>    raise ArgumentError, "expected changeset for embedded model `#{inspect expected}`, " &lt;&gt;
+<a id='L113' name='L113'></a>                         "got: #{inspect model}"
+<a id='L114' name='L114'></a>  end
+<a id='L115' name='L115'></a>
+<a id='L116' name='L116'></a>  defp check_action!(:update, :insert, %<em class='brace'>{</em>related: <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a><em class='brace'>}</em>),
+<a id='L117' name='L117'></a>    <strong class='reserved'>do</strong>: raise(ArgumentError, "got action :update in changeset for embedded #{model} while inserting")
+<a id='L118' name='L118'></a>  defp check_action!(:delete, :insert, %<em class='brace'>{</em>related: <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a><em class='brace'>}</em>),
+<a id='L119' name='L119'></a>    <strong class='reserved'>do</strong>: raise(ArgumentError, "got action :delete in changeset for embedded #{model} while inserting")
+<a id='L120' name='L120'></a>  defp check_action!(_, _, _), <strong class='reserved'>do</strong>: :ok
+<a id='L121' name='L121'></a>
+<a id='L122' name='L122'></a>  defp <a href='../R/167.html' title='Multiple referred from 7 places.'>autogenerate_id</a>(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, :insert, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, <a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>, adapter) <strong class='reserved'>do</strong>
+<a id='L123' name='L123'></a>    <strong class='reserved'>case</strong> <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>.<a href='../D/220.html' title='Multiple defined in 18 places.'>__schema__</a>(:autogenerate_id) <strong class='reserved'>do</strong>
+<a id='L124' name='L124'></a>      <em class='brace'>{</em><a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, :binary_id<em class='brace'>}</em> -&gt;
+<a id='L125' name='L125'></a>        <strong class='reserved'>if</strong> Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.changes, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>) || Map.get(changeset.<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, key) <strong class='reserved'>do</strong>
+<a id='L126' name='L126'></a>          <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>
+<a id='L127' name='L127'></a>        <strong class='reserved'>else</strong>
+<a id='L128' name='L128'></a>          update_in <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.changes, &amp;Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(&amp;1, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, adapter.<a href='../D/520.html' title='Multiple defined in 2 places.'>embed_id</a>(<a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>))
+<a id='L129' name='L129'></a>        end
+<a id='L130' name='L130'></a>      other -&gt;
+<a id='L131' name='L131'></a>        raise ArgumentError, "embedded model `#{inspect model}` must have " &lt;&gt;
+<a id='L132' name='L132'></a>          "`:binary_id` primary key with `autogenerate: true`, got: #{inspect other}"
+<a id='L133' name='L133'></a>    end
+<a id='L134' name='L134'></a>  end
+<a id='L135' name='L135'></a>
+<a id='L136' name='L136'></a>  defp <a href='../R/167.html' title='Multiple referred from 7 places.'>autogenerate_id</a>(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, action, _model, _embed, _adapter) when action in [:update, :delete] <strong class='reserved'>do</strong>
+<a id='L137' name='L137'></a>    <strong class='reserved'>for</strong> <em class='brace'>{</em>_, nil<em class='brace'>}</em> &lt;- <a href='../D/46.html' title='Multiple defined in 2 places.'>Ecto</a>.<a href='../D/903.html' title='Multiple defined in 2 places.'>primary_key</a>(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>) <strong class='reserved'>do</strong>
+<a id='L138' name='L138'></a>      raise Ecto.NoPrimaryKeyValueError, <strong class='reserved'>struct</strong>: <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>
+<a id='L139' name='L139'></a>    end
+<a id='L140' name='L140'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>
+<a id='L141' name='L141'></a>  end
+<a id='L142' name='L142'></a>
+<a id='L143' name='L143'></a>  defp <a href='../R/165.html' title='Multiple referred from 2 places.'>autogenerate</a>(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, :delete, _model, _adapter) <strong class='reserved'>do</strong>
+<a id='L144' name='L144'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>
+<a id='L145' name='L145'></a>  end
+<a id='L146' name='L146'></a>
+<a id='L147' name='L147'></a>  defp <a href='../R/165.html' title='Multiple referred from 2 places.'>autogenerate</a>(%<em class='brace'>{</em><a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>: types<em class='brace'>}</em> = <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, action, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, adapter) <strong class='reserved'>do</strong>
+<a id='L148' name='L148'></a>    update_in <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.changes, fn changes -&gt;
+<a id='L149' name='L149'></a>      Enum.<a href='../D/959.html' title='Multiple defined in 4 places.'>reduce</a> <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>.<a href='../D/220.html' title='Multiple defined in 18 places.'>__schema__</a>(:autogenerate, action), changes,
+<a id='L150' name='L150'></a>        fn <em class='brace'>{</em>k, mod, args<em class='brace'>}</em>, acc -&gt;
+<a id='L151' name='L151'></a>          <strong class='reserved'>if</strong> Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(acc, k) <strong class='reserved'>do</strong>
+<a id='L152' name='L152'></a>            acc
+<a id='L153' name='L153'></a>          <strong class='reserved'>else</strong>
+<a id='L154' name='L154'></a>            Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(acc, k, load!(<a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>, k, <a href='../D/244.html' title='Multiple defined in 16 places.'>apply</a>(mod, :autogenerate, args), adapter))
+<a id='L155' name='L155'></a>          end
+<a id='L156' name='L156'></a>        end
+<a id='L157' name='L157'></a>    end
+<a id='L158' name='L158'></a>  end
+<a id='L159' name='L159'></a>
+<a id='L160' name='L160'></a>  defp load!(<a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>, k, v, adapter) <strong class='reserved'>do</strong>
+<a id='L161' name='L161'></a>    <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a> = Map.fetch!(<a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>, k)
+<a id='L162' name='L162'></a>
+<a id='L163' name='L163'></a>    <strong class='reserved'>case</strong> adapter.<a href='../D/727.html' title='Multiple defined in 36 places.'>load</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, v) <strong class='reserved'>do</strong>
+<a id='L164' name='L164'></a>      <em class='brace'>{</em>:ok, v<em class='brace'>}</em> -&gt; v
+<a id='L165' name='L165'></a>      :error   -&gt; raise ArgumentError, "cannot load `#{inspect v}` as type #{inspect type}"
+<a id='L166' name='L166'></a>    end
+<a id='L167' name='L167'></a>  end
+<a id='L168' name='L168'></a>
+<a id='L169' name='L169'></a>  @doc false
+<a id='L170' name='L170'></a>  def <a href='../R/195.html' title='Multiple referred from 29 places.'>build</a>(%<a href='../S/88.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/embedded.ex.'>Embedded</a><em class='brace'>{</em>related: related<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L171' name='L171'></a>    related.__struct__
+<a id='L172' name='L172'></a>  end
+<a id='L173' name='L173'></a>
+<a id='L174' name='L174'></a>  @doc false
+<a id='L175' name='L175'></a>  def <a href='../R/682.html' title='Multiple referred from 11 places.'>on_replace</a>(%<a href='../S/88.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/embedded.ex.'>Embedded</a><em class='brace'>{</em>on_replace: :delete<em class='brace'>}</em>, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>) <strong class='reserved'>do</strong>
+<a id='L176' name='L176'></a>    <em class='brace'>{</em>:delete, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a><em class='brace'>}</em>
+<a id='L177' name='L177'></a>  end
+<a id='L178' name='L178'></a>
+<a id='L179' name='L179'></a>  @doc false
+<a id='L180' name='L180'></a>  def <a href='../R/683.html' title='Multiple referred from 7 places.'>on_repo_action</a>(%<em class='brace'>{</em><a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>: field, related: <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a><em class='brace'>}</em> = <a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>,
+<a id='L181' name='L181'></a>                     <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, parent, adapter, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, _repo_action, opts) <strong class='reserved'>do</strong>
+<a id='L182' name='L182'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> = <a href='../D/831.html' title='Multiple defined in 10 places.'>on_repo_action</a>(changeset, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, adapter, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, opts)
+<a id='L183' name='L183'></a>    maybe_replace_one!(<a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.action, Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(parent, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>))
+<a id='L184' name='L184'></a>
+<a id='L185' name='L185'></a>    <em class='brace'>{</em>:ok, <a href='../D/245.html' title='Multiple defined in 9 places.'>apply_changes</a>(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>)<em class='brace'>}</em>
+<a id='L186' name='L186'></a>  end
+<a id='L187' name='L187'></a>
+<a id='L188' name='L188'></a>  defp <a href='../R/683.html' title='Multiple referred from 7 places.'>on_repo_action</a>(%<a href='../S/85.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/changeset.ex.'>Changeset</a><em class='brace'>{</em>action: :update, changes: changes<em class='brace'>}</em> = <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>,
+<a id='L189' name='L189'></a>                      _model, _adapter, _repo, _opts) when changes == %<em class='brace'>{</em><em class='brace'>}</em> <strong class='reserved'>do</strong>
+<a id='L190' name='L190'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>
+<a id='L191' name='L191'></a>  end
+<a id='L192' name='L192'></a>
+<a id='L193' name='L193'></a>  defp <a href='../R/683.html' title='Multiple referred from 7 places.'>on_repo_action</a>(%<a href='../S/85.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/changeset.ex.'>Changeset</a><em class='brace'>{</em>action: action, changes: changes<em class='brace'>}</em> = <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>,
+<a id='L194' name='L194'></a>                      <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, adapter, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, opts) <strong class='reserved'>do</strong>
+<a id='L195' name='L195'></a>    callback = <a href='../D/325.html' title='Multiple defined in 2 places.'>callback_for</a>(:after, action)
+<a id='L196' name='L196'></a>    related  = Map.take(changes, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>.<a href='../D/220.html' title='Multiple defined in 18 places.'>__schema__</a>(:embeds))
+<a id='L197' name='L197'></a>    <em class='brace'>{</em>:ok, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a><em class='brace'>}</em> =
+<a id='L198' name='L198'></a>      Ecto.Changeset.Relation.<a href='../D/831.html' title='Multiple defined in 10 places.'>on_repo_action</a>(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, related, adapter, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, opts)
+<a id='L199' name='L199'></a>    Ecto.Model.Callbacks.<a href='../S/96.html#L252' title='Defined at 252 in deps/ecto/lib/ecto/model/callbacks.ex.'>__apply__</a>(<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, callback, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>)
+<a id='L200' name='L200'></a>  end
+<a id='L201' name='L201'></a>
+<a id='L202' name='L202'></a>  defp maybe_replace_one!(%<em class='brace'>{</em>cardinality: :one, related: <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a><em class='brace'>}</em>, :insert, current) when current != nil <strong class='reserved'>do</strong>
+<a id='L203' name='L203'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> = <a href='../S/85.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/changeset.ex.'>Changeset</a>.<a href='../D/342.html' title='Multiple defined in 18 places.'>change</a>(current)
+<a id='L204' name='L204'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> = Ecto.Model.Callbacks.<a href='../S/96.html#L252' title='Defined at 252 in deps/ecto/lib/ecto/model/callbacks.ex.'>__apply__</a>(<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, :before_delete, changeset)
+<a id='L205' name='L205'></a>    Ecto.Model.Callbacks.<a href='../S/96.html#L252' title='Defined at 252 in deps/ecto/lib/ecto/model/callbacks.ex.'>__apply__</a>(<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, :after_delete, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>)
+<a id='L206' name='L206'></a>    :ok
+<a id='L207' name='L207'></a>  end
+<a id='L208' name='L208'></a>  defp maybe_replace_one!(_embed, _action, _current), <strong class='reserved'>do</strong>: :ok
+<a id='L209' name='L209'></a>
+<a id='L210' name='L210'></a>  defp <a href='../R/132.html' title='Multiple referred from 8 places.'>apply_changes</a>(%<em class='brace'>{</em>action: :delete<em class='brace'>}</em>), <strong class='reserved'>do</strong>: nil
+<a id='L211' name='L211'></a>  defp <a href='../R/132.html' title='Multiple referred from 8 places.'>apply_changes</a>(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>) <strong class='reserved'>do</strong>
+<a id='L212' name='L212'></a>    <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a> = <a href='../S/85.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/changeset.ex.'>Changeset</a>.<a href='../D/245.html' title='Multiple defined in 9 places.'>apply_changes</a>(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>)
+<a id='L213' name='L213'></a>    put_in(<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>.__meta__.<a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>, :loaded)
+<a id='L214' name='L214'></a>  end
+<a id='L215' name='L215'></a>
+<a id='L216' name='L216'></a>  <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>   = [:before, :after]
+<a id='L217' name='L217'></a>  actions = [:insert, :update, :delete]
+<a id='L218' name='L218'></a>
+<a id='L219' name='L219'></a>  <strong class='reserved'>for</strong> <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a> &lt;- <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>, action &lt;- actions <strong class='reserved'>do</strong>
+<a id='L220' name='L220'></a>    defp <a href='../R/205.html' title='Multiple referred from 2 places.'>callback_for</a>(unquote(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>), unquote(action)), <strong class='reserved'>do</strong>: unquote(:"#{type}_#{action}")
+<a id='L221' name='L221'></a>  end
+<a id='L222' name='L222'></a>
+<a id='L223' name='L223'></a>  defp <a href='../R/205.html' title='Multiple referred from 2 places.'>callback_for</a>(_type, nil) <strong class='reserved'>do</strong>
+<a id='L224' name='L224'></a>    raise ArgumentError, "embedded changeset action not set"
+<a id='L225' name='L225'></a>  end
+<a id='L226' name='L226'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L30'>[^]</a><a href='#L223'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

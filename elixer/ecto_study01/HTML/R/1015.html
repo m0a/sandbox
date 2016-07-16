@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>usec</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/77.html#L41'>usec</a>               41 deps/ecto/lib/ecto/adapters/postgres/datetime.ex     defp encode_time({hour, min, sec, usec})</span>
+<span class='curline'><a href='../S/77.html#L42'>usec</a>               42 deps/ecto/lib/ecto/adapters/postgres/datetime.ex         when hour in 0..23 and min in 0..59 and sec in 0..59 and usec in 0..999_999 do</span>
+<span class='curline'><a href='../S/77.html#L44'>usec</a>               44 deps/ecto/lib/ecto/adapters/postgres/datetime.ex       &lt;&lt;:calendar.time_to_seconds(time) * 1_000_000 + usec :: signed-64&gt;&gt;</span>
+<span class='curline'><a href='../S/77.html#L47'>usec</a>               47 deps/ecto/lib/ecto/adapters/postgres/datetime.ex     defp encode_timestamp({{year, month, day}, {hour, min, sec, usec}})</span>
+<span class='curline'><a href='../S/77.html#L48'>usec</a>               48 deps/ecto/lib/ecto/adapters/postgres/datetime.ex         when year &lt;= @timestamp_max_year and hour in 0..23 and min in 0..59 and sec in 0..59 and usec in 0..999_999 do</span>
+<span class='curline'><a href='../S/77.html#L51'>usec</a>               51 deps/ecto/lib/ecto/adapters/postgres/datetime.ex       &lt;&lt;secs * 1_000_000 + usec :: signed-64&gt;&gt;</span>
+<span class='curline'><a href='../S/87.html#L30'>usec</a>               30 deps/ecto/lib/ecto/date_time.ex   defmacro is_time(hour, min, sec, usec \\ 0) do</span>
+<span class='curline'><a href='../S/87.html#L35'>usec</a>               35 deps/ecto/lib/ecto/date_time.ex         unquote(usec) in 0..999_999</span>
+<span class='curline'><a href='../S/87.html#L266'>usec</a>              266 deps/ecto/lib/ecto/date_time.ex     if usec = usec(rest) do</span>
+<span class='curline'><a href='../S/87.html#L267'>usec</a>              267 deps/ecto/lib/ecto/date_time.ex       from_parts(to_i(hour), to_i(min), to_i(sec), usec)</span>
+<span class='curline'><a href='../S/87.html#L280'>usec</a>              280 deps/ecto/lib/ecto/date_time.ex   def cast({hour, min, sec, usec}),</span>
+<span class='curline'><a href='../S/87.html#L281'>usec</a>              281 deps/ecto/lib/ecto/date_time.ex     do: from_parts(to_i(hour), to_i(min), to_i(sec), to_i(usec))</span>
+<span class='curline'><a href='../S/87.html#L295'>usec</a>              295 deps/ecto/lib/ecto/date_time.ex   defp from_parts(hour, min, sec, usec) when is_time(hour, min, sec, usec),</span>
+<span class='curline'><a href='../S/87.html#L296'>usec</a>              296 deps/ecto/lib/ecto/date_time.ex     do: {:ok, %Ecto.Time{hour: hour, min: min, sec: sec, usec: usec}}</span>
+<span class='curline'><a href='../S/87.html#L304'>usec</a>              304 deps/ecto/lib/ecto/date_time.ex   def dump(%Ecto.Time{hour: hour, min: min, sec: sec, usec: usec}) do</span>
+<span class='curline'><a href='../S/87.html#L305'>usec</a>              305 deps/ecto/lib/ecto/date_time.ex     {:ok, {hour, min, sec, usec}}</span>
+<span class='curline'><a href='../S/87.html#L312'>usec</a>              312 deps/ecto/lib/ecto/date_time.ex   def load({hour, min, sec, usec}) do</span>
+<span class='curline'><a href='../S/87.html#L313'>usec</a>              313 deps/ecto/lib/ecto/date_time.ex     {:ok, %Ecto.Time{hour: hour, min: min, sec: sec, usec: usec}}</span>
+<span class='curline'><a href='../S/87.html#L323'>usec</a>              323 deps/ecto/lib/ecto/date_time.ex   def to_string(%Ecto.Time{hour: hour, min: min, sec: sec, usec: usec}) do</span>
+<span class='curline'><a href='../S/87.html#L326'>usec</a>              326 deps/ecto/lib/ecto/date_time.ex     if is_nil(usec) or usec == 0 do</span>
+<span class='curline'><a href='../S/87.html#L329'>usec</a>              329 deps/ecto/lib/ecto/date_time.ex       str &lt;&gt; "." &lt;&gt; zero_pad(usec, 6)</span>
+<span class='curline'><a href='../S/87.html#L368'>usec</a>              368 deps/ecto/lib/ecto/date_time.ex     now = {_, _, usec} = :os.timestamp</span>
+<span class='curline'><a href='../S/87.html#L370'>usec</a>              370 deps/ecto/lib/ecto/date_time.ex     %Ecto.Time{hour: hour, min: min, sec: sec, usec: usec}</span>
+<span class='curline'><a href='../S/87.html#L431'>usec</a>              431 deps/ecto/lib/ecto/date_time.ex     if usec = usec(rest) do</span>
+<span class='curline'><a href='../S/87.html#L433'>usec</a>              433 deps/ecto/lib/ecto/date_time.ex                  to_i(hour), to_i(min), to_i(sec), usec)</span>
+<span class='curline'><a href='../S/87.html#L460'>usec</a>              460 deps/ecto/lib/ecto/date_time.ex   def cast({{year, month, day}, {hour, min, sec, usec}}) do</span>
+<span class='curline'><a href='../S/87.html#L462'>usec</a>              462 deps/ecto/lib/ecto/date_time.ex                to_i(hour), to_i(min), to_i(sec), to_i(usec))</span>
+<span class='curline'><a href='../S/87.html#L479'>usec</a>              479 deps/ecto/lib/ecto/date_time.ex   defp from_parts(year, month, day, hour, min, sec, usec)</span>
+<span class='curline'><a href='../S/87.html#L480'>usec</a>              480 deps/ecto/lib/ecto/date_time.ex       when is_date(year, month, day) and is_time(hour, min, sec, usec) do</span>
+<span class='curline'><a href='../S/87.html#L481'>usec</a>              481 deps/ecto/lib/ecto/date_time.ex     {:ok, %Ecto.DateTime{year: year, month: month, day: day, hour: hour, min: min, sec: sec, usec: usec}}</span>
+<span class='curline'><a href='../S/87.html#L488'>usec</a>              488 deps/ecto/lib/ecto/date_time.ex   def dump(%Ecto.DateTime{year: year, month: month, day: day, hour: hour, min: min, sec: sec, usec: usec}) do</span>
+<span class='curline'><a href='../S/87.html#L489'>usec</a>              489 deps/ecto/lib/ecto/date_time.ex     {:ok, {{year, month, day}, {hour, min, sec, usec}}}</span>
+<span class='curline'><a href='../S/87.html#L514'>usec</a>              514 deps/ecto/lib/ecto/date_time.ex   def to_time(%Ecto.DateTime{hour: hour, min: min, sec: sec, usec: usec}) do</span>
+<span class='curline'><a href='../S/87.html#L515'>usec</a>              515 deps/ecto/lib/ecto/date_time.ex     %Ecto.Time{hour: hour, min: min, sec: sec, usec: usec}</span>
+<span class='curline'><a href='../S/87.html#L531'>usec</a>              531 deps/ecto/lib/ecto/date_time.ex                          %Ecto.Time{hour: hour, min: min, sec: sec, usec: usec}) do</span>
+<span class='curline'><a href='../S/87.html#L533'>usec</a>              533 deps/ecto/lib/ecto/date_time.ex                    hour: hour, min: min, sec: sec, usec: usec}</span>
+<span class='curline'><a href='../S/87.html#L539'>usec</a>              539 deps/ecto/lib/ecto/date_time.ex   def to_string(%Ecto.DateTime{year: year, month: month, day: day, hour: hour, min: min, sec: sec, usec: usec}) do</span>
+<span class='curline'><a href='../S/87.html#L543'>usec</a>              543 deps/ecto/lib/ecto/date_time.ex     if is_nil(usec) or usec == 0 do</span>
+<span class='curline'><a href='../S/87.html#L546'>usec</a>              546 deps/ecto/lib/ecto/date_time.ex       str &lt;&gt; "." &lt;&gt; zero_pad(usec, 6)</span>
+<span class='curline'><a href='../S/87.html#L560'>usec</a>              560 deps/ecto/lib/ecto/date_time.ex                                 hour: hour, min: min, sec: sec, usec: usec}) do</span>
+<span class='curline'><a href='../S/87.html#L564'>usec</a>              564 deps/ecto/lib/ecto/date_time.ex     if is_nil(usec) or usec == 0 do</span>
+<span class='curline'><a href='../S/87.html#L567'>usec</a>              567 deps/ecto/lib/ecto/date_time.ex       str &lt;&gt; "." &lt;&gt; zero_pad(usec, 6) &lt;&gt; "Z"</span>
+<span class='curline'><a href='../S/87.html#L620'>usec</a>              620 deps/ecto/lib/ecto/date_time.ex     timestamp = {_, _, usec} = :os.timestamp</span>
+<span class='curline'><a href='../S/87.html#L622'>usec</a>              622 deps/ecto/lib/ecto/date_time.ex     {date, {h, m, s, usec}}</span>
+<span class='curline'><a href='../S/87.html#L625'>usec</a>              625 deps/ecto/lib/ecto/date_time.ex   defp erl_load({{year, month, day}, {hour, min, sec, usec}}) do</span>
+<span class='curline'><a href='../S/87.html#L627'>usec</a>              627 deps/ecto/lib/ecto/date_time.ex                    hour: hour, min: min, sec: sec, usec: usec}</span>
+<span class='curline'><a href='../S/183.html#L6'>usec</a>                6 deps/postgrex/lib/postgrex/extensions/time.ex   def encode(_, %Postgrex.Time{hour: hour, min: min, sec: sec, usec: usec}, _, _)</span>
+<span class='curline'><a href='../S/183.html#L7'>usec</a>                7 deps/postgrex/lib/postgrex/extensions/time.ex   when hour in 0..23 and min in 0..59 and sec in 0..59 and usec in 0..999_999  do</span>
+<span class='curline'><a href='../S/183.html#L9'>usec</a>                9 deps/postgrex/lib/postgrex/extensions/time.ex     &lt;&lt;:calendar.time_to_seconds(time) * 1_000_000 + usec :: int64&gt;&gt;</span>
+<span class='curline'><a href='../S/183.html#L23'>usec</a>               23 deps/postgrex/lib/postgrex/extensions/time.ex     usec = rem(microsecs, 1_000_000)</span>
+<span class='curline'><a href='../S/183.html#L25'>usec</a>               25 deps/postgrex/lib/postgrex/extensions/time.ex     %Postgrex.Time{hour: hour, min: min, sec: sec, usec: usec}</span>
+<span class='curline'><a href='../S/184.html#L10'>usec</a>               10 deps/postgrex/lib/postgrex/extensions/timestamp.ex   def encode(_, %Postgrex.Timestamp{year: year, month: month, day: day, hour: hour, min: min, sec: sec, usec: usec}, _, _)</span>
+<span class='curline'><a href='../S/184.html#L11'>usec</a>               11 deps/postgrex/lib/postgrex/extensions/timestamp.ex   when year &lt;= @timestamp_max_year and hour in 0..23 and min in 0..59 and sec in 0..59 and usec in 0..999_999 do</span>
+<span class='curline'><a href='../S/184.html#L14'>usec</a>               14 deps/postgrex/lib/postgrex/extensions/timestamp.ex     &lt;&lt;secs * 1_000_000 + usec :: int64&gt;&gt;</span>
+<span class='curline'><a href='../S/184.html#L23'>usec</a>               23 deps/postgrex/lib/postgrex/extensions/timestamp.ex     usec = rem(microsecs, 1_000_000)</span>
+<span class='curline'><a href='../S/184.html#L26'>usec</a>               26 deps/postgrex/lib/postgrex/extensions/timestamp.ex     {sec, usec} =</span>
+<span class='curline'><a href='../S/184.html#L27'>usec</a>               27 deps/postgrex/lib/postgrex/extensions/timestamp.ex       if year &lt; 2000 and usec != 0 do</span>
+<span class='curline'><a href='../S/184.html#L28'>usec</a>               28 deps/postgrex/lib/postgrex/extensions/timestamp.ex         {sec - 1, 1_000_000 + usec}</span>
+<span class='curline'><a href='../S/184.html#L30'>usec</a>               30 deps/postgrex/lib/postgrex/extensions/timestamp.ex         {sec, usec}</span>
+<span class='curline'><a href='../S/184.html#L33'>usec</a>               33 deps/postgrex/lib/postgrex/extensions/timestamp.ex     %Postgrex.Timestamp{year: year, month: month, day: day, hour: hour, min: min, sec: sec, usec: usec}</span>
+</pre>
+</body>
+</html>

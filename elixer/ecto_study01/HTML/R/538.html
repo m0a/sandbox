@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>has_many</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/66.html#L42'>has_many</a>           42 deps/ecto/integration_test/support/models.exs     has_many :comments, Ecto.Integration.Comment, on_delete: :delete_all, on_replace: :delete</span>
+<span class='curline'><a href='../S/66.html#L44'>has_many</a>           44 deps/ecto/integration_test/support/models.exs     has_many :comments_authors, through: [:comments, :author]</span>
+<span class='curline'><a href='../S/66.html#L104'>has_many</a>          104 deps/ecto/integration_test/support/models.exs     has_many :post_comments_authors, through: [:post, :comments_authors]</span>
+<span class='curline'><a href='../S/66.html#L121'>has_many</a>          121 deps/ecto/integration_test/support/models.exs     has_many :comments, Ecto.Integration.Comment, foreign_key: :author_id, on_delete: :nilify_all</span>
+<span class='curline'><a href='../S/66.html#L122'>has_many</a>          122 deps/ecto/integration_test/support/models.exs     has_many :posts, Ecto.Integration.Post, foreign_key: :author_id, on_delete: :nothing, on_replace: :delete</span>
+<span class='curline'><a href='../S/66.html#L123'>has_many</a>          123 deps/ecto/integration_test/support/models.exs     has_many :permalinks, Ecto.Integration.Permalink</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>dump</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/68.html#L15'>dump</a>               15 deps/ecto/integration_test/support/types.exs def dump(integer) when is_integer(integer), do: {:ok, integer}</span>
+<span class='curline'><a href='../S/72.html#L69'>dump</a>               69 deps/ecto/lib/ecto/adapter.ex def dump(:boolean, false), do: {:ok, 0}</span>
+<span class='curline'><a href='../S/72.html#L70'>dump</a>               70 deps/ecto/lib/ecto/adapter.ex def dump(:boolean, true), do: {:ok, 1}</span>
+<span class='curline'><a href='../S/72.html#L71'>dump</a>               71 deps/ecto/lib/ecto/adapter.ex def dump(type, value), do: Ecto.Type.dump(type, value, &amp;dump/2)</span>
+<span class='curline'><a href='../S/72.html#L81'>dump</a>               81 deps/ecto/lib/ecto/adapter.ex def dump(:binary_id, value), do: dump(Ecto.UUID, value)</span>
+<span class='curline'><a href='../S/72.html#L82'>dump</a>               82 deps/ecto/lib/ecto/adapter.ex def dump(type, value), do: Ecto.Type.dump(type, value, &amp;dump/2)</span>
+<span class='curline'><a href='../S/72.html#L85'>dump</a>               85 deps/ecto/lib/ecto/adapter.ex defcallback dump(Ecto.Type.t, term) :: {:ok, term} | :error</span>
+<span class='curline'><a href='../S/81.html#L58'>dump</a>               58 deps/ecto/lib/ecto/adapters/sql.ex def dump(type, value), do: Ecto.Adapters.SQL.dump(type, value, &amp;dump/2)</span>
+<span class='curline'><a href='../S/81.html#L451'>dump</a>              451 deps/ecto/lib/ecto/adapters/sql.ex def dump({:embed, _} = type, data, dumper),</span>
+<span class='curline'><a href='../S/81.html#L456'>dump</a>              456 deps/ecto/lib/ecto/adapters/sql.ex def dump(:binary_id, data, dumper),</span>
+<span class='curline'><a href='../S/81.html#L458'>dump</a>              458 deps/ecto/lib/ecto/adapters/sql.ex def dump(type, data, dumper),</span>
+<span class='curline'><a href='../S/87.html#L160'>dump</a>              160 deps/ecto/lib/ecto/date_time.ex def dump(%Ecto.Date{year: year, month: month, day: day}) do</span>
+<span class='curline'><a href='../S/87.html#L163'>dump</a>              163 deps/ecto/lib/ecto/date_time.ex def dump(_), do: :error</span>
+<span class='curline'><a href='../S/87.html#L304'>dump</a>              304 deps/ecto/lib/ecto/date_time.ex def dump(%Ecto.Time{hour: hour, min: min, sec: sec, usec: usec}) do</span>
+<span class='curline'><a href='../S/87.html#L307'>dump</a>              307 deps/ecto/lib/ecto/date_time.ex def dump(_), do: :error</span>
+<span class='curline'><a href='../S/87.html#L488'>dump</a>              488 deps/ecto/lib/ecto/date_time.ex def dump(%Ecto.DateTime{year: year, month: month, day: day, hour: hour, min: min, sec: sec, usec: usec}) do</span>
+<span class='curline'><a href='../S/87.html#L491'>dump</a>              491 deps/ecto/lib/ecto/date_time.ex def dump(_), do: :error</span>
+<span class='curline'><a href='../S/132.html#L50'>dump</a>               50 deps/ecto/lib/ecto/type.ex def dump(integer) when is_integer(integer), do: {:ok, integer}</span>
+<span class='curline'><a href='../S/132.html#L51'>dump</a>               51 deps/ecto/lib/ecto/type.ex def dump(_), do: :error</span>
+<span class='curline'><a href='../S/132.html#L147'>dump</a>              147 deps/ecto/lib/ecto/type.ex defcallback dump(term) :: {:ok, term} | :error</span>
+<span class='curline'><a href='../S/132.html#L294'>dump</a>              294 deps/ecto/lib/ecto/type.ex def dump(type, value, dumper \\ &amp;dump/2)</span>
+<span class='curline'><a href='../S/132.html#L296'>dump</a>              296 deps/ecto/lib/ecto/type.ex def dump({:embed, embed}, value, dumper) do</span>
+<span class='curline'><a href='../S/132.html#L300'>dump</a>              300 deps/ecto/lib/ecto/type.ex def dump(type, nil, _dumper) do</span>
+<span class='curline'><a href='../S/132.html#L304'>dump</a>              304 deps/ecto/lib/ecto/type.ex def dump(:binary_id, value, _dumper) do</span>
+<span class='curline'><a href='../S/132.html#L308'>dump</a>              308 deps/ecto/lib/ecto/type.ex def dump({:array, type}, value, dumper) do</span>
+<span class='curline'><a href='../S/132.html#L316'>dump</a>              316 deps/ecto/lib/ecto/type.ex def dump(type, value, _dumper) do</span>
+<span class='curline'><a href='../S/133.html#L22'>dump</a>               22 deps/ecto/lib/ecto/uuid.ex def dump(&lt;&lt; a1, a2, a3, a4, a5, a6, a7, a8, ?-,</span>
+<span class='curline'><a href='../S/133.html#L43'>dump</a>               43 deps/ecto/lib/ecto/uuid.ex def dump(_), do: :error</span>
+</pre>
+</body>
+</html>

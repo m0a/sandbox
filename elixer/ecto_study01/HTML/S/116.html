@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/query/builder/preload.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/<a href='../files/245.html'>query</a>/<a href='../files/246.html'>builder</a>/preload.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L43'>[^]</a><a href='#L153'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L43' title='Defined at 43.'>escape</a></li>
+<li><a href='#L48' title='Defined at 48.'>escape</a></li>
+<li><a href='#L53' title='Defined at 53.'>escape</a></li>
+<li><a href='#L59' title='Defined at 59.'>escape</a></li>
+<li><a href='#L64' title='Defined at 64.'>escape</a></li>
+<li><a href='#L71' title='Defined at 71.'>escape_each</a></li>
+<li><a href='#L77' title='Defined at 77.'>escape_each</a></li>
+<li><a href='#L84' title='Defined at 84.'>escape_each</a></li>
+<li><a href='#L93' title='Defined at 93.'>escape_each</a></li>
+<li><a href='#L100' title='Defined at 100.'>escape_each</a></li>
+<li><a href='#L104' title='Defined at 104.'>escape_key</a></li>
+<li><a href='#L108' title='Defined at 108.'>escape_key</a></li>
+<li><a href='#L112' title='Defined at 112.'>escape_key</a></li>
+<li><a href='#L116' title='Defined at 116.'>assert_assoc!</a></li>
+<li><a href='#L117' title='Defined at 117.'>assert_assoc!</a></li>
+<li><a href='#L122' title='Defined at 122.'>assert_preload!</a></li>
+<li><a href='#L123' title='Defined at 123.'>assert_preload!</a></li>
+<li><a href='#L130' title='Defined at 130.'>key!</a></li>
+<li><a href='#L132' title='Defined at 132.'>key!</a></li>
+<li><a href='#L143' title='Defined at 143.'>build</a></li>
+<li><a href='#L153' title='Defined at 153.'>apply</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Query.Builder.<a href='../S/122.html#L789' title='Referred from 789 in deps/ecto/lib/ecto/query.ex.'>Preload</a> <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc false
+<a id='L3' name='L3'></a>  alias Ecto.Query.Builder
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a>  @doc """
+<a id='L6' name='L6'></a>  Escapes a preload.
+<a id='L7' name='L7'></a>
+<a id='L8' name='L8'></a>  A preload may be an atom, a list of atoms or a keyword list
+<a id='L9' name='L9'></a>  nested as a rose tree.
+<a id='L10' name='L10'></a>
+<a id='L11' name='L11'></a>      iex&gt; escape(:foo, [])
+<a id='L12' name='L12'></a>      <em class='brace'>{</em>[:foo], []<em class='brace'>}</em>
+<a id='L13' name='L13'></a>
+<a id='L14' name='L14'></a>      iex&gt; escape([foo: :bar], [])
+<a id='L15' name='L15'></a>      <em class='brace'>{</em>[foo: [:bar]], []<em class='brace'>}</em>
+<a id='L16' name='L16'></a>
+<a id='L17' name='L17'></a>      iex&gt; escape([foo: [:bar, bar: :bat]], [])
+<a id='L18' name='L18'></a>      <em class='brace'>{</em>[foo: [:bar, bar: [:bat]]], []<em class='brace'>}</em>
+<a id='L19' name='L19'></a>
+<a id='L20' name='L20'></a>      iex&gt; escape([foo: <em class='brace'>{</em>:^, [], ["external"]<em class='brace'>}</em>], [])
+<a id='L21' name='L21'></a>      <em class='brace'>{</em>[foo: "external"], []<em class='brace'>}</em>
+<a id='L22' name='L22'></a>
+<a id='L23' name='L23'></a>      iex&gt; escape([foo: [:bar, <em class='brace'>{</em>:^, [], ["external"]<em class='brace'>}</em>], baz: :bat], [])
+<a id='L24' name='L24'></a>      <em class='brace'>{</em>[foo: [:bar, "external"], baz: [:bat]], []<em class='brace'>}</em>
+<a id='L25' name='L25'></a>
+<a id='L26' name='L26'></a>      iex&gt; escape([foo: <em class='brace'>{</em>:c, [], nil<em class='brace'>}</em>], [c: 1])
+<a id='L27' name='L27'></a>      <em class='brace'>{</em>[], [foo: <em class='brace'>{</em>1, []<em class='brace'>}</em>]<em class='brace'>}</em>
+<a id='L28' name='L28'></a>
+<a id='L29' name='L29'></a>      iex&gt; escape([foo: <em class='brace'>{</em><em class='brace'>{</em>:c, [], nil<em class='brace'>}</em>, bar: <em class='brace'>{</em>:l, [], nil<em class='brace'>}</em><em class='brace'>}</em>], [c: 1, l: 2])
+<a id='L30' name='L30'></a>      <em class='brace'>{</em>[], [foo: <em class='brace'>{</em>1, [bar: <em class='brace'>{</em>2, []<em class='brace'>}</em>]<em class='brace'>}</em>]<em class='brace'>}</em>
+<a id='L31' name='L31'></a>
+<a id='L32' name='L32'></a>      iex&gt; escape([foo: <em class='brace'>{</em>:c, [], nil<em class='brace'>}</em>, bar: <em class='brace'>{</em>:l, [], nil<em class='brace'>}</em>], [c: 1, l: 2])
+<a id='L33' name='L33'></a>      <em class='brace'>{</em>[], [foo: <em class='brace'>{</em>1, []<em class='brace'>}</em>, bar: <em class='brace'>{</em>2, []<em class='brace'>}</em>]<em class='brace'>}</em>
+<a id='L34' name='L34'></a>
+<a id='L35' name='L35'></a>      iex&gt; escape([foo: <em class='brace'>{</em><em class='brace'>{</em>:c, [], nil<em class='brace'>}</em>, :bar<em class='brace'>}</em>], [c: 1])
+<a id='L36' name='L36'></a>      ** (Ecto.Query.CompileError) cannot preload `:bar` inside join association preload
+<a id='L37' name='L37'></a>
+<a id='L38' name='L38'></a>      iex&gt; escape([foo: [bar: <em class='brace'>{</em>:c, [], nil<em class='brace'>}</em>]], [c: 1])
+<a id='L39' name='L39'></a>      ** (Ecto.Query.CompileError) cannot preload join association `:bar` with binding `c` because parent preload is not a join association
+<a id='L40' name='L40'></a>
+<a id='L41' name='L41'></a>  """
+<a id='L42' name='L42'></a>  @spec <a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(Macro.t, Keyword.t) :: <em class='brace'>{</em>[Macro.t], [Macro.t]<em class='brace'>}</em> | no_return
+<a id='L43' name='L43'></a>  def <a href='../R/435.html' title='Multiple referred from 76 places.'>escape</a>(<a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>, vars) <strong class='reserved'>do</strong>
+<a id='L44' name='L44'></a>    <em class='brace'>{</em><a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>, <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a><em class='brace'>}</em> = <a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(preloads, :both, [], [], vars)
+<a id='L45' name='L45'></a>    <em class='brace'>{</em>Enum.<a href='../D/991.html' title='Multiple defined in 5 places.'>reverse</a>(<a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>), Enum.reverse(<a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a>)<em class='brace'>}</em>
+<a id='L46' name='L46'></a>  end
+<a id='L47' name='L47'></a>
+<a id='L48' name='L48'></a>  defp <a href='../R/435.html' title='Multiple referred from 76 places.'>escape</a>(atom, <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, <a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>, <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a>, _vars) when is_atom(atom) <strong class='reserved'>do</strong>
+<a id='L49' name='L49'></a>    assert_preload!(<a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, atom)
+<a id='L50' name='L50'></a>    <em class='brace'>{</em>[atom|<a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>], <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a><em class='brace'>}</em>
+<a id='L51' name='L51'></a>  end
+<a id='L52' name='L52'></a>
+<a id='L53' name='L53'></a>  defp <a href='../R/435.html' title='Multiple referred from 76 places.'>escape</a>(list, <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, <a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>, <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a>, vars) when is_list(list) <strong class='reserved'>do</strong>
+<a id='L54' name='L54'></a>    Enum.<a href='../D/959.html' title='Multiple defined in 4 places.'>reduce</a> list, <em class='brace'>{</em><a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>, <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a><em class='brace'>}</em>, fn item, acc -&gt;
+<a id='L55' name='L55'></a>      <a href='../D/567.html' title='Multiple defined in 5 places.'>escape_each</a>(item, <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, acc, vars)
+<a id='L56' name='L56'></a>    end
+<a id='L57' name='L57'></a>  end
+<a id='L58' name='L58'></a>
+<a id='L59' name='L59'></a>  defp <a href='../R/435.html' title='Multiple referred from 76 places.'>escape</a>(<em class='brace'>{</em>:^, _, [inner]<em class='brace'>}</em> = <a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>, <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, <a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>, <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a>, _vars) <strong class='reserved'>do</strong>
+<a id='L60' name='L60'></a>    assert_preload!(<a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, <a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>)
+<a id='L61' name='L61'></a>    <em class='brace'>{</em>[inner|<a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>], <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a><em class='brace'>}</em>
+<a id='L62' name='L62'></a>  end
+<a id='L63' name='L63'></a>
+<a id='L64' name='L64'></a>  defp <a href='../R/435.html' title='Multiple referred from 76 places.'>escape</a>(other, _mode, _preloads, _assocs, _vars) <strong class='reserved'>do</strong>
+<a id='L65' name='L65'></a>    <a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.error! "`#{Macro.to_string other}` is not a valid preload expression. " &lt;&gt;
+<a id='L66' name='L66'></a>                   "preload expects an atom, a (nested) list of atoms or a (nested) " &lt;&gt;
+<a id='L67' name='L67'></a>                   "keyword list with a binding, atoms or lists as values. " &lt;&gt;
+<a id='L68' name='L68'></a>                   "Use ^ if you want to interpolate a value"
+<a id='L69' name='L69'></a>  end
+<a id='L70' name='L70'></a>
+<a id='L71' name='L71'></a>  defp <a href='../S/116.html#L55' title='Referred from 55 in deps/ecto/lib/ecto/query/builder/preload.ex.'>escape_each</a>(<em class='brace'>{</em><a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, <em class='brace'>{</em>:^, _, [inner]<em class='brace'>}</em><em class='brace'>}</em> = <a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>, <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, <em class='brace'>{</em><a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>, <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a><em class='brace'>}</em>, _vars) <strong class='reserved'>do</strong>
+<a id='L72' name='L72'></a>    assert_preload!(<a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, <a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>)
+<a id='L73' name='L73'></a>    <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a> = <a href='../D/571.html' title='Multiple defined in 3 places.'>escape_key</a>(key)
+<a id='L74' name='L74'></a>    <em class='brace'>{</em>[<em class='brace'>{</em><a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, inner<em class='brace'>}</em>|<a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>], <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a><em class='brace'>}</em>
+<a id='L75' name='L75'></a>  end
+<a id='L76' name='L76'></a>
+<a id='L77' name='L77'></a>  defp <a href='../S/116.html#L55' title='Referred from 55 in deps/ecto/lib/ecto/query/builder/preload.ex.'>escape_each</a>(<em class='brace'>{</em><a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, <em class='brace'>{</em>var, _, <a href='../S/47.html#L1060' title='Defined at 1060 in deps/decimal/lib/decimal.ex.'>context</a><em class='brace'>}</em><em class='brace'>}</em>, <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, <em class='brace'>{</em><a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>, <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a><em class='brace'>}</em>, vars) when is_atom(context) <strong class='reserved'>do</strong>
+<a id='L78' name='L78'></a>    assert_assoc!(<a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, var)
+<a id='L79' name='L79'></a>    <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a> = <a href='../D/571.html' title='Multiple defined in 3 places.'>escape_key</a>(key)
+<a id='L80' name='L80'></a>    idx = <a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.find_var!(var, vars)
+<a id='L81' name='L81'></a>    <em class='brace'>{</em><a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>, [<em class='brace'>{</em><a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, <em class='brace'>{</em>idx, []<em class='brace'>}</em><em class='brace'>}</em>|<a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a>]<em class='brace'>}</em>
+<a id='L82' name='L82'></a>  end
+<a id='L83' name='L83'></a>
+<a id='L84' name='L84'></a>  defp <a href='../S/116.html#L55' title='Referred from 55 in deps/ecto/lib/ecto/query/builder/preload.ex.'>escape_each</a>(<em class='brace'>{</em><a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, <em class='brace'>{</em><em class='brace'>{</em>var, _, <a href='../S/47.html#L1060' title='Defined at 1060 in deps/decimal/lib/decimal.ex.'>context</a><em class='brace'>}</em>, list<em class='brace'>}</em><em class='brace'>}</em>, <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, <em class='brace'>{</em><a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>, <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a><em class='brace'>}</em>, vars) when is_atom(context) <strong class='reserved'>do</strong>
+<a id='L85' name='L85'></a>    assert_assoc!(<a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, var)
+<a id='L86' name='L86'></a>    <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a> = <a href='../D/571.html' title='Multiple defined in 3 places.'>escape_key</a>(key)
+<a id='L87' name='L87'></a>    idx = <a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.find_var!(var, vars)
+<a id='L88' name='L88'></a>    <em class='brace'>{</em>[], inner_assocs<em class='brace'>}</em> = <a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(list, :assoc, [], [], vars)
+<a id='L89' name='L89'></a>    <em class='brace'>{</em><a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>,
+<a id='L90' name='L90'></a>     [<em class='brace'>{</em><a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, <em class='brace'>{</em>idx, Enum.<a href='../D/991.html' title='Multiple defined in 5 places.'>reverse</a>(inner_assocs)<em class='brace'>}</em><em class='brace'>}</em>|<a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a>]<em class='brace'>}</em>
+<a id='L91' name='L91'></a>  end
+<a id='L92' name='L92'></a>
+<a id='L93' name='L93'></a>  defp <a href='../S/116.html#L55' title='Referred from 55 in deps/ecto/lib/ecto/query/builder/preload.ex.'>escape_each</a>(<em class='brace'>{</em><a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, list<em class='brace'>}</em>, <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, <em class='brace'>{</em><a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>, <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a><em class='brace'>}</em>, vars) <strong class='reserved'>do</strong>
+<a id='L94' name='L94'></a>    assert_preload!(<a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, <em class='brace'>{</em><a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, list<em class='brace'>}</em>)
+<a id='L95' name='L95'></a>    <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a> = <a href='../D/571.html' title='Multiple defined in 3 places.'>escape_key</a>(key)
+<a id='L96' name='L96'></a>    <em class='brace'>{</em>inner_preloads, []<em class='brace'>}</em> = <a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(list, :preload, [], [], vars)
+<a id='L97' name='L97'></a>    <em class='brace'>{</em>[<em class='brace'>{</em><a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, Enum.<a href='../D/991.html' title='Multiple defined in 5 places.'>reverse</a>(inner_preloads)<em class='brace'>}</em>|<a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>], <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a><em class='brace'>}</em>
+<a id='L98' name='L98'></a>  end
+<a id='L99' name='L99'></a>
+<a id='L100' name='L100'></a>  defp <a href='../S/116.html#L55' title='Referred from 55 in deps/ecto/lib/ecto/query/builder/preload.ex.'>escape_each</a>(other, <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, <em class='brace'>{</em><a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>, <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a><em class='brace'>}</em>, vars) <strong class='reserved'>do</strong>
+<a id='L101' name='L101'></a>    <a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(other, <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, <a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>, <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a>, vars)
+<a id='L102' name='L102'></a>  end
+<a id='L103' name='L103'></a>
+<a id='L104' name='L104'></a>  defp <a href='../R/443.html' title='Multiple referred from 4 places.'>escape_key</a>(atom) when is_atom(atom) <strong class='reserved'>do</strong>
+<a id='L105' name='L105'></a>    atom
+<a id='L106' name='L106'></a>  end
+<a id='L107' name='L107'></a>
+<a id='L108' name='L108'></a>  defp <a href='../R/443.html' title='Multiple referred from 4 places.'>escape_key</a>(<em class='brace'>{</em>:^, _, [<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>]<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L109' name='L109'></a>    quote(<strong class='reserved'>do</strong>: Ecto.Query.Builder.Preload.key!(unquote(<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>)))
+<a id='L110' name='L110'></a>  end
+<a id='L111' name='L111'></a>
+<a id='L112' name='L112'></a>  defp <a href='../R/443.html' title='Multiple referred from 4 places.'>escape_key</a>(other) <strong class='reserved'>do</strong>
+<a id='L113' name='L113'></a>    <a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.error! "malformed key in preload `#{Macro.to_string(other)}` in query expression"
+<a id='L114' name='L114'></a>  end
+<a id='L115' name='L115'></a>
+<a id='L116' name='L116'></a>  defp assert_assoc!(<a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, _atom, _var) when mode in [:both, :assoc], <strong class='reserved'>do</strong>: :ok
+<a id='L117' name='L117'></a>  defp assert_assoc!(_mode, atom, var) <strong class='reserved'>do</strong>
+<a id='L118' name='L118'></a>    <a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.error! "cannot preload join association `#{Macro.to_string atom}` with binding `#{var}` " &lt;&gt;
+<a id='L119' name='L119'></a>                   "because parent preload is not a join association"
+<a id='L120' name='L120'></a>  end
+<a id='L121' name='L121'></a>
+<a id='L122' name='L122'></a>  defp assert_preload!(<a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, _term) when mode in [:both, :preload], <strong class='reserved'>do</strong>: :ok
+<a id='L123' name='L123'></a>  defp assert_preload!(_mode, term) <strong class='reserved'>do</strong>
+<a id='L124' name='L124'></a>    <a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.error! "cannot preload `#{Macro.to_string(term)}` inside join association preload"
+<a id='L125' name='L125'></a>  end
+<a id='L126' name='L126'></a>
+<a id='L127' name='L127'></a>  @doc """
+<a id='L128' name='L128'></a>  Called at runtime to check dynamic preload keys.
+<a id='L129' name='L129'></a>  """
+<a id='L130' name='L130'></a>  def <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>!(key) when is_atom(key),
+<a id='L131' name='L131'></a>    <strong class='reserved'>do</strong>: <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>
+<a id='L132' name='L132'></a>  def <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>!(key),
+<a id='L133' name='L133'></a>    <strong class='reserved'>do</strong>: <a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.error!("expected key in preload to be an atom, got: `#{inspect key}`")
+<a id='L134' name='L134'></a>
+<a id='L135' name='L135'></a>  @doc """
+<a id='L136' name='L136'></a>  Applies the preloaded value into the query.
+<a id='L137' name='L137'></a>
+<a id='L138' name='L138'></a>  The quoted expression should evaluate to a query at runtime.
+<a id='L139' name='L139'></a>  If possible, it does all calculations at compile time to avoid
+<a id='L140' name='L140'></a>  runtime work.
+<a id='L141' name='L141'></a>  """
+<a id='L142' name='L142'></a>  @spec <a href='../D/315.html' title='Multiple defined in 20 places.'>build</a>(Macro.t, [Macro.t], Macro.t, Macro.Env.t) :: Macro.t
+<a id='L143' name='L143'></a>  def <a href='../R/195.html' title='Multiple referred from 29 places.'>build</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, binding, <a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>, env) <strong class='reserved'>do</strong>
+<a id='L144' name='L144'></a>    binding = <a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.<a href='../D/565.html' title='Multiple defined in 2 places.'>escape_binding</a>(binding)
+<a id='L145' name='L145'></a>    <em class='brace'>{</em><a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>, <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a><em class='brace'>}</em> = <a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>, binding)
+<a id='L146' name='L146'></a>    <a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.<a href='../S/119.html#L601' title='Defined at 601 in deps/ecto/lib/ecto/query/builder.ex.'>apply_query</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, __MODULE__, [Enum.<a href='../D/991.html' title='Multiple defined in 5 places.'>reverse</a>(<a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>), Enum.reverse(<a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a>)], env)
+<a id='L147' name='L147'></a>  end
+<a id='L148' name='L148'></a>
+<a id='L149' name='L149'></a>  @doc """
+<a id='L150' name='L150'></a>  The callback applied by `build/4` to build the query.
+<a id='L151' name='L151'></a>  """
+<a id='L152' name='L152'></a>  @spec <a href='../D/244.html' title='Multiple defined in 16 places.'>apply</a>(Ecto.Queryable.t, term, term) :: Ecto.Query.t
+<a id='L153' name='L153'></a>  def <a href='../R/131.html' title='Multiple referred from 62 places.'>apply</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, <a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>, <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a>) <strong class='reserved'>do</strong>
+<a id='L154' name='L154'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = Ecto.Queryable.<a href='../D/1117.html' title='Multiple defined in 5 places.'>to_query</a>(query)
+<a id='L155' name='L155'></a>    %<em class='brace'>{</em><a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> | <a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>: query.preloads ++ preloads, <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a>: query.assocs ++ assocs<em class='brace'>}</em>
+<a id='L156' name='L156'></a>  end
+<a id='L157' name='L157'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L43'>[^]</a><a href='#L153'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

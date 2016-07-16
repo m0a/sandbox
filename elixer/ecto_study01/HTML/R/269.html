@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>context</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/47.html#L165'>context</a>           165 deps/decimal/lib/decimal.ex   defmacrop error(flags, reason, result, context \\ nil) do</span>
+<span class='curline'><a href='../S/47.html#L167'>context</a>           167 deps/decimal/lib/decimal.ex       case handle_error(flags, reason, result, context) do</span>
+<span class='curline'><a href='../S/47.html#L209'>context</a>           209 deps/decimal/lib/decimal.ex     %{num | sign: 1} |&gt; context</span>
+<span class='curline'><a href='../S/47.html#L253'>context</a>           253 deps/decimal/lib/decimal.ex     %Decimal{sign: sign, coef: Kernel.abs(coef), exp: exp} |&gt; context</span>
+<span class='curline'><a href='../S/47.html#L361'>context</a>           361 deps/decimal/lib/decimal.ex       |&gt; context([])</span>
+<span class='curline'><a href='../S/47.html#L368'>context</a>           368 deps/decimal/lib/decimal.ex       |&gt; context(signals)</span>
+<span class='curline'><a href='../S/47.html#L464'>context</a>           464 deps/decimal/lib/decimal.ex         {%{num1 | sign: div_sign} |&gt; context,</span>
+<span class='curline'><a href='../S/47.html#L465'>context</a>           465 deps/decimal/lib/decimal.ex           %{num2 | sign: sign1} |&gt; context}</span>
+<span class='curline'><a href='../S/47.html#L480'>context</a>           480 deps/decimal/lib/decimal.ex           {%Decimal{sign: div_sign, coef: div_coef} |&gt; context,</span>
+<span class='curline'><a href='../S/47.html#L481'>context</a>           481 deps/decimal/lib/decimal.ex             %Decimal{sign: sign1, coef: rem, exp: adjust3} |&gt; context}</span>
+<span class='curline'><a href='../S/47.html#L515'>context</a>           515 deps/decimal/lib/decimal.ex     end |&gt; context</span>
+<span class='curline'><a href='../S/47.html#L547'>context</a>           547 deps/decimal/lib/decimal.ex     end |&gt; context</span>
+<span class='curline'><a href='../S/47.html#L563'>context</a>           563 deps/decimal/lib/decimal.ex     %{num | sign: -sign} |&gt; context</span>
+<span class='curline'><a href='../S/47.html#L575'>context</a>           575 deps/decimal/lib/decimal.ex     context(num)</span>
+<span class='curline'><a href='../S/47.html#L624'>context</a>           624 deps/decimal/lib/decimal.ex     %Decimal{sign: sign, coef: coef1 * coef2, exp: exp1 + exp2} |&gt; context</span>
+<span class='curline'><a href='../S/47.html#L649'>context</a>           649 deps/decimal/lib/decimal.ex       %{do_reduce(coef, exp) | sign: sign} |&gt; context</span>
+<span class='curline'><a href='../S/47.html#L676'>context</a>           676 deps/decimal/lib/decimal.ex     context(value, [])</span>
+<span class='curline'><a href='../S/47.html#L821'>context</a>           821 deps/decimal/lib/decimal.ex   def with_context(%Context{} = context, fun) when is_function(fun, 0) do</span>
+<span class='curline'><a href='../S/47.html#L822'>context</a>           822 deps/decimal/lib/decimal.ex     old = Process.put(@context_key, context)</span>
+<span class='curline'><a href='../S/47.html#L842'>context</a>           842 deps/decimal/lib/decimal.ex   def set_context(%Context{} = context) do</span>
+<span class='curline'><a href='../S/47.html#L843'>context</a>           843 deps/decimal/lib/decimal.ex     Process.put(@context_key, context)</span>
+<span class='curline'><a href='../S/47.html#L1148'>context</a>          1148 deps/decimal/lib/decimal.ex   defp handle_error(signals, reason, result, context) do</span>
+<span class='curline'><a href='../S/47.html#L1149'>context</a>          1149 deps/decimal/lib/decimal.ex     context = context || get_context()</span>
+<span class='curline'><a href='../S/47.html#L1152'>context</a>          1152 deps/decimal/lib/decimal.ex     flags = Enum.reduce(signals, context.flags, &amp;put_uniq(&amp;2, &amp;1))</span>
+<span class='curline'><a href='../S/47.html#L1153'>context</a>          1153 deps/decimal/lib/decimal.ex     set_context(%{context | flags: flags})</span>
+<span class='curline'><a href='../S/47.html#L1155'>context</a>          1155 deps/decimal/lib/decimal.ex     error_signal = Enum.find(signals, &amp;(&amp;1 in context.traps))</span>
+<span class='curline'><a href='../S/134.html#L562'>context</a>           562 deps/ecto/lib/ecto.ex   defp update_meta([{:context, context}|t], meta) do</span>
+<span class='curline'><a href='../S/134.html#L563'>context</a>           563 deps/ecto/lib/ecto.ex     update_meta t, %{meta | context: context}</span>
+<span class='curline'><a href='../S/72.html#L22'>context</a>            22 deps/ecto/lib/ecto/adapter.ex   @type preprocess :: (field :: Macro.t, value :: term, context :: term -&gt; term)</span>
+<span class='curline'><a href='../S/119.html#L32'>context</a>            32 deps/ecto/lib/ecto/query/builder.ex   def escape({{:., _, [{var, _, context}, field]}, _, []}, _type, params, vars, _env)</span>
+<span class='curline'><a href='../S/119.html#L33'>context</a>            33 deps/ecto/lib/ecto/query/builder.ex       when is_atom(var) and is_atom(context) and is_atom(field) do</span>
+<span class='curline'><a href='../S/119.html#L38'>context</a>            38 deps/ecto/lib/ecto/query/builder.ex   def escape({:field, _, [{var, _, context}, field]}, _type, params, vars, _env)</span>
+<span class='curline'><a href='../S/119.html#L39'>context</a>            39 deps/ecto/lib/ecto/query/builder.ex       when is_atom(var) and is_atom(context) do</span>
+<span class='curline'><a href='../S/119.html#L212'>context</a>           212 deps/ecto/lib/ecto/query/builder.ex   def escape({name, _, context} = var, _type, _params, _vars, _env) when is_atom(name) and is_atom(context) do</span>
+<span class='curline'><a href='../S/119.html#L315'>context</a>           315 deps/ecto/lib/ecto/query/builder.ex   defp validate_type!({{:., _, [{var, _, context}, field]}, _, []}, vars)</span>
+<span class='curline'><a href='../S/119.html#L316'>context</a>           316 deps/ecto/lib/ecto/query/builder.ex     when is_atom(var) and is_atom(context) and is_atom(field),</span>
+<span class='curline'><a href='../S/119.html#L318'>context</a>           318 deps/ecto/lib/ecto/query/builder.ex   defp validate_type!({:field, _, [{var, _, context}, field]}, vars)</span>
+<span class='curline'><a href='../S/119.html#L319'>context</a>           319 deps/ecto/lib/ecto/query/builder.ex     when is_atom(var) and is_atom(context) and is_atom(field),</span>
+<span class='curline'><a href='../S/119.html#L399'>context</a>           399 deps/ecto/lib/ecto/query/builder.ex   defp escape_bind({{var, _, context}, ix}) when is_atom(var) and is_atom(context),</span>
+<span class='curline'><a href='../S/119.html#L471'>context</a>           471 deps/ecto/lib/ecto/query/builder.ex   def quoted_type({{:., _, [{var, _, context}, field]}, _, []}, vars)</span>
+<span class='curline'><a href='../S/119.html#L472'>context</a>           472 deps/ecto/lib/ecto/query/builder.ex     when is_atom(var) and is_atom(context) and is_atom(field),</span>
+<span class='curline'><a href='../S/119.html#L475'>context</a>           475 deps/ecto/lib/ecto/query/builder.ex   def quoted_type({:field, _, [{var, _, context}, field]}, vars)</span>
+<span class='curline'><a href='../S/119.html#L476'>context</a>           476 deps/ecto/lib/ecto/query/builder.ex     when is_atom(var) and is_atom(context) and is_atom(field),</span>
+<span class='curline'><a href='../S/119.html#L483'>context</a>           483 deps/ecto/lib/ecto/query/builder.ex   def quoted_type({:field, _, [{var, _, context}, {:^, _, [code]}]}, vars)</span>
+<span class='curline'><a href='../S/119.html#L484'>context</a>           484 deps/ecto/lib/ecto/query/builder.ex     when is_atom(var) and is_atom(context),</span>
+<span class='curline'><a href='../S/112.html#L38'>context</a>            38 deps/ecto/lib/ecto/query/builder/join.ex   def escape({:in, _, [{var, _, context}, expr]}, vars, env)</span>
+<span class='curline'><a href='../S/112.html#L39'>context</a>            39 deps/ecto/lib/ecto/query/builder/join.ex       when is_atom(var) and is_atom(context) do</span>
+<span class='curline'><a href='../S/112.html#L65'>context</a>            65 deps/ecto/lib/ecto/query/builder/join.ex   def escape({:assoc, _, [{var, _, context}, field]}, vars, _env)</span>
+<span class='curline'><a href='../S/112.html#L66'>context</a>            66 deps/ecto/lib/ecto/query/builder/join.ex       when is_atom(var) and is_atom(context) do</span>
+<span class='curline'><a href='../S/116.html#L77'>context</a>            77 deps/ecto/lib/ecto/query/builder/preload.ex   defp escape_each({key, {var, _, context}}, mode, {preloads, assocs}, vars) when is_atom(context) do</span>
+<span class='curline'><a href='../S/116.html#L84'>context</a>            84 deps/ecto/lib/ecto/query/builder/preload.ex   defp escape_each({key, {{var, _, context}, list}}, mode, {preloads, assocs}, vars) when is_atom(context) do</span>
+<span class='curline'><a href='../S/117.html#L64'>context</a>            64 deps/ecto/lib/ecto/query/builder/select.ex   defp escape({var, _, context}, params, vars, _env)</span>
+<span class='curline'><a href='../S/117.html#L65'>context</a>            65 deps/ecto/lib/ecto/query/builder/select.ex       when is_atom(var) and is_atom(context) do</span>
+<span class='curline'><a href='../S/126.html#L109'>context</a>           109 deps/ecto/lib/ecto/repo/queryable.ex   defp preprocess({:&amp;, _, [ix]}, value, prefix, context, sources, adapter) do</span>
+<span class='curline'><a href='../S/126.html#L111'>context</a>           111 deps/ecto/lib/ecto/repo/queryable.ex     Ecto.Schema.__load__(model, prefix, source, context, value, &amp;adapter.load/2)</span>
+<span class='curline'><a href='../S/130.html#L952'>context</a>           952 deps/ecto/lib/ecto/schema.ex   def __load__(model, prefix, source, context, data, loader) do</span>
+<span class='curline'><a href='../S/130.html#L959'>context</a>           959 deps/ecto/lib/ecto/schema.ex                      %Metadata{state: :loaded, source: {prefix, source}, context: context})</span>
+</pre>
+</body>
+</html>

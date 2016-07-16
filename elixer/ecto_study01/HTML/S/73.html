@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/adapters/connection.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/<a href='../files/235.html'>adapters</a>/connection.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L20'>[^]</a><a href='#L74'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L20' title='Defined at 20.'>connect</a></li>
+<li><a href='#L26' title='Defined at 26.'>connect</a></li>
+<li><a href='#L35' title='Defined at 35.'>after_connect</a></li>
+<li><a href='#L64' title='Defined at 64.'>shutdown</a></li>
+<li><a href='#L66' title='Defined at 66.'>shutdown</a></li>
+<li><a href='#L74' title='Defined at 74.'>shutdown</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Adapters.<a href='../R/13.html' title='Multiple referred from 37 places.'>Connection</a> <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc """
+<a id='L3' name='L3'></a>  Behaviour <strong class='reserved'>for</strong> adapters that rely on connections.
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a>  In order to use a connection, adapter developers need to implement
+<a id='L6' name='L6'></a>  a single callback in a module: `connect/1` defined in this module.
+<a id='L7' name='L7'></a>
+<a id='L8' name='L8'></a>  The benefits of implementing this module is that the adapter can
+<a id='L9' name='L9'></a>  then be used with all the different pools provided by Ecto.
+<a id='L10' name='L10'></a>  """
+<a id='L11' name='L11'></a>
+<a id='L12' name='L12'></a>  use Behaviour
+<a id='L13' name='L13'></a>
+<a id='L14' name='L14'></a>  @doc """
+<a id='L15' name='L15'></a>  Connects to the underlying database.
+<a id='L16' name='L16'></a>
+<a id='L17' name='L17'></a>  Should <strong class='reserved'>return</strong> a process which is linked to
+<a id='L18' name='L18'></a>  the caller process or an error.
+<a id='L19' name='L19'></a>  """
+<a id='L20' name='L20'></a>  defcallback <a href='../R/262.html' title='Multiple referred from 30 places.'>connect</a>(Keyword.t) :: <em class='brace'>{</em>:ok, pid<em class='brace'>}</em> | <em class='brace'>{</em>:error, term<em class='brace'>}</em>
+<a id='L21' name='L21'></a>
+<a id='L22' name='L22'></a>  @doc """
+<a id='L23' name='L23'></a>  Executes the connect in the given module, ensuring the repository's
+<a id='L24' name='L24'></a>  `after_connect/1` is invoked in the process.
+<a id='L25' name='L25'></a>  """
+<a id='L26' name='L26'></a>  def <a href='../R/262.html' title='Multiple referred from 30 places.'>connect</a>(module, opts) <strong class='reserved'>do</strong>
+<a id='L27' name='L27'></a>    <strong class='reserved'>case</strong> module.<a href='../D/385.html' title='Multiple defined in 15 places.'>connect</a>(opts) <strong class='reserved'>do</strong>
+<a id='L28' name='L28'></a>      <em class='brace'>{</em>:ok, conn<em class='brace'>}</em> -&gt;
+<a id='L29' name='L29'></a>        <a href='../D/233.html' title='Multiple defined in 3 places.'>after_connect</a>(conn, opts)
+<a id='L30' name='L30'></a>      <em class='brace'>{</em>:<a href='../D/560.html' title='Multiple defined in 2 places.'>error</a>, _<em class='brace'>}</em> = error -&gt;
+<a id='L31' name='L31'></a>        <a href='../D/560.html' title='Multiple defined in 2 places.'>error</a>
+<a id='L32' name='L32'></a>    end
+<a id='L33' name='L33'></a>  end
+<a id='L34' name='L34'></a>
+<a id='L35' name='L35'></a>  defp <a href='../R/125.html' title='Multiple referred from 6 places.'>after_connect</a>(conn, opts) <strong class='reserved'>do</strong>
+<a id='L36' name='L36'></a>    <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a> = opts[:repo]
+<a id='L37' name='L37'></a>    <strong class='reserved'>if</strong> function_exported?(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, :after_connect, 1) <strong class='reserved'>do</strong>
+<a id='L38' name='L38'></a>      try <strong class='reserved'>do</strong>
+<a id='L39' name='L39'></a>        <a href='../D/177.html' title='Multiple defined in 2 places.'>Task</a>.async(fn -&gt; <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>.<a href='../D/233.html' title='Multiple defined in 3 places.'>after_connect</a>(conn) end)
+<a id='L40' name='L40'></a>        |&gt; <a href='../D/177.html' title='Multiple defined in 2 places.'>Task</a>.await(opts[:timeout])
+<a id='L41' name='L41'></a>      catch
+<a id='L42' name='L42'></a>        :exit, <em class='brace'>{</em>:timeout, [<a href='../D/177.html' title='Multiple defined in 2 places.'>Task</a>, :await, [%Task<em class='brace'>{</em>pid: task_pid<em class='brace'>}</em>, _]]<em class='brace'>}</em> -&gt;
+<a id='L43' name='L43'></a>          <a href='../D/1038.html' title='Multiple defined in 3 places.'>shutdown</a>(task_pid, :brutal_kill)
+<a id='L44' name='L44'></a>          <a href='../D/1038.html' title='Multiple defined in 3 places.'>shutdown</a>(conn, :brutal_kill)
+<a id='L45' name='L45'></a>          <em class='brace'>{</em>:error, :timeout<em class='brace'>}</em>
+<a id='L46' name='L46'></a>        :exit, <em class='brace'>{</em><a href='../D/954.html' title='Multiple defined in 3 places.'>reason</a>, <em class='brace'>{</em><a href='../D/177.html' title='Multiple defined in 2 places.'>Task</a>, :await, _<em class='brace'>}</em><em class='brace'>}</em> -&gt;
+<a id='L47' name='L47'></a>          <a href='../D/1038.html' title='Multiple defined in 3 places.'>shutdown</a>(conn, :brutal_kill)
+<a id='L48' name='L48'></a>          <em class='brace'>{</em>:error, <a href='../D/954.html' title='Multiple defined in 3 places.'>reason</a><em class='brace'>}</em>
+<a id='L49' name='L49'></a>      <strong class='reserved'>else</strong>
+<a id='L50' name='L50'></a>        _ -&gt; <em class='brace'>{</em>:ok, conn<em class='brace'>}</em>
+<a id='L51' name='L51'></a>      end
+<a id='L52' name='L52'></a>    <strong class='reserved'>else</strong>
+<a id='L53' name='L53'></a>      <em class='brace'>{</em>:ok, conn<em class='brace'>}</em>
+<a id='L54' name='L54'></a>    end
+<a id='L55' name='L55'></a>  end
+<a id='L56' name='L56'></a>
+<a id='L57' name='L57'></a>  @doc """
+<a id='L58' name='L58'></a>  Shutdown the given connection `pid`.
+<a id='L59' name='L59'></a>
+<a id='L60' name='L60'></a>  If `pid` does not exit within `timeout` it is killed, or it is killed
+<a id='L61' name='L61'></a>  immediately <strong class='reserved'>if</strong> `:brutal_kill`.
+<a id='L62' name='L62'></a>  """
+<a id='L63' name='L63'></a>  @spec <a href='../D/1038.html' title='Multiple defined in 3 places.'>shutdown</a>(pid, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a> | :brutal_kill) :: :ok
+<a id='L64' name='L64'></a>  def <a href='../R/879.html' title='Multiple referred from 21 places.'>shutdown</a>(pid, shutdown \\ 5_000)
+<a id='L65' name='L65'></a>
+<a id='L66' name='L66'></a>  def <a href='../R/879.html' title='Multiple referred from 21 places.'>shutdown</a>(pid, :brutal_kill) <strong class='reserved'>do</strong>
+<a id='L67' name='L67'></a>    ref = Process.<a href='../S/101.html#L143' title='Defined at 143 in deps/ecto/lib/ecto/pools/poolboy/worker.ex.'>monitor</a>(pid)
+<a id='L68' name='L68'></a>    Process.exit(pid, :kill)
+<a id='L69' name='L69'></a>    receive <strong class='reserved'>do</strong>
+<a id='L70' name='L70'></a>      <em class='brace'>{</em>:DOWN, ^ref, _, _, _<em class='brace'>}</em> -&gt; :ok
+<a id='L71' name='L71'></a>    end
+<a id='L72' name='L72'></a>  end
+<a id='L73' name='L73'></a>
+<a id='L74' name='L74'></a>  def <a href='../R/879.html' title='Multiple referred from 21 places.'>shutdown</a>(pid, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>) <strong class='reserved'>do</strong>
+<a id='L75' name='L75'></a>    ref = Process.<a href='../S/101.html#L143' title='Defined at 143 in deps/ecto/lib/ecto/pools/poolboy/worker.ex.'>monitor</a>(pid)
+<a id='L76' name='L76'></a>    Process.exit(pid, :shutdown)
+<a id='L77' name='L77'></a>    receive <strong class='reserved'>do</strong>
+<a id='L78' name='L78'></a>      <em class='brace'>{</em>:DOWN, ^ref, _, _, _<em class='brace'>}</em> -&gt; :ok
+<a id='L79' name='L79'></a>    after
+<a id='L80' name='L80'></a>      <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a> -&gt;
+<a id='L81' name='L81'></a>        Process.exit(pid, :kill)
+<a id='L82' name='L82'></a>        receive <strong class='reserved'>do</strong>
+<a id='L83' name='L83'></a>          <em class='brace'>{</em>:DOWN, ^ref, _, _, _<em class='brace'>}</em> -&gt; :ok
+<a id='L84' name='L84'></a>        end
+<a id='L85' name='L85'></a>    end
+<a id='L86' name='L86'></a>  end
+<a id='L87' name='L87'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L20'>[^]</a><a href='#L74'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

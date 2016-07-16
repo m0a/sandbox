@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/migration/schema_migration.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/<a href='../files/240.html'>migration</a>/schema_migration.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L16'>[^]</a><a href='#L33'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L16' title='Defined at 16.'>ensure_schema_migrations_table!</a></li>
+<li><a href='#L21' title='Defined at 21.'>migrated_versions</a></li>
+<li><a href='#L25' title='Defined at 25.'>up</a></li>
+<li><a href='#L29' title='Defined at 29.'>down</a></li>
+<li><a href='#L33' title='Defined at 33.'>create_migrations_table</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Migration.<a href='../R/77.html' title='Multiple referred from 6 places.'>SchemaMigration</a> <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  # Define a schema that works with the schema_migrations table
+<a id='L3' name='L3'></a>  @moduledoc false
+<a id='L4' name='L4'></a>  use Ecto.Schema
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>  import Ecto.Query, only: [from: 2]
+<a id='L7' name='L7'></a>
+<a id='L8' name='L8'></a>  @primary_key false
+<a id='L9' name='L9'></a>  <a href='../S/130.html#L310' title='Defined at 310 in deps/ecto/lib/ecto/schema.ex.'>schema</a> "schema_migrations" <strong class='reserved'>do</strong>
+<a id='L10' name='L10'></a>    <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :version, :integer
+<a id='L11' name='L11'></a>    <a href='../D/1103.html' title='Multiple defined in 2 places.'>timestamps</a> updated_at: false
+<a id='L12' name='L12'></a>  end
+<a id='L13' name='L13'></a>
+<a id='L14' name='L14'></a>  @opts [timeout: :infinity, log: false]
+<a id='L15' name='L15'></a>
+<a id='L16' name='L16'></a>  def ensure_schema_migrations_table!(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, <a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>) <strong class='reserved'>do</strong>
+<a id='L17' name='L17'></a>    adapter = <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>.<a href='../D/199.html' title='Multiple defined in 2 places.'>__adapter__</a>
+<a id='L18' name='L18'></a>    <a href='../S/92.html#L33' title='Defined at 33 in deps/ecto/lib/ecto/migration/schema_migration.ex.'>create_migrations_table</a>(adapter, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, <a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>)
+<a id='L19' name='L19'></a>  end
+<a id='L20' name='L20'></a>
+<a id='L21' name='L21'></a>  def <a href='../R/632.html' title='Multiple referred from 10 places.'>migrated_versions</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, <a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>) <strong class='reserved'>do</strong>
+<a id='L22' name='L22'></a>    <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a> <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in __MODULE__, select: p.version) |&gt; Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(:<a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>, prefix), @opts
+<a id='L23' name='L23'></a>  end
+<a id='L24' name='L24'></a>
+<a id='L25' name='L25'></a>  def <a href='../R/1003.html' title='Multiple referred from 22 places.'>up</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, version, <a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>) <strong class='reserved'>do</strong>
+<a id='L26' name='L26'></a>    <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>.insert! %__MODULE__<em class='brace'>{</em>version: version<em class='brace'>}</em> |&gt; <a href='../D/46.html' title='Multiple defined in 2 places.'>Ecto</a>.<a href='../S/134.html#L542' title='Defined at 542 in deps/ecto/lib/ecto.ex.'>put_meta</a>(<a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>: prefix), @opts
+<a id='L27' name='L27'></a>  end
+<a id='L28' name='L28'></a>
+<a id='L29' name='L29'></a>  def <a href='../R/382.html' title='Multiple referred from 22 places.'>down</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, version, <a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>) <strong class='reserved'>do</strong>
+<a id='L30' name='L30'></a>    <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>.<a href='../D/446.html' title='Multiple defined in 6 places.'>delete_all</a> <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in __MODULE__, where: p.version == ^version) |&gt; Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(:<a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>, prefix), @opts
+<a id='L31' name='L31'></a>  end
+<a id='L32' name='L32'></a>
+<a id='L33' name='L33'></a>  defp <a href='../S/92.html#L18' title='Referred from 18 in deps/ecto/lib/ecto/migration/schema_migration.ex.'>create_migrations_table</a>(adapter, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, <a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>) <strong class='reserved'>do</strong>
+<a id='L34' name='L34'></a>    <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a> = %Ecto.Migration.Table<em class='brace'>{</em>name: :schema_migrations, <a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>: prefix<em class='brace'>}</em>
+<a id='L35' name='L35'></a>
+<a id='L36' name='L36'></a>    # DDL queries <strong class='reserved'>do</strong> not log, so we <strong class='reserved'>do</strong> not need to pass log: false here.
+<a id='L37' name='L37'></a>    adapter.<a href='../D/585.html' title='Multiple defined in 24 places.'>execute_ddl</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>,
+<a id='L38' name='L38'></a>      <em class='brace'>{</em>:create_if_not_exists, <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a>, [
+<a id='L39' name='L39'></a>        <em class='brace'>{</em>:add, :version, :bigint, primary_key: true<em class='brace'>}</em>,
+<a id='L40' name='L40'></a>        <em class='brace'>{</em>:add, :inserted_at, :datetime, []<em class='brace'>}</em>]<em class='brace'>}</em>, @opts)
+<a id='L41' name='L41'></a>  end
+<a id='L42' name='L42'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L16'>[^]</a><a href='#L33'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

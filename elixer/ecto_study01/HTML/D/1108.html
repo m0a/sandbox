@@ -1,0 +1,18 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>to_desc</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/196.html#L78'>to_desc</a>            78 deps/postgrex/lib/postgrex/utils.ex defp to_desc(struct) when is_atom(struct), do: "%#{inspect struct}{}"</span>
+<span class='curline'><a href='../S/196.html#L79'>to_desc</a>            79 deps/postgrex/lib/postgrex/utils.ex defp to_desc(%Range{} = range), do: "an integer in #{inspect range}"</span>
+<span class='curline'><a href='../S/196.html#L80'>to_desc</a>            80 deps/postgrex/lib/postgrex/utils.ex defp to_desc({a, b}), do: to_desc(a) &lt;&gt; " or " &lt;&gt; to_desc(b)</span>
+<span class='curline'><a href='../S/196.html#L81'>to_desc</a>            81 deps/postgrex/lib/postgrex/utils.ex defp to_desc(desc) when is_binary(desc), do: desc</span>
+</pre>
+</body>
+</html>

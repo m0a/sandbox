@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/postgrex/lib/postgrex/binary_utils.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/252.html'>postgrex</a>/<a href='../files/253.html'>lib</a>/<a href='../files/254.html'>postgrex</a>/binary_utils.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L36'>[^]</a><a href='#L40'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L36' title='Defined at 36.'>binary</a></li>
+<li><a href='#L40' title='Defined at 40.'>binary</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Postgrex.BinaryUtils <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc false
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>  defmacro int64 <strong class='reserved'>do</strong>
+<a id='L5' name='L5'></a>    quote <strong class='reserved'>do</strong>: <strong class='reserved'>signed</strong>-64
+<a id='L6' name='L6'></a>  end
+<a id='L7' name='L7'></a>
+<a id='L8' name='L8'></a>  defmacro int32 <strong class='reserved'>do</strong>
+<a id='L9' name='L9'></a>    quote <strong class='reserved'>do</strong>: <strong class='reserved'>signed</strong>-32
+<a id='L10' name='L10'></a>  end
+<a id='L11' name='L11'></a>
+<a id='L12' name='L12'></a>  defmacro int16 <strong class='reserved'>do</strong>
+<a id='L13' name='L13'></a>    quote <strong class='reserved'>do</strong>: <strong class='reserved'>signed</strong>-16
+<a id='L14' name='L14'></a>  end
+<a id='L15' name='L15'></a>
+<a id='L16' name='L16'></a>  defmacro uint16 <strong class='reserved'>do</strong>
+<a id='L17' name='L17'></a>    quote <strong class='reserved'>do</strong>: <strong class='reserved'>unsigned</strong>-16
+<a id='L18' name='L18'></a>  end
+<a id='L19' name='L19'></a>
+<a id='L20' name='L20'></a>  defmacro uint32 <strong class='reserved'>do</strong>
+<a id='L21' name='L21'></a>    quote <strong class='reserved'>do</strong>: <strong class='reserved'>unsigned</strong>-32
+<a id='L22' name='L22'></a>  end
+<a id='L23' name='L23'></a>
+<a id='L24' name='L24'></a>  defmacro int8 <strong class='reserved'>do</strong>
+<a id='L25' name='L25'></a>    quote <strong class='reserved'>do</strong>: <strong class='reserved'>signed</strong>-8
+<a id='L26' name='L26'></a>  end
+<a id='L27' name='L27'></a>
+<a id='L28' name='L28'></a>  defmacro float64 <strong class='reserved'>do</strong>
+<a id='L29' name='L29'></a>    quote <strong class='reserved'>do</strong>: <strong class='reserved'>float</strong>-64
+<a id='L30' name='L30'></a>  end
+<a id='L31' name='L31'></a>
+<a id='L32' name='L32'></a>  defmacro float32 <strong class='reserved'>do</strong>
+<a id='L33' name='L33'></a>    quote <strong class='reserved'>do</strong>: <strong class='reserved'>float</strong>-32
+<a id='L34' name='L34'></a>  end
+<a id='L35' name='L35'></a>
+<a id='L36' name='L36'></a>  defmacro <a href='../R/179.html' title='Multiple referred from 118 places.'>binary</a>(size) <strong class='reserved'>do</strong>
+<a id='L37' name='L37'></a>    quote <strong class='reserved'>do</strong>: <a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>-size(unquote(size))
+<a id='L38' name='L38'></a>  end
+<a id='L39' name='L39'></a>
+<a id='L40' name='L40'></a>  defmacro <a href='../R/179.html' title='Multiple referred from 118 places.'>binary</a>(size, unit) <strong class='reserved'>do</strong>
+<a id='L41' name='L41'></a>    quote <strong class='reserved'>do</strong>: <a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>-size(unquote(size))-unit(unquote(unit))
+<a id='L42' name='L42'></a>  end
+<a id='L43' name='L43'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L36'>[^]</a><a href='#L40'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

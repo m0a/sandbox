@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/postgrex/lib/postgrex/utils.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/252.html'>postgrex</a>/<a href='../files/253.html'>lib</a>/<a href='../files/254.html'>postgrex</a>/utils.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L33'>[^]</a><a href='#L81'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L33' title='Defined at 33.'>parse_version</a></li>
+<li><a href='#L50' title='Defined at 50.'>default_opts</a></li>
+<li><a href='#L62' title='Defined at 62.'>default_extensions</a></li>
+<li><a href='#L69' title='Defined at 69.'>encode_msg</a></li>
+<li><a href='#L78' title='Defined at 78.'>to_desc</a></li>
+<li><a href='#L79' title='Defined at 79.'>to_desc</a></li>
+<li><a href='#L80' title='Defined at 80.'>to_desc</a></li>
+<li><a href='#L81' title='Defined at 81.'>to_desc</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Postgrex.Utils <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc false
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>  @extensions [
+<a id='L5' name='L5'></a>    Postgrex.Extensions.Array,
+<a id='L6' name='L6'></a>    Postgrex.Extensions.Bool,
+<a id='L7' name='L7'></a>    Postgrex.Extensions.Date,
+<a id='L8' name='L8'></a>    Postgrex.Extensions.Float4,
+<a id='L9' name='L9'></a>    Postgrex.Extensions.Float8,
+<a id='L10' name='L10'></a>    Postgrex.Extensions.HStore,
+<a id='L11' name='L11'></a>    Postgrex.Extensions.Int2,
+<a id='L12' name='L12'></a>    Postgrex.Extensions.Int4,
+<a id='L13' name='L13'></a>    Postgrex.Extensions.Int8,
+<a id='L14' name='L14'></a>    Postgrex.Extensions.Interval,
+<a id='L15' name='L15'></a>    Postgrex.Extensions.MACADDR,
+<a id='L16' name='L16'></a>    Postgrex.Extensions.Network,
+<a id='L17' name='L17'></a>    Postgrex.Extensions.Numeric,
+<a id='L18' name='L18'></a>    Postgrex.Extensions.OID,
+<a id='L19' name='L19'></a>    Postgrex.Extensions.Point,
+<a id='L20' name='L20'></a>    Postgrex.Extensions.Range,
+<a id='L21' name='L21'></a>    Postgrex.Extensions.Raw,
+<a id='L22' name='L22'></a>    Postgrex.Extensions.Record,
+<a id='L23' name='L23'></a>    Postgrex.Extensions.TID,
+<a id='L24' name='L24'></a>    Postgrex.Extensions.Time,
+<a id='L25' name='L25'></a>    Postgrex.Extensions.Timestamp,
+<a id='L26' name='L26'></a>    Postgrex.Extensions.Interval,
+<a id='L27' name='L27'></a>    Postgrex.Extensions.UUID,
+<a id='L28' name='L28'></a>    Postgrex.Extensions.Void]
+<a id='L29' name='L29'></a>
+<a id='L30' name='L30'></a>  @doc """
+<a id='L31' name='L31'></a>  Converts pg major.minor.patch (http:<em class='comment'>//www.postgresql.org/support/versioning) version to an integer</em>
+<a id='L32' name='L32'></a>  """
+<a id='L33' name='L33'></a>  def <a href='../R/721.html' title='Multiple referred from 2 places.'>parse_version</a>(version) <strong class='reserved'>do</strong>
+<a id='L34' name='L34'></a>    list =
+<a id='L35' name='L35'></a>      version
+<a id='L36' name='L36'></a>      |&gt; String.split(".")
+<a id='L37' name='L37'></a>      |&gt; Enum.map(&amp;elem(Integer.<a href='../D/856.html' title='Multiple defined in 25 places.'>parse</a>(&amp;1), 0))
+<a id='L38' name='L38'></a>
+<a id='L39' name='L39'></a>    <strong class='reserved'>case</strong> list <strong class='reserved'>do</strong>
+<a id='L40' name='L40'></a>      [major, minor, patch] -&gt; <em class='brace'>{</em>major, minor, patch<em class='brace'>}</em>
+<a id='L41' name='L41'></a>      [major, minor] -&gt; <em class='brace'>{</em>major, minor, 0<em class='brace'>}</em>
+<a id='L42' name='L42'></a>      [major] -&gt; <em class='brace'>{</em>major, 0, 0<em class='brace'>}</em>
+<a id='L43' name='L43'></a>    end
+<a id='L44' name='L44'></a>  end
+<a id='L45' name='L45'></a>
+<a id='L46' name='L46'></a>  @doc """
+<a id='L47' name='L47'></a>  Fills in the given `opts` with <strong class='reserved'>default</strong> options.
+<a id='L48' name='L48'></a>  """
+<a id='L49' name='L49'></a>  @spec <a href='../S/196.html#L50' title='Defined at 50 in deps/postgrex/lib/postgrex/utils.ex.'>default_opts</a>(Keyword.t) :: Keyword.t
+<a id='L50' name='L50'></a>  def <a href='../R/317.html' title='Multiple referred from 4 places.'>default_opts</a>(opts) <strong class='reserved'>do</strong>
+<a id='L51' name='L51'></a>    opts
+<a id='L52' name='L52'></a>    |&gt; Keyword.put_new(:username, System.get_env("PGUSER") || System.get_env("USER"))
+<a id='L53' name='L53'></a>    |&gt; Keyword.put_new(:password, System.get_env("PGPASSWORD"))
+<a id='L54' name='L54'></a>    |&gt; Keyword.put_new(:hostname, System.get_env("PGHOST") || "localhost")
+<a id='L55' name='L55'></a>    |&gt; Keyword.put_new(:port, System.get_env("PGPORT"))
+<a id='L56' name='L56'></a>    |&gt; Enum.reject(fn <em class='brace'>{</em>_k, v<em class='brace'>}</em> -&gt; <a href='../S/107.html#L100' title='Defined at 100 in deps/ecto/lib/ecto/query/api.ex.'>is_nil</a>(v) end)
+<a id='L57' name='L57'></a>  end
+<a id='L58' name='L58'></a>
+<a id='L59' name='L59'></a>  @doc """
+<a id='L60' name='L60'></a>  List all <strong class='reserved'>default</strong> extensions.
+<a id='L61' name='L61'></a>  """
+<a id='L62' name='L62'></a>  def <a href='../S/190.html#L44' title='Referred from 44 in deps/postgrex/lib/postgrex/protocol.ex.'>default_extensions</a>() <strong class='reserved'>do</strong>
+<a id='L63' name='L63'></a>    unquote(Enum.map(@extensions, &amp;<em class='brace'>{</em>&amp;1, nil<em class='brace'>}</em>))
+<a id='L64' name='L64'></a>  end
+<a id='L65' name='L65'></a>
+<a id='L66' name='L66'></a>  @doc """
+<a id='L67' name='L67'></a>  Return encode error message.
+<a id='L68' name='L68'></a>  """
+<a id='L69' name='L69'></a>  def <a href='../R/404.html' title='Multiple referred from 25 places.'>encode_msg</a>(%Postgrex.TypeInfo<em class='brace'>{</em><a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>: type<em class='brace'>}</em>, observed, expected) <strong class='reserved'>do</strong>
+<a id='L70' name='L70'></a>    "Postgrex expected #{to_desc(expected)} that can be encoded/cast to " &lt;&gt;
+<a id='L71' name='L71'></a>    "type #{inspect type}, got #{inspect observed}. Please make sure the " &lt;&gt;
+<a id='L72' name='L72'></a>    "value you are passing matches the definition in your table or in your " &lt;&gt;
+<a id='L73' name='L73'></a>    "query or convert the value accordingly."
+<a id='L74' name='L74'></a>  end
+<a id='L75' name='L75'></a>
+<a id='L76' name='L76'></a><em class='sharp'>  #</em># Helpers
+<a id='L77' name='L77'></a>
+<a id='L78' name='L78'></a>  defp <a href='../S/196.html#L70' title='Referred from 70 in deps/postgrex/lib/postgrex/utils.ex.'>to_desc</a>(<strong class='reserved'>struct</strong>) when is_atom(<strong class='reserved'>struct</strong>), <strong class='reserved'>do</strong>: "%#{inspect struct}{}"
+<a id='L79' name='L79'></a>  defp <a href='../S/196.html#L70' title='Referred from 70 in deps/postgrex/lib/postgrex/utils.ex.'>to_desc</a>(%<a href='../D/145.html' title='Multiple defined in 2 places.'>Range</a><em class='brace'>{</em><em class='brace'>}</em> = range), <strong class='reserved'>do</strong>: "an integer in #{inspect range}"
+<a id='L80' name='L80'></a>  defp <a href='../S/196.html#L70' title='Referred from 70 in deps/postgrex/lib/postgrex/utils.ex.'>to_desc</a>(<em class='brace'>{</em>a, b<em class='brace'>}</em>), <strong class='reserved'>do</strong>: to_desc(a) &lt;&gt; " or " &lt;&gt; to_desc(b)
+<a id='L81' name='L81'></a>  defp <a href='../S/196.html#L70' title='Referred from 70 in deps/postgrex/lib/postgrex/utils.ex.'>to_desc</a>(desc) when is_binary(desc), <strong class='reserved'>do</strong>: desc
+<a id='L82' name='L82'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L33'>[^]</a><a href='#L81'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

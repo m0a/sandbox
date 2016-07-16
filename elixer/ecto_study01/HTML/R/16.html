@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Custom</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/55.html#L355'>Custom</a>            355 deps/ecto/integration_test/cases/preload.exs     c = TestRepo.insert!(%Custom{})</span>
+<span class='curline'><a href='../S/56.html#L164'>Custom</a>            164 deps/ecto/integration_test/cases/repo.exs     custom = TestRepo.insert!(%Custom{bid: nil})</span>
+<span class='curline'><a href='../S/56.html#L166'>Custom</a>            166 deps/ecto/integration_test/cases/repo.exs     assert TestRepo.get(Custom, custom.bid)</span>
+<span class='curline'><a href='../S/56.html#L168'>Custom</a>            168 deps/ecto/integration_test/cases/repo.exs     refute TestRepo.get(Custom, custom.bid)</span>
+<span class='curline'><a href='../S/56.html#L227'>Custom</a>            227 deps/ecto/integration_test/cases/repo.exs     changeset = Ecto.Changeset.change(%Custom{}, uuid: Ecto.UUID.generate())</span>
+<span class='curline'><a href='../S/56.html#L361'>Custom</a>            361 deps/ecto/integration_test/cases/repo.exs     custom = Ecto.put_meta(%Custom{}, source: "posts")</span>
+<span class='curline'><a href='../S/56.html#L364'>Custom</a>            364 deps/ecto/integration_test/cases/repo.exs     assert %Custom{bid: ^bid, __meta__: %{source: {nil, "posts"}}} =</span>
+<span class='curline'><a href='../S/56.html#L365'>Custom</a>            365 deps/ecto/integration_test/cases/repo.exs            TestRepo.get(from(c in {"posts", Custom}), bid)</span>
+<span class='curline'><a href='../S/57.html#L79'>Custom</a>             79 deps/ecto/integration_test/cases/type.exs     assert %Custom{} = custom = TestRepo.insert!(%Custom{})</span>
+<span class='curline'><a href='../S/57.html#L81'>Custom</a>             81 deps/ecto/integration_test/cases/type.exs     assert [^bid] = TestRepo.all(from c in Custom, select: c.bid)</span>
+<span class='curline'><a href='../S/57.html#L82'>Custom</a>             82 deps/ecto/integration_test/cases/type.exs     assert [^bid] = TestRepo.all(from c in Custom, select: type(^bid, :binary_id))</span>
+</pre>
+</body>
+</html>

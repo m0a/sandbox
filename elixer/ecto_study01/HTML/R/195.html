@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>build</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/134.html#L469'>build</a>             469 deps/ecto/lib/ecto.ex     assoc.__struct__.build(assoc, struct, Dict.delete(attributes, :__meta__))</span>
+<span class='curline'><a href='../S/83.html#L301'>build</a>             301 deps/ecto/lib/ecto/association.ex     |&gt; build()</span>
+<span class='curline'><a href='../S/84.html#L183'>build</a>             183 deps/ecto/lib/ecto/changeset/relation.ex     {:ok, fun.(meta.__struct__.build(meta), params) |&gt; put_new_action(:insert)}</span>
+<span class='curline'><a href='../S/84.html#L187'>build</a>             187 deps/ecto/lib/ecto/changeset/relation.ex     {:ok, apply(model, fun_name, [meta.__struct__.build(meta), params])</span>
+<span class='curline'><a href='../S/122.html#L284'>build</a>             284 deps/ecto/lib/ecto/query.ex     {quoted, binds, count_bind} = From.build(expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L331'>build</a>             331 deps/ecto/lib/ecto/query.ex     {quoted, binds, count_bind} = Join.build(quoted, qual, binds, expr, on, count_bind, env)</span>
+<span class='curline'><a href='../S/122.html#L398'>build</a>             398 deps/ecto/lib/ecto/query.ex     Join.build(query, qual, binding, expr, on, nil, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L433'>build</a>             433 deps/ecto/lib/ecto/query.ex     Select.build(query, binding, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L469'>build</a>             469 deps/ecto/lib/ecto/query.ex     Distinct.build(query, binding, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L501'>build</a>             501 deps/ecto/lib/ecto/query.ex     Filter.build(:where, query, binding, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L539'>build</a>             539 deps/ecto/lib/ecto/query.ex     OrderBy.build(query, binding, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L560'>build</a>             560 deps/ecto/lib/ecto/query.ex     LimitOffset.build(:limit, query, binding, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L582'>build</a>             582 deps/ecto/lib/ecto/query.ex     LimitOffset.build(:offset, query, binding, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L610'>build</a>             610 deps/ecto/lib/ecto/query.ex     Lock.build(query, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L650'>build</a>             650 deps/ecto/lib/ecto/query.ex     Update.build(query, binding, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L680'>build</a>             680 deps/ecto/lib/ecto/query.ex     GroupBy.build(query, binding, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L708'>build</a>             708 deps/ecto/lib/ecto/query.ex     Filter.build(:having, query, binding, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L789'>build</a>             789 deps/ecto/lib/ecto/query.ex     Preload.build(query, bindings, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/108.html#L40'>build</a>              40 deps/ecto/lib/ecto/query/builder/distinct.ex   @spec build(Macro.t, [Macro.t], Macro.t, Macro.Env.t) :: Macro.t</span>
+<span class='curline'><a href='../S/109.html#L13'>build</a>              13 deps/ecto/lib/ecto/query/builder/filter.ex   @spec build(:where | :having, Macro.t, [Macro.t], Macro.t, Macro.Env.t) :: Macro.t</span>
+<span class='curline'><a href='../S/110.html#L52'>build</a>              52 deps/ecto/lib/ecto/query/builder/from.ex   @spec build(Macro.t, Macro.Env.t) :: {Macro.t, Keyword.t, non_neg_integer | nil}</span>
+<span class='curline'><a href='../S/111.html#L30'>build</a>              30 deps/ecto/lib/ecto/query/builder/group_by.ex   @spec build(Macro.t, [Macro.t], Macro.t, Macro.Env.t) :: Macro.t</span>
+<span class='curline'><a href='../S/112.html#L99'>build</a>              99 deps/ecto/lib/ecto/query/builder/join.ex   @spec build(Macro.t, atom, [Macro.t], Macro.t, Macro.t, Macro.t, Macro.Env.t) ::</span>
+<span class='curline'><a href='../S/113.html#L13'>build</a>              13 deps/ecto/lib/ecto/query/builder/limit_offset.ex   @spec build(:limit | :offset, Macro.t, [Macro.t], Macro.t, Macro.Env.t) :: Macro.t</span>
+<span class='curline'><a href='../S/114.html#L28'>build</a>              28 deps/ecto/lib/ecto/query/builder/lock.ex   @spec build(Macro.t, Macro.t, Macro.Env.t) :: Macro.t</span>
+<span class='curline'><a href='../S/115.html#L107'>build</a>             107 deps/ecto/lib/ecto/query/builder/order_by.ex   @spec build(Macro.t, [Macro.t], Macro.t, Macro.Env.t) :: Macro.t</span>
+<span class='curline'><a href='../S/116.html#L142'>build</a>             142 deps/ecto/lib/ecto/query/builder/preload.ex   @spec build(Macro.t, [Macro.t], Macro.t, Macro.Env.t) :: Macro.t</span>
+<span class='curline'><a href='../S/117.html#L81'>build</a>              81 deps/ecto/lib/ecto/query/builder/select.ex   @spec build(Macro.t, [Macro.t], Macro.t, Macro.Env.t) :: Macro.t</span>
+<span class='curline'><a href='../S/118.html#L81'>build</a>              81 deps/ecto/lib/ecto/query/builder/update.ex   @spec build(Macro.t, [Macro.t], Macro.t, Macro.Env.t) :: Macro.t</span>
+</pre>
+</body>
+</html>

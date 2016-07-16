@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/integration_test/support/migration.exs</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/228.html'>integration_test</a>/<a href='../files/231.html'>support</a>/migration.exs</h2>
+<em class='comment'>/* [&lt;][&gt;][^][v][top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Integration.Migration <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  use Ecto.Migration
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>  def <a href='../R/220.html' title='Multiple referred from 42 places.'>change</a> <strong class='reserved'>do</strong>
+<a id='L5' name='L5'></a>    <a href='../D/398.html' title='Multiple defined in 4 places.'>create</a> <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a>(:users) <strong class='reserved'>do</strong>
+<a id='L6' name='L6'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :name, :text
+<a id='L7' name='L7'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :custom_id, :uuid
+<a id='L8' name='L8'></a>      <a href='../D/1103.html' title='Multiple defined in 2 places.'>timestamps</a>
+<a id='L9' name='L9'></a>    end
+<a id='L10' name='L10'></a>
+<a id='L11' name='L11'></a>    <a href='../D/398.html' title='Multiple defined in 4 places.'>create</a> <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a>(:posts) <strong class='reserved'>do</strong>
+<a id='L12' name='L12'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :title, :string, size: 100
+<a id='L13' name='L13'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :counter, :integer, <strong class='reserved'>default</strong>: 10 # Do not propagate unless read_after_write
+<a id='L14' name='L14'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :text, :binary
+<a id='L15' name='L15'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :bid, :binary_id
+<a id='L16' name='L16'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :uuid, :uuid
+<a id='L17' name='L17'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :meta, :map
+<a id='L18' name='L18'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :public, :boolean
+<a id='L19' name='L19'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :cost, :decimal, precision: 2, scale: 1
+<a id='L20' name='L20'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :visits, :integer
+<a id='L21' name='L21'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :intensity, :<strong class='reserved'>float</strong>
+<a id='L22' name='L22'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :author_id, :integer
+<a id='L23' name='L23'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :posted, :date
+<a id='L24' name='L24'></a>      <a href='../D/1103.html' title='Multiple defined in 2 places.'>timestamps</a> null: true
+<a id='L25' name='L25'></a>    end
+<a id='L26' name='L26'></a>
+<a id='L27' name='L27'></a>    # Add a unique index on uuid. We use this
+<a id='L28' name='L28'></a>    # to verify the behaviour that the index
+<a id='L29' name='L29'></a>    # only matters <strong class='reserved'>if</strong> the UUID column is not NULL.
+<a id='L30' name='L30'></a>    <a href='../D/398.html' title='Multiple defined in 4 places.'>create</a> <a href='../S/94.html#L433' title='Defined at 433 in deps/ecto/lib/ecto/migration.ex.'>unique_index</a>(:posts, [:uuid])
+<a id='L31' name='L31'></a>
+<a id='L32' name='L32'></a>    <a href='../D/398.html' title='Multiple defined in 4 places.'>create</a> <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a>(:permalinks) <strong class='reserved'>do</strong>
+<a id='L33' name='L33'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :url, :string
+<a id='L34' name='L34'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :post_id, <a href='../D/965.html' title='Multiple defined in 2 places.'>references</a>(:posts)
+<a id='L35' name='L35'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :user_id, <a href='../D/965.html' title='Multiple defined in 2 places.'>references</a>(:users)
+<a id='L36' name='L36'></a>    end
+<a id='L37' name='L37'></a>
+<a id='L38' name='L38'></a>    <a href='../D/398.html' title='Multiple defined in 4 places.'>create</a> <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a>(:comments) <strong class='reserved'>do</strong>
+<a id='L39' name='L39'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :text, :string, size: 100
+<a id='L40' name='L40'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :lock_version, :integer, <strong class='reserved'>default</strong>: 1
+<a id='L41' name='L41'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :post_id, <a href='../D/965.html' title='Multiple defined in 2 places.'>references</a>(:posts)
+<a id='L42' name='L42'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :author_id, <a href='../D/965.html' title='Multiple defined in 2 places.'>references</a>(:users)
+<a id='L43' name='L43'></a>    end
+<a id='L44' name='L44'></a>
+<a id='L45' name='L45'></a>    <a href='../D/398.html' title='Multiple defined in 4 places.'>create</a> <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a>(:customs, primary_key: false) <strong class='reserved'>do</strong>
+<a id='L46' name='L46'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :bid, :binary_id, primary_key: true
+<a id='L47' name='L47'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :uuid, :uuid
+<a id='L48' name='L48'></a>    end
+<a id='L49' name='L49'></a>
+<a id='L50' name='L50'></a>    <a href='../D/398.html' title='Multiple defined in 4 places.'>create</a> <a href='../S/94.html#L433' title='Defined at 433 in deps/ecto/lib/ecto/migration.ex.'>unique_index</a>(:customs, [:uuid])
+<a id='L51' name='L51'></a>
+<a id='L52' name='L52'></a>    <a href='../D/398.html' title='Multiple defined in 4 places.'>create</a> <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a>(:barebones) <strong class='reserved'>do</strong>
+<a id='L53' name='L53'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :num, :integer
+<a id='L54' name='L54'></a>    end
+<a id='L55' name='L55'></a>
+<a id='L56' name='L56'></a>    <a href='../D/398.html' title='Multiple defined in 4 places.'>create</a> <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a>(:transactions) <strong class='reserved'>do</strong>
+<a id='L57' name='L57'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :text, :text
+<a id='L58' name='L58'></a>    end
+<a id='L59' name='L59'></a>
+<a id='L60' name='L60'></a>    <a href='../D/398.html' title='Multiple defined in 4 places.'>create</a> <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a>(:lock_counters) <strong class='reserved'>do</strong>
+<a id='L61' name='L61'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :count, :integer
+<a id='L62' name='L62'></a>    end
+<a id='L63' name='L63'></a>
+<a id='L64' name='L64'></a>    <a href='../D/398.html' title='Multiple defined in 4 places.'>create</a> <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a>(:orders) <strong class='reserved'>do</strong>
+<a id='L65' name='L65'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :item, :map
+<a id='L66' name='L66'></a>    end
+<a id='L67' name='L67'></a>
+<a id='L68' name='L68'></a>    unless :array_type in ExUnit.configuration[:exclude] <strong class='reserved'>do</strong>
+<a id='L69' name='L69'></a>      <a href='../D/398.html' title='Multiple defined in 4 places.'>create</a> <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a>(:tags) <strong class='reserved'>do</strong>
+<a id='L70' name='L70'></a>        <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :ints,  <em class='brace'>{</em>:array, :integer<em class='brace'>}</em>
+<a id='L71' name='L71'></a>        <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :uuids, <em class='brace'>{</em>:array, :uuid<em class='brace'>}</em>, <strong class='reserved'>default</strong>: []
+<a id='L72' name='L72'></a>        <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :items, <em class='brace'>{</em>:array, :map<em class='brace'>}</em>
+<a id='L73' name='L73'></a>      end
+<a id='L74' name='L74'></a>    end
+<a id='L75' name='L75'></a>  end
+<a id='L76' name='L76'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;][^][v]<a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

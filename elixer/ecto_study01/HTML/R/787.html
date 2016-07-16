@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>quote_name</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/74.html#L133'>quote_name</a>        133 deps/ecto/lib/ecto/adapters/mysql/connection.ex       values = ~s{(#{Enum.map_join(fields, ", ", &amp;quote_name/1)}) } &lt;&gt;</span>
+<span class='curline'><a href='../S/74.html#L141'>quote_name</a>        141 deps/ecto/lib/ecto/adapters/mysql/connection.ex         "#{quote_name(field)} = ?"</span>
+<span class='curline'><a href='../S/74.html#L145'>quote_name</a>        145 deps/ecto/lib/ecto/adapters/mysql/connection.ex         "#{quote_name(field)} = ?"</span>
+<span class='curline'><a href='../S/74.html#L154'>quote_name</a>        154 deps/ecto/lib/ecto/adapters/mysql/connection.ex         "#{quote_name(field)} = ?"</span>
+<span class='curline'><a href='../S/74.html#L203'>quote_name</a>        203 deps/ecto/lib/ecto/adapters/mysql/connection.ex       quote_name(key) &lt;&gt; " = " &lt;&gt; expr(value, sources, query)</span>
+<span class='curline'><a href='../S/74.html#L207'>quote_name</a>        207 deps/ecto/lib/ecto/adapters/mysql/connection.ex       quoted = quote_name(key)</span>
+<span class='curline'><a href='../S/74.html#L302'>quote_name</a>        302 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "#{name}.#{quote_name(field)}"</span>
+<span class='curline'><a href='../S/74.html#L314'>quote_name</a>        314 deps/ecto/lib/ecto/adapters/mysql/connection.ex       Enum.map_join(fields, ", ", &amp;"#{name}.#{quote_name(&amp;1)}")</span>
+<span class='curline'><a href='../S/74.html#L490'>quote_name</a>        490 deps/ecto/lib/ecto/adapters/mysql/connection.ex                 quote_name(index.name),</span>
+<span class='curline'><a href='../S/74.html#L503'>quote_name</a>        503 deps/ecto/lib/ecto/adapters/mysql/connection.ex                 quote_name(index.name),</span>
+<span class='curline'><a href='../S/74.html#L534'>quote_name</a>        534 deps/ecto/lib/ecto/adapters/mysql/connection.ex       assemble([quote_name(name), reference_column_type(ref.type, opts),</span>
+<span class='curline'><a href='../S/74.html#L539'>quote_name</a>        539 deps/ecto/lib/ecto/adapters/mysql/connection.ex       assemble([quote_name(name), column_type(type, opts), column_options(name, opts)])</span>
+<span class='curline'><a href='../S/74.html#L547'>quote_name</a>        547 deps/ecto/lib/ecto/adapters/mysql/connection.ex       assemble(["ADD", quote_name(name), reference_column_type(ref.type, opts),</span>
+<span class='curline'><a href='../S/74.html#L552'>quote_name</a>        552 deps/ecto/lib/ecto/adapters/mysql/connection.ex       assemble(["ADD", quote_name(name), column_type(type, opts), column_options(name, opts)])</span>
+<span class='curline'><a href='../S/74.html#L557'>quote_name</a>        557 deps/ecto/lib/ecto/adapters/mysql/connection.ex         "MODIFY", quote_name(name), reference_column_type(ref.type, opts),</span>
+<span class='curline'><a href='../S/74.html#L563'>quote_name</a>        563 deps/ecto/lib/ecto/adapters/mysql/connection.ex       assemble(["MODIFY", quote_name(name), column_type(type, opts), column_options(name, opts)])</span>
+<span class='curline'><a href='../S/74.html#L566'>quote_name</a>        566 deps/ecto/lib/ecto/adapters/mysql/connection.ex     defp column_change(_table, {:remove, name}), do: "DROP #{quote_name(name)}"</span>
+<span class='curline'><a href='../S/74.html#L576'>quote_name</a>        576 deps/ecto/lib/ecto/adapters/mysql/connection.ex     defp pk_expr(true, name), do: ", PRIMARY KEY(#{quote_name(name)})"</span>
+<span class='curline'><a href='../S/74.html#L594'>quote_name</a>        594 deps/ecto/lib/ecto/adapters/mysql/connection.ex     defp index_expr(literal), do: quote_name(literal)</span>
+<span class='curline'><a href='../S/74.html#L624'>quote_name</a>        624 deps/ecto/lib/ecto/adapters/mysql/connection.ex           "FOREIGN KEY (#{quote_name(name)}) " &lt;&gt;</span>
+<span class='curline'><a href='../S/74.html#L625'>quote_name</a>        625 deps/ecto/lib/ecto/adapters/mysql/connection.ex           "REFERENCES #{quote_table(table.prefix, ref.table)}(#{quote_name(ref.column)})" &lt;&gt;</span>
+<span class='curline'><a href='../S/74.html#L630'>quote_name</a>        630 deps/ecto/lib/ecto/adapters/mysql/connection.ex           "(#{quote_name(name)}) REFERENCES " &lt;&gt;</span>
+<span class='curline'><a href='../S/74.html#L631'>quote_name</a>        631 deps/ecto/lib/ecto/adapters/mysql/connection.ex           "#{quote_table(table.prefix, ref.table)}(#{quote_name(ref.column)})" &lt;&gt;</span>
+<span class='curline'><a href='../S/74.html#L635'>quote_name</a>        635 deps/ecto/lib/ecto/adapters/mysql/connection.ex       do: quote_name("#{table.name}_#{column}_fkey")</span>
+<span class='curline'><a href='../S/74.html#L637'>quote_name</a>        637 deps/ecto/lib/ecto/adapters/mysql/connection.ex       do: quote_name(name)</span>
+<span class='curline'><a href='../S/74.html#L650'>quote_name</a>        650 deps/ecto/lib/ecto/adapters/mysql/connection.ex       do: quote_name(Atom.to_string(name))</span>
+<span class='curline'><a href='../S/76.html#L149'>quote_name</a>        149 deps/ecto/lib/ecto/adapters/postgres/connection.ex           "(" &lt;&gt; Enum.map_join(fields, ", ", &amp;quote_name/1) &lt;&gt; ") " &lt;&gt;</span>
+<span class='curline'><a href='../S/76.html#L158'>quote_name</a>        158 deps/ecto/lib/ecto/adapters/postgres/connection.ex         {"#{quote_name(field)} = $#{acc}", acc + 1}</span>
+<span class='curline'><a href='../S/76.html#L162'>quote_name</a>        162 deps/ecto/lib/ecto/adapters/postgres/connection.ex         {"#{quote_name(field)} = $#{acc}", acc + 1}</span>
+<span class='curline'><a href='../S/76.html#L172'>quote_name</a>        172 deps/ecto/lib/ecto/adapters/postgres/connection.ex         {"#{quote_name(field)} = $#{acc}", acc + 1}</span>
+<span class='curline'><a href='../S/76.html#L237'>quote_name</a>        237 deps/ecto/lib/ecto/adapters/postgres/connection.ex       quote_name(key) &lt;&gt; " = " &lt;&gt; expr(value, sources, query)</span>
+<span class='curline'><a href='../S/76.html#L241'>quote_name</a>        241 deps/ecto/lib/ecto/adapters/postgres/connection.ex       quoted = quote_name(key)</span>
+<span class='curline'><a href='../S/76.html#L246'>quote_name</a>        246 deps/ecto/lib/ecto/adapters/postgres/connection.ex       quoted = quote_name(key)</span>
+<span class='curline'><a href='../S/76.html#L251'>quote_name</a>        251 deps/ecto/lib/ecto/adapters/postgres/connection.ex       quoted = quote_name(key)</span>
+<span class='curline'><a href='../S/76.html#L374'>quote_name</a>        374 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "#{name}.#{quote_name(field)}"</span>
+<span class='curline'><a href='../S/76.html#L386'>quote_name</a>        386 deps/ecto/lib/ecto/adapters/postgres/connection.ex       Enum.map_join(fields, ", ", &amp;"#{name}.#{quote_name(&amp;1)}")</span>
+<span class='curline'><a href='../S/76.html#L514'>quote_name</a>        514 deps/ecto/lib/ecto/adapters/postgres/connection.ex       do: " RETURNING " &lt;&gt; Enum.map_join(returning, ", ", &amp;quote_name/1)</span>
+<span class='curline'><a href='../S/76.html#L569'>quote_name</a>        569 deps/ecto/lib/ecto/adapters/postgres/connection.ex                 quote_name(index.name),</span>
+<span class='curline'><a href='../S/76.html#L598'>quote_name</a>        598 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "ALTER TABLE #{quote_table(table.prefix, table.name)} RENAME #{quote_name(current_column)} TO #{quote_name(new_column)}"</span>
+<span class='curline'><a href='../S/76.html#L612'>quote_name</a>        612 deps/ecto/lib/ecto/adapters/postgres/connection.ex         quote_name(name), reference_column_type(ref.type, opts),</span>
+<span class='curline'><a href='../S/76.html#L618'>quote_name</a>        618 deps/ecto/lib/ecto/adapters/postgres/connection.ex       assemble([quote_name(name), column_type(type, opts), column_options(type, opts)])</span>
+<span class='curline'><a href='../S/76.html#L627'>quote_name</a>        627 deps/ecto/lib/ecto/adapters/postgres/connection.ex         "ADD COLUMN", quote_name(name), reference_column_type(ref.type, opts),</span>
+<span class='curline'><a href='../S/76.html#L633'>quote_name</a>        633 deps/ecto/lib/ecto/adapters/postgres/connection.ex       assemble(["ADD COLUMN", quote_name(name), column_type(type, opts), column_options(type, opts)])</span>
+<span class='curline'><a href='../S/76.html#L638'>quote_name</a>        638 deps/ecto/lib/ecto/adapters/postgres/connection.ex         "ALTER COLUMN", quote_name(name), "TYPE", reference_column_type(ref.type, opts),</span>
+<span class='curline'><a href='../S/76.html#L644'>quote_name</a>        644 deps/ecto/lib/ecto/adapters/postgres/connection.ex       assemble(["ALTER COLUMN", quote_name(name), "TYPE",</span>
+<span class='curline'><a href='../S/76.html#L648'>quote_name</a>        648 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp column_change(_table, {:remove, name}), do: "DROP COLUMN #{quote_name(name)}"</span>
+<span class='curline'><a href='../S/76.html#L652'>quote_name</a>        652 deps/ecto/lib/ecto/adapters/postgres/connection.ex         true  -&gt; ", ALTER COLUMN #{quote_name(name)} DROP NOT NULL"</span>
+<span class='curline'><a href='../S/76.html#L653'>quote_name</a>        653 deps/ecto/lib/ecto/adapters/postgres/connection.ex         false -&gt; ", ALTER COLUMN #{quote_name(name)} SET NOT NULL"</span>
+<span class='curline'><a href='../S/76.html#L660'>quote_name</a>        660 deps/ecto/lib/ecto/adapters/postgres/connection.ex         {:ok, val} -&gt; ", ALTER COLUMN #{quote_name(name)} SET #{default_expr({:ok, val}, type)}"</span>
+<span class='curline'><a href='../S/76.html#L699'>quote_name</a>        699 deps/ecto/lib/ecto/adapters/postgres/connection.ex       do: quote_name(literal)</span>
+<span class='curline'><a href='../S/76.html#L726'>quote_name</a>        726 deps/ecto/lib/ecto/adapters/postgres/connection.ex           "#{quote_table(table.prefix, ref.table)}(#{quote_name(ref.column)})" &lt;&gt;</span>
+<span class='curline'><a href='../S/76.html#L731'>quote_name</a>        731 deps/ecto/lib/ecto/adapters/postgres/connection.ex           "FOREIGN KEY (#{quote_name(name)}) " &lt;&gt;</span>
+<span class='curline'><a href='../S/76.html#L732'>quote_name</a>        732 deps/ecto/lib/ecto/adapters/postgres/connection.ex           "REFERENCES #{quote_table(table.prefix, ref.table)}(#{quote_name(ref.column)})" &lt;&gt;</span>
+<span class='curline'><a href='../S/76.html#L737'>quote_name</a>        737 deps/ecto/lib/ecto/adapters/postgres/connection.ex       do: quote_name("#{table.name}_#{column}_fkey")</span>
+<span class='curline'><a href='../S/76.html#L739'>quote_name</a>        739 deps/ecto/lib/ecto/adapters/postgres/connection.ex       do: quote_name(name)</span>
+<span class='curline'><a href='../S/76.html#L752'>quote_name</a>        752 deps/ecto/lib/ecto/adapters/postgres/connection.ex       do: quote_name(Atom.to_string(name))</span>
+</pre>
+</body>
+</html>

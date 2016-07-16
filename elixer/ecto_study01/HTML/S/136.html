@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/mix/tasks/ecto.create.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/248.html'>mix</a>/<a href='../files/249.html'>tasks</a>/ecto.create.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L24'>[^]</a>[v][top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L24' title='Defined at 24.'>run</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Mix.Tasks.Ecto.Create <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  use Mix.Task
+<a id='L3' name='L3'></a>  import Mix.Ecto
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a>  @shortdoc "Create the storage for the repo"
+<a id='L6' name='L6'></a>
+<a id='L7' name='L7'></a>  @moduledoc """
+<a id='L8' name='L8'></a>  Create the storage <strong class='reserved'>for</strong> the repository.
+<a id='L9' name='L9'></a>
+<a id='L10' name='L10'></a><em class='sharp'>  #</em># Examples
+<a id='L11' name='L11'></a>
+<a id='L12' name='L12'></a>      mix ecto.create
+<a id='L13' name='L13'></a>      mix ecto.create -r Custom.Repo
+<a id='L14' name='L14'></a>
+<a id='L15' name='L15'></a><em class='sharp'>  #</em># Command line options
+<a id='L16' name='L16'></a>
+<a id='L17' name='L17'></a>    * `-r`, `--repo` - the repo to create (defaults to `YourApp.Repo`)
+<a id='L18' name='L18'></a>    * `--no-compile` - <strong class='reserved'>do</strong> not compile before creating
+<a id='L19' name='L19'></a>    * `--quiet` - <strong class='reserved'>do</strong> no log output
+<a id='L20' name='L20'></a>
+<a id='L21' name='L21'></a>  """
+<a id='L22' name='L22'></a>
+<a id='L23' name='L23'></a>  @doc false
+<a id='L24' name='L24'></a>  def <a href='../R/845.html' title='Multiple referred from 26 places.'>run</a>(args) <strong class='reserved'>do</strong>
+<a id='L25' name='L25'></a>    <a href='../S/56.html#L17' title='Defined at 17 in deps/ecto/integration_test/cases/repo.exs.'>repos</a> = <a href='../D/865.html' title='Multiple defined in 5 places.'>parse_repo</a>(args)
+<a id='L26' name='L26'></a>    <a href='../D/547.html' title='Multiple defined in 2 places.'>ensure_repo</a>(<a href='../S/56.html#L17' title='Defined at 17 in deps/ecto/integration_test/cases/repo.exs.'>repos</a>, args)
+<a id='L27' name='L27'></a>
+<a id='L28' name='L28'></a>    Enum.all?(<a href='../S/56.html#L17' title='Defined at 17 in deps/ecto/integration_test/cases/repo.exs.'>repos</a>, &amp;<a href='../S/135.html#L144' title='Defined at 144 in deps/ecto/lib/mix/ecto.ex.'>ensure_implements</a>(&amp;1.<a href='../D/199.html' title='Multiple defined in 2 places.'>__adapter__</a>, Ecto.Adapter.Storage,
+<a id='L29' name='L29'></a>                                        "to create storage for #{inspect &amp;1}"))
+<a id='L30' name='L30'></a>
+<a id='L31' name='L31'></a>    <em class='brace'>{</em>opts, _, _<em class='brace'>}</em> = OptionParser.<a href='../D/856.html' title='Multiple defined in 25 places.'>parse</a> args, switches: [quiet: :boolean]
+<a id='L32' name='L32'></a>
+<a id='L33' name='L33'></a>    Enum.each <a href='../S/56.html#L17' title='Defined at 17 in deps/ecto/integration_test/cases/repo.exs.'>repos</a>, fn <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a> -&gt;
+<a id='L34' name='L34'></a>      <strong class='reserved'>case</strong> Ecto.Storage.<a href='../D/1170.html' title='Multiple defined in 18 places.'>up</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>) <strong class='reserved'>do</strong>
+<a id='L35' name='L35'></a>        :ok -&gt;
+<a id='L36' name='L36'></a>          unless opts[:quiet] <strong class='reserved'>do</strong>
+<a id='L37' name='L37'></a>            Mix.shell.info "The database for #{inspect repo} has been created."
+<a id='L38' name='L38'></a>          end
+<a id='L39' name='L39'></a>        <em class='brace'>{</em>:error, :already_up<em class='brace'>}</em> -&gt;
+<a id='L40' name='L40'></a>          unless opts[:quiet] <strong class='reserved'>do</strong>
+<a id='L41' name='L41'></a>            Mix.shell.info "The database for #{inspect repo} has already been created."
+<a id='L42' name='L42'></a>          end
+<a id='L43' name='L43'></a>        <em class='brace'>{</em>:error, term<em class='brace'>}</em> when is_binary(term) -&gt;
+<a id='L44' name='L44'></a>          Mix.raise "The database for #{inspect repo} couldn't be created, reason given: #{term}."
+<a id='L45' name='L45'></a>        <em class='brace'>{</em>:error, term<em class='brace'>}</em> -&gt;
+<a id='L46' name='L46'></a>          Mix.raise "The database for #{inspect repo} couldn't be created, reason given: #{inspect term}."
+<a id='L47' name='L47'></a>      end
+<a id='L48' name='L48'></a>    end
+<a id='L49' name='L49'></a>  end
+<a id='L50' name='L50'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;][^]<a href='#L24'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

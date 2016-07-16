@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>filters</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/72.html#L18'>filters</a>            18 deps/ecto/lib/ecto/adapter.ex   @type filters :: Keyword.t</span>
+<span class='curline'><a href='../S/72.html#L184'>filters</a>           184 deps/ecto/lib/ecto/adapter.ex   defcallback update(repo, schema_meta, fields, filters, autogenerate_id, returning, options) ::</span>
+<span class='curline'><a href='../S/72.html#L205'>filters</a>           205 deps/ecto/lib/ecto/adapter.ex   defcallback delete(repo, schema_meta, filters, autogenerate_id, options) ::</span>
+<span class='curline'><a href='../S/74.html#L139'>filters</a>           139 deps/ecto/lib/ecto/adapters/mysql/connection.ex     def update(prefix, table, fields, filters, _returning) do</span>
+<span class='curline'><a href='../S/74.html#L140'>filters</a>           140 deps/ecto/lib/ecto/adapters/mysql/connection.ex       filters = Enum.map filters, fn field  -&gt;</span>
+<span class='curline'><a href='../S/74.html#L149'>filters</a>           149 deps/ecto/lib/ecto/adapters/mysql/connection.ex         " WHERE " &lt;&gt; Enum.join(filters, " AND ")</span>
+<span class='curline'><a href='../S/74.html#L152'>filters</a>           152 deps/ecto/lib/ecto/adapters/mysql/connection.ex     def delete(prefix, table, filters, _returning) do</span>
+<span class='curline'><a href='../S/74.html#L153'>filters</a>           153 deps/ecto/lib/ecto/adapters/mysql/connection.ex       filters = Enum.map filters, fn field -&gt;</span>
+<span class='curline'><a href='../S/74.html#L158'>filters</a>           158 deps/ecto/lib/ecto/adapters/mysql/connection.ex         Enum.join(filters, " AND ")</span>
+<span class='curline'><a href='../S/76.html#L156'>filters</a>           156 deps/ecto/lib/ecto/adapters/postgres/connection.ex     def update(prefix, table, fields, filters, returning) do</span>
+<span class='curline'><a href='../S/76.html#L161'>filters</a>           161 deps/ecto/lib/ecto/adapters/postgres/connection.ex       {filters, _count} = Enum.map_reduce filters, count, fn field, acc -&gt;</span>
+<span class='curline'><a href='../S/76.html#L166'>filters</a>           166 deps/ecto/lib/ecto/adapters/postgres/connection.ex         " WHERE " &lt;&gt; Enum.join(filters, " AND ") &lt;&gt;</span>
+<span class='curline'><a href='../S/76.html#L170'>filters</a>           170 deps/ecto/lib/ecto/adapters/postgres/connection.ex     def delete(prefix, table, filters, returning) do</span>
+<span class='curline'><a href='../S/76.html#L171'>filters</a>           171 deps/ecto/lib/ecto/adapters/postgres/connection.ex       {filters, _} = Enum.map_reduce filters, 1, fn field, acc -&gt;</span>
+<span class='curline'><a href='../S/76.html#L176'>filters</a>           176 deps/ecto/lib/ecto/adapters/postgres/connection.ex         Enum.join(filters, " AND ") &lt;&gt; returning(returning)</span>
+<span class='curline'><a href='../S/79.html#L70'>filters</a>            70 deps/ecto/lib/ecto/adapters/sql/query.ex                      filters :: [atom], returning :: [atom]) :: String.t</span>
+<span class='curline'><a href='../S/79.html#L76'>filters</a>            76 deps/ecto/lib/ecto/adapters/sql/query.ex                      filters :: [atom], returning :: [atom]) :: String.t</span>
+<span class='curline'><a href='../S/85.html#L667'>filters</a>           667 deps/ecto/lib/ecto/changeset.ex     new_filters     = Map.merge(cs1.filters, cs2.filters)</span>
+<span class='curline'><a href='../S/85.html#L1485'>filters</a>          1485 deps/ecto/lib/ecto/changeset.ex     update_in(changeset.filters, &amp;Map.put(&amp;1, field, current))</span>
+<span class='curline'><a href='../S/127.html#L149'>filters</a>           149 deps/ecto/lib/ecto/repo/schema.ex         filters = add_pk_filter!(changeset.filters, struct)</span>
+<span class='curline'><a href='../S/127.html#L150'>filters</a>           150 deps/ecto/lib/ecto/repo/schema.ex         filters = Planner.fields(model, :update, filters, adapter)</span>
+<span class='curline'><a href='../S/127.html#L152'>filters</a>           152 deps/ecto/lib/ecto/repo/schema.ex         args   = [repo, metadata(struct), changes, filters, autogen, return, opts]</span>
+<span class='curline'><a href='../S/127.html#L241'>filters</a>           241 deps/ecto/lib/ecto/repo/schema.ex       filters = add_pk_filter!(changeset.filters, struct)</span>
+<span class='curline'><a href='../S/127.html#L242'>filters</a>           242 deps/ecto/lib/ecto/repo/schema.ex       filters = Planner.fields(model, :delete, filters, adapter)</span>
+<span class='curline'><a href='../S/127.html#L244'>filters</a>           244 deps/ecto/lib/ecto/repo/schema.ex       args = [repo, metadata(struct), filters, autogen, opts]</span>
+<span class='curline'><a href='../S/127.html#L463'>filters</a>           463 deps/ecto/lib/ecto/repo/schema.ex   defp add_pk_filter!(filters, struct) do</span>
+<span class='curline'><a href='../S/127.html#L464'>filters</a>           464 deps/ecto/lib/ecto/repo/schema.ex     Enum.reduce Ecto.primary_key!(struct), filters, fn</span>
+</pre>
+</body>
+</html>

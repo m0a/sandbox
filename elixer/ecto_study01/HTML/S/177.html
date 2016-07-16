@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/postgrex/lib/postgrex/extensions/oid.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/252.html'>postgrex</a>/<a href='../files/253.html'>lib</a>/<a href='../files/254.html'>postgrex</a>/<a href='../files/255.html'>extensions</a>/oid.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L11'>[^]</a><a href='#L24'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L11' title='Defined at 11.'>encode</a></li>
+<li><a href='#L13' title='Defined at 13.'>encode</a></li>
+<li><a href='#L19' title='Defined at 19.'>encode</a></li>
+<li><a href='#L24' title='Defined at 24.'>decode</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Postgrex.Extensions.OID <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc false
+<a id='L3' name='L3'></a>  @oid_senders ~w(oidsend regprocsend regproceduresend regopersend
+<a id='L4' name='L4'></a>                  regoperatorsend regclasssend regtypesend xidsend cidsend)
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>  import Postgrex.BinaryUtils
+<a id='L7' name='L7'></a>  use Postgrex.BinaryExtension, Enum.map(@oid_senders, &amp;<em class='brace'>{</em>:send, &amp;1<em class='brace'>}</em>)
+<a id='L8' name='L8'></a>
+<a id='L9' name='L9'></a>  @oid_range 0..4294967295
+<a id='L10' name='L10'></a>
+<a id='L11' name='L11'></a>  def <a href='../R/398.html' title='Multiple referred from 16 places.'>encode</a>(_, n, _, _) when is_integer(n) and n in @oid_range,
+<a id='L12' name='L12'></a>    <strong class='reserved'>do</strong>: &lt;&lt;n :: uint32&gt;&gt;
+<a id='L13' name='L13'></a>  def <a href='../R/398.html' title='Multiple referred from 16 places.'>encode</a>(%Postgrex.TypeInfo<em class='brace'>{</em>send: sender<em class='brace'>}</em>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, _, _) when is_binary(value) <strong class='reserved'>do</strong>
+<a id='L14' name='L14'></a>    raise Postgrex.Error, message: """
+<a id='L15' name='L15'></a>    you tried to use a binary instead <strong class='reserved'>for</strong> an oid type (#<em class='brace'>{</em>sender<em class='brace'>}</em>) when an
+<a id='L16' name='L16'></a>    integer was expected. See https:<em class='comment'>//github.com/ericmj/postgrex#oid-type-encoding</em>
+<a id='L17' name='L17'></a>    """
+<a id='L18' name='L18'></a>  end
+<a id='L19' name='L19'></a>  def <a href='../R/398.html' title='Multiple referred from 16 places.'>encode</a>(type_info, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, _, _) <strong class='reserved'>do</strong>
+<a id='L20' name='L20'></a>    raise ArgumentError,
+<a id='L21' name='L21'></a>      Postgrex.Utils.<a href='../D/532.html' title='Multiple defined in 2 places.'>encode_msg</a>(type_info, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, @oid_range)
+<a id='L22' name='L22'></a>  end
+<a id='L23' name='L23'></a>
+<a id='L24' name='L24'></a>  def <a href='../R/289.html' title='Multiple referred from 21 places.'>decode</a>(_, &lt;&lt;n :: uint32&gt;&gt;, _, _),
+<a id='L25' name='L25'></a>    <strong class='reserved'>do</strong>: n
+<a id='L26' name='L26'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L11'>[^]</a><a href='#L24'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

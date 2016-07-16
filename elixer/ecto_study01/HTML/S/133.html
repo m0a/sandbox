@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/uuid.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/uuid.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L16'>[^]</a><a href='#L124'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L16' title='Defined at 16.'>cast</a></li>
+<li><a href='#L17' title='Defined at 17.'>cast</a></li>
+<li><a href='#L22' title='Defined at 22.'>dump</a></li>
+<li><a href='#L43' title='Defined at 43.'>dump</a></li>
+<li><a href='#L74' title='Defined at 74.'>load</a></li>
+<li><a href='#L77' title='Defined at 77.'>load</a></li>
+<li><a href='#L81' title='Defined at 81.'>load</a></li>
+<li><a href='#L84' title='Defined at 84.'>load</a></li>
+<li><a href='#L107' title='Defined at 107.'>encode</a></li>
+<li><a href='#L115' title='Defined at 115.'>hex_pad</a></li>
+<li><a href='#L120' title='Defined at 120.'>lower</a></li>
+<li><a href='#L122' title='Defined at 122.'>lower</a></li>
+<li><a href='#L124' title='Defined at 124.'>lower</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.UUID <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc """
+<a id='L3' name='L3'></a>  An Ecto type <strong class='reserved'>for</strong> UUIDs strings.
+<a id='L4' name='L4'></a>  """
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>  @behaviour Ecto.Type
+<a id='L7' name='L7'></a>
+<a id='L8' name='L8'></a>  @doc """
+<a id='L9' name='L9'></a>  The Ecto type.
+<a id='L10' name='L10'></a>  """
+<a id='L11' name='L11'></a>  def <a href='../R/981.html' title='Multiple referred from 375 places.'>type</a>, <strong class='reserved'>do</strong>: :uuid
+<a id='L12' name='L12'></a>
+<a id='L13' name='L13'></a>  @doc """
+<a id='L14' name='L14'></a>  Casts to UUID.
+<a id='L15' name='L15'></a>  """
+<a id='L16' name='L16'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(&lt;&lt; _::64, ?-, _::32, ?-, _::32, ?-, _::32, ?-, _::96 &gt;&gt; = u), <strong class='reserved'>do</strong>: <em class='brace'>{</em>:ok, u<em class='brace'>}</em>
+<a id='L17' name='L17'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(_), <strong class='reserved'>do</strong>: :error
+<a id='L18' name='L18'></a>
+<a id='L19' name='L19'></a>  @doc """
+<a id='L20' name='L20'></a>  Converts a string representing a UUID into a binary.
+<a id='L21' name='L21'></a>  """
+<a id='L22' name='L22'></a>  def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(&lt;&lt; a1, a2, a3, a4, a5, a6, a7, a8, ?-,
+<a id='L23' name='L23'></a>              b1, b2, b3, b4, ?-,
+<a id='L24' name='L24'></a>              c1, c2, c3, c4, ?-,
+<a id='L25' name='L25'></a>              d1, d2, d3, d4, ?-,
+<a id='L26' name='L26'></a>              e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12 &gt;&gt;) <strong class='reserved'>do</strong>
+<a id='L27' name='L27'></a>    try <strong class='reserved'>do</strong>
+<a id='L28' name='L28'></a>      &lt;&lt; <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a>(a1)::4, d(a2)::4, d(a3)::4, d(a4)::4,
+<a id='L29' name='L29'></a>         <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a>(a5)::4, d(a6)::4, d(a7)::4, d(a8)::4,
+<a id='L30' name='L30'></a>         <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a>(b1)::4, d(b2)::4, d(b3)::4, d(b4)::4,
+<a id='L31' name='L31'></a>         <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a>(c1)::4, d(c2)::4, d(c3)::4, d(c4)::4,
+<a id='L32' name='L32'></a>         <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a>(d1)::4, d(d2)::4, d(d3)::4, d(d4)::4,
+<a id='L33' name='L33'></a>         <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a>(e1)::4, d(e2)::4, d(e3)::4, d(e4)::4,
+<a id='L34' name='L34'></a>         <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a>(e5)::4, d(e6)::4, d(e7)::4, d(e8)::4,
+<a id='L35' name='L35'></a>         <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a>(e9)::4, d(e10)::4, d(e11)::4, d(e12)::4 &gt;&gt;
+<a id='L36' name='L36'></a>    catch
+<a id='L37' name='L37'></a>      :error -&gt; :error
+<a id='L38' name='L38'></a>    <strong class='reserved'>else</strong>
+<a id='L39' name='L39'></a>      <a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a> -&gt;
+<a id='L40' name='L40'></a>        <em class='brace'>{</em>:ok, %Ecto.Query.Tagged<em class='brace'>{</em>type: :uuid, value: <a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a><em class='brace'>}</em><em class='brace'>}</em>
+<a id='L41' name='L41'></a>    end
+<a id='L42' name='L42'></a>  end
+<a id='L43' name='L43'></a>  def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(_), <strong class='reserved'>do</strong>: :error
+<a id='L44' name='L44'></a>
+<a id='L45' name='L45'></a>  @compile <em class='brace'>{</em>:<strong class='reserved'>inline</strong>, d: 1<em class='brace'>}</em>
+<a id='L46' name='L46'></a>
+<a id='L47' name='L47'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?0), <strong class='reserved'>do</strong>: 0
+<a id='L48' name='L48'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?1), <strong class='reserved'>do</strong>: 1
+<a id='L49' name='L49'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?2), <strong class='reserved'>do</strong>: 2
+<a id='L50' name='L50'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?3), <strong class='reserved'>do</strong>: 3
+<a id='L51' name='L51'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?4), <strong class='reserved'>do</strong>: 4
+<a id='L52' name='L52'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?5), <strong class='reserved'>do</strong>: 5
+<a id='L53' name='L53'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?6), <strong class='reserved'>do</strong>: 6
+<a id='L54' name='L54'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?7), <strong class='reserved'>do</strong>: 7
+<a id='L55' name='L55'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?8), <strong class='reserved'>do</strong>: 8
+<a id='L56' name='L56'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?9), <strong class='reserved'>do</strong>: 9
+<a id='L57' name='L57'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?A), <strong class='reserved'>do</strong>: 10
+<a id='L58' name='L58'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?B), <strong class='reserved'>do</strong>: 11
+<a id='L59' name='L59'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?C), <strong class='reserved'>do</strong>: 12
+<a id='L60' name='L60'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?D), <strong class='reserved'>do</strong>: 13
+<a id='L61' name='L61'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?E), <strong class='reserved'>do</strong>: 14
+<a id='L62' name='L62'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?F), <strong class='reserved'>do</strong>: 15
+<a id='L63' name='L63'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?a), <strong class='reserved'>do</strong>: 10
+<a id='L64' name='L64'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?b), <strong class='reserved'>do</strong>: 11
+<a id='L65' name='L65'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?c), <strong class='reserved'>do</strong>: 12
+<a id='L66' name='L66'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?d), <strong class='reserved'>do</strong>: 13
+<a id='L67' name='L67'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?e), <strong class='reserved'>do</strong>: 14
+<a id='L68' name='L68'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(?f), <strong class='reserved'>do</strong>: 15
+<a id='L69' name='L69'></a>  defp <a href='../R/282.html' title='Multiple referred from 26 places.'>d</a>(_),  <strong class='reserved'>do</strong>: throw(:error)
+<a id='L70' name='L70'></a>
+<a id='L71' name='L71'></a>  @doc """
+<a id='L72' name='L72'></a>  Converts a binary UUID into a string.
+<a id='L73' name='L73'></a>  """
+<a id='L74' name='L74'></a>  def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(&lt;&lt;_::128&gt;&gt; = uuid) <strong class='reserved'>do</strong>
+<a id='L75' name='L75'></a>   <em class='brace'>{</em>:ok, <a href='../D/526.html' title='Multiple defined in 84 places.'>encode</a>(uuid)<em class='brace'>}</em>
+<a id='L76' name='L76'></a>  end
+<a id='L77' name='L77'></a>  def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(&lt;&lt;_::64, ?-, _::32, ?-, _::32, ?-, _::32, ?-, _::96&gt;&gt; = string) <strong class='reserved'>do</strong>
+<a id='L78' name='L78'></a>    raise "trying to load string UUID as Ecto.UUID: #{inspect string}. " &lt;&gt;
+<a id='L79' name='L79'></a>          "Maybe you wanted to declare :uuid as your database field?"
+<a id='L80' name='L80'></a>  end
+<a id='L81' name='L81'></a>  def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(%Ecto.Query.Tagged<em class='brace'>{</em>type: :uuid, value: uuid<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L82' name='L82'></a>    <em class='brace'>{</em>:ok, <a href='../D/526.html' title='Multiple defined in 84 places.'>encode</a>(uuid)<em class='brace'>}</em>
+<a id='L83' name='L83'></a>  end
+<a id='L84' name='L84'></a>  def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(_), <strong class='reserved'>do</strong>: :error
+<a id='L85' name='L85'></a>
+<a id='L86' name='L86'></a>  @doc """
+<a id='L87' name='L87'></a>  Generates a version 4 (random) UUID.
+<a id='L88' name='L88'></a>  """
+<a id='L89' name='L89'></a>  def <a href='../R/494.html' title='Multiple referred from 4 places.'>generate</a> <strong class='reserved'>do</strong>
+<a id='L90' name='L90'></a>    <a href='../D/304.html' title='Multiple defined in 2 places.'>bingenerate</a>() |&gt; <a href='../D/526.html' title='Multiple defined in 84 places.'>encode</a>
+<a id='L91' name='L91'></a>  end
+<a id='L92' name='L92'></a>
+<a id='L93' name='L93'></a>  @doc """
+<a id='L94' name='L94'></a>  Generates a version 4 (random) UUID in the binary format.
+<a id='L95' name='L95'></a>  """
+<a id='L96' name='L96'></a>  def <a href='../R/184.html' title='Multiple referred from 3 places.'>bingenerate</a> <strong class='reserved'>do</strong>
+<a id='L97' name='L97'></a>    &lt;&lt;u0::48, _::4, u1::12, _::2, u2::62&gt;&gt; = :crypto.strong_rand_bytes(16)
+<a id='L98' name='L98'></a>    &lt;&lt;u0::48, 4::4, u1::12, 2::2, u2::62&gt;&gt;
+<a id='L99' name='L99'></a>  end
+<a id='L100' name='L100'></a>
+<a id='L101' name='L101'></a>  # Callback invoked by autogenerate in schema.
+<a id='L102' name='L102'></a>  @doc false
+<a id='L103' name='L103'></a>  def <a href='../R/165.html' title='Multiple referred from 2 places.'>autogenerate</a> <strong class='reserved'>do</strong>
+<a id='L104' name='L104'></a>    %Ecto.Query.Tagged<em class='brace'>{</em>type: :uuid, value: <a href='../D/304.html' title='Multiple defined in 2 places.'>bingenerate</a>()<em class='brace'>}</em>
+<a id='L105' name='L105'></a>  end
+<a id='L106' name='L106'></a>
+<a id='L107' name='L107'></a>  defp <a href='../R/398.html' title='Multiple referred from 16 places.'>encode</a>(&lt;&lt;u0::32, u1::16, u2::16, u3::16, u4::48&gt;&gt;) <strong class='reserved'>do</strong>
+<a id='L108' name='L108'></a>    <a href='../S/133.html#L115' title='Defined at 115 in deps/ecto/lib/ecto/uuid.ex.'>hex_pad</a>(u0, 8) &lt;&gt; "-" &lt;&gt;
+<a id='L109' name='L109'></a>    <a href='../S/133.html#L115' title='Defined at 115 in deps/ecto/lib/ecto/uuid.ex.'>hex_pad</a>(u1, 4) &lt;&gt; "-" &lt;&gt;
+<a id='L110' name='L110'></a>    <a href='../S/133.html#L115' title='Defined at 115 in deps/ecto/lib/ecto/uuid.ex.'>hex_pad</a>(u2, 4) &lt;&gt; "-" &lt;&gt;
+<a id='L111' name='L111'></a>    <a href='../S/133.html#L115' title='Defined at 115 in deps/ecto/lib/ecto/uuid.ex.'>hex_pad</a>(u3, 4) &lt;&gt; "-" &lt;&gt;
+<a id='L112' name='L112'></a>    <a href='../S/133.html#L115' title='Defined at 115 in deps/ecto/lib/ecto/uuid.ex.'>hex_pad</a>(u4, 12)
+<a id='L113' name='L113'></a>  end
+<a id='L114' name='L114'></a>
+<a id='L115' name='L115'></a>  defp <a href='../R/541.html' title='Multiple referred from 5 places.'>hex_pad</a>(hex, <a href='../D/394.html' title='Multiple defined in 2 places.'>count</a>) <strong class='reserved'>do</strong>
+<a id='L116' name='L116'></a>    hex = Integer.<a href='../D/1119.html' title='Multiple defined in 14 places.'>to_string</a>(hex, 16)
+<a id='L117' name='L117'></a>    <a href='../D/744.html' title='Multiple defined in 3 places.'>lower</a>(hex, :binary.copy("0", <a href='../D/394.html' title='Multiple defined in 2 places.'>count</a> - byte_size(hex)))
+<a id='L118' name='L118'></a>  end
+<a id='L119' name='L119'></a>
+<a id='L120' name='L120'></a>  defp <a href='../R/607.html' title='Multiple referred from 16 places.'>lower</a>(&lt;&lt;h, t::<a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>&gt;&gt;, acc) when h in ?A..?F,
+<a id='L121' name='L121'></a>    <strong class='reserved'>do</strong>: <a href='../D/744.html' title='Multiple defined in 3 places.'>lower</a>(t, acc &lt;&gt; &lt;&lt;h + 32&gt;&gt;)
+<a id='L122' name='L122'></a>  defp <a href='../R/607.html' title='Multiple referred from 16 places.'>lower</a>(&lt;&lt;h, t::<a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>&gt;&gt;, acc),
+<a id='L123' name='L123'></a>    <strong class='reserved'>do</strong>: <a href='../D/744.html' title='Multiple defined in 3 places.'>lower</a>(t, acc &lt;&gt; &lt;&lt;h&gt;&gt;)
+<a id='L124' name='L124'></a>  defp <a href='../R/607.html' title='Multiple referred from 16 places.'>lower</a>(&lt;&lt;&gt;&gt;, acc),
+<a id='L125' name='L125'></a>    <strong class='reserved'>do</strong>: acc
+<a id='L126' name='L126'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L16'>[^]</a><a href='#L124'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

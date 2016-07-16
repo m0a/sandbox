@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>status</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/44.html#L848'>status</a>            848 deps/db_connection/lib/db_connection.ex     {status, conn_state} = fetch_info(conn)</span>
+<span class='curline'><a href='../S/44.html#L853'>status</a>            853 deps/db_connection/lib/db_connection.ex         put_info(conn, status, conn_state)</span>
+<span class='curline'><a href='../S/44.html#L856'>status</a>            856 deps/db_connection/lib/db_connection.ex         put_info(conn, status, conn_state)</span>
+<span class='curline'><a href='../S/44.html#L1019'>status</a>           1019 deps/db_connection/lib/db_connection.ex      {status, conn_state} when status in [:transaction, :failed] -&gt;</span>
+<span class='curline'><a href='../S/44.html#L1136'>status</a>           1136 deps/db_connection/lib/db_connection.ex   defp handle(conn, conn_state, callback, opts, status) do</span>
+<span class='curline'><a href='../S/44.html#L1142'>status</a>           1142 deps/db_connection/lib/db_connection.ex         put_info(conn, status, conn_state)</span>
+<span class='curline'><a href='../S/44.html#L1197'>status</a>           1197 deps/db_connection/lib/db_connection.ex   defp put_info(conn, status, conn_state) do</span>
+<span class='curline'><a href='../S/44.html#L1198'>status</a>           1198 deps/db_connection/lib/db_connection.ex     _ = Process.put(key(conn), {status, conn_state})</span>
+<span class='curline'><a href='../S/23.html#L516'>status</a>            516 deps/db_connection/lib/db_connection/connection.ex       status -&gt;</span>
+<span class='curline'><a href='../S/23.html#L517'>status</a>            517 deps/db_connection/lib/db_connection/connection.ex         status</span>
+<span class='curline'><a href='../S/23.html#L532'>status</a>            532 deps/db_connection/lib/db_connection/connection.ex       status -&gt;</span>
+<span class='curline'><a href='../S/23.html#L533'>status</a>            533 deps/db_connection/lib/db_connection/connection.ex         status</span>
+<span class='curline'><a href='../S/75.html#L115'>status</a>            115 deps/ecto/lib/ecto/adapters/mysql.ex     {output, status} =</span>
+<span class='curline'><a href='../S/75.html#L120'>status</a>            120 deps/ecto/lib/ecto/adapters/mysql.ex       status == 0 -&gt; :ok</span>
+<span class='curline'><a href='../S/75.html#L128'>status</a>            128 deps/ecto/lib/ecto/adapters/mysql.ex     {output, status} = run_with_mysql(opts, "DROP DATABASE `#{opts[:database]}`")</span>
+<span class='curline'><a href='../S/75.html#L131'>status</a>            131 deps/ecto/lib/ecto/adapters/mysql.ex       status == 0                               -&gt; :ok</span>
+<span class='curline'><a href='../S/78.html#L82'>status</a>             82 deps/ecto/lib/ecto/adapters/postgres.ex     {output, status} =</span>
+<span class='curline'><a href='../S/78.html#L87'>status</a>             87 deps/ecto/lib/ecto/adapters/postgres.ex       status == 0                       -&gt; :ok</span>
+<span class='curline'><a href='../S/78.html#L95'>status</a>             95 deps/ecto/lib/ecto/adapters/postgres.ex     {output, status} = run_with_psql(opts, "DROP DATABASE \"#{opts[:database]}\"")</span>
+<span class='curline'><a href='../S/78.html#L98'>status</a>             98 deps/ecto/lib/ecto/adapters/postgres.ex       status == 0                       -&gt; :ok</span>
+<span class='curline'><a href='../S/149.html#L8'>status</a>              8 deps/poolboy/src/poolboy.erl          start_link/1, start_link/2, stop/1, status/1]).</span>
+<span class='curline'><a href='../S/149.html#L121'>status</a>            121 deps/poolboy/src/poolboy.erl -spec status(Pool :: pool()) -&gt; {atom(), integer(), integer(), integer()}.</span>
+<span class='curline'><a href='../S/149.html#L123'>status</a>            123 deps/poolboy/src/poolboy.erl     gen_server:call(Pool, status).</span>
+<span class='curline'><a href='../S/149.html#L203'>status</a>            203 deps/poolboy/src/poolboy.erl handle_call(status, _From, State) -&gt;</span>
+<span class='curline'><a href='../S/187.html#L78'>status</a>             78 deps/postgrex/lib/postgrex/messages.ex   def parse(&lt;&lt;status :: int8&gt;&gt;, ?Z, _size) do</span>
+<span class='curline'><a href='../S/187.html#L79'>status</a>             79 deps/postgrex/lib/postgrex/messages.ex     status = case status do</span>
+<span class='curline'><a href='../S/187.html#L84'>status</a>             84 deps/postgrex/lib/postgrex/messages.ex     msg_ready(status: status)</span>
+<span class='curline'><a href='../S/190.html#L64'>status</a>             64 deps/postgrex/lib/postgrex/protocol.ex     status = %{opts: opts, types_key: types_key, types_ref: nil,</span>
+<span class='curline'><a href='../S/190.html#L68'>status</a>             68 deps/postgrex/lib/postgrex/protocol.ex       {:ok, s} when ssl?  -&gt; s |&gt; ssl(status) |&gt; connected()</span>
+<span class='curline'><a href='../S/190.html#L69'>status</a>             69 deps/postgrex/lib/postgrex/protocol.ex       {:ok, s}            -&gt; s |&gt; startup(status) |&gt; connected()</span>
+<span class='curline'><a href='../S/190.html#L100'>status</a>            100 deps/postgrex/lib/postgrex/protocol.ex     status = %{notify: notify([]), sync: :sync}</span>
+<span class='curline'><a href='../S/190.html#L104'>status</a>            104 deps/postgrex/lib/postgrex/protocol.ex         sync(s, status, :active_once, buffer)</span>
+<span class='curline'><a href='../S/190.html#L106'>status</a>            106 deps/postgrex/lib/postgrex/protocol.ex         sync(s, status, nil, buffer)</span>
+<span class='curline'><a href='../S/190.html#L139'>status</a>            139 deps/postgrex/lib/postgrex/protocol.ex     status = %{notify: notify(opts), sync: :sync, prepare: :parse_describe}</span>
+<span class='curline'><a href='../S/190.html#L140'>status</a>            140 deps/postgrex/lib/postgrex/protocol.ex     parse_describe_send(%{s | buffer: nil}, status, unnamed(query), buffer)</span>
+<span class='curline'><a href='../S/190.html#L145'>status</a>            145 deps/postgrex/lib/postgrex/protocol.ex         status = %{notify: notify(opts), sync: :sync, prepare: :describe}</span>
+<span class='curline'><a href='../S/190.html#L146'>status</a>            146 deps/postgrex/lib/postgrex/protocol.ex         describe_send(%{s | buffer: nil}, status, query, buffer)</span>
+<span class='curline'><a href='../S/190.html#L148'>status</a>            148 deps/postgrex/lib/postgrex/protocol.ex         status = %{notify: notify(opts), sync: :sync, prepare: :parse_describe}</span>
+<span class='curline'><a href='../S/190.html#L149'>status</a>            149 deps/postgrex/lib/postgrex/protocol.ex         parse_describe_send(%{s | buffer: nil}, status, query, buffer)</span>
+<span class='curline'><a href='../S/190.html#L203'>status</a>            203 deps/postgrex/lib/postgrex/protocol.ex     status = %{notify: notify(opts)}</span>
+<span class='curline'><a href='../S/190.html#L205'>status</a>            205 deps/postgrex/lib/postgrex/protocol.ex     close(%{s | buffer: nil}, status, query, res, buffer)</span>
+<span class='curline'><a href='../S/190.html#L255'>status</a>            255 deps/postgrex/lib/postgrex/protocol.ex     status = %{notify: notify(opts), sync: :sync}</span>
+<span class='curline'><a href='../S/190.html#L256'>status</a>            256 deps/postgrex/lib/postgrex/protocol.ex     simple_send(%{s | buffer: nil}, status, statement, buffer)</span>
+<span class='curline'><a href='../S/190.html#L316'>status</a>            316 deps/postgrex/lib/postgrex/protocol.ex   defp ssl(s, status) do</span>
+<span class='curline'><a href='../S/190.html#L318'>status</a>            318 deps/postgrex/lib/postgrex/protocol.ex       :ok                       -&gt; ssl_recv(s, status)</span>
+<span class='curline'><a href='../S/190.html#L323'>status</a>            323 deps/postgrex/lib/postgrex/protocol.ex   defp ssl_recv(%{sock: {:gen_tcp, sock}, timeout: timeout} = s, status) do</span>
+<span class='curline'><a href='../S/190.html#L326'>status</a>            326 deps/postgrex/lib/postgrex/protocol.ex         ssl_connect(s, status)</span>
+<span class='curline'><a href='../S/190.html#L335'>status</a>            335 deps/postgrex/lib/postgrex/protocol.ex   defp ssl_connect(%{sock: {:gen_tcp, sock}, timeout: timeout} = s, status) do</span>
+<span class='curline'><a href='../S/190.html#L336'>status</a>            336 deps/postgrex/lib/postgrex/protocol.ex     case :ssl.connect(sock, status.opts[:ssl_opts] || [], timeout) do</span>
+<span class='curline'><a href='../S/190.html#L338'>status</a>            338 deps/postgrex/lib/postgrex/protocol.ex         startup(%{s | sock: {:ssl, ssl_sock}}, status)</span>
+<span class='curline'><a href='../S/190.html#L347'>status</a>            347 deps/postgrex/lib/postgrex/protocol.ex   defp startup(s, %{opts: opts} = status) do</span>
+<span class='curline'><a href='../S/190.html#L353'>status</a>            353 deps/postgrex/lib/postgrex/protocol.ex       :ok                       -&gt; auth_recv(s, status, &lt;&lt;&gt;&gt;)</span>
+<span class='curline'><a href='../S/190.html#L360'>status</a>            360 deps/postgrex/lib/postgrex/protocol.ex   defp auth_recv(%{timeout: timeout} = s, status, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L363'>status</a>            363 deps/postgrex/lib/postgrex/protocol.ex         init_recv(s, status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L365'>status</a>            365 deps/postgrex/lib/postgrex/protocol.ex         auth_cleartext(s, status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L367'>status</a>            367 deps/postgrex/lib/postgrex/protocol.ex         auth_md5(s, status, salt, buffer)</span>
+<span class='curline'><a href='../S/190.html#L375'>status</a>            375 deps/postgrex/lib/postgrex/protocol.ex   defp auth_cleartext(s, %{opts: opts} = status, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L377'>status</a>            377 deps/postgrex/lib/postgrex/protocol.ex     auth_send(s, msg_password(pass: pass), status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L380'>status</a>            380 deps/postgrex/lib/postgrex/protocol.ex   defp auth_md5(s, %{opts: opts} = status, salt, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L388'>status</a>            388 deps/postgrex/lib/postgrex/protocol.ex     auth_send(s, msg_password(pass: ["md5", digest]), status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L391'>status</a>            391 deps/postgrex/lib/postgrex/protocol.ex   defp auth_send(s, msg, status, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L393'>status</a>            393 deps/postgrex/lib/postgrex/protocol.ex       :ok                       -&gt; auth_recv(s, status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L400'>status</a>            400 deps/postgrex/lib/postgrex/protocol.ex   defp init_recv(%{timeout: timeout} = s, status, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L403'>status</a>            403 deps/postgrex/lib/postgrex/protocol.ex         init_recv(%{s | connection_id: pid}, status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L405'>status</a>            405 deps/postgrex/lib/postgrex/protocol.ex         bootstrap(s, status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L409'>status</a>            409 deps/postgrex/lib/postgrex/protocol.ex         init_recv(handle_msg(s, status, msg), status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L420'>status</a>            420 deps/postgrex/lib/postgrex/protocol.ex   defp bootstrap(s, %{types_key: types_key} = status, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L423'>status</a>            423 deps/postgrex/lib/postgrex/protocol.ex         reserve_send(%{s | types: table}, status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L425'>status</a>            425 deps/postgrex/lib/postgrex/protocol.ex         status = %{status | types_ref: ref, types_table: table}</span>
+<span class='curline'><a href='../S/190.html#L426'>status</a>            426 deps/postgrex/lib/postgrex/protocol.ex         bootstrap_send(%{s | types: ref}, status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L430'>status</a>            430 deps/postgrex/lib/postgrex/protocol.ex   defp bootstrap_send(%{parameters: parameters} = s, status, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L431'>status</a>            431 deps/postgrex/lib/postgrex/protocol.ex     %{extensions: extensions} = status</span>
+<span class='curline'><a href='../S/190.html#L441'>status</a>            441 deps/postgrex/lib/postgrex/protocol.ex         status = %{status | extension_info: {extension_keys, extension_opts}}</span>
+<span class='curline'><a href='../S/190.html#L442'>status</a>            442 deps/postgrex/lib/postgrex/protocol.ex         bootstrap_recv(s, status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L448'>status</a>            448 deps/postgrex/lib/postgrex/protocol.ex   defp bootstrap_recv(%{timeout: timeout} = s, status, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L451'>status</a>            451 deps/postgrex/lib/postgrex/protocol.ex         bootstrap_recv(s, status, [], buffer)</span>
+<span class='curline'><a href='../S/190.html#L455'>status</a>            455 deps/postgrex/lib/postgrex/protocol.ex         bootstrap_recv(handle_msg(s, status, msg), status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L461'>status</a>            461 deps/postgrex/lib/postgrex/protocol.ex   defp bootstrap_recv(%{timeout: timeout} = s, status, rows, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L464'>status</a>            464 deps/postgrex/lib/postgrex/protocol.ex         bootstrap_recv(s, status, [row_decode(values) | rows], buffer)</span>
+<span class='curline'><a href='../S/190.html#L466'>status</a>            466 deps/postgrex/lib/postgrex/protocol.ex         bootstrap_types(s, status, rows, buffer)</span>
+<span class='curline'><a href='../S/190.html#L470'>status</a>            470 deps/postgrex/lib/postgrex/protocol.ex         bootstrap_recv(handle_msg(s, status, msg), status, rows, buffer)</span>
+<span class='curline'><a href='../S/190.html#L476'>status</a>            476 deps/postgrex/lib/postgrex/protocol.ex   defp bootstrap_types(s, %{types_table: table} = status, rows, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L477'>status</a>            477 deps/postgrex/lib/postgrex/protocol.ex     %{types_ref: ref, extension_info: {extension_keys, extension_opts}} = status</span>
+<span class='curline'><a href='../S/190.html#L481'>status</a>            481 deps/postgrex/lib/postgrex/protocol.ex     bootstrap_sync_recv(%{s | types: table}, status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L484'>status</a>            484 deps/postgrex/lib/postgrex/protocol.ex   defp bootstrap_sync_recv(%{timeout: timeout} = s, status, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L487'>status</a>            487 deps/postgrex/lib/postgrex/protocol.ex         reserve_send(s, status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L491'>status</a>            491 deps/postgrex/lib/postgrex/protocol.ex         bootstrap_sync_recv(handle_msg(s, status, msg), status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L500'>status</a>            500 deps/postgrex/lib/postgrex/protocol.ex   defp reserve_send(s, %{prepare: :named} = status, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L503'>status</a>            503 deps/postgrex/lib/postgrex/protocol.ex         reserve_recv(s, status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L516'>status</a>            516 deps/postgrex/lib/postgrex/protocol.ex   defp reserve_recv(%{timeout: timeout} = s, status, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L519'>status</a>            519 deps/postgrex/lib/postgrex/protocol.ex         reserve_recv(s, status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L527'>status</a>            527 deps/postgrex/lib/postgrex/protocol.ex         reserve_recv(handle_msg(s, status, msg), status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L535'>status</a>            535 deps/postgrex/lib/postgrex/protocol.ex   defp simple_send(s, status, statement, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L538'>status</a>            538 deps/postgrex/lib/postgrex/protocol.ex       :ok                       -&gt; simple_recv(s, status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L543'>status</a>            543 deps/postgrex/lib/postgrex/protocol.ex   defp simple_recv(%{timeout: timeout} = s, status, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L547'>status</a>            547 deps/postgrex/lib/postgrex/protocol.ex         complete(s, status, %Query{}, [], tag, buffer)</span>
+<span class='curline'><a href='../S/190.html#L550'>status</a>            550 deps/postgrex/lib/postgrex/protocol.ex         sync_recv(s, status, nil, err, buffer)</span>
+<span class='curline'><a href='../S/190.html#L552'>status</a>            552 deps/postgrex/lib/postgrex/protocol.ex         simple_recv(handle_msg(s, status, msg), status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L560'>status</a>            560 deps/postgrex/lib/postgrex/protocol.ex   defp parse_describe_send(s, status, query, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L568'>status</a>            568 deps/postgrex/lib/postgrex/protocol.ex         parse_recv(s, status, query, buffer)</span>
+<span class='curline'><a href='../S/190.html#L574'>status</a>            574 deps/postgrex/lib/postgrex/protocol.ex   defp describe_send(s, status, %Query{name: name} = query, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L578'>status</a>            578 deps/postgrex/lib/postgrex/protocol.ex         describe_recv(s, status, query, buffer)</span>
+<span class='curline'><a href='../S/190.html#L584'>status</a>            584 deps/postgrex/lib/postgrex/protocol.ex   defp parse_recv(s, %{prepare: prepare} = status, query, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L588'>status</a>            588 deps/postgrex/lib/postgrex/protocol.ex         bind_recv(s, status, query, buffer)</span>
+<span class='curline'><a href='../S/190.html#L591'>status</a>            591 deps/postgrex/lib/postgrex/protocol.ex         describe_recv(s, status, query, buffer)</span>
+<span class='curline'><a href='../S/190.html#L595'>status</a>            595 deps/postgrex/lib/postgrex/protocol.ex         sync_recv(s, status, query, err, buffer)</span>
+<span class='curline'><a href='../S/190.html#L598'>status</a>            598 deps/postgrex/lib/postgrex/protocol.ex         sync(s, status, Postgrex.Error.exception(postgres: fields), buffer)</span>
+<span class='curline'><a href='../S/190.html#L600'>status</a>            600 deps/postgrex/lib/postgrex/protocol.ex         parse_recv(handle_msg(s, status, msg), status, query, buffer)</span>
+<span class='curline'><a href='../S/190.html#L606'>status</a>            606 deps/postgrex/lib/postgrex/protocol.ex   defp describe_recv(s, status, query, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L611'>status</a>            611 deps/postgrex/lib/postgrex/protocol.ex         describe_recv(s, status, %Query{query | encoders: param_oids}, buffer)</span>
+<span class='curline'><a href='../S/190.html#L618'>status</a>            618 deps/postgrex/lib/postgrex/protocol.ex         sync(s, status, Postgrex.Error.exception(postgres: fields), buffer)</span>
+<span class='curline'><a href='../S/190.html#L620'>status</a>            620 deps/postgrex/lib/postgrex/protocol.ex         describe_recv(handle_msg(s, status, msg), status, query, buffer)</span>
+<span class='curline'><a href='../S/190.html#L630'>status</a>            630 deps/postgrex/lib/postgrex/protocol.ex     status = %{notify: notify(opts), sync: sync, prepare: :parse_execute}</span>
+<span class='curline'><a href='../S/190.html#L636'>status</a>            636 deps/postgrex/lib/postgrex/protocol.ex         parse_execute_send(%{s | buffer: nil}, status, query, params, buffer)</span>
+<span class='curline'><a href='../S/190.html#L638'>status</a>            638 deps/postgrex/lib/postgrex/protocol.ex         execute_lookup(%{s | buffer: nil}, status, query, params, buffer)</span>
+<span class='curline'><a href='../S/190.html#L648'>status</a>            648 deps/postgrex/lib/postgrex/protocol.ex   defp execute_lookup(s, status, query, params, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L651'>status</a>            651 deps/postgrex/lib/postgrex/protocol.ex         execute_send(s, status, query, params, buffer)</span>
+<span class='curline'><a href='../S/190.html#L653'>status</a>            653 deps/postgrex/lib/postgrex/protocol.ex         parse_execute_send(s, status, query, params, buffer)</span>
+<span class='curline'><a href='../S/190.html#L657'>status</a>            657 deps/postgrex/lib/postgrex/protocol.ex   defp execute_send(s, status, query, params, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L662'>status</a>            662 deps/postgrex/lib/postgrex/protocol.ex       sync_msgs(status, name)]</span>
+<span class='curline'><a href='../S/190.html#L665'>status</a>            665 deps/postgrex/lib/postgrex/protocol.ex         bind_recv(s, status, query, buffer)</span>
+<span class='curline'><a href='../S/190.html#L671'>status</a>            671 deps/postgrex/lib/postgrex/protocol.ex   defp parse_execute_send(s, status, query, params, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L677'>status</a>            677 deps/postgrex/lib/postgrex/protocol.ex       sync_msgs(status, name)]</span>
+<span class='curline'><a href='../S/190.html#L680'>status</a>            680 deps/postgrex/lib/postgrex/protocol.ex         parse_recv(s, status, query, buffer)</span>
+<span class='curline'><a href='../S/190.html#L693'>status</a>            693 deps/postgrex/lib/postgrex/protocol.ex   defp bind_recv(s, status, query, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L696'>status</a>            696 deps/postgrex/lib/postgrex/protocol.ex         execute_recv(s, status, query, buffer)</span>
+<span class='curline'><a href='../S/190.html#L698'>status</a>            698 deps/postgrex/lib/postgrex/protocol.ex         bind_error(s, status, query, fields, buffer)</span>
+<span class='curline'><a href='../S/190.html#L700'>status</a>            700 deps/postgrex/lib/postgrex/protocol.ex         bind_recv(handle_msg(s, status, msg), status, query, buffer)</span>
+<span class='curline'><a href='../S/190.html#L706'>status</a>            706 deps/postgrex/lib/postgrex/protocol.ex   defp bind_error(s, status, query, fields, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L714'>status</a>            714 deps/postgrex/lib/postgrex/protocol.ex     sync_recv(s, status, query, err, buffer)</span>
+<span class='curline'><a href='../S/190.html#L717'>status</a>            717 deps/postgrex/lib/postgrex/protocol.ex   defp execute_recv(s, status, query, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L720'>status</a>            720 deps/postgrex/lib/postgrex/protocol.ex         execute_recv(s, status, query, [values], buffer)</span>
+<span class='curline'><a href='../S/190.html#L722'>status</a>            722 deps/postgrex/lib/postgrex/protocol.ex         complete(s, status, query, [], tag, buffer)</span>
+<span class='curline'><a href='../S/190.html#L724'>status</a>            724 deps/postgrex/lib/postgrex/protocol.ex         sync_recv(s, status, query, %Postgrex.Result{}, buffer)</span>
+<span class='curline'><a href='../S/190.html#L727'>status</a>            727 deps/postgrex/lib/postgrex/protocol.ex         sync_recv(s, status, query, err, buffer)</span>
+<span class='curline'><a href='../S/190.html#L729'>status</a>            729 deps/postgrex/lib/postgrex/protocol.ex         execute_recv(handle_msg(s, status, msg), status, query, buffer)</span>
+<span class='curline'><a href='../S/190.html#L735'>status</a>            735 deps/postgrex/lib/postgrex/protocol.ex   defp execute_recv(s, status, query, rows, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L738'>status</a>            738 deps/postgrex/lib/postgrex/protocol.ex         execute_recv(s, status, query, [values | rows], buffer)</span>
+<span class='curline'><a href='../S/190.html#L740'>status</a>            740 deps/postgrex/lib/postgrex/protocol.ex         complete(s, status, query, rows, tag, buffer)</span>
+<span class='curline'><a href='../S/190.html#L742'>status</a>            742 deps/postgrex/lib/postgrex/protocol.ex         execute_recv(handle_msg(s, status, msg), status, query, buffer)</span>
+<span class='curline'><a href='../S/190.html#L748'>status</a>            748 deps/postgrex/lib/postgrex/protocol.ex   defp complete(%{connection_id: connection_id} = s, status, query, rows, tag, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L760'>status</a>            760 deps/postgrex/lib/postgrex/protocol.ex     sync_recv(s, status, query, result, buffer)</span>
+<span class='curline'><a href='../S/190.html#L765'>status</a>            765 deps/postgrex/lib/postgrex/protocol.ex   defp close(s, status, %Query{name: name} = query, result, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L771'>status</a>            771 deps/postgrex/lib/postgrex/protocol.ex         close_recv(s, status, query, result, buffer)</span>
+<span class='curline'><a href='../S/190.html#L777'>status</a>            777 deps/postgrex/lib/postgrex/protocol.ex   defp close_recv(s, status, query, result, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L785'>status</a>            785 deps/postgrex/lib/postgrex/protocol.ex         close_recv(handle_msg(s, status, msg), status, query, result, buffer)</span>
+<span class='curline'><a href='../S/190.html#L793'>status</a>            793 deps/postgrex/lib/postgrex/protocol.ex   defp sync(s, status, result, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L795'>status</a>            795 deps/postgrex/lib/postgrex/protocol.ex       :ok                       -&gt; sync_recv(s, status, nil, result, buffer)</span>
+<span class='curline'><a href='../S/190.html#L808'>status</a>            808 deps/postgrex/lib/postgrex/protocol.ex     status = %{notify: notify(opts), sync: :sync}</span>
+<span class='curline'><a href='../S/190.html#L810'>status</a>            810 deps/postgrex/lib/postgrex/protocol.ex     transaction_send(%{s | buffer: nil}, status, name, postgres, res, buffer)</span>
+<span class='curline'><a href='../S/190.html#L813'>status</a>            813 deps/postgrex/lib/postgrex/protocol.ex   defp transaction_send(s, status, statement, postgres, res, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L817'>status</a>            817 deps/postgrex/lib/postgrex/protocol.ex         transaction_recv(s, status, postgres, res, buffer)</span>
+<span class='curline'><a href='../S/190.html#L839'>status</a>            839 deps/postgrex/lib/postgrex/protocol.ex   defp transaction_recv(s, status, postgres, res, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L848'>status</a>            848 deps/postgrex/lib/postgrex/protocol.ex         transaction_recv(s, status, postgres, res, buffer)</span>
+<span class='curline'><a href='../S/190.html#L850'>status</a>            850 deps/postgrex/lib/postgrex/protocol.ex         transaction_recv(s, status, postgres, res, buffer)</span>
+<span class='curline'><a href='../S/190.html#L852'>status</a>            852 deps/postgrex/lib/postgrex/protocol.ex         transaction_recv(s, status, postgres, res, buffer)</span>
+<span class='curline'><a href='../S/190.html#L855'>status</a>            855 deps/postgrex/lib/postgrex/protocol.ex         sync_recv(s, status, nil, err, buffer)</span>
+<span class='curline'><a href='../S/190.html#L860'>status</a>            860 deps/postgrex/lib/postgrex/protocol.ex         s = handle_msg(s, status, msg)</span>
+<span class='curline'><a href='../S/190.html#L861'>status</a>            861 deps/postgrex/lib/postgrex/protocol.ex         transaction_recv(s, status, postgres, res, buffer)</span>
+<span class='curline'><a href='../S/190.html#L869'>status</a>            869 deps/postgrex/lib/postgrex/protocol.ex     status = %{notify: notify(opts), sync: :sync}</span>
+<span class='curline'><a href='../S/190.html#L871'>status</a>            871 deps/postgrex/lib/postgrex/protocol.ex     savepoint_send(%{s | buffer: nil}, status, names, res, buffer)</span>
+<span class='curline'><a href='../S/190.html#L874'>status</a>            874 deps/postgrex/lib/postgrex/protocol.ex   defp savepoint_send(s, status, statements, res, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L878'>status</a>            878 deps/postgrex/lib/postgrex/protocol.ex         savepoint_recv(s, status, res, buffer)</span>
+<span class='curline'><a href='../S/190.html#L884'>status</a>            884 deps/postgrex/lib/postgrex/protocol.ex   defp savepoint_recv(%{postgres: postgres} = s, status, res, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L887'>status</a>            887 deps/postgrex/lib/postgrex/protocol.ex         savepoint_recv(s, status, res, buffer)</span>
+<span class='curline'><a href='../S/190.html#L889'>status</a>            889 deps/postgrex/lib/postgrex/protocol.ex         savepoint_recv(s, status, res, buffer)</span>
+<span class='curline'><a href='../S/190.html#L891'>status</a>            891 deps/postgrex/lib/postgrex/protocol.ex         savepoint_recv(s, status, res, buffer)</span>
+<span class='curline'><a href='../S/190.html#L902'>status</a>            902 deps/postgrex/lib/postgrex/protocol.ex         sync_recv(s, status, nil, err, buffer)</span>
+<span class='curline'><a href='../S/190.html#L904'>status</a>            904 deps/postgrex/lib/postgrex/protocol.ex         s = handle_msg(s, status, msg)</span>
+<span class='curline'><a href='../S/190.html#L905'>status</a>            905 deps/postgrex/lib/postgrex/protocol.ex         savepoint_recv(s, status, res, buffer)</span>
+<span class='curline'><a href='../S/190.html#L917'>status</a>            917 deps/postgrex/lib/postgrex/protocol.ex   defp data(%{timeout: timeout} = s, status, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L922'>status</a>            922 deps/postgrex/lib/postgrex/protocol.ex         activate(handle_msg(s, status, msg), &lt;&lt;&gt;&gt;)</span>
+<span class='curline'><a href='../S/190.html#L924'>status</a>            924 deps/postgrex/lib/postgrex/protocol.ex         data(handle_msg(s, status, msg), status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L1076'>status</a>           1076 deps/postgrex/lib/postgrex/protocol.ex   defp handle_msg(s, status, msg_notify(channel: channel, payload: payload)) do</span>
+<span class='curline'><a href='../S/190.html#L1077'>status</a>           1077 deps/postgrex/lib/postgrex/protocol.ex     %{notify: notify} = status</span>
+<span class='curline'><a href='../S/190.html#L1124'>status</a>           1124 deps/postgrex/lib/postgrex/protocol.ex   defp sync_recv(s, %{sync: sync} = status, query, result, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L1136'>status</a>           1136 deps/postgrex/lib/postgrex/protocol.ex         close_recv(s, status, query, result, buffer)</span>
+<span class='curline'><a href='../S/190.html#L1138'>status</a>           1138 deps/postgrex/lib/postgrex/protocol.ex         sync_recv(handle_msg(s, status, msg), status, query, result, buffer)</span>
+</pre>
+</body>
+</html>

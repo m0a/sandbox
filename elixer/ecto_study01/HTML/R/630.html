@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>metadata</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/85.html#L1123'>metadata</a>         1123 deps/ecto/lib/ecto/changeset.ex   def validate_change(%{validations: validations} = changeset, field, metadata, validator) do</span>
+<span class='curline'><a href='../S/85.html#L1124'>metadata</a>         1124 deps/ecto/lib/ecto/changeset.ex     changeset = %{changeset | validations: [{field, metadata}|validations]}</span>
+<span class='curline'><a href='../S/127.html#L80'>metadata</a>           80 deps/ecto/lib/ecto/repo/schema.ex       args = [repo, metadata(struct), changes, autogen, return, opts]</span>
+<span class='curline'><a href='../S/127.html#L152'>metadata</a>          152 deps/ecto/lib/ecto/repo/schema.ex         args   = [repo, metadata(struct), changes, filters, autogen, return, opts]</span>
+<span class='curline'><a href='../S/127.html#L244'>metadata</a>          244 deps/ecto/lib/ecto/repo/schema.ex       args = [repo, metadata(struct), filters, autogen, opts]</span>
+<span class='curline'><a href='../S/130.html#L266'>metadata</a>          266 deps/ecto/lib/ecto/schema.ex       def inspect(metadata, opts) do</span>
+<span class='curline'><a href='../S/130.html#L267'>metadata</a>          267 deps/ecto/lib/ecto/schema.ex         concat ["#Ecto.Schema.Metadata&lt;", to_doc(metadata.state, opts), "&gt;"]</span>
+<span class='curline'><a href='../S/160.html#L18'>metadata</a>           18 deps/postgrex/lib/postgrex/error.ex     metadata = for k &lt;- @metadata, v = kw[k], do: "\n    #{k}: #{v}"</span>
+<span class='curline'><a href='../S/160.html#L19'>metadata</a>           19 deps/postgrex/lib/postgrex/error.ex     case metadata do</span>
+<span class='curline'><a href='../S/160.html#L21'>metadata</a>           21 deps/postgrex/lib/postgrex/error.ex       _  -&gt; "\n" &lt;&gt; Enum.join(metadata)</span>
+</pre>
+</body>
+</html>

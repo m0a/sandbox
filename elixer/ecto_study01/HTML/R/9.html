@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Builder</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/122.html#L336'>Builder</a>           336 deps/ecto/lib/ecto/query.ex     Builder.error! "`on` keyword must immediately follow a join"</span>
+<span class='curline'><a href='../S/122.html#L340'>Builder</a>           340 deps/ecto/lib/ecto/query.ex     Builder.error! "unsupported #{inspect key} in keyword query expression"</span>
+<span class='curline'><a href='../S/108.html#L30'>Builder</a>            30 deps/ecto/lib/ecto/query/builder/distinct.ex     Builder.escape(expr, :any, params, vars, env)</span>
+<span class='curline'><a href='../S/108.html#L42'>Builder</a>            42 deps/ecto/lib/ecto/query/builder/distinct.ex     binding        = Builder.escape_binding(binding)</span>
+<span class='curline'><a href='../S/108.html#L44'>Builder</a>            44 deps/ecto/lib/ecto/query/builder/distinct.ex     params         = Builder.escape_params(params)</span>
+<span class='curline'><a href='../S/108.html#L51'>Builder</a>            51 deps/ecto/lib/ecto/query/builder/distinct.ex     Builder.apply_query(query, __MODULE__, [distinct], env)</span>
+<span class='curline'><a href='../S/108.html#L62'>Builder</a>            62 deps/ecto/lib/ecto/query/builder/distinct.ex       Builder.error! "only one distinct expression is allowed in query"</span>
+<span class='curline'><a href='../S/109.html#L21'>Builder</a>            21 deps/ecto/lib/ecto/query/builder/filter.ex     Builder.apply_query(query, __MODULE__, [kind, expr], env)</span>
+<span class='curline'><a href='../S/109.html#L25'>Builder</a>            25 deps/ecto/lib/ecto/query/builder/filter.ex     binding        = Builder.escape_binding(binding)</span>
+<span class='curline'><a href='../S/109.html#L27'>Builder</a>            27 deps/ecto/lib/ecto/query/builder/filter.ex     params         = Builder.escape_params(params)</span>
+<span class='curline'><a href='../S/109.html#L34'>Builder</a>            34 deps/ecto/lib/ecto/query/builder/filter.ex     Builder.apply_query(query, __MODULE__, [kind, expr], env)</span>
+<span class='curline'><a href='../S/109.html#L71'>Builder</a>            71 deps/ecto/lib/ecto/query/builder/filter.ex           Builder.error! "nil given for #{inspect field}, comparison with nil is forbidden as it always evaluates to false. " &lt;&gt;</span>
+<span class='curline'><a href='../S/109.html#L74'>Builder</a>            74 deps/ecto/lib/ecto/query/builder/filter.ex           {value, params} = Builder.escape(value, {0, field}, acc, vars, env)</span>
+<span class='curline'><a href='../S/109.html#L77'>Builder</a>            77 deps/ecto/lib/ecto/query/builder/filter.ex           Builder.error! "expected a keyword list at compile time in #{kind}, " &lt;&gt;</span>
+<span class='curline'><a href='../S/109.html#L87'>Builder</a>            87 deps/ecto/lib/ecto/query/builder/filter.ex     Builder.escape(expr, :boolean, %{}, vars, env)</span>
+<span class='curline'><a href='../S/110.html#L38'>Builder</a>            38 deps/ecto/lib/ecto/query/builder/from.ex     {Builder.escape_binding(List.wrap(var)), expr}</span>
+<span class='curline'><a href='../S/110.html#L75'>Builder</a>            75 deps/ecto/lib/ecto/query/builder/from.ex     quoted = Builder.apply_query(quoted, __MODULE__, [length(binds)], env)</span>
+<span class='curline'><a href='../S/110.html#L94'>Builder</a>            94 deps/ecto/lib/ecto/query/builder/from.ex     if count &gt; 1 and count &gt; Builder.count_binds(query) do</span>
+<span class='curline'><a href='../S/110.html#L95'>Builder</a>            95 deps/ecto/lib/ecto/query/builder/from.ex       Builder.error! "`from` in query expression specified #{count} " &lt;&gt;</span>
+<span class='curline'><a href='../S/110.html#L96'>Builder</a>            96 deps/ecto/lib/ecto/query/builder/from.ex                      "binds but query contains #{Builder.count_binds(query)} binds"</span>
+<span class='curline'><a href='../S/111.html#L20'>Builder</a>            20 deps/ecto/lib/ecto/query/builder/group_by.ex     |&gt; Builder.escape(:any, %{}, vars, env)</span>
+<span class='curline'><a href='../S/111.html#L32'>Builder</a>            32 deps/ecto/lib/ecto/query/builder/group_by.ex     binding        = Builder.escape_binding(binding)</span>
+<span class='curline'><a href='../S/111.html#L34'>Builder</a>            34 deps/ecto/lib/ecto/query/builder/group_by.ex     params         = Builder.escape_params(params)</span>
+<span class='curline'><a href='../S/111.html#L41'>Builder</a>            41 deps/ecto/lib/ecto/query/builder/group_by.ex     Builder.apply_query(query, __MODULE__, [group_by], env)</span>
+<span class='curline'><a href='../S/112.html#L45'>Builder</a>            45 deps/ecto/lib/ecto/query/builder/join.ex     {expr, params} = Builder.escape(expr, :any, %{}, vars, env)</span>
+<span class='curline'><a href='../S/112.html#L67'>Builder</a>            67 deps/ecto/lib/ecto/query/builder/join.ex     var   = Builder.find_var!(var, vars)</span>
+<span class='curline'><a href='../S/112.html#L68'>Builder</a>            68 deps/ecto/lib/ecto/query/builder/join.ex     field = Builder.quoted_field!(field)</span>
+<span class='curline'><a href='../S/112.html#L77'>Builder</a>            77 deps/ecto/lib/ecto/query/builder/join.ex     Builder.error! "malformed join `#{Macro.to_string(join)}` in query expression"</span>
+<span class='curline'><a href='../S/112.html#L90'>Builder</a>            90 deps/ecto/lib/ecto/query/builder/join.ex     do: Builder.error!("expected join to be a string, atom or {string, atom}, got: `#{inspect expr}`")</span>
+<span class='curline'><a href='../S/112.html#L102'>Builder</a>           102 deps/ecto/lib/ecto/query/builder/join.ex     binding = Builder.escape_binding(binding)</span>
+<span class='curline'><a href='../S/112.html#L104'>Builder</a>           104 deps/ecto/lib/ecto/query/builder/join.ex     join_params = Builder.escape_params(join_params)</span>
+<span class='curline'><a href='../S/112.html#L114'>Builder</a>           114 deps/ecto/lib/ecto/query/builder/join.ex       count_setter = quote(do: unquote(count_bind) = Builder.count_binds(query))</span>
+<span class='curline'><a href='../S/112.html#L118'>Builder</a>           118 deps/ecto/lib/ecto/query/builder/join.ex       Builder.error! "cannot specify `on` on `#{qual}_join` when using association join, " &lt;&gt;</span>
+<span class='curline'><a href='../S/112.html#L136'>Builder</a>           136 deps/ecto/lib/ecto/query/builder/join.ex          Builder.apply_query(query, __MODULE__, [join], env)}</span>
+<span class='curline'><a href='../S/112.html#L155'>Builder</a>           155 deps/ecto/lib/ecto/query/builder/join.ex     {on, params} = Builder.escape(on, :boolean, %{}, binding, env)</span>
+<span class='curline'><a href='../S/112.html#L156'>Builder</a>           156 deps/ecto/lib/ecto/query/builder/join.ex     params       = Builder.escape_params(params)</span>
+<span class='curline'><a href='../S/112.html#L175'>Builder</a>           175 deps/ecto/lib/ecto/query/builder/join.ex       Builder.error! "variable `#{bind}` is already defined in query"</span>
+<span class='curline'><a href='../S/112.html#L186'>Builder</a>           186 deps/ecto/lib/ecto/query/builder/join.ex     Builder.error! "invalid join qualifier `#{inspect qual}`, accepted qualifiers are: " &lt;&gt;</span>
+<span class='curline'><a href='../S/113.html#L15'>Builder</a>            15 deps/ecto/lib/ecto/query/builder/limit_offset.ex     binding        = Builder.escape_binding(binding)</span>
+<span class='curline'><a href='../S/113.html#L16'>Builder</a>            16 deps/ecto/lib/ecto/query/builder/limit_offset.ex     {expr, params} = Builder.escape(expr, :integer, %{}, binding, env)</span>
+<span class='curline'><a href='../S/113.html#L17'>Builder</a>            17 deps/ecto/lib/ecto/query/builder/limit_offset.ex     params         = Builder.escape_params(params)</span>
+<span class='curline'><a href='../S/113.html#L20'>Builder</a>            20 deps/ecto/lib/ecto/query/builder/limit_offset.ex       Builder.error! "query variables are not allowed in #{type} expression"</span>
+<span class='curline'><a href='../S/113.html#L29'>Builder</a>            29 deps/ecto/lib/ecto/query/builder/limit_offset.ex     Builder.apply_query(query, __MODULE__, [type, limoff], env)</span>
+<span class='curline'><a href='../S/114.html#L17'>Builder</a>            17 deps/ecto/lib/ecto/query/builder/lock.ex     Builder.error! "`#{Macro.to_string(other)}` is not a valid lock. " &lt;&gt;</span>
+<span class='curline'><a href='../S/114.html#L30'>Builder</a>            30 deps/ecto/lib/ecto/query/builder/lock.ex     Builder.apply_query(query, __MODULE__, [escape(expr)], env)</span>
+<span class='curline'><a href='../S/115.html#L48'>Builder</a>            48 deps/ecto/lib/ecto/query/builder/order_by.ex     {ast, params} = Builder.escape(expr, :any, params, vars, env)</span>
+<span class='curline'><a href='../S/115.html#L53'>Builder</a>            53 deps/ecto/lib/ecto/query/builder/order_by.ex     {ast, params} = Builder.escape(expr, :any, params, vars, env)</span>
+<span class='curline'><a href='../S/115.html#L66'>Builder</a>            66 deps/ecto/lib/ecto/query/builder/order_by.ex     do: Builder.error!("expected :asc, :desc or interpolated value in `order_by`, got: `#{inspect other}`")</span>
+<span class='curline'><a href='../S/115.html#L74'>Builder</a>            74 deps/ecto/lib/ecto/query/builder/order_by.ex     do: Builder.error!("expected :asc or :desc in `order_by`, got: `#{inspect other}`")</span>
+<span class='curline'><a href='../S/115.html#L82'>Builder</a>            82 deps/ecto/lib/ecto/query/builder/order_by.ex     do: Builder.error!("expected a field as an atom in `order_by`, got: `#{inspect other}`")</span>
+<span class='curline'><a href='../S/115.html#L94'>Builder</a>            94 deps/ecto/lib/ecto/query/builder/order_by.ex         Builder.error!("expected a list or keyword list of fields in `order_by`, got: `#{inspect order_by}`")</span>
+<span class='curline'><a href='../S/115.html#L109'>Builder</a>           109 deps/ecto/lib/ecto/query/builder/order_by.ex     binding        = Builder.escape_binding(binding)</span>
+<span class='curline'><a href='../S/115.html#L111'>Builder</a>           111 deps/ecto/lib/ecto/query/builder/order_by.ex     params         = Builder.escape_params(params)</span>
+<span class='curline'><a href='../S/115.html#L118'>Builder</a>           118 deps/ecto/lib/ecto/query/builder/order_by.ex     Builder.apply_query(query, __MODULE__, [order_by], env)</span>
+<span class='curline'><a href='../S/116.html#L65'>Builder</a>            65 deps/ecto/lib/ecto/query/builder/preload.ex     Builder.error! "`#{Macro.to_string other}` is not a valid preload expression. " &lt;&gt;</span>
+<span class='curline'><a href='../S/116.html#L80'>Builder</a>            80 deps/ecto/lib/ecto/query/builder/preload.ex     idx = Builder.find_var!(var, vars)</span>
+<span class='curline'><a href='../S/116.html#L87'>Builder</a>            87 deps/ecto/lib/ecto/query/builder/preload.ex     idx = Builder.find_var!(var, vars)</span>
+<span class='curline'><a href='../S/116.html#L113'>Builder</a>           113 deps/ecto/lib/ecto/query/builder/preload.ex     Builder.error! "malformed key in preload `#{Macro.to_string(other)}` in query expression"</span>
+<span class='curline'><a href='../S/116.html#L118'>Builder</a>           118 deps/ecto/lib/ecto/query/builder/preload.ex     Builder.error! "cannot preload join association `#{Macro.to_string atom}` with binding `#{var}` " &lt;&gt;</span>
+<span class='curline'><a href='../S/116.html#L124'>Builder</a>           124 deps/ecto/lib/ecto/query/builder/preload.ex     Builder.error! "cannot preload `#{Macro.to_string(term)}` inside join association preload"</span>
+<span class='curline'><a href='../S/116.html#L133'>Builder</a>           133 deps/ecto/lib/ecto/query/builder/preload.ex     do: Builder.error!("expected key in preload to be an atom, got: `#{inspect key}`")</span>
+<span class='curline'><a href='../S/116.html#L144'>Builder</a>           144 deps/ecto/lib/ecto/query/builder/preload.ex     binding = Builder.escape_binding(binding)</span>
+<span class='curline'><a href='../S/116.html#L146'>Builder</a>           146 deps/ecto/lib/ecto/query/builder/preload.ex     Builder.apply_query(query, __MODULE__, [Enum.reverse(preloads), Enum.reverse(assocs)], env)</span>
+<span class='curline'><a href='../S/117.html#L48'>Builder</a>            48 deps/ecto/lib/ecto/query/builder/select.ex         Builder.error! "keys can only be atoms/binaries/integers/floats"</span>
+<span class='curline'><a href='../S/117.html#L66'>Builder</a>            66 deps/ecto/lib/ecto/query/builder/select.ex     expr = Builder.escape_var(var, vars)</span>
+<span class='curline'><a href='../S/117.html#L71'>Builder</a>            71 deps/ecto/lib/ecto/query/builder/select.ex     Builder.escape(other, :any, params, vars, env)</span>
+<span class='curline'><a href='../S/117.html#L83'>Builder</a>            83 deps/ecto/lib/ecto/query/builder/select.ex     binding        = Builder.escape_binding(binding)</span>
+<span class='curline'><a href='../S/117.html#L85'>Builder</a>            85 deps/ecto/lib/ecto/query/builder/select.ex     params         = Builder.escape_params(params)</span>
+<span class='curline'><a href='../S/117.html#L92'>Builder</a>            92 deps/ecto/lib/ecto/query/builder/select.ex     Builder.apply_query(query, __MODULE__, [select], env)</span>
+<span class='curline'><a href='../S/117.html#L103'>Builder</a>           103 deps/ecto/lib/ecto/query/builder/select.ex       Builder.error! "only one select expression is allowed in query"</span>
+<span class='curline'><a href='../S/118.html#L61'>Builder</a>            61 deps/ecto/lib/ecto/query/builder/update.ex         {v, params} = Builder.escape(v, type_for_key(key, {0, k}), acc, vars, env)</span>
+<span class='curline'><a href='../S/118.html#L64'>Builder</a>            64 deps/ecto/lib/ecto/query/builder/update.ex         Builder.error! "malformed #{inspect key} in update `#{Macro.to_string(kw)}`, " &lt;&gt;</span>
+<span class='curline'><a href='../S/118.html#L70'>Builder</a>            70 deps/ecto/lib/ecto/query/builder/update.ex     Builder.error! "malformed update `#{Macro.to_string(expr)}` in query expression, " &lt;&gt;</span>
+<span class='curline'><a href='../S/118.html#L83'>Builder</a>            83 deps/ecto/lib/ecto/query/builder/update.ex     binding = Builder.escape_binding(binding)</span>
+<span class='curline'><a href='../S/118.html#L90'>Builder</a>            90 deps/ecto/lib/ecto/query/builder/update.ex         params = Builder.escape_params(params)</span>
+<span class='curline'><a href='../S/118.html#L97'>Builder</a>            97 deps/ecto/lib/ecto/query/builder/update.ex         Builder.apply_query(query, __MODULE__, [update], env)</span>
+<span class='curline'><a href='../S/118.html#L108'>Builder</a>           108 deps/ecto/lib/ecto/query/builder/update.ex         Builder.apply_query(query, __MODULE__, [update], env)</span>
+<span class='curline'><a href='../S/118.html#L168'>Builder</a>           168 deps/ecto/lib/ecto/query/builder/update.ex     Builder.error! "unknown key `#{inspect(key)}` in update"</span>
+</pre>
+</body>
+</html>

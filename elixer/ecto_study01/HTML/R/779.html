@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>query!</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/44.html#L436'>query!</a>            436 deps/db_connection/lib/db_connection.ex   @spec query!(conn, query, params, opts :: Keyword.t) :: result</span>
+<span class='curline'><a href='../S/60.html#L284'>query!</a>            284 deps/ecto/integration_test/sql/migration.exs     Ecto.Adapters.SQL.query! TestRepo, writer, []</span>
+<span class='curline'><a href='../S/60.html#L339'>query!</a>            339 deps/ecto/integration_test/sql/migration.exs     assert catch_error(Ecto.Adapters.SQL.query!(TestRepo, query, []))</span>
+<span class='curline'><a href='../S/61.html#L9'>query!</a>              9 deps/ecto/integration_test/sql/sql.exs     result = Ecto.Adapters.SQL.query!(Repo, "SELECT 1", [])</span>
+<span class='curline'><a href='../S/63.html#L177'>query!</a>            177 deps/ecto/integration_test/sql/transaction.exs     catch_error(Ecto.Adapters.SQL.query!(PoolRepo, "savepoint foobar", []))</span>
+<span class='curline'><a href='../S/81.html#L128'>query!</a>            128 deps/ecto/lib/ecto/adapters/sql.ex           Ecto.Adapters.SQL.query!(repo, sql, [], opts)</span>
+<span class='curline'><a href='../S/81.html#L176'>query!</a>            176 deps/ecto/lib/ecto/adapters/sql.ex   @spec query!(Ecto.Repo.t, String.t, [term], Keyword.t) ::</span>
+<span class='curline'><a href='../S/81.html#L179'>query!</a>            179 deps/ecto/lib/ecto/adapters/sql.ex     query!(repo, sql, params, nil, opts)</span>
+<span class='curline'><a href='../S/81.html#L474'>query!</a>            474 deps/ecto/lib/ecto/adapters/sql.ex     %{rows: rows, num_rows: num} = query!(repo, prepared, params, nil, opts)</span>
+<span class='curline'><a href='../S/81.html#L481'>query!</a>            481 deps/ecto/lib/ecto/adapters/sql.ex     %{rows: rows, num_rows: num} = query!(repo, prepared, params, mapper, opts)</span>
+<span class='curline'><a href='../S/80.html#L277'>query!</a>            277 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     query! = &amp;query!(&amp;1, &amp;2, log, opts)</span>
+<span class='curline'><a href='../S/80.html#L279'>query!</a>            279 deps/ecto/lib/ecto/adapters/sql/sandbox.ex       :begin    -&gt; begin(s, query!)</span>
+<span class='curline'><a href='../S/80.html#L280'>query!</a>            280 deps/ecto/lib/ecto/adapters/sql/sandbox.ex       :restart  -&gt; restart(s, query!)</span>
+<span class='curline'><a href='../S/80.html#L281'>query!</a>            281 deps/ecto/lib/ecto/adapters/sql/sandbox.ex       :rollback -&gt; rollback(s, query!)</span>
+<span class='curline'><a href='../S/80.html#L288'>query!</a>            288 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   defp begin(%{ref: nil, mode: :raw, module: module} = s, query!) do</span>
+<span class='curline'><a href='../S/80.html#L290'>query!</a>            290 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     query!.(s, begin_sql)</span>
+<span class='curline'><a href='../S/80.html#L292'>query!</a>            292 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     query!.(s, savepoint_sql)</span>
+<span class='curline'><a href='../S/80.html#L296'>query!</a>            296 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   defp restart(%{ref: nil, mode: :raw} = s, query!), do: begin(s, query!)</span>
+<span class='curline'><a href='../S/80.html#L297'>query!</a>            297 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   defp restart(%{ref: nil, mode: :sandbox, module: module} = s, query!) do</span>
+<span class='curline'><a href='../S/80.html#L299'>query!</a>            299 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     query!.(s, sql)</span>
+<span class='curline'><a href='../S/80.html#L304'>query!</a>            304 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   defp rollback(%{ref: nil, mode: :sandbox, module: module} = s, query!) do</span>
+<span class='curline'><a href='../S/80.html#L306'>query!</a>            306 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     query!.(s, sql)</span>
+<span class='curline'><a href='../S/197.html#L123'>query!</a>            123 deps/postgrex/lib/postgrex.ex   @spec query!(conn, iodata, list, Keyword.t) :: Postgrex.Result.t</span>
+<span class='curline'><a href='../S/197.html#L126'>query!</a>            126 deps/postgrex/lib/postgrex.ex     DBConnection.query!(conn, query, params, defaults(opts))</span>
+</pre>
+</body>
+</html>

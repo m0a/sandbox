@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>mode</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/23.html#L78'>mode</a>               78 deps/db_connection/lib/db_connection/connection.ex   def start_link(mod, opts, mode, info \\ nil) do</span>
+<span class='curline'><a href='../S/23.html#L79'>mode</a>               79 deps/db_connection/lib/db_connection/connection.ex     start_opts = start_opts(mode, opts)</span>
+<span class='curline'><a href='../S/23.html#L80'>mode</a>               80 deps/db_connection/lib/db_connection/connection.ex     Connection.start_link(__MODULE__, {mod, opts, mode, info}, start_opts)</span>
+<span class='curline'><a href='../S/23.html#L84'>mode</a>               84 deps/db_connection/lib/db_connection/connection.ex   def child_spec(mod, opts, mode, child_opts) do</span>
+<span class='curline'><a href='../S/23.html#L85'>mode</a>               85 deps/db_connection/lib/db_connection/connection.ex     Supervisor.Spec.worker(__MODULE__, [mod, opts, mode], child_opts)</span>
+<span class='curline'><a href='../S/23.html#L91'>mode</a>               91 deps/db_connection/lib/db_connection/connection.ex   def init({mod, opts, mode, info}) do</span>
+<span class='curline'><a href='../S/23.html#L92'>mode</a>               92 deps/db_connection/lib/db_connection/connection.ex     queue         = if mode == :sojourn, do: :broker, else: :queue.new()</span>
+<span class='curline'><a href='../S/23.html#L93'>mode</a>               93 deps/db_connection/lib/db_connection/connection.ex     broker        = if mode == :sojourn, do: info</span>
+<span class='curline'><a href='../S/23.html#L94'>mode</a>               94 deps/db_connection/lib/db_connection/connection.ex     after_timeout = if mode == :poolboy, do: :stop, else: :backoff</span>
+<span class='curline'><a href='../S/23.html#L103'>mode</a>              103 deps/db_connection/lib/db_connection/connection.ex     if mode == :connection and Keyword.get(opts, :sync_connect, false) do</span>
+<span class='curline'><a href='../S/23.html#L358'>mode</a>              358 deps/db_connection/lib/db_connection/connection.ex   defp start_opts(mode, opts) when mode in [:poolboy, :sojourn] do</span>
+<span class='curline'><a href='../S/31.html#L68'>mode</a>               68 deps/db_connection/lib/db_connection/ownership.ex   defdelegate ownership_mode(manager, mode, opts), to: Manager, as: :mode</span>
+<span class='curline'><a href='../S/26.html#L33'>mode</a>               33 deps/db_connection/lib/db_connection/ownership/manager.ex   @spec mode(GenServer.server, :auto | :manual | {:shared, pid}, Keyword.t) ::</span>
+<span class='curline'><a href='../S/26.html#L36'>mode</a>               36 deps/db_connection/lib/db_connection/ownership/manager.ex       when mode in [:auto, :manual]</span>
+<span class='curline'><a href='../S/26.html#L37'>mode</a>               37 deps/db_connection/lib/db_connection/ownership/manager.ex       when elem(mode, 0) == :shared and is_pid(elem(mode, 1)) do</span>
+<span class='curline'><a href='../S/26.html#L39'>mode</a>               39 deps/db_connection/lib/db_connection/ownership/manager.ex     GenServer.call(manager, {:mode, mode}, timeout)</span>
+<span class='curline'><a href='../S/26.html#L81'>mode</a>               81 deps/db_connection/lib/db_connection/ownership/manager.ex     mode = Keyword.get(pool_opts, :ownership_mode, :auto)</span>
+<span class='curline'><a href='../S/26.html#L83'>mode</a>               83 deps/db_connection/lib/db_connection/ownership/manager.ex             mode: mode, mode_ref: nil, ets: ets}}</span>
+<span class='curline'><a href='../S/26.html#L99'>mode</a>               99 deps/db_connection/lib/db_connection/ownership/manager.ex   def handle_call({:mode, mode}, _from, state) do</span>
+<span class='curline'><a href='../S/26.html#L100'>mode</a>              100 deps/db_connection/lib/db_connection/ownership/manager.ex     {:reply, :ok, %{state | mode: mode, mode_ref: nil}}</span>
+<span class='curline'><a href='../S/26.html#L104'>mode</a>              104 deps/db_connection/lib/db_connection/ownership/manager.ex                   %{checkouts: checkouts, mode: mode} = state) do</span>
+<span class='curline'><a href='../S/26.html#L110'>mode</a>              110 deps/db_connection/lib/db_connection/ownership/manager.ex       :not_found when mode == :manual -&gt;</span>
+<span class='curline'><a href='../S/26.html#L112'>mode</a>              112 deps/db_connection/lib/db_connection/ownership/manager.ex       :not_found when mode == :auto -&gt;</span>
+<span class='curline'><a href='../S/26.html#L116'>mode</a>              116 deps/db_connection/lib/db_connection/ownership/manager.ex         {:shared, shared} = mode</span>
+<span class='curline'><a href='../S/47.html#L659'>mode</a>              659 deps/decimal/lib/decimal.ex   def round(num, places \\ 0, mode \\ :half_up)</span>
+<span class='curline'><a href='../S/47.html#L673'>mode</a>              673 deps/decimal/lib/decimal.ex   def round(num, n, mode) do</span>
+<span class='curline'><a href='../S/47.html#L675'>mode</a>              675 deps/decimal/lib/decimal.ex     value = do_round(coef, exp, sign, n, mode)</span>
+<span class='curline'><a href='../S/62.html#L212'>mode</a>              212 deps/ecto/integration_test/sql/test_transaction.exs   defp assert_transaction(mode) do</span>
+<span class='curline'><a href='../S/62.html#L215'>mode</a>              215 deps/ecto/integration_test/sql/test_transaction.exs       assert Ecto.Adapters.SQL.Sandbox.mode(pool) === mode</span>
+<span class='curline'><a href='../S/81.html#L545'>mode</a>              545 deps/ecto/lib/ecto/adapters/sql.ex         mode = transaction_mode(pool_mod, pool, pool_timeout)</span>
+<span class='curline'><a href='../S/81.html#L546'>mode</a>              546 deps/ecto/lib/ecto/adapters/sql.ex         transaction(repo, ref, mod, mode, queue_time, pool_timeout, opts, fun)</span>
+<span class='curline'><a href='../S/81.html#L575'>mode</a>              575 deps/ecto/lib/ecto/adapters/sql.ex   defp transaction_mode(Sandbox, pool, pool_timeout), do: Sandbox.mode(pool, pool_timeout)</span>
+<span class='curline'><a href='../S/81.html#L578'>mode</a>              578 deps/ecto/lib/ecto/adapters/sql.ex   defp transaction(repo, ref, mod, mode, queue_time, pool_timeout, opts, fun) do</span>
+<span class='curline'><a href='../S/81.html#L579'>mode</a>              579 deps/ecto/lib/ecto/adapters/sql.ex     case begin(repo, mod, mode, queue_time, opts) do</span>
+<span class='curline'><a href='../S/81.html#L584'>mode</a>              584 deps/ecto/lib/ecto/adapters/sql.ex             commit(repo, ref, mod, mode, pool_timeout, opts, {:return, ok})</span>
+<span class='curline'><a href='../S/81.html#L586'>mode</a>              586 deps/ecto/lib/ecto/adapters/sql.ex             rollback(repo, ref, mod, mode, pool_timeout, opts, {:return, error})</span>
+<span class='curline'><a href='../S/81.html#L588'>mode</a>              588 deps/ecto/lib/ecto/adapters/sql.ex             rollback(repo, ref, mod, mode, pool_timeout, opts, raise)</span>
+<span class='curline'><a href='../S/81.html#L598'>mode</a>              598 deps/ecto/lib/ecto/adapters/sql.ex   defp begin(repo, mod, mode, queue_time, opts) do</span>
+<span class='curline'><a href='../S/81.html#L599'>mode</a>              599 deps/ecto/lib/ecto/adapters/sql.ex     sql = begin_sql(mod, mode)</span>
+<span class='curline'><a href='../S/81.html#L622'>mode</a>              622 deps/ecto/lib/ecto/adapters/sql.ex   defp rollback(repo, ref, mod, mode, pool_timeout, opts, result) do</span>
+<span class='curline'><a href='../S/81.html#L623'>mode</a>              623 deps/ecto/lib/ecto/adapters/sql.ex     sql = rollback_sql(mod, mode)</span>
+<span class='curline'><a href='../S/80.html#L55'>mode</a>               55 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   @spec mode(pool, timeout) :: :raw | :sandbox when pool: pid | atom</span>
+<span class='curline'><a href='../S/80.html#L150'>mode</a>              150 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   def handle_call(:mode, _, %{mode: mode} = s) do</span>
+<span class='curline'><a href='../S/80.html#L151'>mode</a>              151 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     {:reply, mode, s}</span>
+<span class='curline'><a href='../S/116.html#L48'>mode</a>               48 deps/ecto/lib/ecto/query/builder/preload.ex   defp escape(atom, mode, preloads, assocs, _vars) when is_atom(atom) do</span>
+<span class='curline'><a href='../S/116.html#L49'>mode</a>               49 deps/ecto/lib/ecto/query/builder/preload.ex     assert_preload!(mode, atom)</span>
+<span class='curline'><a href='../S/116.html#L53'>mode</a>               53 deps/ecto/lib/ecto/query/builder/preload.ex   defp escape(list, mode, preloads, assocs, vars) when is_list(list) do</span>
+<span class='curline'><a href='../S/116.html#L55'>mode</a>               55 deps/ecto/lib/ecto/query/builder/preload.ex       escape_each(item, mode, acc, vars)</span>
+<span class='curline'><a href='../S/116.html#L59'>mode</a>               59 deps/ecto/lib/ecto/query/builder/preload.ex   defp escape({:^, _, [inner]} = expr, mode, preloads, assocs, _vars) do</span>
+<span class='curline'><a href='../S/116.html#L60'>mode</a>               60 deps/ecto/lib/ecto/query/builder/preload.ex     assert_preload!(mode, expr)</span>
+<span class='curline'><a href='../S/116.html#L71'>mode</a>               71 deps/ecto/lib/ecto/query/builder/preload.ex   defp escape_each({key, {:^, _, [inner]}} = expr, mode, {preloads, assocs}, _vars) do</span>
+<span class='curline'><a href='../S/116.html#L72'>mode</a>               72 deps/ecto/lib/ecto/query/builder/preload.ex     assert_preload!(mode, expr)</span>
+<span class='curline'><a href='../S/116.html#L77'>mode</a>               77 deps/ecto/lib/ecto/query/builder/preload.ex   defp escape_each({key, {var, _, context}}, mode, {preloads, assocs}, vars) when is_atom(context) do</span>
+<span class='curline'><a href='../S/116.html#L78'>mode</a>               78 deps/ecto/lib/ecto/query/builder/preload.ex     assert_assoc!(mode, key, var)</span>
+<span class='curline'><a href='../S/116.html#L84'>mode</a>               84 deps/ecto/lib/ecto/query/builder/preload.ex   defp escape_each({key, {{var, _, context}, list}}, mode, {preloads, assocs}, vars) when is_atom(context) do</span>
+<span class='curline'><a href='../S/116.html#L85'>mode</a>               85 deps/ecto/lib/ecto/query/builder/preload.ex     assert_assoc!(mode, key, var)</span>
+<span class='curline'><a href='../S/116.html#L93'>mode</a>               93 deps/ecto/lib/ecto/query/builder/preload.ex   defp escape_each({key, list}, mode, {preloads, assocs}, vars) do</span>
+<span class='curline'><a href='../S/116.html#L94'>mode</a>               94 deps/ecto/lib/ecto/query/builder/preload.ex     assert_preload!(mode, {key, list})</span>
+<span class='curline'><a href='../S/116.html#L100'>mode</a>              100 deps/ecto/lib/ecto/query/builder/preload.ex   defp escape_each(other, mode, {preloads, assocs}, vars) do</span>
+<span class='curline'><a href='../S/116.html#L101'>mode</a>              101 deps/ecto/lib/ecto/query/builder/preload.ex     escape(other, mode, preloads, assocs, vars)</span>
+<span class='curline'><a href='../S/116.html#L116'>mode</a>              116 deps/ecto/lib/ecto/query/builder/preload.ex   defp assert_assoc!(mode, _atom, _var) when mode in [:both, :assoc], do: :ok</span>
+<span class='curline'><a href='../S/116.html#L122'>mode</a>              122 deps/ecto/lib/ecto/query/builder/preload.ex   defp assert_preload!(mode, _term) when mode in [:both, :preload], do: :ok</span>
+</pre>
+</body>
+</html>

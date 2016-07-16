@@ -1,0 +1,737 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/adapters/sql.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/<a href='../files/235.html'>adapters</a>/sql.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L19'>[^]</a><a href='#L637'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L19' title='Defined at 19.'>__using__</a></li>
+<li><a href='#L31' title='Defined at 31.'>__before_compile__</a></li>
+<li><a href='#L36' title='Defined at 36.'>start_link</a></li>
+<li><a href='#L42' title='Defined at 42.'>stop</a></li>
+<li><a href='#L56' title='Defined at 56.'>embed_id</a></li>
+<li><a href='#L57' title='Defined at 57.'>load</a></li>
+<li><a href='#L58' title='Defined at 58.'>dump</a></li>
+<li><a href='#L63' title='Defined at 63.'>prepare</a></li>
+<li><a href='#L64' title='Defined at 64.'>prepare</a></li>
+<li><a href='#L65' title='Defined at 65.'>prepare</a></li>
+<li><a href='#L68' title='Defined at 68.'>execute</a></li>
+<li><a href='#L74' title='Defined at 74.'>insert</a></li>
+<li><a href='#L79' title='Defined at 79.'>insert</a></li>
+<li><a href='#L88' title='Defined at 88.'>insert</a></li>
+<li><a href='#L95' title='Defined at 95.'>update</a></li>
+<li><a href='#L103' title='Defined at 103.'>delete</a></li>
+<li><a href='#L112' title='Defined at 112.'>transaction</a></li>
+<li><a href='#L117' title='Defined at 117.'>rollback</a></li>
+<li><a href='#L124' title='Defined at 124.'>execute_ddl</a></li>
+<li><a href='#L163' title='Defined at 163.'>to_sql</a></li>
+<li><a href='#L178' title='Defined at 178.'>query!</a></li>
+<li><a href='#L182' title='Defined at 182.'>query!</a></li>
+<li><a href='#L220' title='Defined at 220.'>query</a></li>
+<li><a href='#L224' title='Defined at 224.'>query</a></li>
+<li><a href='#L237' title='Defined at 237.'>query</a></li>
+<li><a href='#L258' title='Defined at 258.'>query</a></li>
+<li><a href='#L261' title='Defined at 261.'>query</a></li>
+<li><a href='#L268' title='Defined at 268.'>decode</a></li>
+<li><a href='#L271' title='Defined at 271.'>decode</a></li>
+<li><a href='#L274' title='Defined at 274.'>decode</a></li>
+<li><a href='#L277' title='Defined at 277.'>decode</a></li>
+<li><a href='#L282' title='Defined at 282.'>decode</a></li>
+<li><a href='#L285' title='Defined at 285.'>decode</a></li>
+<li><a href='#L289' title='Defined at 289.'>log</a></li>
+<li><a href='#L290' title='Defined at 290.'>log</a></li>
+<li><a href='#L372' title='Defined at 372.'>begin_test_transaction</a></li>
+<li><a href='#L380' title='Defined at 380.'>restart_test_transaction</a></li>
+<li><a href='#L385' title='Defined at 385.'>rollback_test_transaction</a></li>
+<li><a href='#L389' title='Defined at 389.'>test_transaction</a></li>
+<li><a href='#L406' title='Defined at 406.'>test_transaction</a></li>
+<li><a href='#L418' title='Defined at 418.'>start_link</a></li>
+<li><a href='#L440' title='Defined at 440.'>load</a></li>
+<li><a href='#L445' title='Defined at 445.'>load</a></li>
+<li><a href='#L447' title='Defined at 447.'>load</a></li>
+<li><a href='#L451' title='Defined at 451.'>dump</a></li>
+<li><a href='#L456' title='Defined at 456.'>dump</a></li>
+<li><a href='#L458' title='Defined at 458.'>dump</a></li>
+<li><a href='#L462' title='Defined at 462.'>bingenerate</a></li>
+<li><a href='#L467' title='Defined at 467.'>unwrap</a></li>
+<li><a href='#L468' title='Defined at 468.'>unwrap</a></li>
+<li><a href='#L473' title='Defined at 473.'>execute</a></li>
+<li><a href='#L478' title='Defined at 478.'>execute</a></li>
+<li><a href='#L486' title='Defined at 486.'>model</a></li>
+<li><a href='#L502' title='Defined at 502.'>count_fields</a></li>
+<li><a href='#L512' title='Defined at 512.'>process_row</a></li>
+<li><a href='#L524' title='Defined at 524.'>split_and_not_nil</a></li>
+<li><a href='#L525' title='Defined at 525.'>split_and_not_nil</a></li>
+<li><a href='#L527' title='Defined at 527.'>split_and_not_nil</a></li>
+<li><a href='#L531' title='Defined at 531.'>split_and_not_nil</a></li>
+<li><a href='#L538' title='Defined at 538.'>transaction</a></li>
+<li><a href='#L570' title='Defined at 570.'>rollback</a></li>
+<li><a href='#L575' title='Defined at 575.'>transaction_mode</a></li>
+<li><a href='#L576' title='Defined at 576.'>transaction_mode</a></li>
+<li><a href='#L578' title='Defined at 578.'>transaction</a></li>
+<li><a href='#L598' title='Defined at 598.'>begin</a></li>
+<li><a href='#L603' title='Defined at 603.'>begin_sql</a></li>
+<li><a href='#L604' title='Defined at 604.'>begin_sql</a></li>
+<li><a href='#L606' title='Defined at 606.'>commit</a></li>
+<li><a href='#L618' title='Defined at 618.'>commit</a></li>
+<li><a href='#L622' title='Defined at 622.'>rollback</a></li>
+<li><a href='#L636' title='Defined at 636.'>rollback_sql</a></li>
+<li><a href='#L637' title='Defined at 637.'>rollback_sql</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Adapters.SQL <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc """
+<a id='L3' name='L3'></a>  Behaviour and implementation <strong class='reserved'>for</strong> SQL adapters.
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a>  The implementation <strong class='reserved'>for</strong> SQL adapter provides a
+<a id='L6' name='L6'></a>  pooled based implementation of SQL and also expose
+<a id='L7' name='L7'></a>  a query function to developers.
+<a id='L8' name='L8'></a>
+<a id='L9' name='L9'></a>  Developers that use `Ecto.Adapters.SQL` should implement
+<a id='L10' name='L10'></a>  a connection module with specifics on how to connect
+<a id='L11' name='L11'></a>  to the database and also how to translate the queries
+<a id='L12' name='L12'></a>  to SQL.
+<a id='L13' name='L13'></a>
+<a id='L14' name='L14'></a>  See `Ecto.Adapters.Connection` <strong class='reserved'>for</strong> connection processes and
+<a id='L15' name='L15'></a>  `Ecto.Adapters.SQL.Query` <strong class='reserved'>for</strong> the query semantics.
+<a id='L16' name='L16'></a>  """
+<a id='L17' name='L17'></a>
+<a id='L18' name='L18'></a>  @doc false
+<a id='L19' name='L19'></a>  defmacro __using__(adapter) <strong class='reserved'>do</strong>
+<a id='L20' name='L20'></a>    quote <strong class='reserved'>do</strong>
+<a id='L21' name='L21'></a>      @behaviour Ecto.Adapter
+<a id='L22' name='L22'></a>      @behaviour Ecto.Adapter.Migration
+<a id='L23' name='L23'></a>      @behaviour Ecto.Adapter.Transaction
+<a id='L24' name='L24'></a>
+<a id='L25' name='L25'></a>      @conn __MODULE__.<a href='../D/29.html' title='Multiple defined in 5 places.'>Connection</a>
+<a id='L26' name='L26'></a>      @adapter unquote(adapter)
+<a id='L27' name='L27'></a>
+<a id='L28' name='L28'></a><em class='sharp'>      #</em># Worker
+<a id='L29' name='L29'></a>
+<a id='L30' name='L30'></a>      @doc false
+<a id='L31' name='L31'></a>      defmacro <a href='../S/72.html#L31' title='Referred from 31 in deps/ecto/lib/ecto/adapter.ex.'>__before_compile__</a>(_env) <strong class='reserved'>do</strong>
+<a id='L32' name='L32'></a>        :ok
+<a id='L33' name='L33'></a>      end
+<a id='L34' name='L34'></a>
+<a id='L35' name='L35'></a>      @doc false
+<a id='L36' name='L36'></a>      def <a href='../R/900.html' title='Multiple referred from 71 places.'>start_link</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, opts) <strong class='reserved'>do</strong>
+<a id='L37' name='L37'></a>        <em class='brace'>{</em>:ok, _<em class='brace'>}</em> = <a href='../S/82.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/application.ex.'>Application</a>.ensure_all_started(@adapter)
+<a id='L38' name='L38'></a>        Ecto.Adapters.SQL.<a href='../D/1059.html' title='Multiple defined in 41 places.'>start_link</a>(@conn, @adapter, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, opts)
+<a id='L39' name='L39'></a>      end
+<a id='L40' name='L40'></a>
+<a id='L41' name='L41'></a>      @doc false
+<a id='L42' name='L42'></a>      def <a href='../R/910.html' title='Multiple referred from 39 places.'>stop</a>(_repo, pid, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>) <strong class='reserved'>do</strong>
+<a id='L43' name='L43'></a>        ref = Process.<a href='../S/101.html#L143' title='Defined at 143 in deps/ecto/lib/ecto/pools/poolboy/worker.ex.'>monitor</a>(pid)
+<a id='L44' name='L44'></a>        Process.exit(pid, :normal)
+<a id='L45' name='L45'></a>        receive <strong class='reserved'>do</strong>
+<a id='L46' name='L46'></a>          <em class='brace'>{</em>:DOWN, ^ref, _, _, _<em class='brace'>}</em> -&gt; :ok
+<a id='L47' name='L47'></a>        after
+<a id='L48' name='L48'></a>          <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a> -&gt; exit(:timeout)
+<a id='L49' name='L49'></a>        end
+<a id='L50' name='L50'></a>        <a href='../S/82.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/application.ex.'>Application</a>.<a href='../D/1069.html' title='Multiple defined in 13 places.'>stop</a>(@adapter)
+<a id='L51' name='L51'></a>        :ok
+<a id='L52' name='L52'></a>      end
+<a id='L53' name='L53'></a>
+<a id='L54' name='L54'></a><em class='sharp'>      #</em># Types
+<a id='L55' name='L55'></a>
+<a id='L56' name='L56'></a>      def <a href='../S/88.html#L128' title='Referred from 128 in deps/ecto/lib/ecto/embedded.ex.'>embed_id</a>(_), <strong class='reserved'>do</strong>: Ecto.UUID.<a href='../S/133.html#L89' title='Defined at 89 in deps/ecto/lib/ecto/uuid.ex.'>generate</a>
+<a id='L57' name='L57'></a>      def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>), <strong class='reserved'>do</strong>: Ecto.Adapters.SQL.load(type, value, &amp;load/2)
+<a id='L58' name='L58'></a>      def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>), <strong class='reserved'>do</strong>: Ecto.Adapters.SQL.dump(type, value, &amp;dump/2)
+<a id='L59' name='L59'></a>
+<a id='L60' name='L60'></a><em class='sharp'>      #</em># Query
+<a id='L61' name='L61'></a>
+<a id='L62' name='L62'></a>      @doc false
+<a id='L63' name='L63'></a>      def <a href='../R/741.html' title='Multiple referred from 33 places.'>prepare</a>(:<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>, <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>),        <strong class='reserved'>do</strong>: <em class='brace'>{</em>:cache, @conn.all(query)<em class='brace'>}</em>
+<a id='L64' name='L64'></a>      def <a href='../R/741.html' title='Multiple referred from 33 places.'>prepare</a>(:<a href='../D/1173.html' title='Multiple defined in 8 places.'>update_all</a>, <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>), <strong class='reserved'>do</strong>: <em class='brace'>{</em>:cache, @conn.update_all(query)<em class='brace'>}</em>
+<a id='L65' name='L65'></a>      def <a href='../R/741.html' title='Multiple referred from 33 places.'>prepare</a>(:<a href='../D/446.html' title='Multiple defined in 6 places.'>delete_all</a>, <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>), <strong class='reserved'>do</strong>: <em class='brace'>{</em>:cache, @conn.delete_all(query)<em class='brace'>}</em>
+<a id='L66' name='L66'></a>
+<a id='L67' name='L67'></a>      @doc false
+<a id='L68' name='L68'></a>      def <a href='../R/451.html' title='Multiple referred from 31 places.'>execute</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, meta, prepared, params, <a href='../D/902.html' title='Multiple defined in 5 places.'>preprocess</a>, opts) <strong class='reserved'>do</strong>
+<a id='L69' name='L69'></a>        Ecto.Adapters.SQL.<a href='../D/581.html' title='Multiple defined in 10 places.'>execute</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, meta, prepared, params, <a href='../D/902.html' title='Multiple defined in 5 places.'>preprocess</a>, opts)
+<a id='L70' name='L70'></a>      end
+<a id='L71' name='L71'></a>
+<a id='L72' name='L72'></a>      @doc false
+<a id='L73' name='L73'></a>      # Nil ids are generated in the database.
+<a id='L74' name='L74'></a>      def <a href='../R/554.html' title='Multiple referred from 34 places.'>insert</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, model_meta, params, <em class='brace'>{</em><a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, :id, nil<em class='brace'>}</em>, <a href='../D/990.html' title='Multiple defined in 2 places.'>returning</a>, opts) <strong class='reserved'>do</strong>
+<a id='L75' name='L75'></a>        <a href='../D/691.html' title='Multiple defined in 17 places.'>insert</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, model_meta, params, nil, [<a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>|<a href='../D/990.html' title='Multiple defined in 2 places.'>returning</a>], opts)
+<a id='L76' name='L76'></a>      end
+<a id='L77' name='L77'></a>
+<a id='L78' name='L78'></a>      # Nil binary_ids are generated in the adapter.
+<a id='L79' name='L79'></a>      def <a href='../R/554.html' title='Multiple referred from 34 places.'>insert</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, model_meta, params, <em class='brace'>{</em><a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, :binary_id, nil<em class='brace'>}</em>, <a href='../D/990.html' title='Multiple defined in 2 places.'>returning</a>, opts) <strong class='reserved'>do</strong>
+<a id='L80' name='L80'></a>        <em class='brace'>{</em>req, resp<em class='brace'>}</em> = Ecto.Adapters.SQL.<a href='../D/304.html' title='Multiple defined in 2 places.'>bingenerate</a>(<a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>)
+<a id='L81' name='L81'></a>        <strong class='reserved'>case</strong> <a href='../D/691.html' title='Multiple defined in 17 places.'>insert</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, model_meta, req ++ params, nil, <a href='../D/990.html' title='Multiple defined in 2 places.'>returning</a>, opts) <strong class='reserved'>do</strong>
+<a id='L82' name='L82'></a>          <em class='brace'>{</em>:ok, values<em class='brace'>}</em>         -&gt; <em class='brace'>{</em>:ok, resp ++ values<em class='brace'>}</em>
+<a id='L83' name='L83'></a>          <em class='brace'>{</em>:error, _<em class='brace'>}</em> = err     -&gt; err
+<a id='L84' name='L84'></a>          <em class='brace'>{</em>:invalid, _<em class='brace'>}</em> = err   -&gt; err
+<a id='L85' name='L85'></a>        end
+<a id='L86' name='L86'></a>      end
+<a id='L87' name='L87'></a>
+<a id='L88' name='L88'></a>      def <a href='../R/554.html' title='Multiple referred from 34 places.'>insert</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, %<em class='brace'>{</em>source: <em class='brace'>{</em><a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>, source<em class='brace'>}</em><em class='brace'>}</em>, params, _autogenerate, <a href='../D/990.html' title='Multiple defined in 2 places.'>returning</a>, opts) <strong class='reserved'>do</strong>
+<a id='L89' name='L89'></a>        <em class='brace'>{</em><a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, values<em class='brace'>}</em> = :lists.unzip(params)
+<a id='L90' name='L90'></a>        sql = @conn.<a href='../D/691.html' title='Multiple defined in 17 places.'>insert</a>(<a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>, source, <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, <a href='../D/990.html' title='Multiple defined in 2 places.'>returning</a>)
+<a id='L91' name='L91'></a>        Ecto.Adapters.SQL.<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, @conn, sql, values, <a href='../D/990.html' title='Multiple defined in 2 places.'>returning</a>, opts)
+<a id='L92' name='L92'></a>      end
+<a id='L93' name='L93'></a>
+<a id='L94' name='L94'></a>      @doc false
+<a id='L95' name='L95'></a>      def <a href='../R/1004.html' title='Multiple referred from 24 places.'>update</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, %<em class='brace'>{</em>source: <em class='brace'>{</em><a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>, source<em class='brace'>}</em><em class='brace'>}</em>, <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, <a href='../D/607.html' title='Multiple defined in 2 places.'>filter</a>, _autogenerate, <a href='../D/990.html' title='Multiple defined in 2 places.'>returning</a>, opts) <strong class='reserved'>do</strong>
+<a id='L96' name='L96'></a>        <em class='brace'>{</em><a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, values1<em class='brace'>}</em> = :lists.unzip(fields)
+<a id='L97' name='L97'></a>        <em class='brace'>{</em><a href='../D/607.html' title='Multiple defined in 2 places.'>filter</a>, values2<em class='brace'>}</em> = :lists.unzip(filter)
+<a id='L98' name='L98'></a>        sql = @conn.<a href='../D/1171.html' title='Multiple defined in 15 places.'>update</a>(<a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>, source, <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, <a href='../D/607.html' title='Multiple defined in 2 places.'>filter</a>, <a href='../D/990.html' title='Multiple defined in 2 places.'>returning</a>)
+<a id='L99' name='L99'></a>        Ecto.Adapters.SQL.<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, @conn, sql, values1 ++ values2, <a href='../D/990.html' title='Multiple defined in 2 places.'>returning</a>, opts)
+<a id='L100' name='L100'></a>      end
+<a id='L101' name='L101'></a>
+<a id='L102' name='L102'></a>      @doc false
+<a id='L103' name='L103'></a>      def <a href='../R/320.html' title='Multiple referred from 40 places.'>delete</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, %<em class='brace'>{</em>source: <em class='brace'>{</em><a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>, source<em class='brace'>}</em><em class='brace'>}</em>, <a href='../D/607.html' title='Multiple defined in 2 places.'>filter</a>, _autogenarate, opts) <strong class='reserved'>do</strong>
+<a id='L104' name='L104'></a>        <em class='brace'>{</em><a href='../D/607.html' title='Multiple defined in 2 places.'>filter</a>, values<em class='brace'>}</em> = :lists.unzip(filter)
+<a id='L105' name='L105'></a>        sql = @conn.<a href='../D/444.html' title='Multiple defined in 10 places.'>delete</a>(<a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>, source, <a href='../D/607.html' title='Multiple defined in 2 places.'>filter</a>, [])
+<a id='L106' name='L106'></a>        Ecto.Adapters.SQL.<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, @conn, sql, values, [], opts)
+<a id='L107' name='L107'></a>      end
+<a id='L108' name='L108'></a>
+<a id='L109' name='L109'></a><em class='sharp'>      #</em># Transaction
+<a id='L110' name='L110'></a>
+<a id='L111' name='L111'></a>      @doc false
+<a id='L112' name='L112'></a>      def <a href='../R/959.html' title='Multiple referred from 52 places.'>transaction</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, opts, fun) <strong class='reserved'>do</strong>
+<a id='L113' name='L113'></a>        Ecto.Adapters.SQL.<a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, opts, fun)
+<a id='L114' name='L114'></a>      end
+<a id='L115' name='L115'></a>
+<a id='L116' name='L116'></a>      @doc false
+<a id='L117' name='L117'></a>      def <a href='../R/839.html' title='Multiple referred from 19 places.'>rollback</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) <strong class='reserved'>do</strong>
+<a id='L118' name='L118'></a>        Ecto.Adapters.SQL.<a href='../D/995.html' title='Multiple defined in 18 places.'>rollback</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>)
+<a id='L119' name='L119'></a>      end
+<a id='L120' name='L120'></a>
+<a id='L121' name='L121'></a><em class='sharp'>      #</em># Migration
+<a id='L122' name='L122'></a>
+<a id='L123' name='L123'></a>      @doc false
+<a id='L124' name='L124'></a>      def <a href='../R/455.html' title='Multiple referred from 4 places.'>execute_ddl</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, definition, opts) <strong class='reserved'>do</strong>
+<a id='L125' name='L125'></a>        sqls = @conn.<a href='../D/585.html' title='Multiple defined in 24 places.'>execute_ddl</a>(definition)
+<a id='L126' name='L126'></a>
+<a id='L127' name='L127'></a>        <strong class='reserved'>for</strong> sql &lt;- List.<a href='../D/1209.html' title='Multiple defined in 3 places.'>wrap</a>(sqls) <strong class='reserved'>do</strong>
+<a id='L128' name='L128'></a>          Ecto.Adapters.SQL.query!(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, sql, [], opts)
+<a id='L129' name='L129'></a>        end
+<a id='L130' name='L130'></a>
+<a id='L131' name='L131'></a>        :ok
+<a id='L132' name='L132'></a>      end
+<a id='L133' name='L133'></a>
+<a id='L134' name='L134'></a>      defoverridable [prepare: 2, execute: 6,
+<a id='L135' name='L135'></a>                      insert: 6, update: 7, delete: 5,
+<a id='L136' name='L136'></a>                      execute_ddl: 3, embed_id: 1,
+<a id='L137' name='L137'></a>                      load: 2, dump: 2]
+<a id='L138' name='L138'></a>    end
+<a id='L139' name='L139'></a>  end
+<a id='L140' name='L140'></a>
+<a id='L141' name='L141'></a>  alias Ecto.Pool
+<a id='L142' name='L142'></a>  alias Ecto.Adapters.SQL.Sandbox
+<a id='L143' name='L143'></a>
+<a id='L144' name='L144'></a>  @doc """
+<a id='L145' name='L145'></a>  Converts the given query to SQL according to its kind and the
+<a id='L146' name='L146'></a>  adapter in the given repository.
+<a id='L147' name='L147'></a>
+<a id='L148' name='L148'></a><em class='sharp'>  #</em># Examples
+<a id='L149' name='L149'></a>
+<a id='L150' name='L150'></a>  The examples below are meant <strong class='reserved'>for</strong> reference. Each adapter will
+<a id='L151' name='L151'></a>  <strong class='reserved'>return</strong> a different result:
+<a id='L152' name='L152'></a>
+<a id='L153' name='L153'></a>      Ecto.Adapters.SQL.to_sql(:all, repo, Post)
+<a id='L154' name='L154'></a>      <em class='brace'>{</em>"SELECT p.id, p.title, p.inserted_at, p.created_at FROM posts as p", []<em class='brace'>}</em>
+<a id='L155' name='L155'></a>
+<a id='L156' name='L156'></a>      Ecto.Adapters.SQL.to_sql(:update_all, repo,
+<a id='L157' name='L157'></a>                              from(p in Post, update: [set: [title: ^"hello"]]))
+<a id='L158' name='L158'></a>      <em class='brace'>{</em>"UPDATE posts AS p SET title = $1", ["hello"]<em class='brace'>}</em>
+<a id='L159' name='L159'></a>
+<a id='L160' name='L160'></a>  """
+<a id='L161' name='L161'></a>  @spec <a href='../D/1118.html' title='Multiple defined in 2 places.'>to_sql</a>(:all | :update_all | :delete_all, Ecto.Repo.t, Ecto.Queryable.t) ::
+<a id='L162' name='L162'></a>               <em class='brace'>{</em>String.t, [term]<em class='brace'>}</em>
+<a id='L163' name='L163'></a>  def <a href='../R/955.html' title='Multiple referred from 4 places.'>to_sql</a>(kind, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, queryable) <strong class='reserved'>do</strong>
+<a id='L164' name='L164'></a>    adapter = <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>.<a href='../D/199.html' title='Multiple defined in 2 places.'>__adapter__</a>
+<a id='L165' name='L165'></a>
+<a id='L166' name='L166'></a>    <em class='brace'>{</em>_meta, prepared, params<em class='brace'>}</em> =
+<a id='L167' name='L167'></a>      Ecto.Queryable.<a href='../D/1117.html' title='Multiple defined in 5 places.'>to_query</a>(queryable)
+<a id='L168' name='L168'></a>      |&gt; Ecto.Query.Planner.<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>(kind, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter)
+<a id='L169' name='L169'></a>
+<a id='L170' name='L170'></a>    <em class='brace'>{</em>prepared, params<em class='brace'>}</em>
+<a id='L171' name='L171'></a>  end
+<a id='L172' name='L172'></a>
+<a id='L173' name='L173'></a>  @doc """
+<a id='L174' name='L174'></a>  Same as `query/4` but raises on invalid queries.
+<a id='L175' name='L175'></a>  """
+<a id='L176' name='L176'></a>  @spec query!(Ecto.Repo.t, String.t, [term], Keyword.t) ::
+<a id='L177' name='L177'></a>               %<em class='brace'>{</em>rows: nil | [tuple], num_rows: non_neg_integer<em class='brace'>}</em> | no_return
+<a id='L178' name='L178'></a>  def query!(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, sql, params, opts \\ []) <strong class='reserved'>do</strong>
+<a id='L179' name='L179'></a>    query!(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, sql, params, nil, opts)
+<a id='L180' name='L180'></a>  end
+<a id='L181' name='L181'></a>
+<a id='L182' name='L182'></a>  defp query!(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, sql, params, mapper, opts) <strong class='reserved'>do</strong>
+<a id='L183' name='L183'></a>    <strong class='reserved'>case</strong> <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, sql, params, mapper, opts) <strong class='reserved'>do</strong>
+<a id='L184' name='L184'></a>      <em class='brace'>{</em>:ok, result<em class='brace'>}</em> -&gt; result
+<a id='L185' name='L185'></a>      <em class='brace'>{</em>:error, err<em class='brace'>}</em> -&gt; raise err
+<a id='L186' name='L186'></a>    end
+<a id='L187' name='L187'></a>  end
+<a id='L188' name='L188'></a>
+<a id='L189' name='L189'></a>  @doc """
+<a id='L190' name='L190'></a>  Runs custom SQL query on given repo.
+<a id='L191' name='L191'></a>
+<a id='L192' name='L192'></a>  In <strong class='reserved'>case</strong> of success, it must <strong class='reserved'>return</strong> an `:ok` tuple containing
+<a id='L193' name='L193'></a>  a map with at least two keys:
+<a id='L194' name='L194'></a>
+<a id='L195' name='L195'></a>    * `:num_rows` - the number of rows affected
+<a id='L196' name='L196'></a>
+<a id='L197' name='L197'></a>    * `:rows` - the result set as a list. `nil` may be returned
+<a id='L198' name='L198'></a>      instead of the list <strong class='reserved'>if</strong> the command does not yield any row
+<a id='L199' name='L199'></a>      as result (but still yields the number of affected rows,
+<a id='L200' name='L200'></a>      like a `delete` command without returning would)
+<a id='L201' name='L201'></a>
+<a id='L202' name='L202'></a><em class='sharp'>  #</em># Options
+<a id='L203' name='L203'></a>
+<a id='L204' name='L204'></a>    * `:timeout` - The time in milliseconds to wait <strong class='reserved'>for</strong> a query to finish,
+<a id='L205' name='L205'></a>      `:infinity` will wait indefinitely. (<strong class='reserved'>default</strong>: 15_000)
+<a id='L206' name='L206'></a>
+<a id='L207' name='L207'></a>    * `:pool_timeout` - The time in milliseconds to wait <strong class='reserved'>for</strong> a call to the pool
+<a id='L208' name='L208'></a>      to finish, `:infinity` will wait indefinitely. (<strong class='reserved'>default</strong>: 5_000)
+<a id='L209' name='L209'></a>
+<a id='L210' name='L210'></a>    * `:log` - When false, does not log the query
+<a id='L211' name='L211'></a>
+<a id='L212' name='L212'></a><em class='sharp'>  #</em># Examples
+<a id='L213' name='L213'></a>
+<a id='L214' name='L214'></a>      iex&gt; Ecto.Adapters.SQL.query(MyRepo, "SELECT $1::integer + $2", [40, 2])
+<a id='L215' name='L215'></a>      <em class='brace'>{</em>:ok, %<em class='brace'>{</em>rows: [<em class='brace'>{</em>42<em class='brace'>}</em>], num_rows: 1<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L216' name='L216'></a>
+<a id='L217' name='L217'></a>  """
+<a id='L218' name='L218'></a>  @spec <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>(Ecto.Repo.t, String.t, [term], Keyword.t) ::
+<a id='L219' name='L219'></a>              <em class='brace'>{</em>:ok, %<em class='brace'>{</em>rows: nil | [tuple], num_rows: non_neg_integer<em class='brace'>}</em><em class='brace'>}</em> | <em class='brace'>{</em>:error, Exception.t<em class='brace'>}</em>
+<a id='L220' name='L220'></a>  def <a href='../R/778.html' title='Multiple referred from 883 places.'>query</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, sql, params, opts \\ []) <strong class='reserved'>do</strong>
+<a id='L221' name='L221'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, sql, params, nil, opts)
+<a id='L222' name='L222'></a>  end
+<a id='L223' name='L223'></a>
+<a id='L224' name='L224'></a>  defp <a href='../R/778.html' title='Multiple referred from 883 places.'>query</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, sql, params, mapper, opts) <strong class='reserved'>do</strong>
+<a id='L225' name='L225'></a>    <strong class='reserved'>case</strong> <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, sql, params, nil, mapper, opts) <strong class='reserved'>do</strong>
+<a id='L226' name='L226'></a>      <em class='brace'>{</em>result, <a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a><em class='brace'>}</em> -&gt;
+<a id='L227' name='L227'></a>        <a href='../D/740.html' title='Multiple defined in 15 places.'>log</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, <a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a>)
+<a id='L228' name='L228'></a>        result
+<a id='L229' name='L229'></a>      :noconnect -&gt;
+<a id='L230' name='L230'></a><em class='sharp'>        #</em> :noconnect can never be the reason a call fails because
+<a id='L231' name='L231'></a>        # it is converted to <em class='brace'>{</em>:nodedown, node<em class='brace'>}</em>. This means the exit
+<a id='L232' name='L232'></a>        # reason can be easily identified.
+<a id='L233' name='L233'></a>        exit(<em class='brace'>{</em>:noconnect, <em class='brace'>{</em>__MODULE__, :query, [<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, sql, params, opts]<em class='brace'>}</em><em class='brace'>}</em>)
+<a id='L234' name='L234'></a>    end
+<a id='L235' name='L235'></a>  end
+<a id='L236' name='L236'></a>
+<a id='L237' name='L237'></a>  defp <a href='../R/778.html' title='Multiple referred from 883 places.'>query</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, sql, params, outer_queue_time, mapper, opts) <strong class='reserved'>do</strong>
+<a id='L238' name='L238'></a>    <em class='brace'>{</em>pool_mod, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, pool_timeout, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a><em class='brace'>}</em> = <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>.<a href='../D/215.html' title='Multiple defined in 2 places.'>__pool__</a>
+<a id='L239' name='L239'></a>    pool_timeout = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :pool_timeout, pool_timeout)
+<a id='L240' name='L240'></a>    opts         = Keyword.put_new(opts, :<a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>, timeout)
+<a id='L241' name='L241'></a>    <em class='brace'>{</em>log?, opts<em class='brace'>}</em> = Keyword.pop(opts, :log, true)
+<a id='L242' name='L242'></a>
+<a id='L243' name='L243'></a>    query_fun = fn(<em class='brace'>{</em>mod, conn<em class='brace'>}</em>, inner_queue_time) -&gt;
+<a id='L244' name='L244'></a>      <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>(mod, conn, inner_queue_time || outer_queue_time, sql, params, log?, opts)
+<a id='L245' name='L245'></a>    end
+<a id='L246' name='L246'></a>
+<a id='L247' name='L247'></a>    <strong class='reserved'>case</strong> <a href='../D/126.html' title='Multiple defined in 4 places.'>Pool</a>.<a href='../D/1001.html' title='Multiple defined in 11 places.'>run</a>(pool_mod, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, pool_timeout, query_fun) <strong class='reserved'>do</strong>
+<a id='L248' name='L248'></a>      <em class='brace'>{</em>:ok, <em class='brace'>{</em>result, <a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a><em class='brace'>}</em><em class='brace'>}</em> -&gt;
+<a id='L249' name='L249'></a>        <a href='../D/413.html' title='Multiple defined in 49 places.'>decode</a>(result, <a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a>, mapper)
+<a id='L250' name='L250'></a>      <em class='brace'>{</em>:error, :noconnect<em class='brace'>}</em> -&gt;
+<a id='L251' name='L251'></a>        :noconnect
+<a id='L252' name='L252'></a>      <em class='brace'>{</em>:error, :noproc<em class='brace'>}</em> -&gt;
+<a id='L253' name='L253'></a>        raise ArgumentError, "repo #{inspect repo} is not started, " &lt;&gt;
+<a id='L254' name='L254'></a>                             "please ensure it is part of your supervision tree"
+<a id='L255' name='L255'></a>    end
+<a id='L256' name='L256'></a>  end
+<a id='L257' name='L257'></a>
+<a id='L258' name='L258'></a>  defp <a href='../R/778.html' title='Multiple referred from 883 places.'>query</a>(mod, conn, _queue_time, sql, params, false, opts) <strong class='reserved'>do</strong>
+<a id='L259' name='L259'></a>    <em class='brace'>{</em>mod.<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>(conn, sql, params, opts), nil<em class='brace'>}</em>
+<a id='L260' name='L260'></a>  end
+<a id='L261' name='L261'></a>  defp <a href='../R/778.html' title='Multiple referred from 883 places.'>query</a>(mod, conn, queue_time, sql, params, true, opts) <strong class='reserved'>do</strong>
+<a id='L262' name='L262'></a>    <em class='brace'>{</em>query_time, result<em class='brace'>}</em> = :timer.tc(mod, :query, [conn, sql, params, opts])
+<a id='L263' name='L263'></a>    <a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a> = %Ecto.LogEntry<em class='brace'>{</em>query: sql, params: params, connection_pid: conn,
+<a id='L264' name='L264'></a>                           query_time: query_time, queue_time: queue_time<em class='brace'>}</em>
+<a id='L265' name='L265'></a>    <em class='brace'>{</em>result, <a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a><em class='brace'>}</em>
+<a id='L266' name='L266'></a>  end
+<a id='L267' name='L267'></a>
+<a id='L268' name='L268'></a>  defp <a href='../R/289.html' title='Multiple referred from 21 places.'>decode</a>(result, nil, nil) <strong class='reserved'>do</strong>
+<a id='L269' name='L269'></a>    <em class='brace'>{</em>result, nil<em class='brace'>}</em>
+<a id='L270' name='L270'></a>  end
+<a id='L271' name='L271'></a>  defp <a href='../R/289.html' title='Multiple referred from 21 places.'>decode</a>(result, nil, mapper) <strong class='reserved'>do</strong>
+<a id='L272' name='L272'></a>    <em class='brace'>{</em><a href='../D/413.html' title='Multiple defined in 49 places.'>decode</a>(result, mapper), nil<em class='brace'>}</em>
+<a id='L273' name='L273'></a>  end
+<a id='L274' name='L274'></a>  defp <a href='../R/289.html' title='Multiple referred from 21 places.'>decode</a>(result, <a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a>, nil) <strong class='reserved'>do</strong>
+<a id='L275' name='L275'></a>    <em class='brace'>{</em>result, %<em class='brace'>{</em><a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a> | result: result<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L276' name='L276'></a>  end
+<a id='L277' name='L277'></a>  defp <a href='../R/289.html' title='Multiple referred from 21 places.'>decode</a>(result, %<em class='brace'>{</em>query_time: query_time<em class='brace'>}</em> = <a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a>, mapper) <strong class='reserved'>do</strong>
+<a id='L278' name='L278'></a>    <em class='brace'>{</em><a href='../D/433.html' title='Multiple defined in 2 places.'>decode_time</a>, decoded<em class='brace'>}</em> = :timer.tc(fn -&gt; <a href='../D/413.html' title='Multiple defined in 49 places.'>decode</a>(result, mapper) end)
+<a id='L279' name='L279'></a>    <em class='brace'>{</em>decoded, %<em class='brace'>{</em><a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a> | result: decoded, query_time: query_time + <a href='../D/433.html' title='Multiple defined in 2 places.'>decode_time</a><em class='brace'>}</em><em class='brace'>}</em>
+<a id='L280' name='L280'></a>  end
+<a id='L281' name='L281'></a>
+<a id='L282' name='L282'></a>  defp <a href='../R/289.html' title='Multiple referred from 21 places.'>decode</a>(<em class='brace'>{</em>:ok, %<em class='brace'>{</em>rows: rows<em class='brace'>}</em> = res<em class='brace'>}</em>, mapper) when is_list(rows) <strong class='reserved'>do</strong>
+<a id='L283' name='L283'></a>    <em class='brace'>{</em>:ok, %<em class='brace'>{</em>res | rows: Enum.map(rows, mapper)<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L284' name='L284'></a>  end
+<a id='L285' name='L285'></a>  defp <a href='../R/289.html' title='Multiple referred from 21 places.'>decode</a>(other, _mapper) <strong class='reserved'>do</strong>
+<a id='L286' name='L286'></a>    other
+<a id='L287' name='L287'></a>  end
+<a id='L288' name='L288'></a>
+<a id='L289' name='L289'></a>  defp <a href='../R/603.html' title='Multiple referred from 73 places.'>log</a>(_repo, nil), <strong class='reserved'>do</strong>: :ok
+<a id='L290' name='L290'></a>  defp <a href='../R/603.html' title='Multiple referred from 73 places.'>log</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, <a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a>), <strong class='reserved'>do</strong>: repo.log(entry)
+<a id='L291' name='L291'></a>
+<a id='L292' name='L292'></a>  @doc ~S"""
+<a id='L293' name='L293'></a>  Starts a transaction <strong class='reserved'>for</strong> test.
+<a id='L294' name='L294'></a>
+<a id='L295' name='L295'></a>  This function work by starting a transaction and storing the connection
+<a id='L296' name='L296'></a>  back in the pool with an open transaction. On every test, we restart
+<a id='L297' name='L297'></a>  the test transaction rolling back to the appropriate savepoint.
+<a id='L298' name='L298'></a>
+<a id='L299' name='L299'></a>
+<a id='L300' name='L300'></a>  **IMPORTANT:** Test transactions only work <strong class='reserved'>if</strong> the connection pool is
+<a id='L301' name='L301'></a>  `Ecto.Adapters.SQL.Sandbox`
+<a id='L302' name='L302'></a>
+<a id='L303' name='L303'></a><em class='sharp'>  #</em># Example
+<a id='L304' name='L304'></a>
+<a id='L305' name='L305'></a>  The first step is to configure your database to use the
+<a id='L306' name='L306'></a>  `Ecto.Adapters.SQL.Sandbox` pool. You set those options in your
+<a id='L307' name='L307'></a>  `config/config.exs`:
+<a id='L308' name='L308'></a>
+<a id='L309' name='L309'></a>      config :my_app, Repo,
+<a id='L310' name='L310'></a>        pool: Ecto.Adapters.SQL.Sandbox
+<a id='L311' name='L311'></a>
+<a id='L312' name='L312'></a>  Since you don't want those options in your production database, we
+<a id='L313' name='L313'></a>  typically recommend to create a `config/test.exs` and add the
+<a id='L314' name='L314'></a>  following to the bottom of your `config/config.exs` file:
+<a id='L315' name='L315'></a>
+<a id='L316' name='L316'></a>      import_config "config/#{Mix.env}.exs"
+<a id='L317' name='L317'></a>
+<a id='L318' name='L318'></a>  Now with the test database properly configured, you can write
+<a id='L319' name='L319'></a>  transactional tests:
+<a id='L320' name='L320'></a>
+<a id='L321' name='L321'></a>      # At the end of your test_helper.exs
+<a id='L322' name='L322'></a>      # From now, all tests happen inside a transaction
+<a id='L323' name='L323'></a>      Ecto.Adapters.SQL.begin_test_transaction(TestRepo)
+<a id='L324' name='L324'></a>
+<a id='L325' name='L325'></a>      defmodule PostTest <strong class='reserved'>do</strong>
+<a id='L326' name='L326'></a>        # Tests that use the shared repository cannot be async
+<a id='L327' name='L327'></a>        use ExUnit.Case
+<a id='L328' name='L328'></a>
+<a id='L329' name='L329'></a>        setup <strong class='reserved'>do</strong>
+<a id='L330' name='L330'></a>          # Go back to a clean slate at the beginning of every test
+<a id='L331' name='L331'></a>          Ecto.Adapters.SQL.restart_test_transaction(TestRepo)
+<a id='L332' name='L332'></a>          :ok
+<a id='L333' name='L333'></a>        end
+<a id='L334' name='L334'></a>
+<a id='L335' name='L335'></a>        test "create comment" <strong class='reserved'>do</strong>
+<a id='L336' name='L336'></a>          assert %Post<em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L337' name='L337'></a>        end
+<a id='L338' name='L338'></a>      end
+<a id='L339' name='L339'></a>
+<a id='L340' name='L340'></a>  In some cases, you may want to start the test transaction only
+<a id='L341' name='L341'></a>  <strong class='reserved'>for</strong> specific tests and then roll it back. You can <strong class='reserved'>do</strong> it as:
+<a id='L342' name='L342'></a>
+<a id='L343' name='L343'></a>      defmodule PostTest <strong class='reserved'>do</strong>
+<a id='L344' name='L344'></a>        # Tests that use the shared repository cannot be async
+<a id='L345' name='L345'></a>        use ExUnit.Case
+<a id='L346' name='L346'></a>
+<a id='L347' name='L347'></a>        setup_all <strong class='reserved'>do</strong>
+<a id='L348' name='L348'></a>          # Wrap this <strong class='reserved'>case</strong> in a transaction
+<a id='L349' name='L349'></a>          Ecto.Adapters.SQL.begin_test_transaction(TestRepo)
+<a id='L350' name='L350'></a>
+<a id='L351' name='L351'></a>          # Roll it back once we are done
+<a id='L352' name='L352'></a>          on_exit fn -&gt;
+<a id='L353' name='L353'></a>            Ecto.Adapters.SQL.rollback_test_transaction(TestRepo)
+<a id='L354' name='L354'></a>          end
+<a id='L355' name='L355'></a>
+<a id='L356' name='L356'></a>          :ok
+<a id='L357' name='L357'></a>        end
+<a id='L358' name='L358'></a>
+<a id='L359' name='L359'></a>        setup <strong class='reserved'>do</strong>
+<a id='L360' name='L360'></a>          # Go back to a clean slate at the beginning of every test
+<a id='L361' name='L361'></a>          Ecto.Adapters.SQL.restart_test_transaction(TestRepo)
+<a id='L362' name='L362'></a>          :ok
+<a id='L363' name='L363'></a>        end
+<a id='L364' name='L364'></a>
+<a id='L365' name='L365'></a>        test "create comment" <strong class='reserved'>do</strong>
+<a id='L366' name='L366'></a>          assert %Post<em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L367' name='L367'></a>        end
+<a id='L368' name='L368'></a>      end
+<a id='L369' name='L369'></a>
+<a id='L370' name='L370'></a>  """
+<a id='L371' name='L371'></a>  @spec <a href='../S/81.html#L372' title='Defined at 372 in deps/ecto/lib/ecto/adapters/sql.ex.'>begin_test_transaction</a>(Ecto.Repo.t, Keyword.t) :: :ok
+<a id='L372' name='L372'></a>  def <a href='../R/176.html' title='Multiple referred from 8 places.'>begin_test_transaction</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, opts \\ []) <strong class='reserved'>do</strong>
+<a id='L373' name='L373'></a>    <a href='../D/1098.html' title='Multiple defined in 2 places.'>test_transaction</a>(:begin, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, opts)
+<a id='L374' name='L374'></a>  end
+<a id='L375' name='L375'></a>
+<a id='L376' name='L376'></a>  @doc """
+<a id='L377' name='L377'></a>  Restarts a test transaction, see `begin_test_transaction/2`.
+<a id='L378' name='L378'></a>  """
+<a id='L379' name='L379'></a>  @spec <a href='../S/81.html#L380' title='Defined at 380 in deps/ecto/lib/ecto/adapters/sql.ex.'>restart_test_transaction</a>(Ecto.Repo.t, Keyword.t) :: :ok
+<a id='L380' name='L380'></a>  def <a href='../R/833.html' title='Multiple referred from 5 places.'>restart_test_transaction</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, opts \\ []) <strong class='reserved'>do</strong>
+<a id='L381' name='L381'></a>    <a href='../D/1098.html' title='Multiple defined in 2 places.'>test_transaction</a>(:restart, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, opts)
+<a id='L382' name='L382'></a>  end
+<a id='L383' name='L383'></a>
+<a id='L384' name='L384'></a>  @spec <a href='../S/81.html#L385' title='Defined at 385 in deps/ecto/lib/ecto/adapters/sql.ex.'>rollback_test_transaction</a>(Ecto.Repo.t, Keyword.t) :: :ok
+<a id='L385' name='L385'></a>  def <a href='../R/841.html' title='Multiple referred from 12 places.'>rollback_test_transaction</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, opts \\ []) <strong class='reserved'>do</strong>
+<a id='L386' name='L386'></a>    <a href='../D/1098.html' title='Multiple defined in 2 places.'>test_transaction</a>(:rollback, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, opts)
+<a id='L387' name='L387'></a>  end
+<a id='L388' name='L388'></a>
+<a id='L389' name='L389'></a>  defp <a href='../R/937.html' title='Multiple referred from 4 places.'>test_transaction</a>(fun, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, opts) <strong class='reserved'>do</strong>
+<a id='L390' name='L390'></a>    <strong class='reserved'>case</strong> <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>.<a href='../D/215.html' title='Multiple defined in 2 places.'>__pool__</a> <strong class='reserved'>do</strong>
+<a id='L391' name='L391'></a>      <em class='brace'>{</em><a href='../S/80.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/adapters/sql/sandbox.ex.'>Sandbox</a>, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, pool_timeout, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a><em class='brace'>}</em> -&gt;
+<a id='L392' name='L392'></a>        opts = Keyword.put_new(opts, :<a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>, timeout)
+<a id='L393' name='L393'></a>        pool_timeout = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :pool_timeout, pool_timeout)
+<a id='L394' name='L394'></a>        <a href='../D/1098.html' title='Multiple defined in 2 places.'>test_transaction</a>(<a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, fun, &amp;<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>.<a href='../D/740.html' title='Multiple defined in 15 places.'>log</a>/1, opts, pool_timeout)
+<a id='L395' name='L395'></a>      <em class='brace'>{</em>pool_mod, _, _, _<em class='brace'>}</em> -&gt;
+<a id='L396' name='L396'></a>        raise """
+<a id='L397' name='L397'></a>        cannot #<em class='brace'>{</em>fun<em class='brace'>}</em> test transaction with pool #<em class='brace'>{</em><a href='../D/696.html' title='Multiple defined in 5 places.'>inspect</a> pool_mod<em class='brace'>}</em>.
+<a id='L398' name='L398'></a>        In order to use test transactions with Ecto SQL, you need to
+<a id='L399' name='L399'></a>        configure your repository to use #<em class='brace'>{</em><a href='../D/696.html' title='Multiple defined in 5 places.'>inspect</a> <a href='../S/80.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/adapters/sql/sandbox.ex.'>Sandbox</a><em class='brace'>}</em>:
+<a id='L400' name='L400'></a>
+<a id='L401' name='L401'></a>            pool: #<em class='brace'>{</em><a href='../D/696.html' title='Multiple defined in 5 places.'>inspect</a> <a href='../S/80.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/adapters/sql/sandbox.ex.'>Sandbox</a><em class='brace'>}</em>
+<a id='L402' name='L402'></a>        """
+<a id='L403' name='L403'></a>    end
+<a id='L404' name='L404'></a>  end
+<a id='L405' name='L405'></a>
+<a id='L406' name='L406'></a>  defp <a href='../R/937.html' title='Multiple referred from 4 places.'>test_transaction</a>(<a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, fun, <a href='../D/740.html' title='Multiple defined in 15 places.'>log</a>, opts, pool_timeout) <strong class='reserved'>do</strong>
+<a id='L407' name='L407'></a>    <strong class='reserved'>case</strong> <a href='../D/244.html' title='Multiple defined in 16 places.'>apply</a>(<a href='../S/80.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/adapters/sql/sandbox.ex.'>Sandbox</a>, fun, [<a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, <a href='../D/740.html' title='Multiple defined in 15 places.'>log</a>, opts, pool_timeout]) <strong class='reserved'>do</strong>
+<a id='L408' name='L408'></a>      :ok -&gt;
+<a id='L409' name='L409'></a>        :ok
+<a id='L410' name='L410'></a>      <em class='brace'>{</em>:error, :sandbox<em class='brace'>}</em> when fun == :begin -&gt;
+<a id='L411' name='L411'></a>        raise "cannot begin test transaction because we are already inside one"
+<a id='L412' name='L412'></a>    end
+<a id='L413' name='L413'></a>  end
+<a id='L414' name='L414'></a>
+<a id='L415' name='L415'></a><em class='sharp'>  #</em># Worker
+<a id='L416' name='L416'></a>
+<a id='L417' name='L417'></a>  @doc false
+<a id='L418' name='L418'></a>  def <a href='../R/900.html' title='Multiple referred from 71 places.'>start_link</a>(connection, adapter, _repo, opts) <strong class='reserved'>do</strong>
+<a id='L419' name='L419'></a>    unless Code.ensure_loaded?(connection) <strong class='reserved'>do</strong>
+<a id='L420' name='L420'></a>      raise """
+<a id='L421' name='L421'></a>      could not find #<em class='brace'>{</em><a href='../D/696.html' title='Multiple defined in 5 places.'>inspect</a> connection<em class='brace'>}</em>.
+<a id='L422' name='L422'></a>
+<a id='L423' name='L423'></a>      Please verify you have added #<em class='brace'>{</em><a href='../D/696.html' title='Multiple defined in 5 places.'>inspect</a> adapter<em class='brace'>}</em> as a dependency:
+<a id='L424' name='L424'></a>
+<a id='L425' name='L425'></a>          <em class='brace'>{</em>#<em class='brace'>{</em><a href='../D/696.html' title='Multiple defined in 5 places.'>inspect</a> adapter<em class='brace'>}</em>, "&gt;= 0.0.0"<em class='brace'>}</em>
+<a id='L426' name='L426'></a>
+<a id='L427' name='L427'></a>      And remember to recompile Ecto afterwards by cleaning the current build:
+<a id='L428' name='L428'></a>
+<a id='L429' name='L429'></a>          mix deps.clean ecto
+<a id='L430' name='L430'></a>      """
+<a id='L431' name='L431'></a>    end
+<a id='L432' name='L432'></a>
+<a id='L433' name='L433'></a>    <em class='brace'>{</em><a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, opts<em class='brace'>}</em> = Keyword.pop(opts, :pool)
+<a id='L434' name='L434'></a>    <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>.<a href='../D/1059.html' title='Multiple defined in 41 places.'>start_link</a>(connection, opts)
+<a id='L435' name='L435'></a>  end
+<a id='L436' name='L436'></a>
+<a id='L437' name='L437'></a><em class='sharp'>  #</em># Types
+<a id='L438' name='L438'></a>
+<a id='L439' name='L439'></a>  @doc false
+<a id='L440' name='L440'></a>  def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(<em class='brace'>{</em>:embed, _<em class='brace'>}</em> = <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/190.html#L917' title='Defined at 917 in deps/postgrex/lib/postgrex/protocol.ex.'>data</a>, loader),
+<a id='L441' name='L441'></a>    <strong class='reserved'>do</strong>: Ecto.Type.<a href='../D/727.html' title='Multiple defined in 36 places.'>load</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/190.html#L917' title='Defined at 917 in deps/postgrex/lib/postgrex/protocol.ex.'>data</a>, fn
+<a id='L442' name='L442'></a>          <em class='brace'>{</em>:embed, _<em class='brace'>}</em> = <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a> -&gt; loader.(type, value)
+<a id='L443' name='L443'></a>          <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a> -&gt; Ecto.Type.<a href='../D/331.html' title='Multiple defined in 58 places.'>cast</a>(type, value)
+<a id='L444' name='L444'></a>        end)
+<a id='L445' name='L445'></a>  def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(:binary_id, <a href='../S/190.html#L917' title='Defined at 917 in deps/postgrex/lib/postgrex/protocol.ex.'>data</a>, loader),
+<a id='L446' name='L446'></a>    <strong class='reserved'>do</strong>: Ecto.Type.<a href='../D/727.html' title='Multiple defined in 36 places.'>load</a>(Ecto.UUID, <a href='../S/190.html#L917' title='Defined at 917 in deps/postgrex/lib/postgrex/protocol.ex.'>data</a>, loader)
+<a id='L447' name='L447'></a>  def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/190.html#L917' title='Defined at 917 in deps/postgrex/lib/postgrex/protocol.ex.'>data</a>, loader),
+<a id='L448' name='L448'></a>    <strong class='reserved'>do</strong>: Ecto.Type.<a href='../D/727.html' title='Multiple defined in 36 places.'>load</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/190.html#L917' title='Defined at 917 in deps/postgrex/lib/postgrex/protocol.ex.'>data</a>, loader)
+<a id='L449' name='L449'></a>
+<a id='L450' name='L450'></a>  @doc false
+<a id='L451' name='L451'></a>  def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(<em class='brace'>{</em>:embed, _<em class='brace'>}</em> = <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/190.html#L917' title='Defined at 917 in deps/postgrex/lib/postgrex/protocol.ex.'>data</a>, dumper),
+<a id='L452' name='L452'></a>    <strong class='reserved'>do</strong>: Ecto.Type.<a href='../D/512.html' title='Multiple defined in 28 places.'>dump</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/190.html#L917' title='Defined at 917 in deps/postgrex/lib/postgrex/protocol.ex.'>data</a>, fn
+<a id='L453' name='L453'></a>          <em class='brace'>{</em>:embed, _<em class='brace'>}</em> = <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a> -&gt; dumper.(type, value)
+<a id='L454' name='L454'></a>          _type, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a> -&gt; <em class='brace'>{</em>:ok, value<em class='brace'>}</em>
+<a id='L455' name='L455'></a>        end)
+<a id='L456' name='L456'></a>  def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(:binary_id, <a href='../S/190.html#L917' title='Defined at 917 in deps/postgrex/lib/postgrex/protocol.ex.'>data</a>, dumper),
+<a id='L457' name='L457'></a>    <strong class='reserved'>do</strong>: Ecto.Type.<a href='../D/512.html' title='Multiple defined in 28 places.'>dump</a>(Ecto.UUID, <a href='../S/190.html#L917' title='Defined at 917 in deps/postgrex/lib/postgrex/protocol.ex.'>data</a>, dumper)
+<a id='L458' name='L458'></a>  def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/190.html#L917' title='Defined at 917 in deps/postgrex/lib/postgrex/protocol.ex.'>data</a>, dumper),
+<a id='L459' name='L459'></a>    <strong class='reserved'>do</strong>: Ecto.Type.<a href='../D/512.html' title='Multiple defined in 28 places.'>dump</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/190.html#L917' title='Defined at 917 in deps/postgrex/lib/postgrex/protocol.ex.'>data</a>, dumper)
+<a id='L460' name='L460'></a>
+<a id='L461' name='L461'></a>  @doc false
+<a id='L462' name='L462'></a>  def <a href='../R/184.html' title='Multiple referred from 3 places.'>bingenerate</a>(<a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>) <strong class='reserved'>do</strong>
+<a id='L463' name='L463'></a>    <em class='brace'>{</em>:ok, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a><em class='brace'>}</em> = Ecto.UUID.<a href='../D/512.html' title='Multiple defined in 28 places.'>dump</a>(Ecto.UUID.<a href='../S/133.html#L89' title='Defined at 89 in deps/ecto/lib/ecto/uuid.ex.'>generate</a>)
+<a id='L464' name='L464'></a>    <em class='brace'>{</em>[<em class='brace'>{</em><a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a><em class='brace'>}</em>], [<em class='brace'>{</em>key, <a href='../D/1169.html' title='Multiple defined in 2 places.'>unwrap</a>(value)<em class='brace'>}</em>]<em class='brace'>}</em>
+<a id='L465' name='L465'></a>  end
+<a id='L466' name='L466'></a>
+<a id='L467' name='L467'></a>  defp <a href='../S/81.html#L464' title='Referred from 464 in deps/ecto/lib/ecto/adapters/sql.ex.'>unwrap</a>(%Ecto.Query.Tagged<em class='brace'>{</em><a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>: value<em class='brace'>}</em>), <strong class='reserved'>do</strong>: value
+<a id='L468' name='L468'></a>  defp <a href='../S/81.html#L464' title='Referred from 464 in deps/ecto/lib/ecto/adapters/sql.ex.'>unwrap</a>(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>), <strong class='reserved'>do</strong>: value
+<a id='L469' name='L469'></a>
+<a id='L470' name='L470'></a><em class='sharp'>  #</em># Query
+<a id='L471' name='L471'></a>
+<a id='L472' name='L472'></a>  @doc false
+<a id='L473' name='L473'></a>  def <a href='../R/451.html' title='Multiple referred from 31 places.'>execute</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, _meta, prepared, params, nil, opts) <strong class='reserved'>do</strong>
+<a id='L474' name='L474'></a>    %<em class='brace'>{</em>rows: rows, num_rows: num<em class='brace'>}</em> = query!(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, prepared, params, nil, opts)
+<a id='L475' name='L475'></a>    <em class='brace'>{</em>num, rows<em class='brace'>}</em>
+<a id='L476' name='L476'></a>  end
+<a id='L477' name='L477'></a>
+<a id='L478' name='L478'></a>  def <a href='../R/451.html' title='Multiple referred from 31 places.'>execute</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, meta, prepared, params, <a href='../D/902.html' title='Multiple defined in 5 places.'>preprocess</a>, opts) <strong class='reserved'>do</strong>
+<a id='L479' name='L479'></a>    <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a> = <a href='../S/81.html#L502' title='Defined at 502 in deps/ecto/lib/ecto/adapters/sql.ex.'>count_fields</a>(meta.<a href='../D/1031.html' title='Multiple defined in 4 places.'>select</a>.fields, meta.sources)
+<a id='L480' name='L480'></a>    mapper = &amp;<a href='../S/81.html#L512' title='Defined at 512 in deps/ecto/lib/ecto/adapters/sql.ex.'>process_row</a>(&amp;1, <a href='../D/902.html' title='Multiple defined in 5 places.'>preprocess</a>, <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>)
+<a id='L481' name='L481'></a>    %<em class='brace'>{</em>rows: rows, num_rows: num<em class='brace'>}</em> = query!(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, prepared, params, mapper, opts)
+<a id='L482' name='L482'></a>    <em class='brace'>{</em>num, rows<em class='brace'>}</em>
+<a id='L483' name='L483'></a>  end
+<a id='L484' name='L484'></a>
+<a id='L485' name='L485'></a>  @doc false
+<a id='L486' name='L486'></a>  def <a href='../R/645.html' title='Multiple referred from 333 places.'>model</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, conn, sql, values, <a href='../D/990.html' title='Multiple defined in 2 places.'>returning</a>, opts) <strong class='reserved'>do</strong>
+<a id='L487' name='L487'></a>    <strong class='reserved'>case</strong> <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, sql, values, nil, opts) <strong class='reserved'>do</strong>
+<a id='L488' name='L488'></a>      <em class='brace'>{</em>:ok, %<em class='brace'>{</em>rows: nil, num_rows: 1<em class='brace'>}</em><em class='brace'>}</em> -&gt;
+<a id='L489' name='L489'></a>        <em class='brace'>{</em>:ok, []<em class='brace'>}</em>
+<a id='L490' name='L490'></a>      <em class='brace'>{</em>:ok, %<em class='brace'>{</em>rows: [values], num_rows: 1<em class='brace'>}</em><em class='brace'>}</em> -&gt;
+<a id='L491' name='L491'></a>        <em class='brace'>{</em>:ok, Enum.zip(<a href='../D/990.html' title='Multiple defined in 2 places.'>returning</a>, values)<em class='brace'>}</em>
+<a id='L492' name='L492'></a>      <em class='brace'>{</em>:ok, %<em class='brace'>{</em>num_rows: 0<em class='brace'>}</em><em class='brace'>}</em> -&gt;
+<a id='L493' name='L493'></a>        <em class='brace'>{</em>:error, :stale<em class='brace'>}</em>
+<a id='L494' name='L494'></a>      <em class='brace'>{</em>:error, err<em class='brace'>}</em> -&gt;
+<a id='L495' name='L495'></a>        <strong class='reserved'>case</strong> conn.<a href='../D/1106.html' title='Multiple defined in 11 places.'>to_constraints</a>(err) <strong class='reserved'>do</strong>
+<a id='L496' name='L496'></a>          []          -&gt; raise err
+<a id='L497' name='L497'></a>          <a href='../S/56.html#L659' title='Defined at 659 in deps/ecto/integration_test/cases/repo.exs.'>constraints</a> -&gt; <em class='brace'>{</em>:invalid, constraints<em class='brace'>}</em>
+<a id='L498' name='L498'></a>        end
+<a id='L499' name='L499'></a>    end
+<a id='L500' name='L500'></a>  end
+<a id='L501' name='L501'></a>
+<a id='L502' name='L502'></a>  defp <a href='../S/81.html#L479' title='Referred from 479 in deps/ecto/lib/ecto/adapters/sql.ex.'>count_fields</a>(<a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, sources) <strong class='reserved'>do</strong>
+<a id='L503' name='L503'></a>    Enum.map <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, fn
+<a id='L504' name='L504'></a>      <em class='brace'>{</em>:&amp;, _, [idx]<em class='brace'>}</em> = <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> -&gt;
+<a id='L505' name='L505'></a>        <em class='brace'>{</em>_source, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a><em class='brace'>}</em> = elem(sources, idx)
+<a id='L506' name='L506'></a>        <em class='brace'>{</em><a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, length(<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>.<a href='../D/220.html' title='Multiple defined in 18 places.'>__schema__</a>(:fields))<em class='brace'>}</em>
+<a id='L507' name='L507'></a>      <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> -&gt;
+<a id='L508' name='L508'></a>        <em class='brace'>{</em><a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, 0<em class='brace'>}</em>
+<a id='L509' name='L509'></a>    end
+<a id='L510' name='L510'></a>  end
+<a id='L511' name='L511'></a>
+<a id='L512' name='L512'></a>  defp <a href='../S/81.html#L480' title='Referred from 480 in deps/ecto/lib/ecto/adapters/sql.ex.'>process_row</a>(row, <a href='../D/902.html' title='Multiple defined in 5 places.'>preprocess</a>, <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>) <strong class='reserved'>do</strong>
+<a id='L513' name='L513'></a>    Enum.map_reduce(<a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, row, fn
+<a id='L514' name='L514'></a>      <em class='brace'>{</em><a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, 0<em class='brace'>}</em>, [h|t] -&gt;
+<a id='L515' name='L515'></a>        <em class='brace'>{</em><a href='../D/902.html' title='Multiple defined in 5 places.'>preprocess</a>.(<a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, h, nil), t<em class='brace'>}</em>
+<a id='L516' name='L516'></a>      <em class='brace'>{</em><a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, <a href='../D/394.html' title='Multiple defined in 2 places.'>count</a><em class='brace'>}</em>, acc -&gt;
+<a id='L517' name='L517'></a>        <strong class='reserved'>case</strong> <a href='../D/1048.html' title='Multiple defined in 4 places.'>split_and_not_nil</a>(acc, <a href='../D/394.html' title='Multiple defined in 2 places.'>count</a>, true, []) <strong class='reserved'>do</strong>
+<a id='L518' name='L518'></a>          <em class='brace'>{</em>nil, rest<em class='brace'>}</em> -&gt; <em class='brace'>{</em>nil, rest<em class='brace'>}</em>
+<a id='L519' name='L519'></a>          <em class='brace'>{</em>val, rest<em class='brace'>}</em> -&gt; <em class='brace'>{</em><a href='../D/902.html' title='Multiple defined in 5 places.'>preprocess</a>.(<a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, val, nil), rest<em class='brace'>}</em>
+<a id='L520' name='L520'></a>        end
+<a id='L521' name='L521'></a>    end) |&gt; elem(0)
+<a id='L522' name='L522'></a>  end
+<a id='L523' name='L523'></a>
+<a id='L524' name='L524'></a>  defp <a href='../R/889.html' title='Multiple referred from 3 places.'>split_and_not_nil</a>(rest, 0, true, _acc), <strong class='reserved'>do</strong>: <em class='brace'>{</em>nil, rest<em class='brace'>}</em>
+<a id='L525' name='L525'></a>  defp <a href='../R/889.html' title='Multiple referred from 3 places.'>split_and_not_nil</a>(rest, 0, false, acc), <strong class='reserved'>do</strong>: <em class='brace'>{</em>:lists.<a href='../D/991.html' title='Multiple defined in 5 places.'>reverse</a>(acc), rest<em class='brace'>}</em>
+<a id='L526' name='L526'></a>
+<a id='L527' name='L527'></a>  defp <a href='../R/889.html' title='Multiple referred from 3 places.'>split_and_not_nil</a>([nil|t], <a href='../D/394.html' title='Multiple defined in 2 places.'>count</a>, all_nil?, acc) <strong class='reserved'>do</strong>
+<a id='L528' name='L528'></a>    <a href='../D/1048.html' title='Multiple defined in 4 places.'>split_and_not_nil</a>(t, <a href='../D/394.html' title='Multiple defined in 2 places.'>count</a> - 1, all_nil?, [nil|acc])
+<a id='L529' name='L529'></a>  end
+<a id='L530' name='L530'></a>
+<a id='L531' name='L531'></a>  defp <a href='../R/889.html' title='Multiple referred from 3 places.'>split_and_not_nil</a>([h|t], <a href='../D/394.html' title='Multiple defined in 2 places.'>count</a>, _all_nil?, acc) <strong class='reserved'>do</strong>
+<a id='L532' name='L532'></a>    <a href='../D/1048.html' title='Multiple defined in 4 places.'>split_and_not_nil</a>(t, <a href='../D/394.html' title='Multiple defined in 2 places.'>count</a> - 1, false, [h|acc])
+<a id='L533' name='L533'></a>  end
+<a id='L534' name='L534'></a>
+<a id='L535' name='L535'></a><em class='sharp'>  #</em># Transactions
+<a id='L536' name='L536'></a>
+<a id='L537' name='L537'></a>  @doc false
+<a id='L538' name='L538'></a>  def <a href='../R/959.html' title='Multiple referred from 52 places.'>transaction</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, opts, fun) <strong class='reserved'>do</strong>
+<a id='L539' name='L539'></a>    <em class='brace'>{</em>pool_mod, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, pool_timeout, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a><em class='brace'>}</em> = <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>.<a href='../D/215.html' title='Multiple defined in 2 places.'>__pool__</a>
+<a id='L540' name='L540'></a>    pool_timeout = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :pool_timeout, pool_timeout)
+<a id='L541' name='L541'></a>    opts         = Keyword.put_new(opts, :<a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>, timeout)
+<a id='L542' name='L542'></a>
+<a id='L543' name='L543'></a>    <a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a> = fn
+<a id='L544' name='L544'></a>      :opened, ref, <em class='brace'>{</em>mod, _conn<em class='brace'>}</em>, queue_time -&gt;
+<a id='L545' name='L545'></a>        <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a> = <a href='../D/1128.html' title='Multiple defined in 2 places.'>transaction_mode</a>(pool_mod, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, pool_timeout)
+<a id='L546' name='L546'></a>        <a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, ref, mod, <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, queue_time, pool_timeout, opts, fun)
+<a id='L547' name='L547'></a>      :already_open, ref, _, _ -&gt;
+<a id='L548' name='L548'></a>        <em class='brace'>{</em><em class='brace'>{</em>:<strong class='reserved'>return</strong>, <a href='../D/126.html' title='Multiple defined in 4 places.'>Pool</a>.<a href='../D/1208.html' title='Multiple defined in 2 places.'>with_rollback</a>(:already_open, ref, fun)<em class='brace'>}</em>, nil<em class='brace'>}</em>
+<a id='L549' name='L549'></a>    end
+<a id='L550' name='L550'></a>
+<a id='L551' name='L551'></a>    <strong class='reserved'>case</strong> <a href='../D/126.html' title='Multiple defined in 4 places.'>Pool</a>.<a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a>(pool_mod, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, pool_timeout, transaction) <strong class='reserved'>do</strong>
+<a id='L552' name='L552'></a>      <em class='brace'>{</em><em class='brace'>{</em>:<strong class='reserved'>return</strong>, result<em class='brace'>}</em>, <a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a><em class='brace'>}</em> -&gt;
+<a id='L553' name='L553'></a>        <a href='../D/740.html' title='Multiple defined in 15 places.'>log</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, <a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a>)
+<a id='L554' name='L554'></a>        result
+<a id='L555' name='L555'></a>      <em class='brace'>{</em><em class='brace'>{</em>:raise, class, <a href='../D/954.html' title='Multiple defined in 3 places.'>reason</a>, stack<em class='brace'>}</em>, <a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a><em class='brace'>}</em> -&gt;
+<a id='L556' name='L556'></a>        <a href='../D/740.html' title='Multiple defined in 15 places.'>log</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, <a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a>)
+<a id='L557' name='L557'></a>        :erlang.raise(class, <a href='../D/954.html' title='Multiple defined in 3 places.'>reason</a>, stack)
+<a id='L558' name='L558'></a>      <em class='brace'>{</em><em class='brace'>{</em>:error, err<em class='brace'>}</em>, <a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a><em class='brace'>}</em> -&gt;
+<a id='L559' name='L559'></a>        <a href='../D/740.html' title='Multiple defined in 15 places.'>log</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, <a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a>)
+<a id='L560' name='L560'></a>        raise err
+<a id='L561' name='L561'></a>      <em class='brace'>{</em>:error, :noconnect<em class='brace'>}</em> -&gt;
+<a id='L562' name='L562'></a>        exit(<em class='brace'>{</em>:noconnect, <em class='brace'>{</em>__MODULE__, :transaction, [<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, opts, fun]<em class='brace'>}</em><em class='brace'>}</em>)
+<a id='L563' name='L563'></a>      <em class='brace'>{</em>:error, :noproc<em class='brace'>}</em> -&gt;
+<a id='L564' name='L564'></a>        raise ArgumentError, "repo #{inspect repo} is not started, " &lt;&gt;
+<a id='L565' name='L565'></a>                             "please ensure it is part of your supervision tree"
+<a id='L566' name='L566'></a>    end
+<a id='L567' name='L567'></a>  end
+<a id='L568' name='L568'></a>
+<a id='L569' name='L569'></a>  @doc false
+<a id='L570' name='L570'></a>  def <a href='../R/839.html' title='Multiple referred from 19 places.'>rollback</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) <strong class='reserved'>do</strong>
+<a id='L571' name='L571'></a>    <em class='brace'>{</em>pool_mod, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, _pool_timeout, _timeout<em class='brace'>}</em> = <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>.<a href='../D/215.html' title='Multiple defined in 2 places.'>__pool__</a>
+<a id='L572' name='L572'></a>    <a href='../D/126.html' title='Multiple defined in 4 places.'>Pool</a>.<a href='../D/995.html' title='Multiple defined in 18 places.'>rollback</a>(pool_mod, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>)
+<a id='L573' name='L573'></a>  end
+<a id='L574' name='L574'></a>
+<a id='L575' name='L575'></a>  defp <a href='../S/81.html#L545' title='Referred from 545 in deps/ecto/lib/ecto/adapters/sql.ex.'>transaction_mode</a>(<a href='../S/80.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/adapters/sql/sandbox.ex.'>Sandbox</a>, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, pool_timeout), <strong class='reserved'>do</strong>: Sandbox.<a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>(pool, pool_timeout)
+<a id='L576' name='L576'></a>  defp <a href='../S/81.html#L545' title='Referred from 545 in deps/ecto/lib/ecto/adapters/sql.ex.'>transaction_mode</a>(_, _, _), <strong class='reserved'>do</strong>: :raw
+<a id='L577' name='L577'></a>
+<a id='L578' name='L578'></a>  defp <a href='../R/959.html' title='Multiple referred from 52 places.'>transaction</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, ref, mod, <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, queue_time, pool_timeout, opts, fun) <strong class='reserved'>do</strong>
+<a id='L579' name='L579'></a>    <strong class='reserved'>case</strong> <a href='../D/292.html' title='Multiple defined in 8 places.'>begin</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, mod, <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, queue_time, opts) <strong class='reserved'>do</strong>
+<a id='L580' name='L580'></a>      <em class='brace'>{</em><em class='brace'>{</em>:ok, _<em class='brace'>}</em>, <a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a><em class='brace'>}</em> -&gt;
+<a id='L581' name='L581'></a>        safe = fn -&gt; <a href='../D/740.html' title='Multiple defined in 15 places.'>log</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, <a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a>); fun.() end
+<a id='L582' name='L582'></a>        <strong class='reserved'>case</strong> <a href='../D/126.html' title='Multiple defined in 4 places.'>Pool</a>.<a href='../D/1208.html' title='Multiple defined in 2 places.'>with_rollback</a>(:opened, ref, safe) <strong class='reserved'>do</strong>
+<a id='L583' name='L583'></a>          <em class='brace'>{</em>:<a href='../D/828.html' title='Multiple defined in 6 places.'>ok</a>, _<em class='brace'>}</em> = ok -&gt;
+<a id='L584' name='L584'></a>            <a href='../D/374.html' title='Multiple defined in 7 places.'>commit</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, ref, mod, <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, pool_timeout, opts, <em class='brace'>{</em>:<strong class='reserved'>return</strong>, <a href='../D/828.html' title='Multiple defined in 6 places.'>ok</a><em class='brace'>}</em>)
+<a id='L585' name='L585'></a>          <em class='brace'>{</em>:<a href='../D/560.html' title='Multiple defined in 2 places.'>error</a>, _<em class='brace'>}</em> = error -&gt;
+<a id='L586' name='L586'></a>            <a href='../D/995.html' title='Multiple defined in 18 places.'>rollback</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, ref, mod, <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, pool_timeout, opts, <em class='brace'>{</em>:<strong class='reserved'>return</strong>, <a href='../D/560.html' title='Multiple defined in 2 places.'>error</a><em class='brace'>}</em>)
+<a id='L587' name='L587'></a>          <em class='brace'>{</em>:raise, _kind, _reason, _stack<em class='brace'>}</em> = raise -&gt;
+<a id='L588' name='L588'></a>            <a href='../D/995.html' title='Multiple defined in 18 places.'>rollback</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, ref, mod, <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, pool_timeout, opts, raise)
+<a id='L589' name='L589'></a>        end
+<a id='L590' name='L590'></a>      <em class='brace'>{</em><em class='brace'>{</em>:<a href='../D/560.html' title='Multiple defined in 2 places.'>error</a>, _err<em class='brace'>}</em>, _entry<em class='brace'>}</em> = error -&gt;
+<a id='L591' name='L591'></a>        <a href='../D/126.html' title='Multiple defined in 4 places.'>Pool</a>.<strong class='reserved'>break</strong>(ref, pool_timeout)
+<a id='L592' name='L592'></a>        <a href='../D/560.html' title='Multiple defined in 2 places.'>error</a>
+<a id='L593' name='L593'></a>      :noconnect -&gt;
+<a id='L594' name='L594'></a>        <em class='brace'>{</em>:error, :noconnect<em class='brace'>}</em>
+<a id='L595' name='L595'></a>    end
+<a id='L596' name='L596'></a>  end
+<a id='L597' name='L597'></a>
+<a id='L598' name='L598'></a>  defp <a href='../R/173.html' title='Multiple referred from 6 places.'>begin</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, mod, <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, queue_time, opts) <strong class='reserved'>do</strong>
+<a id='L599' name='L599'></a>    sql = <a href='../D/294.html' title='Multiple defined in 2 places.'>begin_sql</a>(mod, <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>)
+<a id='L600' name='L600'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, sql, [], queue_time, nil, opts)
+<a id='L601' name='L601'></a>  end
+<a id='L602' name='L602'></a>
+<a id='L603' name='L603'></a>  defp <a href='../R/175.html' title='Multiple referred from 3 places.'>begin_sql</a>(mod, :raw),     <strong class='reserved'>do</strong>: mod.<a href='../D/296.html' title='Multiple defined in 3 places.'>begin_transaction</a>
+<a id='L604' name='L604'></a>  defp <a href='../R/175.html' title='Multiple referred from 3 places.'>begin_sql</a>(mod, :sandbox), <strong class='reserved'>do</strong>: mod.<a href='../D/1024.html' title='Multiple defined in 3 places.'>savepoint</a> "ecto_trans"
+<a id='L605' name='L605'></a>
+<a id='L606' name='L606'></a>  defp <a href='../R/252.html' title='Multiple referred from 3 places.'>commit</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, ref, mod, :raw, pool_timeout, opts, result) <strong class='reserved'>do</strong>
+<a id='L607' name='L607'></a>    <strong class='reserved'>case</strong> <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, mod.<a href='../D/374.html' title='Multiple defined in 7 places.'>commit</a>, [], nil, nil, opts) <strong class='reserved'>do</strong>
+<a id='L608' name='L608'></a>      <em class='brace'>{</em><em class='brace'>{</em>:ok, _<em class='brace'>}</em>, <a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a><em class='brace'>}</em> -&gt;
+<a id='L609' name='L609'></a>        <em class='brace'>{</em>result, <a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a><em class='brace'>}</em>
+<a id='L610' name='L610'></a>      <em class='brace'>{</em><em class='brace'>{</em>:<a href='../D/560.html' title='Multiple defined in 2 places.'>error</a>, _<em class='brace'>}</em>, _entry<em class='brace'>}</em> = error -&gt;
+<a id='L611' name='L611'></a>        <a href='../D/126.html' title='Multiple defined in 4 places.'>Pool</a>.<strong class='reserved'>break</strong>(ref, pool_timeout)
+<a id='L612' name='L612'></a>        <a href='../D/560.html' title='Multiple defined in 2 places.'>error</a>
+<a id='L613' name='L613'></a>      :noconnect -&gt;
+<a id='L614' name='L614'></a>        <em class='brace'>{</em>result, nil<em class='brace'>}</em>
+<a id='L615' name='L615'></a>    end
+<a id='L616' name='L616'></a>  end
+<a id='L617' name='L617'></a>
+<a id='L618' name='L618'></a>  defp <a href='../R/252.html' title='Multiple referred from 3 places.'>commit</a>(_repo, _ref, _mod, _mode, _pool_timeout, _opts, result) <strong class='reserved'>do</strong>
+<a id='L619' name='L619'></a>    <em class='brace'>{</em>result, nil<em class='brace'>}</em>
+<a id='L620' name='L620'></a>  end
+<a id='L621' name='L621'></a>
+<a id='L622' name='L622'></a>  defp <a href='../R/839.html' title='Multiple referred from 19 places.'>rollback</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, ref, mod, <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, pool_timeout, opts, result) <strong class='reserved'>do</strong>
+<a id='L623' name='L623'></a>    sql = <a href='../D/996.html' title='Multiple defined in 2 places.'>rollback_sql</a>(mod, <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>)
+<a id='L624' name='L624'></a>
+<a id='L625' name='L625'></a>    <strong class='reserved'>case</strong> <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, sql, [], nil, nil, opts) <strong class='reserved'>do</strong>
+<a id='L626' name='L626'></a>      <em class='brace'>{</em><em class='brace'>{</em>:ok, _<em class='brace'>}</em>, <a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a><em class='brace'>}</em> -&gt;
+<a id='L627' name='L627'></a>        <em class='brace'>{</em>result, <a href='../S/55.html#L346' title='Defined at 346 in deps/ecto/integration_test/cases/preload.exs.'>entry</a><em class='brace'>}</em>
+<a id='L628' name='L628'></a>      <em class='brace'>{</em><em class='brace'>{</em>:<a href='../D/560.html' title='Multiple defined in 2 places.'>error</a>, _<em class='brace'>}</em>, _entry<em class='brace'>}</em> = error -&gt;
+<a id='L629' name='L629'></a>        <a href='../D/126.html' title='Multiple defined in 4 places.'>Pool</a>.<strong class='reserved'>break</strong>(ref, pool_timeout)
+<a id='L630' name='L630'></a>        <a href='../D/560.html' title='Multiple defined in 2 places.'>error</a>
+<a id='L631' name='L631'></a>      :noconnect -&gt;
+<a id='L632' name='L632'></a>        <em class='brace'>{</em>result, nil<em class='brace'>}</em>
+<a id='L633' name='L633'></a>    end
+<a id='L634' name='L634'></a>  end
+<a id='L635' name='L635'></a>
+<a id='L636' name='L636'></a>  defp <a href='../S/81.html#L623' title='Referred from 623 in deps/ecto/lib/ecto/adapters/sql.ex.'>rollback_sql</a>(mod, :raw), <strong class='reserved'>do</strong>: mod.<a href='../D/995.html' title='Multiple defined in 18 places.'>rollback</a>
+<a id='L637' name='L637'></a>  defp <a href='../S/81.html#L623' title='Referred from 623 in deps/ecto/lib/ecto/adapters/sql.ex.'>rollback_sql</a>(mod, :sandbox) <strong class='reserved'>do</strong>
+<a id='L638' name='L638'></a>    mod.<a href='../D/998.html' title='Multiple defined in 3 places.'>rollback_to_savepoint</a> "ecto_trans"
+<a id='L639' name='L639'></a>  end
+<a id='L640' name='L640'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L19'>[^]</a><a href='#L637'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

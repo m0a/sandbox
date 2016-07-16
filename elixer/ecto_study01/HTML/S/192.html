@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/postgrex/lib/postgrex/result.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/252.html'>postgrex</a>/<a href='../files/253.html'>lib</a>/<a href='../files/254.html'>postgrex</a>/result.ex</h2>
+<em class='comment'>/* [&lt;][&gt;][^][v][top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Postgrex.Result <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc """
+<a id='L3' name='L3'></a>  Result <strong class='reserved'>struct</strong> returned from any successful query. Its fields are:
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a>    * `command` - An atom of the query command, <strong class='reserved'>for</strong> example: `:select` or
+<a id='L6' name='L6'></a>                  `:insert`;
+<a id='L7' name='L7'></a>    * `columns` - The column names;
+<a id='L8' name='L8'></a>    * `rows` - The result set. A list of tuples, each tuple corresponding to a
+<a id='L9' name='L9'></a>               row, each element in the tuple corresponds to a column;
+<a id='L10' name='L10'></a>    * `num_rows` - The number of fetched or affected rows;
+<a id='L11' name='L11'></a>    * `connection_id` - The OS pid of the Postgres backend that executed the query;
+<a id='L12' name='L12'></a>  """
+<a id='L13' name='L13'></a>
+<a id='L14' name='L14'></a>  @type t :: %__MODULE__<em class='brace'>{</em>
+<a id='L15' name='L15'></a>    command:  atom,
+<a id='L16' name='L16'></a>    columns:  [String.t] | nil,
+<a id='L17' name='L17'></a>    rows:     [[term] | <a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>] | nil,
+<a id='L18' name='L18'></a>    num_rows: integer,
+<a id='L19' name='L19'></a>    connection_id: pos_integer<em class='brace'>}</em>
+<a id='L20' name='L20'></a>
+<a id='L21' name='L21'></a>  defstruct [command: nil, columns: nil, rows: nil, num_rows: nil, connection_id: nil]
+<a id='L22' name='L22'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;][^][v]<a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

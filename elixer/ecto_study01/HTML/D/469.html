@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>distinct</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/56.html#L729'>distinct</a>          729 deps/ecto/integration_test/cases/repo.exs test "count distinct" do</span>
+<span class='curline'><a href='../S/74.html#L183'>distinct</a>          183 deps/ecto/lib/ecto/adapters/mysql/connection.ex defp distinct(nil, _sources, _query), do: ""</span>
+<span class='curline'><a href='../S/74.html#L184'>distinct</a>          184 deps/ecto/lib/ecto/adapters/mysql/connection.ex defp distinct(%QueryExpr{expr: true}, _sources, _query), do: "DISTINCT "</span>
+<span class='curline'><a href='../S/74.html#L185'>distinct</a>          185 deps/ecto/lib/ecto/adapters/mysql/connection.ex defp distinct(%QueryExpr{expr: false}, _sources, _quety), do: ""</span>
+<span class='curline'><a href='../S/74.html#L186'>distinct</a>          186 deps/ecto/lib/ecto/adapters/mysql/connection.ex defp distinct(%QueryExpr{expr: exprs}, _sources, query) when is_list(exprs) do</span>
+<span class='curline'><a href='../S/76.html#L207'>distinct</a>          207 deps/ecto/lib/ecto/adapters/postgres/connection.ex defp distinct(nil, _sources), do: ""</span>
+<span class='curline'><a href='../S/76.html#L208'>distinct</a>          208 deps/ecto/lib/ecto/adapters/postgres/connection.ex defp distinct(%QueryExpr{expr: true}, _exprs), do: "DISTINCT "</span>
+<span class='curline'><a href='../S/76.html#L209'>distinct</a>          209 deps/ecto/lib/ecto/adapters/postgres/connection.ex defp distinct(%QueryExpr{expr: false}, _exprs), do: ""</span>
+<span class='curline'><a href='../S/76.html#L210'>distinct</a>          210 deps/ecto/lib/ecto/adapters/postgres/connection.ex defp distinct(_query, exprs), do: "DISTINCT ON (" &lt;&gt; exprs &lt;&gt; ") "</span>
+<span class='curline'><a href='../S/122.html#L468'>distinct</a>          468 deps/ecto/lib/ecto/query.ex defmacro distinct(query, binding \\ [], expr) do</span>
+</pre>
+</body>
+</html>

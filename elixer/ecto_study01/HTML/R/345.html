@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>distinct_exprs</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/76.html#L107'>distinct_exprs</a>    107 deps/ecto/lib/ecto/adapters/postgres/connection.ex       distinct_exprs = distinct_exprs(query, sources)</span>
+<span class='curline'><a href='../S/76.html#L110'>distinct_exprs</a>    110 deps/ecto/lib/ecto/adapters/postgres/connection.ex       select   = select(query, distinct_exprs, sources)</span>
+<span class='curline'><a href='../S/76.html#L115'>distinct_exprs</a>    115 deps/ecto/lib/ecto/adapters/postgres/connection.ex       order_by = order_by(query, distinct_exprs, sources)</span>
+<span class='curline'><a href='../S/76.html#L195'>distinct_exprs</a>    195 deps/ecto/lib/ecto/adapters/postgres/connection.ex                 distinct_exprs, sources) do</span>
+<span class='curline'><a href='../S/76.html#L197'>distinct_exprs</a>    197 deps/ecto/lib/ecto/adapters/postgres/connection.ex         distinct(distinct, distinct_exprs) &lt;&gt;</span>
+<span class='curline'><a href='../S/76.html#L321'>distinct_exprs</a>    321 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp order_by(%Query{order_bys: order_bys} = query, distinct_exprs, sources) do</span>
+<span class='curline'><a href='../S/76.html#L328'>distinct_exprs</a>    328 deps/ecto/lib/ecto/adapters/postgres/connection.ex       case {distinct_exprs, exprs} do</span>
+<span class='curline'><a href='../S/76.html#L334'>distinct_exprs</a>    334 deps/ecto/lib/ecto/adapters/postgres/connection.ex           "ORDER BY " &lt;&gt; distinct_exprs &lt;&gt; ", " &lt;&gt; exprs</span>
+</pre>
+</body>
+</html>

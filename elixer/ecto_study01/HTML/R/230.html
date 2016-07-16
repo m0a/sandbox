@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>child_spec</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/44.html#L386'>child_spec</a>        386 deps/db_connection/lib/db_connection.ex   @spec child_spec(module, opts :: Keyword.t, child_opts :: Keyword.t) ::</span>
+<span class='curline'><a href='../S/23.html#L28'>child_spec</a>         28 deps/db_connection/lib/db_connection/connection.ex     child_spec(mod, opts, :connection, child_opts)</span>
+<span class='curline'><a href='../S/29.html#L8'>child_spec</a>          8 deps/db_connection/lib/db_connection/ownership/pool.ex                 DBConnection.child_spec(mod, opts, [id: :pool]),</span>
+<span class='curline'><a href='../S/32.html#L17'>child_spec</a>         17 deps/db_connection/lib/db_connection/pool.ex   @callback child_spec(module, opts :: Keyword.t, child_opts :: Keyword.t) ::</span>
+<span class='curline'><a href='../S/34.html#L28'>child_spec</a>         28 deps/db_connection/lib/db_connection/poolboy.ex     :poolboy.child_spec(id, pool_opts, worker_args)</span>
+<span class='curline'><a href='../S/37.html#L20'>child_spec</a>         20 deps/db_connection/lib/db_connection/sojourn/pool.ex     conn = DBConnection.Connection.child_spec(mod, opts, :sojourn, child_opts)</span>
+<span class='curline'><a href='../S/102.html#L28'>child_spec</a>         28 deps/ecto/lib/ecto/pools/poolboy.ex     children = [:poolboy.child_spec(:poolboy, pool_opts, {conn_mod, conn_opts})]</span>
+<span class='curline'><a href='../S/149.html#L7'>child_spec</a>          7 deps/poolboy/src/poolboy.erl          transaction/3, child_spec/2, child_spec/3, start/1, start/2,</span>
+<span class='curline'><a href='../S/149.html#L81'>child_spec</a>         81 deps/poolboy/src/poolboy.erl -spec child_spec(PoolId :: term(), PoolArgs :: proplists:proplist())</span>
+<span class='curline'><a href='../S/149.html#L82'>child_spec</a>         82 deps/poolboy/src/poolboy.erl     -&gt; supervisor:child_spec().</span>
+<span class='curline'><a href='../S/149.html#L84'>child_spec</a>         84 deps/poolboy/src/poolboy.erl     child_spec(PoolId, PoolArgs, []).</span>
+<span class='curline'><a href='../S/149.html#L86'>child_spec</a>         86 deps/poolboy/src/poolboy.erl -spec child_spec(PoolId :: term(),</span>
+<span class='curline'><a href='../S/149.html#L89'>child_spec</a>         89 deps/poolboy/src/poolboy.erl     -&gt; supervisor:child_spec().</span>
+<span class='curline'><a href='../S/197.html#L337'>child_spec</a>        337 deps/postgrex/lib/postgrex.ex   @spec child_spec(Keyword.t) :: Supervisor.Spec.spec</span>
+<span class='curline'><a href='../S/197.html#L340'>child_spec</a>        340 deps/postgrex/lib/postgrex.ex     DBConnection.child_spec(Postgrex.Protocol, opts)</span>
+</pre>
+</body>
+</html>

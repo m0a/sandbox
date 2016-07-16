@@ -1,0 +1,411 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Post</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/51.html#L13'>Post</a>               13 deps/ecto/integration_test/cases/interval.exs     TestRepo.insert!(%Post{posted: @posted, inserted_at: @inserted_at})</span>
+<span class='curline'><a href='../S/51.html#L19'>Post</a>               19 deps/ecto/integration_test/cases/interval.exs     assert [{2015, 1, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, 1, "year"))</span>
+<span class='curline'><a href='../S/51.html#L20'>Post</a>               20 deps/ecto/integration_test/cases/interval.exs     assert [{2015, 1, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, 1.0, "year"))</span>
+<span class='curline'><a href='../S/51.html#L21'>Post</a>               21 deps/ecto/integration_test/cases/interval.exs     assert [{2015, 1, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^1, "year"))</span>
+<span class='curline'><a href='../S/51.html#L22'>Post</a>               22 deps/ecto/integration_test/cases/interval.exs     assert [{2015, 1, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^1.0, "year"))</span>
+<span class='curline'><a href='../S/51.html#L23'>Post</a>               23 deps/ecto/integration_test/cases/interval.exs     assert [{2015, 1, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^dec, "year"))</span>
+<span class='curline'><a href='../S/51.html#L28'>Post</a>               28 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 4, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, 3, "month"))</span>
+<span class='curline'><a href='../S/51.html#L29'>Post</a>               29 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 4, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, 3.0, "month"))</span>
+<span class='curline'><a href='../S/51.html#L30'>Post</a>               30 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 4, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^3, "month"))</span>
+<span class='curline'><a href='../S/51.html#L31'>Post</a>               31 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 4, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^3.0, "month"))</span>
+<span class='curline'><a href='../S/51.html#L32'>Post</a>               32 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 4, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^dec, "month"))</span>
+<span class='curline'><a href='../S/51.html#L37'>Post</a>               37 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 22}] = TestRepo.all(from p in Post, select: date_add(p.posted, 3, "week"))</span>
+<span class='curline'><a href='../S/51.html#L38'>Post</a>               38 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 22}] = TestRepo.all(from p in Post, select: date_add(p.posted, 3.0, "week"))</span>
+<span class='curline'><a href='../S/51.html#L39'>Post</a>               39 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 22}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^3, "week"))</span>
+<span class='curline'><a href='../S/51.html#L40'>Post</a>               40 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 22}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^3.0, "week"))</span>
+<span class='curline'><a href='../S/51.html#L41'>Post</a>               41 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 22}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^dec, "week"))</span>
+<span class='curline'><a href='../S/51.html#L46'>Post</a>               46 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 6}] = TestRepo.all(from p in Post, select: date_add(p.posted, 5, "day"))</span>
+<span class='curline'><a href='../S/51.html#L47'>Post</a>               47 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 6}] = TestRepo.all(from p in Post, select: date_add(p.posted, 5.0, "day"))</span>
+<span class='curline'><a href='../S/51.html#L48'>Post</a>               48 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 6}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^5, "day"))</span>
+<span class='curline'><a href='../S/51.html#L49'>Post</a>               49 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 6}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^5.0, "day"))</span>
+<span class='curline'><a href='../S/51.html#L50'>Post</a>               50 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 6}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^dec, "day"))</span>
+<span class='curline'><a href='../S/51.html#L55'>Post</a>               55 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 3}] = TestRepo.all(from p in Post, select: date_add(p.posted, 48, "hour"))</span>
+<span class='curline'><a href='../S/51.html#L56'>Post</a>               56 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 3}] = TestRepo.all(from p in Post, select: date_add(p.posted, 48.0, "hour"))</span>
+<span class='curline'><a href='../S/51.html#L57'>Post</a>               57 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 3}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^48, "hour"))</span>
+<span class='curline'><a href='../S/51.html#L58'>Post</a>               58 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 3}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^48.0, "hour"))</span>
+<span class='curline'><a href='../S/51.html#L59'>Post</a>               59 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 3}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^dec, "hour"))</span>
+<span class='curline'><a href='../S/51.html#L64'>Post</a>               64 deps/ecto/integration_test/cases/interval.exs     assert [{2015, 1, 1}]  = TestRepo.all(from p in Post, select: date_add(^posted, ^1, ^"year"))</span>
+<span class='curline'><a href='../S/51.html#L65'>Post</a>               65 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 4, 1}]  = TestRepo.all(from p in Post, select: date_add(^posted, ^3, ^"month"))</span>
+<span class='curline'><a href='../S/51.html#L66'>Post</a>               66 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 22}] = TestRepo.all(from p in Post, select: date_add(^posted, ^3, ^"week"))</span>
+<span class='curline'><a href='../S/51.html#L67'>Post</a>               67 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 6}]  = TestRepo.all(from p in Post, select: date_add(^posted, ^5, ^"day"))</span>
+<span class='curline'><a href='../S/51.html#L68'>Post</a>               68 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 3}]  = TestRepo.all(from p in Post, select: date_add(^posted, ^48, ^"hour"))</span>
+<span class='curline'><a href='../S/51.html#L73'>Post</a>               73 deps/ecto/integration_test/cases/interval.exs     assert [{2013, 1, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, -1, "year"))</span>
+<span class='curline'><a href='../S/51.html#L74'>Post</a>               74 deps/ecto/integration_test/cases/interval.exs     assert [{2013, 1, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, -1.0, "year"))</span>
+<span class='curline'><a href='../S/51.html#L75'>Post</a>               75 deps/ecto/integration_test/cases/interval.exs     assert [{2013, 1, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^-1, "year"))</span>
+<span class='curline'><a href='../S/51.html#L76'>Post</a>               76 deps/ecto/integration_test/cases/interval.exs     assert [{2013, 1, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^-1.0, "year"))</span>
+<span class='curline'><a href='../S/51.html#L77'>Post</a>               77 deps/ecto/integration_test/cases/interval.exs     assert [{2013, 1, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^dec, "year"))</span>
+<span class='curline'><a href='../S/51.html#L83'>Post</a>               83 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 1, "year"))</span>
+<span class='curline'><a href='../S/51.html#L85'>Post</a>               85 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 1.0, "year"))</span>
+<span class='curline'><a href='../S/51.html#L87'>Post</a>               87 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^1, "year"))</span>
+<span class='curline'><a href='../S/51.html#L89'>Post</a>               89 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^1.0, "year"))</span>
+<span class='curline'><a href='../S/51.html#L91'>Post</a>               91 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^dec, "year"))</span>
+<span class='curline'><a href='../S/51.html#L97'>Post</a>               97 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 3, "month"))</span>
+<span class='curline'><a href='../S/51.html#L99'>Post</a>               99 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 3.0, "month"))</span>
+<span class='curline'><a href='../S/51.html#L101'>Post</a>              101 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^3, "month"))</span>
+<span class='curline'><a href='../S/51.html#L103'>Post</a>              103 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^3.0, "month"))</span>
+<span class='curline'><a href='../S/51.html#L105'>Post</a>              105 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^dec, "month"))</span>
+<span class='curline'><a href='../S/51.html#L111'>Post</a>              111 deps/ecto/integration_test/cases/interval.exs             TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 3, "week"))</span>
+<span class='curline'><a href='../S/51.html#L113'>Post</a>              113 deps/ecto/integration_test/cases/interval.exs             TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 3.0, "week"))</span>
+<span class='curline'><a href='../S/51.html#L115'>Post</a>              115 deps/ecto/integration_test/cases/interval.exs             TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^3, "week"))</span>
+<span class='curline'><a href='../S/51.html#L117'>Post</a>              117 deps/ecto/integration_test/cases/interval.exs             TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^3.0, "week"))</span>
+<span class='curline'><a href='../S/51.html#L119'>Post</a>              119 deps/ecto/integration_test/cases/interval.exs             TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^dec, "week"))</span>
+<span class='curline'><a href='../S/51.html#L125'>Post</a>              125 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 5, "day"))</span>
+<span class='curline'><a href='../S/51.html#L127'>Post</a>              127 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 5.0, "day"))</span>
+<span class='curline'><a href='../S/51.html#L129'>Post</a>              129 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^5, "day"))</span>
+<span class='curline'><a href='../S/51.html#L131'>Post</a>              131 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^5.0, "day"))</span>
+<span class='curline'><a href='../S/51.html#L133'>Post</a>              133 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^dec, "day"))</span>
+<span class='curline'><a href='../S/51.html#L139'>Post</a>              139 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 60, "hour"))</span>
+<span class='curline'><a href='../S/51.html#L141'>Post</a>              141 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 60.0, "hour"))</span>
+<span class='curline'><a href='../S/51.html#L143'>Post</a>              143 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^60, "hour"))</span>
+<span class='curline'><a href='../S/51.html#L145'>Post</a>              145 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^60.0, "hour"))</span>
+<span class='curline'><a href='../S/51.html#L147'>Post</a>              147 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^dec, "hour"))</span>
+<span class='curline'><a href='../S/51.html#L153'>Post</a>              153 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 90, "minute"))</span>
+<span class='curline'><a href='../S/51.html#L155'>Post</a>              155 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 90.0, "minute"))</span>
+<span class='curline'><a href='../S/51.html#L157'>Post</a>              157 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^90, "minute"))</span>
+<span class='curline'><a href='../S/51.html#L159'>Post</a>              159 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^90.0, "minute"))</span>
+<span class='curline'><a href='../S/51.html#L161'>Post</a>              161 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^dec, "minute"))</span>
+<span class='curline'><a href='../S/51.html#L167'>Post</a>              167 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 90, "second"))</span>
+<span class='curline'><a href='../S/51.html#L169'>Post</a>              169 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 90.0, "second"))</span>
+<span class='curline'><a href='../S/51.html#L171'>Post</a>              171 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^90, "second"))</span>
+<span class='curline'><a href='../S/51.html#L173'>Post</a>              173 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^90.0, "second"))</span>
+<span class='curline'><a href='../S/51.html#L175'>Post</a>              175 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^dec, "second"))</span>
+<span class='curline'><a href='../S/51.html#L182'>Post</a>              182 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 1500, "millisecond"))</span>
+<span class='curline'><a href='../S/51.html#L184'>Post</a>              184 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 1500.0, "millisecond"))</span>
+<span class='curline'><a href='../S/51.html#L186'>Post</a>              186 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^1500, "millisecond"))</span>
+<span class='curline'><a href='../S/51.html#L188'>Post</a>              188 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^1500.0, "millisecond"))</span>
+<span class='curline'><a href='../S/51.html#L190'>Post</a>              190 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^dec, "millisecond"))</span>
+<span class='curline'><a href='../S/51.html#L197'>Post</a>              197 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 1500, "microsecond"))</span>
+<span class='curline'><a href='../S/51.html#L199'>Post</a>              199 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 1500.0, "microsecond"))</span>
+<span class='curline'><a href='../S/51.html#L201'>Post</a>              201 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^1500, "microsecond"))</span>
+<span class='curline'><a href='../S/51.html#L203'>Post</a>              203 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^1500.0, "microsecond"))</span>
+<span class='curline'><a href='../S/51.html#L205'>Post</a>              205 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^dec, "microsecond"))</span>
+<span class='curline'><a href='../S/51.html#L211'>Post</a>              211 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(^inserted_at, ^1, ^"year"))</span>
+<span class='curline'><a href='../S/51.html#L213'>Post</a>              213 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(^inserted_at, ^3, ^"month"))</span>
+<span class='curline'><a href='../S/51.html#L215'>Post</a>              215 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(^inserted_at, ^3, ^"week"))</span>
+<span class='curline'><a href='../S/51.html#L217'>Post</a>              217 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(^inserted_at, ^5, ^"day"))</span>
+<span class='curline'><a href='../S/51.html#L219'>Post</a>              219 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(^inserted_at, ^60, ^"hour"))</span>
+<span class='curline'><a href='../S/51.html#L221'>Post</a>              221 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(^inserted_at, ^90, ^"minute"))</span>
+<span class='curline'><a href='../S/51.html#L223'>Post</a>              223 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(^inserted_at, ^90, ^"second"))</span>
+<span class='curline'><a href='../S/51.html#L230'>Post</a>              230 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, where: p.inserted_at &gt; datetime_add(^inserted_at, ^-1, "year"))</span>
+<span class='curline'><a href='../S/51.html#L232'>Post</a>              232 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, where: p.inserted_at &gt; datetime_add(^inserted_at, -3, "month"))</span>
+<span class='curline'><a href='../S/51.html#L234'>Post</a>              234 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, where: field(p, ^field) &gt; datetime_add(^inserted_at, ^-3, ^"week"))</span>
+<span class='curline'><a href='../S/51.html#L236'>Post</a>              236 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, where: field(p, ^field) &gt; datetime_add(^inserted_at, -5, ^"day"))</span>
+<span class='curline'><a href='../S/51.html#L242'>Post</a>              242 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, -1, "year"))</span>
+<span class='curline'><a href='../S/51.html#L244'>Post</a>              244 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, -1.0, "year"))</span>
+<span class='curline'><a href='../S/51.html#L246'>Post</a>              246 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^-1, "year"))</span>
+<span class='curline'><a href='../S/51.html#L248'>Post</a>              248 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^-1.0, "year"))</span>
+<span class='curline'><a href='../S/51.html#L250'>Post</a>              250 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^dec, "year"))</span>
+<span class='curline'><a href='../S/52.html#L15'>Post</a>               15 deps/ecto/integration_test/cases/joins.exs     post = TestRepo.insert!(%Post{title: "foo"})</span>
+<span class='curline'><a href='../S/52.html#L18'>Post</a>               18 deps/ecto/integration_test/cases/joins.exs     another_post = TestRepo.insert!(%Post{title: "bar"})</span>
+<span class='curline'><a href='../S/52.html#L32'>Post</a>               32 deps/ecto/integration_test/cases/joins.exs     post = TestRepo.insert!(%Post{title: "foo"})</span>
+<span class='curline'><a href='../S/52.html#L44'>Post</a>               44 deps/ecto/integration_test/cases/joins.exs     p1 = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/52.html#L45'>Post</a>               45 deps/ecto/integration_test/cases/joins.exs     p2 = TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/52.html#L48'>Post</a>               48 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, join: c in assoc(p, :permalink), order_by: p.id, select: {p, c})</span>
+<span class='curline'><a href='../S/52.html#L51'>Post</a>               51 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, left_join: c in assoc(p, :permalink), order_by: p.id, select: {p, c})</span>
+<span class='curline'><a href='../S/52.html#L57'>Post</a>               57 deps/ecto/integration_test/cases/joins.exs     %Post{id: pid1} = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/52.html#L58'>Post</a>               58 deps/ecto/integration_test/cases/joins.exs     %Post{id: pid2} = TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/52.html#L66'>Post</a>               66 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, right_join: c in assoc(p, :comments),</span>
+<span class='curline'><a href='../S/52.html#L77'>Post</a>               77 deps/ecto/integration_test/cases/joins.exs     post = TestRepo.insert!(%Post{title: "1", text: "hi"})</span>
+<span class='curline'><a href='../S/52.html#L81'>Post</a>               81 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, join: c in assoc(p, :comments), select: {p, c}, order_by: p.id)</span>
+<span class='curline'><a href='../S/52.html#L86'>Post</a>               86 deps/ecto/integration_test/cases/joins.exs     post = TestRepo.insert!(%Post{title: "1", text: "hi"})</span>
+<span class='curline'><a href='../S/52.html#L90'>Post</a>               90 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, join: c in assoc(p, :permalink), select: {p, c}, order_by: c.id)</span>
+<span class='curline'><a href='../S/52.html#L95'>Post</a>               95 deps/ecto/integration_test/cases/joins.exs     post = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/52.html#L104'>Post</a>              104 deps/ecto/integration_test/cases/joins.exs     %Post{id: pid1} = p1 = TestRepo.insert!(%Post{})</span>
+<span class='curline'><a href='../S/52.html#L105'>Post</a>              105 deps/ecto/integration_test/cases/joins.exs     %Post{id: pid2} = p2 = TestRepo.insert!(%Post{})</span>
+<span class='curline'><a href='../S/52.html#L124'>Post</a>              124 deps/ecto/integration_test/cases/joins.exs     p1 = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/52.html#L125'>Post</a>              125 deps/ecto/integration_test/cases/joins.exs     p2 = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/52.html#L131'>Post</a>              131 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, join: c in assoc(p, :comments), preload: [comments: c])</span>
+<span class='curline'><a href='../S/52.html#L138'>Post</a>              138 deps/ecto/integration_test/cases/joins.exs     p1 = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/52.html#L139'>Post</a>              139 deps/ecto/integration_test/cases/joins.exs     p2 = TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/52.html#L145'>Post</a>              145 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, join: pl in assoc(p, :permalink), preload: [permalink: pl])</span>
+<span class='curline'><a href='../S/52.html#L153'>Post</a>              153 deps/ecto/integration_test/cases/joins.exs     %Post{id: pid1} = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/52.html#L154'>Post</a>              154 deps/ecto/integration_test/cases/joins.exs     %Post{id: pid2} = TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/52.html#L163'>Post</a>              163 deps/ecto/integration_test/cases/joins.exs     assert %Post{id: ^pid1} = p1.post</span>
+<span class='curline'><a href='../S/52.html#L165'>Post</a>              165 deps/ecto/integration_test/cases/joins.exs     assert %Post{id: ^pid2} = p3.post</span>
+<span class='curline'><a href='../S/52.html#L169'>Post</a>              169 deps/ecto/integration_test/cases/joins.exs     %Post{id: pid1} = TestRepo.insert!(%Post{})</span>
+<span class='curline'><a href='../S/52.html#L170'>Post</a>              170 deps/ecto/integration_test/cases/joins.exs     %Post{id: pid2} = TestRepo.insert!(%Post{})</span>
+<span class='curline'><a href='../S/52.html#L180'>Post</a>              180 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, left_join: ca in assoc(p, :comments_authors),</span>
+<span class='curline'><a href='../S/52.html#L193'>Post</a>              193 deps/ecto/integration_test/cases/joins.exs     %Post{id: pid1} = TestRepo.insert!(%Post{})</span>
+<span class='curline'><a href='../S/52.html#L194'>Post</a>              194 deps/ecto/integration_test/cases/joins.exs     %Post{id: pid2} = TestRepo.insert!(%Post{})</span>
+<span class='curline'><a href='../S/52.html#L236'>Post</a>              236 deps/ecto/integration_test/cases/joins.exs     %Post{id: pid1} = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/52.html#L237'>Post</a>              237 deps/ecto/integration_test/cases/joins.exs     %Post{id: pid2} = TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/52.html#L246'>Post</a>              246 deps/ecto/integration_test/cases/joins.exs     query = from p in Post,</span>
+<span class='curline'><a href='../S/52.html#L270'>Post</a>              270 deps/ecto/integration_test/cases/joins.exs     %Post{id: pid1} = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/52.html#L271'>Post</a>              271 deps/ecto/integration_test/cases/joins.exs     %Post{id: pid2} = TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/52.html#L272'>Post</a>              272 deps/ecto/integration_test/cases/joins.exs     %Post{id: pid3} = TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/52.html#L281'>Post</a>              281 deps/ecto/integration_test/cases/joins.exs     query = from p in Post,</span>
+<span class='curline'><a href='../S/52.html#L305'>Post</a>              305 deps/ecto/integration_test/cases/joins.exs     %Post{id: pid1} = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/52.html#L306'>Post</a>              306 deps/ecto/integration_test/cases/joins.exs     %Post{id: pid2} = TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/52.html#L314'>Post</a>              314 deps/ecto/integration_test/cases/joins.exs     query = from p in Post,</span>
+<span class='curline'><a href='../S/55.html#L18'>Post</a>               18 deps/ecto/integration_test/cases/preload.exs     p1 = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/55.html#L19'>Post</a>               19 deps/ecto/integration_test/cases/preload.exs     p2 = TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/55.html#L20'>Post</a>               20 deps/ecto/integration_test/cases/preload.exs     p3 = TestRepo.insert!(%Post{title: "3"})</span>
+<span class='curline'><a href='../S/55.html#L37'>Post</a>               37 deps/ecto/integration_test/cases/preload.exs     p1 = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/55.html#L38'>Post</a>               38 deps/ecto/integration_test/cases/preload.exs     p2 = TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/55.html#L39'>Post</a>               39 deps/ecto/integration_test/cases/preload.exs     p3 = TestRepo.insert!(%Post{title: "3"})</span>
+<span class='curline'><a href='../S/55.html#L55'>Post</a>               55 deps/ecto/integration_test/cases/preload.exs     %Post{id: pid1} = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/55.html#L56'>Post</a>               56 deps/ecto/integration_test/cases/preload.exs     TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/55.html#L57'>Post</a>               57 deps/ecto/integration_test/cases/preload.exs     %Post{id: pid3} = TestRepo.insert!(%Post{title: "3"})</span>
+<span class='curline'><a href='../S/55.html#L66'>Post</a>               66 deps/ecto/integration_test/cases/preload.exs                                                  post: from(p in Post, where: false))</span>
+<span class='curline'><a href='../S/55.html#L72'>Post</a>               72 deps/ecto/integration_test/cases/preload.exs     assert %Post{id: ^pid1} = pl1.post</span>
+<span class='curline'><a href='../S/55.html#L74'>Post</a>               74 deps/ecto/integration_test/cases/preload.exs     assert %Post{id: ^pid3} = pl3.post</span>
+<span class='curline'><a href='../S/55.html#L78'>Post</a>               78 deps/ecto/integration_test/cases/preload.exs     p1 = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/55.html#L79'>Post</a>               79 deps/ecto/integration_test/cases/preload.exs     p2 = TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/55.html#L80'>Post</a>               80 deps/ecto/integration_test/cases/preload.exs     p3 = TestRepo.insert!(%Post{title: "3"})</span>
+<span class='curline'><a href='../S/55.html#L118'>Post</a>              118 deps/ecto/integration_test/cases/preload.exs     %Post{id: pid1} = p1 = TestRepo.insert!(%Post{})</span>
+<span class='curline'><a href='../S/55.html#L119'>Post</a>              119 deps/ecto/integration_test/cases/preload.exs     %Post{id: pid2} = p2 = TestRepo.insert!(%Post{})</span>
+<span class='curline'><a href='../S/55.html#L165'>Post</a>              165 deps/ecto/integration_test/cases/preload.exs     %Post{id: pid1} = p1 = TestRepo.insert!(%Post{})</span>
+<span class='curline'><a href='../S/55.html#L179'>Post</a>              179 deps/ecto/integration_test/cases/preload.exs     %Post{id: pid1} = TestRepo.insert!(%Post{})</span>
+<span class='curline'><a href='../S/55.html#L180'>Post</a>              180 deps/ecto/integration_test/cases/preload.exs     %Post{id: pid2} = TestRepo.insert!(%Post{})</span>
+<span class='curline'><a href='../S/55.html#L206'>Post</a>              206 deps/ecto/integration_test/cases/preload.exs     %Post{id: pid1} = TestRepo.insert!(%Post{})</span>
+<span class='curline'><a href='../S/55.html#L207'>Post</a>              207 deps/ecto/integration_test/cases/preload.exs     %Post{id: pid2} = TestRepo.insert!(%Post{})</span>
+<span class='curline'><a href='../S/55.html#L247'>Post</a>              247 deps/ecto/integration_test/cases/preload.exs     %Post{id: pid1} = p1 = TestRepo.insert!(%Post{})</span>
+<span class='curline'><a href='../S/55.html#L248'>Post</a>              248 deps/ecto/integration_test/cases/preload.exs     %Post{id: pid2} = p2 = TestRepo.insert!(%Post{})</span>
+<span class='curline'><a href='../S/55.html#L272'>Post</a>              272 deps/ecto/integration_test/cases/preload.exs     %Post{id: pid1} = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/55.html#L273'>Post</a>              273 deps/ecto/integration_test/cases/preload.exs     %Post{id: pid2} = TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/55.html#L280'>Post</a>              280 deps/ecto/integration_test/cases/preload.exs     assert %Post{id: ^pid1} = c1.post</span>
+<span class='curline'><a href='../S/55.html#L281'>Post</a>              281 deps/ecto/integration_test/cases/preload.exs     assert %Post{id: ^pid1} = c2.post</span>
+<span class='curline'><a href='../S/55.html#L282'>Post</a>              282 deps/ecto/integration_test/cases/preload.exs     assert %Post{id: ^pid2} = c3.post</span>
+<span class='curline'><a href='../S/55.html#L287'>Post</a>              287 deps/ecto/integration_test/cases/preload.exs     p = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/55.html#L294'>Post</a>              294 deps/ecto/integration_test/cases/preload.exs     p1 = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/55.html#L295'>Post</a>              295 deps/ecto/integration_test/cases/preload.exs     p2 = TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/55.html#L312'>Post</a>              312 deps/ecto/integration_test/cases/preload.exs     p1 = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/55.html#L313'>Post</a>              313 deps/ecto/integration_test/cases/preload.exs     p2 = TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/55.html#L331'>Post</a>              331 deps/ecto/integration_test/cases/preload.exs     p = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/55.html#L339'>Post</a>              339 deps/ecto/integration_test/cases/preload.exs     p = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/55.html#L363'>Post</a>              363 deps/ecto/integration_test/cases/preload.exs     p1 = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/55.html#L364'>Post</a>              364 deps/ecto/integration_test/cases/preload.exs     p2 = TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/55.html#L378'>Post</a>              378 deps/ecto/integration_test/cases/preload.exs     p1 = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/55.html#L379'>Post</a>              379 deps/ecto/integration_test/cases/preload.exs     p2 = TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/55.html#L380'>Post</a>              380 deps/ecto/integration_test/cases/preload.exs     TestRepo.insert!(%Post{title: "3"})</span>
+<span class='curline'><a href='../S/55.html#L388'>Post</a>              388 deps/ecto/integration_test/cases/preload.exs     query = from(p in Post, preload: [:comments], select: p)</span>
+<span class='curline'><a href='../S/55.html#L396'>Post</a>              396 deps/ecto/integration_test/cases/preload.exs     query = from(p in Post, preload: [comments: ^from(c in Comment, where: false)], select: p)</span>
+<span class='curline'><a href='../S/55.html#L405'>Post</a>              405 deps/ecto/integration_test/cases/preload.exs     query = from(p in Post, preload: ^comments, select: {0, [p], 1, 2})</span>
+<span class='curline'><a href='../S/56.html#L22'>Post</a>               22 deps/ecto/integration_test/cases/repo.exs     assert [] == TestRepo.all(Post)</span>
+<span class='curline'><a href='../S/56.html#L23'>Post</a>               23 deps/ecto/integration_test/cases/repo.exs     assert [] == TestRepo.all(from p in Post)</span>
+<span class='curline'><a href='../S/56.html#L27'>Post</a>               27 deps/ecto/integration_test/cases/repo.exs     TestRepo.insert!(%Post{title: "hello"})</span>
+<span class='curline'><a href='../S/56.html#L29'>Post</a>               29 deps/ecto/integration_test/cases/repo.exs     assert []  = TestRepo.all from p in Post, where: p.title in []</span>
+<span class='curline'><a href='../S/56.html#L30'>Post</a>               30 deps/ecto/integration_test/cases/repo.exs     assert []  = TestRepo.all from p in Post, where: p.title in ["1", "2", "3"]</span>
+<span class='curline'><a href='../S/56.html#L31'>Post</a>               31 deps/ecto/integration_test/cases/repo.exs     assert []  = TestRepo.all from p in Post, where: p.title in ^[]</span>
+<span class='curline'><a href='../S/56.html#L33'>Post</a>               33 deps/ecto/integration_test/cases/repo.exs     assert [_] = TestRepo.all from p in Post, where: not p.title in []</span>
+<span class='curline'><a href='../S/56.html#L34'>Post</a>               34 deps/ecto/integration_test/cases/repo.exs     assert [_] = TestRepo.all from p in Post, where: p.title in ["1", "hello", "3"]</span>
+<span class='curline'><a href='../S/56.html#L35'>Post</a>               35 deps/ecto/integration_test/cases/repo.exs     assert [_] = TestRepo.all from p in Post, where: p.title in ["1", ^"hello", "3"]</span>
+<span class='curline'><a href='../S/56.html#L36'>Post</a>               36 deps/ecto/integration_test/cases/repo.exs     assert [_] = TestRepo.all from p in Post, where: p.title in ^["1", "hello", "3"]</span>
+<span class='curline'><a href='../S/56.html#L40'>Post</a>               40 deps/ecto/integration_test/cases/repo.exs     %Post{} = TestRepo.insert!(%Post{title: "title1"})</span>
+<span class='curline'><a href='../S/56.html#L41'>Post</a>               41 deps/ecto/integration_test/cases/repo.exs     %Post{} = TestRepo.insert!(%Post{title: "title2"})</span>
+<span class='curline'><a href='../S/56.html#L51'>Post</a>               51 deps/ecto/integration_test/cases/repo.exs     post = %Post{title: "create and delete single", text: "fetch empty"}</span>
+<span class='curline'><a href='../S/56.html#L55'>Post</a>               55 deps/ecto/integration_test/cases/repo.exs     assert %Post{} = to_be_deleted = TestRepo.insert!(post)</span>
+<span class='curline'><a href='../S/56.html#L56'>Post</a>               56 deps/ecto/integration_test/cases/repo.exs     assert %Post{__meta__: ^deleted_meta} = TestRepo.delete!(to_be_deleted)</span>
+<span class='curline'><a href='../S/56.html#L59'>Post</a>               59 deps/ecto/integration_test/cases/repo.exs     assert %Post{__meta__: ^loaded_meta} = TestRepo.insert!(post)</span>
+<span class='curline'><a href='../S/56.html#L61'>Post</a>               61 deps/ecto/integration_test/cases/repo.exs     post = TestRepo.one(Post)</span>
+<span class='curline'><a href='../S/56.html#L68'>Post</a>               68 deps/ecto/integration_test/cases/repo.exs     changeset = Ecto.Changeset.cast(%Post{text: "x", title: "wrong"},</span>
+<span class='curline'><a href='../S/56.html#L72'>Post</a>               72 deps/ecto/integration_test/cases/repo.exs     assert %Post{text: "x", title: "hello", temp: "unknown"} = post</span>
+<span class='curline'><a href='../S/56.html#L73'>Post</a>               73 deps/ecto/integration_test/cases/repo.exs     assert %Post{text: "x", title: "hello", temp: "temp"} = TestRepo.get!(Post, post.id)</span>
+<span class='curline'><a href='../S/56.html#L79'>Post</a>               79 deps/ecto/integration_test/cases/repo.exs     assert %Post{text: "y", title: "world", temp: "unknown"} = TestRepo.update!(changeset)</span>
+<span class='curline'><a href='../S/56.html#L80'>Post</a>               80 deps/ecto/integration_test/cases/repo.exs     assert %Post{text: "x", title: "world", temp: "temp"} = TestRepo.get!(Post, post.id)</span>
+<span class='curline'><a href='../S/56.html#L127'>Post</a>              127 deps/ecto/integration_test/cases/repo.exs     post = TestRepo.insert!(%Post{uuid: nil})</span>
+<span class='curline'><a href='../S/56.html#L129'>Post</a>              129 deps/ecto/integration_test/cases/repo.exs     assert TestRepo.get_by(Post, uuid: post.uuid) == post</span>
+<span class='curline'><a href='../S/56.html#L150'>Post</a>              150 deps/ecto/integration_test/cases/repo.exs     assert %Post{id: 1} = TestRepo.insert!(%Post{id: 1})</span>
+<span class='curline'><a href='../S/56.html#L156'>Post</a>              156 deps/ecto/integration_test/cases/repo.exs     changeset = Ecto.Changeset.cast(%Post{id: 11}, %{"id" =&gt; "13"}, ~w(id), ~w())</span>
+<span class='curline'><a href='../S/56.html#L157'>Post</a>              157 deps/ecto/integration_test/cases/repo.exs     assert %Post{id: 13} = post = TestRepo.insert!(changeset)</span>
+<span class='curline'><a href='../S/56.html#L160'>Post</a>              160 deps/ecto/integration_test/cases/repo.exs     assert %Post{id: 15} = TestRepo.update!(changeset)</span>
+<span class='curline'><a href='../S/56.html#L194'>Post</a>              194 deps/ecto/integration_test/cases/repo.exs     changeset = Ecto.Changeset.change(%Post{}, uuid: Ecto.UUID.generate())</span>
+<span class='curline'><a href='../S/56.html#L343'>Post</a>              343 deps/ecto/integration_test/cases/repo.exs     post1 = TestRepo.insert!(%Post{title: "1", text: "hai"})</span>
+<span class='curline'><a href='../S/56.html#L344'>Post</a>              344 deps/ecto/integration_test/cases/repo.exs     post2 = TestRepo.insert!(%Post{title: "2", text: "hai"})</span>
+<span class='curline'><a href='../S/56.html#L346'>Post</a>              346 deps/ecto/integration_test/cases/repo.exs     assert post1 == TestRepo.get(Post, post1.id)</span>
+<span class='curline'><a href='../S/56.html#L347'>Post</a>              347 deps/ecto/integration_test/cases/repo.exs     assert post2 == TestRepo.get(Post, to_string post2.id) # With casting</span>
+<span class='curline'><a href='../S/56.html#L349'>Post</a>              349 deps/ecto/integration_test/cases/repo.exs     assert post1 == TestRepo.get!(Post, post1.id)</span>
+<span class='curline'><a href='../S/56.html#L350'>Post</a>              350 deps/ecto/integration_test/cases/repo.exs     assert post2 == TestRepo.get!(Post, to_string post2.id) # With casting</span>
+<span class='curline'><a href='../S/56.html#L354'>Post</a>              354 deps/ecto/integration_test/cases/repo.exs     assert nil   == TestRepo.get(Post, post1.id)</span>
+<span class='curline'><a href='../S/56.html#L356'>Post</a>              356 deps/ecto/integration_test/cases/repo.exs       TestRepo.get!(Post, post1.id)</span>
+<span class='curline'><a href='../S/56.html#L369'>Post</a>              369 deps/ecto/integration_test/cases/repo.exs     post1 = TestRepo.insert!(%Post{title: "1", text: "hai"})</span>
+<span class='curline'><a href='../S/56.html#L370'>Post</a>              370 deps/ecto/integration_test/cases/repo.exs     post2 = TestRepo.insert!(%Post{title: "2", text: "hello"})</span>
+<span class='curline'><a href='../S/56.html#L372'>Post</a>              372 deps/ecto/integration_test/cases/repo.exs     assert post1 == TestRepo.get_by(Post, id: post1.id)</span>
+<span class='curline'><a href='../S/56.html#L373'>Post</a>              373 deps/ecto/integration_test/cases/repo.exs     assert post1 == TestRepo.get_by(Post, text: post1.text)</span>
+<span class='curline'><a href='../S/56.html#L374'>Post</a>              374 deps/ecto/integration_test/cases/repo.exs     assert post1 == TestRepo.get_by(Post, id: post1.id, text: post1.text)</span>
+<span class='curline'><a href='../S/56.html#L375'>Post</a>              375 deps/ecto/integration_test/cases/repo.exs     assert post2 == TestRepo.get_by(Post, id: to_string(post2.id)) # With casting</span>
+<span class='curline'><a href='../S/56.html#L376'>Post</a>              376 deps/ecto/integration_test/cases/repo.exs     assert nil   == TestRepo.get_by(Post, text: "hey")</span>
+<span class='curline'><a href='../S/56.html#L377'>Post</a>              377 deps/ecto/integration_test/cases/repo.exs     assert nil   == TestRepo.get_by(Post, id: post2.id, text: "hey")</span>
+<span class='curline'><a href='../S/56.html#L379'>Post</a>              379 deps/ecto/integration_test/cases/repo.exs     assert post1 == TestRepo.get_by!(Post, id: post1.id)</span>
+<span class='curline'><a href='../S/56.html#L380'>Post</a>              380 deps/ecto/integration_test/cases/repo.exs     assert post1 == TestRepo.get_by!(Post, text: post1.text)</span>
+<span class='curline'><a href='../S/56.html#L381'>Post</a>              381 deps/ecto/integration_test/cases/repo.exs     assert post1 == TestRepo.get_by!(Post, id: post1.id, text: post1.text)</span>
+<span class='curline'><a href='../S/56.html#L382'>Post</a>              382 deps/ecto/integration_test/cases/repo.exs     assert post2 == TestRepo.get_by!(Post, id: to_string(post2.id)) # With casting</span>
+<span class='curline'><a href='../S/56.html#L384'>Post</a>              384 deps/ecto/integration_test/cases/repo.exs     assert post1 == TestRepo.get_by!(Post, %{id: post1.id})</span>
+<span class='curline'><a href='../S/56.html#L387'>Post</a>              387 deps/ecto/integration_test/cases/repo.exs       TestRepo.get_by!(Post, id: post2.id, text: "hey")</span>
+<span class='curline'><a href='../S/56.html#L392'>Post</a>              392 deps/ecto/integration_test/cases/repo.exs     post1 = TestRepo.insert!(%Post{title: "1", text: "hai"})</span>
+<span class='curline'><a href='../S/56.html#L393'>Post</a>              393 deps/ecto/integration_test/cases/repo.exs     post2 = TestRepo.insert!(%Post{title: "2", text: "hai"})</span>
+<span class='curline'><a href='../S/56.html#L395'>Post</a>              395 deps/ecto/integration_test/cases/repo.exs     assert post1 == TestRepo.one(from p in Post, where: p.id == ^post1.id)</span>
+<span class='curline'><a href='../S/56.html#L396'>Post</a>              396 deps/ecto/integration_test/cases/repo.exs     assert post2 == TestRepo.one(from p in Post, where: p.id == ^to_string post2.id) # With casting</span>
+<span class='curline'><a href='../S/56.html#L397'>Post</a>              397 deps/ecto/integration_test/cases/repo.exs     assert nil   == TestRepo.one(from p in Post, where: is_nil(p.id))</span>
+<span class='curline'><a href='../S/56.html#L399'>Post</a>              399 deps/ecto/integration_test/cases/repo.exs     assert post1 == TestRepo.one!(from p in Post, where: p.id == ^post1.id)</span>
+<span class='curline'><a href='../S/56.html#L400'>Post</a>              400 deps/ecto/integration_test/cases/repo.exs     assert post2 == TestRepo.one!(from p in Post, where: p.id == ^to_string post2.id) # With casting</span>
+<span class='curline'><a href='../S/56.html#L403'>Post</a>              403 deps/ecto/integration_test/cases/repo.exs       TestRepo.one!(from p in Post, where: is_nil(p.id))</span>
+<span class='curline'><a href='../S/56.html#L408'>Post</a>              408 deps/ecto/integration_test/cases/repo.exs     assert %Post{} = TestRepo.insert!(%Post{title: "hai"})</span>
+<span class='curline'><a href='../S/56.html#L409'>Post</a>              409 deps/ecto/integration_test/cases/repo.exs     assert %Post{} = TestRepo.insert!(%Post{title: "hai"})</span>
+<span class='curline'><a href='../S/56.html#L412'>Post</a>              412 deps/ecto/integration_test/cases/repo.exs       TestRepo.one(from p in Post, where: p.title == "hai")</span>
+<span class='curline'><a href='../S/56.html#L416'>Post</a>              416 deps/ecto/integration_test/cases/repo.exs       TestRepo.one!(from p in Post, where: p.title == "hai")</span>
+<span class='curline'><a href='../S/56.html#L421'>Post</a>              421 deps/ecto/integration_test/cases/repo.exs     assert %Post{id: id1} = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/56.html#L422'>Post</a>              422 deps/ecto/integration_test/cases/repo.exs     assert %Post{id: id2} = TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/56.html#L423'>Post</a>              423 deps/ecto/integration_test/cases/repo.exs     assert %Post{id: id3} = TestRepo.insert!(%Post{title: "3"})</span>
+<span class='curline'><a href='../S/56.html#L425'>Post</a>              425 deps/ecto/integration_test/cases/repo.exs     assert {3, nil} = TestRepo.update_all(Post, set: [title: "x"])</span>
+<span class='curline'><a href='../S/56.html#L427'>Post</a>              427 deps/ecto/integration_test/cases/repo.exs     assert %Post{title: "x"} = TestRepo.get(Post, id1)</span>
+<span class='curline'><a href='../S/56.html#L428'>Post</a>              428 deps/ecto/integration_test/cases/repo.exs     assert %Post{title: "x"} = TestRepo.get(Post, id2)</span>
+<span class='curline'><a href='../S/56.html#L429'>Post</a>              429 deps/ecto/integration_test/cases/repo.exs     assert %Post{title: "x"} = TestRepo.get(Post, id3)</span>
+<span class='curline'><a href='../S/56.html#L433'>Post</a>              433 deps/ecto/integration_test/cases/repo.exs     assert %Post{title: nil} = TestRepo.get(Post, id1)</span>
+<span class='curline'><a href='../S/56.html#L434'>Post</a>              434 deps/ecto/integration_test/cases/repo.exs     assert %Post{title: nil} = TestRepo.get(Post, id2)</span>
+<span class='curline'><a href='../S/56.html#L435'>Post</a>              435 deps/ecto/integration_test/cases/repo.exs     assert %Post{title: nil} = TestRepo.get(Post, id3)</span>
+<span class='curline'><a href='../S/56.html#L439'>Post</a>              439 deps/ecto/integration_test/cases/repo.exs     assert %Post{id: id1} = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/56.html#L440'>Post</a>              440 deps/ecto/integration_test/cases/repo.exs     assert %Post{id: id2} = TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/56.html#L441'>Post</a>              441 deps/ecto/integration_test/cases/repo.exs     assert %Post{id: id3} = TestRepo.insert!(%Post{title: "3"})</span>
+<span class='curline'><a href='../S/56.html#L443'>Post</a>              443 deps/ecto/integration_test/cases/repo.exs     query = from(p in Post, where: p.title == "1" or p.title == "2",</span>
+<span class='curline'><a href='../S/56.html#L447'>Post</a>              447 deps/ecto/integration_test/cases/repo.exs     assert %Post{title: "x", text: "y"} = TestRepo.get(Post, id1)</span>
+<span class='curline'><a href='../S/56.html#L448'>Post</a>              448 deps/ecto/integration_test/cases/repo.exs     assert %Post{title: "x", text: "y"} = TestRepo.get(Post, id2)</span>
+<span class='curline'><a href='../S/56.html#L449'>Post</a>              449 deps/ecto/integration_test/cases/repo.exs     assert %Post{title: "3", text: nil} = TestRepo.get(Post, id3)</span>
+<span class='curline'><a href='../S/56.html#L453'>Post</a>              453 deps/ecto/integration_test/cases/repo.exs     assert %Post{id: id1} = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/56.html#L454'>Post</a>              454 deps/ecto/integration_test/cases/repo.exs     assert %Post{id: id2} = TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/56.html#L455'>Post</a>              455 deps/ecto/integration_test/cases/repo.exs     assert %Post{id: id3} = TestRepo.insert!(%Post{title: "3"})</span>
+<span class='curline'><a href='../S/56.html#L457'>Post</a>              457 deps/ecto/integration_test/cases/repo.exs     query = from(p in Post, where: p.title == "4")</span>
+<span class='curline'><a href='../S/56.html#L460'>Post</a>              460 deps/ecto/integration_test/cases/repo.exs     assert %Post{title: "1"} = TestRepo.get(Post, id1)</span>
+<span class='curline'><a href='../S/56.html#L461'>Post</a>              461 deps/ecto/integration_test/cases/repo.exs     assert %Post{title: "2"} = TestRepo.get(Post, id2)</span>
+<span class='curline'><a href='../S/56.html#L462'>Post</a>              462 deps/ecto/integration_test/cases/repo.exs     assert %Post{title: "3"} = TestRepo.get(Post, id3)</span>
+<span class='curline'><a href='../S/56.html#L466'>Post</a>              466 deps/ecto/integration_test/cases/repo.exs     assert %Post{id: id1} = TestRepo.insert!(%Post{title: "1", visits: 0})</span>
+<span class='curline'><a href='../S/56.html#L467'>Post</a>              467 deps/ecto/integration_test/cases/repo.exs     assert %Post{id: id2} = TestRepo.insert!(%Post{title: "2", visits: 1})</span>
+<span class='curline'><a href='../S/56.html#L470'>Post</a>              470 deps/ecto/integration_test/cases/repo.exs     query = from p in Post, where: not is_nil(p.id), update: [inc: [visits: 2]]</span>
+<span class='curline'><a href='../S/56.html#L473'>Post</a>              473 deps/ecto/integration_test/cases/repo.exs     assert %Post{visits: 2} = TestRepo.get(Post, id1)</span>
+<span class='curline'><a href='../S/56.html#L474'>Post</a>              474 deps/ecto/integration_test/cases/repo.exs     assert %Post{visits: 3} = TestRepo.get(Post, id2)</span>
+<span class='curline'><a href='../S/56.html#L477'>Post</a>              477 deps/ecto/integration_test/cases/repo.exs     query = from p in Post, where: not is_nil(p.id), update: [inc: [visits: -1]]</span>
+<span class='curline'><a href='../S/56.html#L480'>Post</a>              480 deps/ecto/integration_test/cases/repo.exs     assert %Post{visits: 1} = TestRepo.get(Post, id1)</span>
+<span class='curline'><a href='../S/56.html#L481'>Post</a>              481 deps/ecto/integration_test/cases/repo.exs     assert %Post{visits: 2} = TestRepo.get(Post, id2)</span>
+<span class='curline'><a href='../S/56.html#L486'>Post</a>              486 deps/ecto/integration_test/cases/repo.exs     assert %Post{id: id1} = TestRepo.insert!(%Post{})</span>
+<span class='curline'><a href='../S/56.html#L487'>Post</a>              487 deps/ecto/integration_test/cases/repo.exs     assert {1, nil} = TestRepo.update_all(Post, set: [counter: to_string(id1)])</span>
+<span class='curline'><a href='../S/56.html#L488'>Post</a>              488 deps/ecto/integration_test/cases/repo.exs     assert %Post{counter: ^id1} = TestRepo.get(Post, id1)</span>
+<span class='curline'><a href='../S/56.html#L494'>Post</a>              494 deps/ecto/integration_test/cases/repo.exs     assert %Post{id: id1} = TestRepo.insert!(%Post{})</span>
+<span class='curline'><a href='../S/56.html#L496'>Post</a>              496 deps/ecto/integration_test/cases/repo.exs     assert {1, nil} = TestRepo.update_all(Post, set: [text: text, inserted_at: date])</span>
+<span class='curline'><a href='../S/56.html#L497'>Post</a>              497 deps/ecto/integration_test/cases/repo.exs     assert %Post{text: "hai", inserted_at: ^date} = TestRepo.get(Post, id1)</span>
+<span class='curline'><a href='../S/56.html#L501'>Post</a>              501 deps/ecto/integration_test/cases/repo.exs     assert %Post{} = TestRepo.insert!(%Post{title: "1", text: "hai"})</span>
+<span class='curline'><a href='../S/56.html#L502'>Post</a>              502 deps/ecto/integration_test/cases/repo.exs     assert %Post{} = TestRepo.insert!(%Post{title: "2", text: "hai"})</span>
+<span class='curline'><a href='../S/56.html#L503'>Post</a>              503 deps/ecto/integration_test/cases/repo.exs     assert %Post{} = TestRepo.insert!(%Post{title: "3", text: "hai"})</span>
+<span class='curline'><a href='../S/56.html#L505'>Post</a>              505 deps/ecto/integration_test/cases/repo.exs     assert {3, nil} = TestRepo.delete_all(Post)</span>
+<span class='curline'><a href='../S/56.html#L506'>Post</a>              506 deps/ecto/integration_test/cases/repo.exs     assert [] = TestRepo.all(Post)</span>
+<span class='curline'><a href='../S/56.html#L510'>Post</a>              510 deps/ecto/integration_test/cases/repo.exs     assert %Post{} = TestRepo.insert!(%Post{title: "1", text: "hai"})</span>
+<span class='curline'><a href='../S/56.html#L511'>Post</a>              511 deps/ecto/integration_test/cases/repo.exs     assert %Post{} = TestRepo.insert!(%Post{title: "2", text: "hai"})</span>
+<span class='curline'><a href='../S/56.html#L512'>Post</a>              512 deps/ecto/integration_test/cases/repo.exs     assert %Post{} = TestRepo.insert!(%Post{title: "3", text: "hai"})</span>
+<span class='curline'><a href='../S/56.html#L514'>Post</a>              514 deps/ecto/integration_test/cases/repo.exs     query = from(p in Post, where: p.title == "1" or p.title == "2")</span>
+<span class='curline'><a href='../S/56.html#L516'>Post</a>              516 deps/ecto/integration_test/cases/repo.exs     assert [%Post{}] = TestRepo.all(Post)</span>
+<span class='curline'><a href='../S/56.html#L520'>Post</a>              520 deps/ecto/integration_test/cases/repo.exs     assert %Post{id: id1} = TestRepo.insert!(%Post{title: "1", text: "hai"})</span>
+<span class='curline'><a href='../S/56.html#L521'>Post</a>              521 deps/ecto/integration_test/cases/repo.exs     assert %Post{id: id2} = TestRepo.insert!(%Post{title: "2", text: "hai"})</span>
+<span class='curline'><a href='../S/56.html#L522'>Post</a>              522 deps/ecto/integration_test/cases/repo.exs     assert %Post{id: id3} = TestRepo.insert!(%Post{title: "3", text: "hai"})</span>
+<span class='curline'><a href='../S/56.html#L524'>Post</a>              524 deps/ecto/integration_test/cases/repo.exs     query = from(p in Post, where: p.title == "4")</span>
+<span class='curline'><a href='../S/56.html#L526'>Post</a>              526 deps/ecto/integration_test/cases/repo.exs     assert %Post{title: "1"} = TestRepo.get(Post, id1)</span>
+<span class='curline'><a href='../S/56.html#L527'>Post</a>              527 deps/ecto/integration_test/cases/repo.exs     assert %Post{title: "2"} = TestRepo.get(Post, id2)</span>
+<span class='curline'><a href='../S/56.html#L528'>Post</a>              528 deps/ecto/integration_test/cases/repo.exs     assert %Post{title: "3"} = TestRepo.get(Post, id3)</span>
+<span class='curline'><a href='../S/56.html#L532'>Post</a>              532 deps/ecto/integration_test/cases/repo.exs     assert %Post{id: id} = TestRepo.insert!(%Post{title: "1", text: "hai"})</span>
+<span class='curline'><a href='../S/56.html#L533'>Post</a>              533 deps/ecto/integration_test/cases/repo.exs     assert TestRepo.get(Post, id).temp == "temp"</span>
+<span class='curline'><a href='../S/56.html#L539'>Post</a>              539 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/56.html#L540'>Post</a>              540 deps/ecto/integration_test/cases/repo.exs     p2 = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/56.html#L557'>Post</a>              557 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/56.html#L558'>Post</a>              558 deps/ecto/integration_test/cases/repo.exs     p2 = TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/56.html#L570'>Post</a>              570 deps/ecto/integration_test/cases/repo.exs     %Post{id: pid1} = TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/56.html#L571'>Post</a>              571 deps/ecto/integration_test/cases/repo.exs     %Post{id: pid2} = TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/56.html#L584'>Post</a>              584 deps/ecto/integration_test/cases/repo.exs       %Post{title: "1"}</span>
+<span class='curline'><a href='../S/56.html#L591'>Post</a>              591 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.get!(from(p in Post, preload: [:permalink]), p1.id)</span>
+<span class='curline'><a href='../S/56.html#L602'>Post</a>              602 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.get!(from(p in Post, preload: [:permalink]), p1.id)</span>
+<span class='curline'><a href='../S/56.html#L611'>Post</a>              611 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.get!(from(p in Post, preload: [:permalink]), p1.id)</span>
+<span class='curline'><a href='../S/56.html#L622'>Post</a>              622 deps/ecto/integration_test/cases/repo.exs       %Post{title: "1"}</span>
+<span class='curline'><a href='../S/56.html#L629'>Post</a>              629 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.get!(from(p in Post, preload: [:comments]), p1.id)</span>
+<span class='curline'><a href='../S/56.html#L641'>Post</a>              641 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.get!(from(p in Post, preload: [:comments]), p1.id)</span>
+<span class='curline'><a href='../S/56.html#L652'>Post</a>              652 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.get!(from(p in Post, preload: [:comments]), p1.id)</span>
+<span class='curline'><a href='../S/56.html#L661'>Post</a>              661 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.insert!(%Post{title: "hello", author_id: author.id})</span>
+<span class='curline'><a href='../S/56.html#L662'>Post</a>              662 deps/ecto/integration_test/cases/repo.exs     TestRepo.insert!(%Post{title: "world", author_id: author.id})</span>
+<span class='curline'><a href='../S/56.html#L666'>Post</a>              666 deps/ecto/integration_test/cases/repo.exs       TestRepo.insert!(%Post{title: "another", author_id: author.id, uuid: p1.uuid})</span>
+<span class='curline'><a href='../S/56.html#L670'>Post</a>              670 deps/ecto/integration_test/cases/repo.exs     posts_params = Enum.map author.posts, fn %Post{uuid: u} -&gt;</span>
+<span class='curline'><a href='../S/56.html#L687'>Post</a>              687 deps/ecto/integration_test/cases/repo.exs       %Post{title: "1"}</span>
+<span class='curline'><a href='../S/56.html#L691'>Post</a>              691 deps/ecto/integration_test/cases/repo.exs     assert changeset.model.__struct__ == Post</span>
+<span class='curline'><a href='../S/56.html#L693'>Post</a>              693 deps/ecto/integration_test/cases/repo.exs     assert [0] == TestRepo.all(from(p in Post, select: count(p.id)))</span>
+<span class='curline'><a href='../S/56.html#L700'>Post</a>              700 deps/ecto/integration_test/cases/repo.exs     post = TestRepo.insert!(%Post{})</span>
+<span class='curline'><a href='../S/56.html#L723'>Post</a>              723 deps/ecto/integration_test/cases/repo.exs     TestRepo.insert!(%Post{author_id: user.id})</span>
+<span class='curline'><a href='../S/56.html#L726'>Post</a>              726 deps/ecto/integration_test/cases/repo.exs     assert Enum.count(TestRepo.all(Post)) == 1</span>
+<span class='curline'><a href='../S/56.html#L730'>Post</a>              730 deps/ecto/integration_test/cases/repo.exs     TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/56.html#L731'>Post</a>              731 deps/ecto/integration_test/cases/repo.exs     TestRepo.insert!(%Post{title: "1"})</span>
+<span class='curline'><a href='../S/56.html#L732'>Post</a>              732 deps/ecto/integration_test/cases/repo.exs     TestRepo.insert!(%Post{title: "2"})</span>
+<span class='curline'><a href='../S/56.html#L734'>Post</a>              734 deps/ecto/integration_test/cases/repo.exs     assert [3] == Post |&gt; select([p], count(p.title)) |&gt; TestRepo.all</span>
+<span class='curline'><a href='../S/56.html#L735'>Post</a>              735 deps/ecto/integration_test/cases/repo.exs     assert [2] == Post |&gt; select([p], count(p.title, :distinct)) |&gt; TestRepo.all</span>
+<span class='curline'><a href='../S/56.html#L739'>Post</a>              739 deps/ecto/integration_test/cases/repo.exs     post1 = TestRepo.insert!(%Post{text: "x", title: "hello"  })</span>
+<span class='curline'><a href='../S/56.html#L740'>Post</a>              740 deps/ecto/integration_test/cases/repo.exs     post2 = TestRepo.insert!(%Post{text: "y", title: "goodbye"})</span>
+<span class='curline'><a href='../S/56.html#L742'>Post</a>              742 deps/ecto/integration_test/cases/repo.exs     assert [post1, post2] == Post |&gt; where([], []) |&gt; TestRepo.all</span>
+<span class='curline'><a href='../S/56.html#L743'>Post</a>              743 deps/ecto/integration_test/cases/repo.exs     assert [post1]        == Post |&gt; where([], [title: "hello"]) |&gt; TestRepo.all</span>
+<span class='curline'><a href='../S/56.html#L744'>Post</a>              744 deps/ecto/integration_test/cases/repo.exs     assert [post1]        == Post |&gt; where([], [title: "hello", id: ^post1.id]) |&gt; TestRepo.all</span>
+<span class='curline'><a href='../S/56.html#L749'>Post</a>              749 deps/ecto/integration_test/cases/repo.exs     assert [post1, post2]  == (from Post, where: ^params0) |&gt; TestRepo.all</span>
+<span class='curline'><a href='../S/56.html#L750'>Post</a>              750 deps/ecto/integration_test/cases/repo.exs     assert [post1]         == (from Post, where: ^params1) |&gt; TestRepo.all</span>
+<span class='curline'><a href='../S/56.html#L751'>Post</a>              751 deps/ecto/integration_test/cases/repo.exs     assert [post1]         == (from Post, where: ^params2) |&gt; TestRepo.all</span>
+<span class='curline'><a href='../S/56.html#L753'>Post</a>              753 deps/ecto/integration_test/cases/repo.exs     post3 = TestRepo.insert!(%Post{text: "y", title: "goodbye", uuid: nil})</span>
+<span class='curline'><a href='../S/56.html#L755'>Post</a>              755 deps/ecto/integration_test/cases/repo.exs     assert [post3]         == (from Post, where: ^params3) |&gt; TestRepo.all</span>
+<span class='curline'><a href='../S/57.html#L23'>Post</a>               23 deps/ecto/integration_test/cases/type.exs     TestRepo.insert!(%Post{text: text, public: true, visits: integer, uuid: uuid,</span>
+<span class='curline'><a href='../S/57.html#L27'>Post</a>               27 deps/ecto/integration_test/cases/type.exs     assert [nil] = TestRepo.all(from Post, select: nil)</span>
+<span class='curline'><a href='../S/57.html#L30'>Post</a>               30 deps/ecto/integration_test/cases/type.exs     assert [1] = TestRepo.all(from p in Post, where: p.counter == ^integer, select: p.counter)</span>
+<span class='curline'><a href='../S/57.html#L33'>Post</a>               33 deps/ecto/integration_test/cases/type.exs     assert [1] = TestRepo.all(from p in Post, where: p.visits == ^integer, select: p.visits)</span>
+<span class='curline'><a href='../S/57.html#L34'>Post</a>               34 deps/ecto/integration_test/cases/type.exs     assert [1] = TestRepo.all(from p in Post, where: p.visits == 1, select: p.visits)</span>
+<span class='curline'><a href='../S/57.html#L37'>Post</a>               37 deps/ecto/integration_test/cases/type.exs     assert [0.1] = TestRepo.all(from p in Post, where: p.intensity == ^float, select: p.intensity)</span>
+<span class='curline'><a href='../S/57.html#L38'>Post</a>               38 deps/ecto/integration_test/cases/type.exs     assert [0.1] = TestRepo.all(from p in Post, where: p.intensity == 0.1, select: p.intensity)</span>
+<span class='curline'><a href='../S/57.html#L39'>Post</a>               39 deps/ecto/integration_test/cases/type.exs     assert [1500.0] = TestRepo.all(from p in Post, select: 1500.0)</span>
+<span class='curline'><a href='../S/57.html#L42'>Post</a>               42 deps/ecto/integration_test/cases/type.exs     assert [true] = TestRepo.all(from p in Post, where: p.public == ^true, select: p.public)</span>
+<span class='curline'><a href='../S/57.html#L43'>Post</a>               43 deps/ecto/integration_test/cases/type.exs     assert [true] = TestRepo.all(from p in Post, where: p.public == true, select: p.public)</span>
+<span class='curline'><a href='../S/57.html#L46'>Post</a>               46 deps/ecto/integration_test/cases/type.exs     assert [^text] = TestRepo.all(from p in Post, where: p.text == &lt;&lt;0, 1&gt;&gt;, select: p.text)</span>
+<span class='curline'><a href='../S/57.html#L47'>Post</a>               47 deps/ecto/integration_test/cases/type.exs     assert [^text] = TestRepo.all(from p in Post, where: p.text == ^text, select: p.text)</span>
+<span class='curline'><a href='../S/57.html#L50'>Post</a>               50 deps/ecto/integration_test/cases/type.exs     assert [^uuid] = TestRepo.all(from p in Post, where: p.uuid == ^uuid, select: p.uuid)</span>
+<span class='curline'><a href='../S/57.html#L53'>Post</a>               53 deps/ecto/integration_test/cases/type.exs     assert [^datetime] = TestRepo.all(from p in Post, where: p.inserted_at == ^datetime, select: p.inserted_at)</span>
+<span class='curline'><a href='../S/57.html#L57'>Post</a>               57 deps/ecto/integration_test/cases/type.exs     TestRepo.insert!(%Post{})</span>
+<span class='curline'><a href='../S/57.html#L60'>Post</a>               60 deps/ecto/integration_test/cases/type.exs     assert [1]   = TestRepo.all(from Post, select: type(^"1", :integer))</span>
+<span class='curline'><a href='../S/57.html#L61'>Post</a>               61 deps/ecto/integration_test/cases/type.exs     assert [1.0] = TestRepo.all(from Post, select: type(^1.0, :float))</span>
+<span class='curline'><a href='../S/57.html#L62'>Post</a>               62 deps/ecto/integration_test/cases/type.exs     assert [1]   = TestRepo.all(from p in Post, select: type(^"1", p.visits))</span>
+<span class='curline'><a href='../S/57.html#L63'>Post</a>               63 deps/ecto/integration_test/cases/type.exs     assert [1.0] = TestRepo.all(from p in Post, select: type(^"1", p.intensity))</span>
+<span class='curline'><a href='../S/57.html#L68'>Post</a>               68 deps/ecto/integration_test/cases/type.exs     assert [^ecto_datetime] = TestRepo.all(from Post, select: type(^datetime, Ecto.DateTime))</span>
+<span class='curline'><a href='../S/57.html#L71'>Post</a>               71 deps/ecto/integration_test/cases/type.exs     assert [1] = TestRepo.all(from Post, select: type(^"1", Elixir.Custom.Permalink))</span>
+<span class='curline'><a href='../S/57.html#L75'>Post</a>               75 deps/ecto/integration_test/cases/type.exs     assert [^datetime] = TestRepo.all(from Post, select: type(^datetime, Ecto.DateTime))</span>
+<span class='curline'><a href='../S/57.html#L86'>Post</a>               86 deps/ecto/integration_test/cases/type.exs     assert %Post{} = TestRepo.insert!(%Post{title: "1", text: "hai"})</span>
+<span class='curline'><a href='../S/57.html#L89'>Post</a>               89 deps/ecto/integration_test/cases/type.exs            TestRepo.all(from p in Post, select: {p.title, p.text})</span>
+<span class='curline'><a href='../S/57.html#L92'>Post</a>               92 deps/ecto/integration_test/cases/type.exs            TestRepo.all(from p in Post, select: [p.title, p.text])</span>
+<span class='curline'><a href='../S/57.html#L95'>Post</a>               95 deps/ecto/integration_test/cases/type.exs            TestRepo.all(from p in Post, select: %{</span>
+<span class='curline'><a href='../S/57.html#L139'>Post</a>              139 deps/ecto/integration_test/cases/type.exs     post1 = TestRepo.insert!(%Post{meta: %{"foo" =&gt; "bar", "baz" =&gt; "bat"}})</span>
+<span class='curline'><a href='../S/57.html#L140'>Post</a>              140 deps/ecto/integration_test/cases/type.exs     post2 = TestRepo.insert!(%Post{meta: %{foo: "bar", baz: "bat"}})</span>
+<span class='curline'><a href='../S/57.html#L142'>Post</a>              142 deps/ecto/integration_test/cases/type.exs     assert TestRepo.all(from p in Post, where: p.id == ^post1.id, select: p.meta) ==</span>
+<span class='curline'><a href='../S/57.html#L144'>Post</a>              144 deps/ecto/integration_test/cases/type.exs     assert TestRepo.all(from p in Post, where: p.id == ^post2.id, select: p.meta) ==</span>
+<span class='curline'><a href='../S/57.html#L150'>Post</a>              150 deps/ecto/integration_test/cases/type.exs     post = TestRepo.insert!(%Post{meta: %{"world" =&gt; "hello"}})</span>
+<span class='curline'><a href='../S/57.html#L151'>Post</a>              151 deps/ecto/integration_test/cases/type.exs     assert TestRepo.get!(Post, post.id).meta == %{"world" =&gt; "hello"}</span>
+<span class='curline'><a href='../S/57.html#L154'>Post</a>              154 deps/ecto/integration_test/cases/type.exs     assert TestRepo.get!(Post, post.id).meta == %{"hello" =&gt; "world"}</span>
+<span class='curline'><a href='../S/57.html#L156'>Post</a>              156 deps/ecto/integration_test/cases/type.exs     query = from(p in Post, where: p.id == ^post.id)</span>
+<span class='curline'><a href='../S/57.html#L158'>Post</a>              158 deps/ecto/integration_test/cases/type.exs     assert TestRepo.get!(Post, post.id).meta == %{"world" =&gt; "hello"}</span>
+<span class='curline'><a href='../S/57.html#L205'>Post</a>              205 deps/ecto/integration_test/cases/type.exs     TestRepo.insert!(%Post{cost: decimal})</span>
+<span class='curline'><a href='../S/57.html#L207'>Post</a>              207 deps/ecto/integration_test/cases/type.exs     assert [^decimal] = TestRepo.all(from p in Post, where: p.cost == ^decimal, select: p.cost)</span>
+<span class='curline'><a href='../S/57.html#L208'>Post</a>              208 deps/ecto/integration_test/cases/type.exs     assert [^decimal] = TestRepo.all(from p in Post, where: p.cost == ^1.0, select: p.cost)</span>
+<span class='curline'><a href='../S/57.html#L209'>Post</a>              209 deps/ecto/integration_test/cases/type.exs     assert [^decimal] = TestRepo.all(from p in Post, where: p.cost == ^1, select: p.cost)</span>
+<span class='curline'><a href='../S/57.html#L210'>Post</a>              210 deps/ecto/integration_test/cases/type.exs     assert [^decimal] = TestRepo.all(from p in Post, where: p.cost == 1.0, select: p.cost)</span>
+<span class='curline'><a href='../S/57.html#L211'>Post</a>              211 deps/ecto/integration_test/cases/type.exs     assert [^decimal] = TestRepo.all(from p in Post, where: p.cost == 1, select: p.cost)</span>
+<span class='curline'><a href='../S/58.html#L9'>Post</a>                9 deps/ecto/integration_test/sql/escape.exs     TestRepo.insert!(%Post{title: "hello"})</span>
+<span class='curline'><a href='../S/58.html#L11'>Post</a>               11 deps/ecto/integration_test/sql/escape.exs     query = from(p in Post, select: "'\\")</span>
+<span class='curline'><a href='../S/58.html#L16'>Post</a>               16 deps/ecto/integration_test/sql/escape.exs     TestRepo.insert!(%Post{title: "'"})</span>
+<span class='curline'><a href='../S/58.html#L18'>Post</a>               18 deps/ecto/integration_test/sql/escape.exs     query = from(p in Post, select: p.title)</span>
+<span class='curline'><a href='../S/58.html#L23'>Post</a>               23 deps/ecto/integration_test/sql/escape.exs     p = TestRepo.insert!(%Post{title: "hello"})</span>
+<span class='curline'><a href='../S/58.html#L26'>Post</a>               26 deps/ecto/integration_test/sql/escape.exs     query = from(p in Post, select: p.title)</span>
+<span class='curline'><a href='../S/58.html#L31'>Post</a>               31 deps/ecto/integration_test/sql/escape.exs     TestRepo.insert!(%Post{title: "hello"})</span>
+<span class='curline'><a href='../S/58.html#L32'>Post</a>               32 deps/ecto/integration_test/sql/escape.exs     TestRepo.update_all(Post, set: [title: "'"])</span>
+<span class='curline'><a href='../S/58.html#L34'>Post</a>               34 deps/ecto/integration_test/sql/escape.exs     reader = from(p in Post, select: p.title)</span>
+<span class='curline'><a href='../S/58.html#L37'>Post</a>               37 deps/ecto/integration_test/sql/escape.exs     query = from(Post, where: "'" != "")</span>
+<span class='curline'><a href='../S/58.html#L44'>Post</a>               44 deps/ecto/integration_test/sql/escape.exs     TestRepo.insert!(%Post{title: "hello"})</span>
+<span class='curline'><a href='../S/58.html#L45'>Post</a>               45 deps/ecto/integration_test/sql/escape.exs     assert [_] = TestRepo.all(Post)</span>
+<span class='curline'><a href='../S/58.html#L47'>Post</a>               47 deps/ecto/integration_test/sql/escape.exs     TestRepo.delete_all(from(Post, where: "'" == "'"))</span>
+<span class='curline'><a href='../S/58.html#L48'>Post</a>               48 deps/ecto/integration_test/sql/escape.exs     assert [] == TestRepo.all(Post)</span>
+</pre>
+</body>
+</html>

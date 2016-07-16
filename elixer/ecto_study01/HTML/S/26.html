@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/db_connection/lib/db_connection/ownership/manager.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/219.html'>db_connection</a>/<a href='../files/220.html'>lib</a>/<a href='../files/221.html'>db_connection</a>/<a href='../files/222.html'>ownership</a>/manager.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L13'>[^]</a><a href='#L220'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L13' title='Defined at 13.'>start_link</a></li>
+<li><a href='#L21' title='Defined at 21.'>checkout</a></li>
+<li><a href='#L28' title='Defined at 28.'>checkin</a></li>
+<li><a href='#L35' title='Defined at 35.'>mode</a></li>
+<li><a href='#L44' title='Defined at 44.'>allow</a></li>
+<li><a href='#L51' title='Defined at 51.'>lookup</a></li>
+<li><a href='#L59' title='Defined at 59.'>lookup</a></li>
+<li><a href='#L63' title='Defined at 63.'>server_lookup</a></li>
+<li><a href='#L70' title='Defined at 70.'>init</a></li>
+<li><a href='#L86' title='Defined at 86.'>handle_call</a></li>
+<li><a href='#L96' title='Defined at 96.'>handle_call</a></li>
+<li><a href='#L99' title='Defined at 99.'>handle_call</a></li>
+<li><a href='#L103' title='Defined at 103.'>handle_call</a></li>
+<li><a href='#L122' title='Defined at 122.'>handle_call</a></li>
+<li><a href='#L134' title='Defined at 134.'>handle_call</a></li>
+<li><a href='#L149' title='Defined at 149.'>handle_call</a></li>
+<li><a href='#L158' title='Defined at 158.'>handle_info</a></li>
+<li><a href='#L162' title='Defined at 162.'>handle_info</a></li>
+<li><a href='#L166' title='Defined at 166.'>already_checked_out</a></li>
+<li><a href='#L174' title='Defined at 174.'>checkout</a></li>
+<li><a href='#L185' title='Defined at 185.'>owner_allow</a></li>
+<li><a href='#L194' title='Defined at 194.'>owner_down</a></li>
+<li><a href='#L206' title='Defined at 206.'>share_and_reply</a></li>
+<li><a href='#L217' title='Defined at 217.'>unshare</a></li>
+<li><a href='#L220' title='Defined at 220.'>unshare</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule DBConnection.Ownership.<a href='../R/39.html' title='Multiple referred from 7 places.'>Manager</a> <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc false
+<a id='L3' name='L3'></a>  use GenServer
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a>  alias DBConnection.Ownership.PoolSupervisor
+<a id='L6' name='L6'></a>  alias DBConnection.Ownership.OwnerSupervisor
+<a id='L7' name='L7'></a>  alias DBConnection.Ownership.Owner
+<a id='L8' name='L8'></a>
+<a id='L9' name='L9'></a>  @timeout 5_000
+<a id='L10' name='L10'></a>
+<a id='L11' name='L11'></a>  @callback <a href='../D/1059.html' title='Multiple defined in 41 places.'>start_link</a>(module, opts :: Keyword.t) ::
+<a id='L12' name='L12'></a>    GenServer.on_start
+<a id='L13' name='L13'></a>  def <a href='../R/900.html' title='Multiple referred from 71 places.'>start_link</a>(module, opts) <strong class='reserved'>do</strong>
+<a id='L14' name='L14'></a>    pool_mod = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :ownership_pool, DBConnection.Poolboy)
+<a id='L15' name='L15'></a>    <em class='brace'>{</em>owner_opts, pool_opts<em class='brace'>}</em> = Keyword.split(opts, [:name])
+<a id='L16' name='L16'></a>    GenServer.<a href='../D/1059.html' title='Multiple defined in 41 places.'>start_link</a>(__MODULE__, <em class='brace'>{</em>module, owner_opts, pool_mod, pool_opts<em class='brace'>}</em>, owner_opts)
+<a id='L17' name='L17'></a>  end
+<a id='L18' name='L18'></a>
+<a id='L19' name='L19'></a>  @spec <a href='../D/351.html' title='Multiple defined in 24 places.'>checkout</a>(GenServer.server, Keyword.t) ::
+<a id='L20' name='L20'></a>    <em class='brace'>{</em>:init, pid<em class='brace'>}</em> | <em class='brace'>{</em>:already, :owner | :allowed<em class='brace'>}</em>
+<a id='L21' name='L21'></a>  def <a href='../R/229.html' title='Multiple referred from 37 places.'>checkout</a>(manager, opts) <strong class='reserved'>do</strong>
+<a id='L22' name='L22'></a>    <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a> = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :pool_timeout, @timeout)
+<a id='L23' name='L23'></a>    GenServer.<a href='../D/323.html' title='Multiple defined in 2 places.'>call</a>(manager, <em class='brace'>{</em>:checkout, opts<em class='brace'>}</em>, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>)
+<a id='L24' name='L24'></a>  end
+<a id='L25' name='L25'></a>
+<a id='L26' name='L26'></a>  @spec <a href='../D/350.html' title='Multiple defined in 18 places.'>checkin</a>(GenServer.server, Keyword.t) ::
+<a id='L27' name='L27'></a>    :ok | :not_owner | :not_found
+<a id='L28' name='L28'></a>  def <a href='../R/228.html' title='Multiple referred from 28 places.'>checkin</a>(manager, opts) <strong class='reserved'>do</strong>
+<a id='L29' name='L29'></a>    <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a> = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :pool_timeout, @timeout)
+<a id='L30' name='L30'></a>    GenServer.<a href='../D/323.html' title='Multiple defined in 2 places.'>call</a>(manager, :checkin, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>)
+<a id='L31' name='L31'></a>  end
+<a id='L32' name='L32'></a>
+<a id='L33' name='L33'></a>  @spec <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>(GenServer.server, :<strong class='reserved'>auto</strong> | :manual | <em class='brace'>{</em>:shared, pid<em class='brace'>}</em>, Keyword.t) ::
+<a id='L34' name='L34'></a>    :ok | :already_shared | :not_owner | :not_found
+<a id='L35' name='L35'></a>  def <a href='../R/644.html' title='Multiple referred from 62 places.'>mode</a>(manager, mode, opts)
+<a id='L36' name='L36'></a>      when <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a> in [:<strong class='reserved'>auto</strong>, :manual]
+<a id='L37' name='L37'></a>      when elem(<a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, 0) == :shared and is_pid(elem(mode, 1)) <strong class='reserved'>do</strong>
+<a id='L38' name='L38'></a>    <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a> = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :pool_timeout, @timeout)
+<a id='L39' name='L39'></a>    GenServer.<a href='../D/323.html' title='Multiple defined in 2 places.'>call</a>(manager, <em class='brace'>{</em>:<a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, mode<em class='brace'>}</em>, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>)
+<a id='L40' name='L40'></a>  end
+<a id='L41' name='L41'></a>
+<a id='L42' name='L42'></a>  @spec <a href='../S/26.html#L44' title='Defined at 44 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>allow</a>(GenServer.server, parent :: pid, allow :: pid, Keyword.t) ::
+<a id='L43' name='L43'></a>    :ok | <em class='brace'>{</em>:already, :owner | :allowed<em class='brace'>}</em> | :not_owner | :not_found
+<a id='L44' name='L44'></a>  def <a href='../R/127.html' title='Multiple referred from 11 places.'>allow</a>(manager, parent, allow, opts) <strong class='reserved'>do</strong>
+<a id='L45' name='L45'></a>    <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a> = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :pool_timeout, @timeout)
+<a id='L46' name='L46'></a>    GenServer.<a href='../D/323.html' title='Multiple defined in 2 places.'>call</a>(manager, <em class='brace'>{</em>:<a href='../S/26.html#L44' title='Defined at 44 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>allow</a>, parent, allow<em class='brace'>}</em>, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>)
+<a id='L47' name='L47'></a>  end
+<a id='L48' name='L48'></a>
+<a id='L49' name='L49'></a>  @spec <a href='../D/743.html' title='Multiple defined in 2 places.'>lookup</a>(GenServer.server, Keyword.t) ::
+<a id='L50' name='L50'></a>    <em class='brace'>{</em>:ok, pid<em class='brace'>}</em> | <em class='brace'>{</em>:init, pid<em class='brace'>}</em> | :not_found
+<a id='L51' name='L51'></a>  def <a href='../R/606.html' title='Multiple referred from 8 places.'>lookup</a>(manager, opts) when is_atom(manager) <strong class='reserved'>do</strong>
+<a id='L52' name='L52'></a>    client = self()
+<a id='L53' name='L53'></a>    <strong class='reserved'>case</strong> :ets.<a href='../D/743.html' title='Multiple defined in 2 places.'>lookup</a>(manager, client) <strong class='reserved'>do</strong>
+<a id='L54' name='L54'></a>      [<em class='brace'>{</em>^client, owner<em class='brace'>}</em>] -&gt; <em class='brace'>{</em>:ok, owner<em class='brace'>}</em>
+<a id='L55' name='L55'></a>      [] -&gt; <a href='../S/26.html#L63' title='Defined at 63 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>server_lookup</a>(manager, opts)
+<a id='L56' name='L56'></a>    end
+<a id='L57' name='L57'></a>  end
+<a id='L58' name='L58'></a>
+<a id='L59' name='L59'></a>  def <a href='../R/606.html' title='Multiple referred from 8 places.'>lookup</a>(manager, opts) <strong class='reserved'>do</strong>
+<a id='L60' name='L60'></a>    <a href='../S/26.html#L63' title='Defined at 63 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>server_lookup</a>(manager, opts)
+<a id='L61' name='L61'></a>  end
+<a id='L62' name='L62'></a>
+<a id='L63' name='L63'></a>  defp <a href='../R/875.html' title='Multiple referred from 2 places.'>server_lookup</a>(manager, opts) <strong class='reserved'>do</strong>
+<a id='L64' name='L64'></a>    <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a> = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :pool_timeout, @timeout)
+<a id='L65' name='L65'></a>    GenServer.<a href='../D/323.html' title='Multiple defined in 2 places.'>call</a>(manager, <em class='brace'>{</em>:lookup, opts<em class='brace'>}</em>, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>)
+<a id='L66' name='L66'></a>  end
+<a id='L67' name='L67'></a>
+<a id='L68' name='L68'></a><em class='sharp'>  #</em># Callbacks
+<a id='L69' name='L69'></a>
+<a id='L70' name='L70'></a>  def <a href='../R/550.html' title='Multiple referred from 12 places.'>init</a>(<em class='brace'>{</em>module, owner_opts, pool_mod, pool_opts<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L71' name='L71'></a>    ets =
+<a id='L72' name='L72'></a>      <strong class='reserved'>case</strong> Keyword.<a href='../D/597.html' title='Multiple defined in 2 places.'>fetch</a>(owner_opts, :name) <strong class='reserved'>do</strong>
+<a id='L73' name='L73'></a>        <em class='brace'>{</em>:ok, name<em class='brace'>}</em> when is_atom(name) -&gt;
+<a id='L74' name='L74'></a>          :ets.<a href='../D/805.html' title='Multiple defined in 14 places.'>new</a>(name, [:named_table, :protected, read_concurrency: true])
+<a id='L75' name='L75'></a>        _ -&gt;
+<a id='L76' name='L76'></a>          nil
+<a id='L77' name='L77'></a>      end
+<a id='L78' name='L78'></a>
+<a id='L79' name='L79'></a>    pool_opts = Keyword.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(pool_opts, :pool, pool_mod)
+<a id='L80' name='L80'></a>    <em class='brace'>{</em>:ok, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, owner_sup<em class='brace'>}</em> = <a href='../S/30.html#L1' title='Defined at 1 in deps/db_connection/lib/db_connection/ownership/pool_supervisor.ex.'>PoolSupervisor</a>.<a href='../D/1062.html' title='Multiple defined in 4 places.'>start_pool</a>(module, pool_opts)
+<a id='L81' name='L81'></a>    <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a> = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(pool_opts, :ownership_mode, :<strong class='reserved'>auto</strong>)
+<a id='L82' name='L82'></a>    <em class='brace'>{</em>:ok, %<em class='brace'>{</em><a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>: pool, owner_sup: owner_sup, checkouts: %<em class='brace'>{</em><em class='brace'>}</em>, owners: %<em class='brace'>{</em><em class='brace'>}</em>,
+<a id='L83' name='L83'></a>            <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>: mode, mode_ref: nil, ets: ets<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L84' name='L84'></a>  end
+<a id='L85' name='L85'></a>
+<a id='L86' name='L86'></a>  def <a href='../R/517.html' title='Multiple referred from 6 places.'>handle_call</a>(<em class='brace'>{</em>:mode, <em class='brace'>{</em>:shared, pid<em class='brace'>}</em><em class='brace'>}</em>, _from, %<em class='brace'>{</em>mode: <em class='brace'>{</em>:shared, current<em class='brace'>}</em><em class='brace'>}</em> = <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>) <strong class='reserved'>do</strong>
+<a id='L87' name='L87'></a>    cond <strong class='reserved'>do</strong>
+<a id='L88' name='L88'></a>      pid == current -&gt;
+<a id='L89' name='L89'></a>        <em class='brace'>{</em>:reply, :ok, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L90' name='L90'></a>      Process.alive?(current) -&gt;
+<a id='L91' name='L91'></a>        <em class='brace'>{</em>:reply, :already_shared, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L92' name='L92'></a>      true -&gt;
+<a id='L93' name='L93'></a>        <a href='../S/26.html#L206' title='Defined at 206 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>share_and_reply</a>(<a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>, pid)
+<a id='L94' name='L94'></a>    end
+<a id='L95' name='L95'></a>  end
+<a id='L96' name='L96'></a>  def <a href='../R/517.html' title='Multiple referred from 6 places.'>handle_call</a>(<em class='brace'>{</em>:mode, <em class='brace'>{</em>:shared, pid<em class='brace'>}</em><em class='brace'>}</em>, _from, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>) <strong class='reserved'>do</strong>
+<a id='L97' name='L97'></a>    <a href='../S/26.html#L206' title='Defined at 206 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>share_and_reply</a>(<a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>, pid)
+<a id='L98' name='L98'></a>  end
+<a id='L99' name='L99'></a>  def <a href='../R/517.html' title='Multiple referred from 6 places.'>handle_call</a>(<em class='brace'>{</em>:<a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>, mode<em class='brace'>}</em>, _from, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>) <strong class='reserved'>do</strong>
+<a id='L100' name='L100'></a>    <em class='brace'>{</em>:reply, :ok, %<em class='brace'>{</em><a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a> | <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>: mode, mode_ref: nil<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L101' name='L101'></a>  end
+<a id='L102' name='L102'></a>
+<a id='L103' name='L103'></a>  def <a href='../R/517.html' title='Multiple referred from 6 places.'>handle_call</a>(<em class='brace'>{</em>:lookup, opts<em class='brace'>}</em>, <em class='brace'>{</em>caller, _<em class='brace'>}</em>,
+<a id='L104' name='L104'></a>                  %<em class='brace'>{</em>checkouts: checkouts, <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>: mode<em class='brace'>}</em> = <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>) <strong class='reserved'>do</strong>
+<a id='L105' name='L105'></a>    <strong class='reserved'>case</strong> Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(checkouts, caller, :not_found) <strong class='reserved'>do</strong>
+<a id='L106' name='L106'></a>      <em class='brace'>{</em>:owner, _, owner<em class='brace'>}</em> -&gt;
+<a id='L107' name='L107'></a>        <em class='brace'>{</em>:reply, <em class='brace'>{</em>:ok, owner<em class='brace'>}</em>, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L108' name='L108'></a>      <em class='brace'>{</em>:allowed, owner<em class='brace'>}</em> -&gt;
+<a id='L109' name='L109'></a>        <em class='brace'>{</em>:reply, <em class='brace'>{</em>:ok, owner<em class='brace'>}</em>, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L110' name='L110'></a>      :not_found when <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a> == :manual -&gt;
+<a id='L111' name='L111'></a>        <em class='brace'>{</em>:reply, :not_found, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L112' name='L112'></a>      :not_found when <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a> == :<strong class='reserved'>auto</strong> -&gt;
+<a id='L113' name='L113'></a>        <em class='brace'>{</em>owner, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em> = <a href='../D/351.html' title='Multiple defined in 24 places.'>checkout</a>(state, caller, opts)
+<a id='L114' name='L114'></a>        <em class='brace'>{</em>:reply, <em class='brace'>{</em>:init, owner<em class='brace'>}</em>, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L115' name='L115'></a>      :not_found -&gt;
+<a id='L116' name='L116'></a>        <em class='brace'>{</em>:shared, shared<em class='brace'>}</em> = <a href='../D/788.html' title='Multiple defined in 2 places.'>mode</a>
+<a id='L117' name='L117'></a>        <em class='brace'>{</em>:owner, ref, owner<em class='brace'>}</em> = Map.fetch!(checkouts, shared)
+<a id='L118' name='L118'></a>        <em class='brace'>{</em>:reply, <em class='brace'>{</em>:ok, owner<em class='brace'>}</em>, <a href='../S/26.html#L185' title='Defined at 185 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>owner_allow</a>(<a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>, caller, ref, owner)<em class='brace'>}</em>
+<a id='L119' name='L119'></a>    end
+<a id='L120' name='L120'></a>  end
+<a id='L121' name='L121'></a>
+<a id='L122' name='L122'></a>  def <a href='../R/517.html' title='Multiple referred from 6 places.'>handle_call</a>(:checkin, <em class='brace'>{</em>caller, _<em class='brace'>}</em>, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>) <strong class='reserved'>do</strong>
+<a id='L123' name='L123'></a>    <strong class='reserved'>case</strong> get_and_update_in(<a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>.checkouts, &amp;Map.pop(&amp;1, caller, :not_found)) <strong class='reserved'>do</strong>
+<a id='L124' name='L124'></a>      <em class='brace'>{</em><em class='brace'>{</em>:owner, ref, owner<em class='brace'>}</em>, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em> -&gt;
+<a id='L125' name='L125'></a>        <a href='../S/27.html#L1' title='Defined at 1 in deps/db_connection/lib/db_connection/ownership/owner.ex.'>Owner</a>.<a href='../D/1069.html' title='Multiple defined in 13 places.'>stop</a>(owner)
+<a id='L126' name='L126'></a>        <em class='brace'>{</em>:reply, :ok, <a href='../S/26.html#L194' title='Defined at 194 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>owner_down</a>(<a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>, ref)<em class='brace'>}</em>
+<a id='L127' name='L127'></a>      <em class='brace'>{</em><em class='brace'>{</em>:allowed, _<em class='brace'>}</em>, _<em class='brace'>}</em> -&gt;
+<a id='L128' name='L128'></a>        <em class='brace'>{</em>:reply, :not_owner, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L129' name='L129'></a>      <em class='brace'>{</em>:not_found, _<em class='brace'>}</em> -&gt;
+<a id='L130' name='L130'></a>        <em class='brace'>{</em>:reply, :not_found, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L131' name='L131'></a>    end
+<a id='L132' name='L132'></a>  end
+<a id='L133' name='L133'></a>
+<a id='L134' name='L134'></a>  def <a href='../R/517.html' title='Multiple referred from 6 places.'>handle_call</a>(<em class='brace'>{</em>:<a href='../S/26.html#L44' title='Defined at 44 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>allow</a>, caller, allow<em class='brace'>}</em>, _from, %<em class='brace'>{</em>checkouts: checkouts<em class='brace'>}</em> = <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>) <strong class='reserved'>do</strong>
+<a id='L135' name='L135'></a>    <strong class='reserved'>if</strong> kind = <a href='../S/26.html#L166' title='Defined at 166 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>already_checked_out</a>(checkouts, <a href='../S/26.html#L44' title='Defined at 44 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>allow</a>) <strong class='reserved'>do</strong>
+<a id='L136' name='L136'></a>      <em class='brace'>{</em>:reply, <em class='brace'>{</em>:already, kind<em class='brace'>}</em>, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L137' name='L137'></a>    <strong class='reserved'>else</strong>
+<a id='L138' name='L138'></a>      <strong class='reserved'>case</strong> Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(checkouts, caller, :not_found) <strong class='reserved'>do</strong>
+<a id='L139' name='L139'></a>        <em class='brace'>{</em>:owner, ref, owner<em class='brace'>}</em> -&gt;
+<a id='L140' name='L140'></a>          <em class='brace'>{</em>:reply, :ok, <a href='../S/26.html#L185' title='Defined at 185 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>owner_allow</a>(<a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>, <a href='../S/26.html#L44' title='Defined at 44 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>allow</a>, ref, owner)<em class='brace'>}</em>
+<a id='L141' name='L141'></a>        <em class='brace'>{</em>:allowed, _<em class='brace'>}</em> -&gt;
+<a id='L142' name='L142'></a>          <em class='brace'>{</em>:reply, :not_owner, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L143' name='L143'></a>        :not_found -&gt;
+<a id='L144' name='L144'></a>          <em class='brace'>{</em>:reply, :not_found, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L145' name='L145'></a>      end
+<a id='L146' name='L146'></a>    end
+<a id='L147' name='L147'></a>  end
+<a id='L148' name='L148'></a>
+<a id='L149' name='L149'></a>  def <a href='../R/517.html' title='Multiple referred from 6 places.'>handle_call</a>(<em class='brace'>{</em>:checkout, opts<em class='brace'>}</em>, <em class='brace'>{</em>caller, _<em class='brace'>}</em>, %<em class='brace'>{</em>checkouts: checkouts<em class='brace'>}</em> = <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>) <strong class='reserved'>do</strong>
+<a id='L150' name='L150'></a>    <strong class='reserved'>if</strong> kind = <a href='../S/26.html#L166' title='Defined at 166 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>already_checked_out</a>(checkouts, caller) <strong class='reserved'>do</strong>
+<a id='L151' name='L151'></a>      <em class='brace'>{</em>:reply, <em class='brace'>{</em>:already, kind<em class='brace'>}</em>, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L152' name='L152'></a>    <strong class='reserved'>else</strong>
+<a id='L153' name='L153'></a>      <em class='brace'>{</em>owner, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em> = <a href='../D/351.html' title='Multiple defined in 24 places.'>checkout</a>(state, caller, opts)
+<a id='L154' name='L154'></a>      <em class='brace'>{</em>:reply, <em class='brace'>{</em>:init, owner<em class='brace'>}</em>, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L155' name='L155'></a>    end
+<a id='L156' name='L156'></a>  end
+<a id='L157' name='L157'></a>
+<a id='L158' name='L158'></a>  def <a href='../R/527.html' title='Multiple referred from 4 places.'>handle_info</a>(<em class='brace'>{</em>:DOWN, ref, _, _, _<em class='brace'>}</em>, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>) <strong class='reserved'>do</strong>
+<a id='L159' name='L159'></a>    <em class='brace'>{</em>:noreply, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a> |&gt; <a href='../S/26.html#L194' title='Defined at 194 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>owner_down</a>(ref) |&gt; <a href='../D/1168.html' title='Multiple defined in 2 places.'>unshare</a>(ref)<em class='brace'>}</em>
+<a id='L160' name='L160'></a>  end
+<a id='L161' name='L161'></a>
+<a id='L162' name='L162'></a>  def <a href='../R/527.html' title='Multiple referred from 4 places.'>handle_info</a>(_msg, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>) <strong class='reserved'>do</strong>
+<a id='L163' name='L163'></a>    <em class='brace'>{</em>:noreply, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L164' name='L164'></a>  end
+<a id='L165' name='L165'></a>
+<a id='L166' name='L166'></a>  defp <a href='../R/128.html' title='Multiple referred from 2 places.'>already_checked_out</a>(checkouts, pid) <strong class='reserved'>do</strong>
+<a id='L167' name='L167'></a>    <strong class='reserved'>case</strong> Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(checkouts, pid, :not_found) <strong class='reserved'>do</strong>
+<a id='L168' name='L168'></a>      <em class='brace'>{</em>:owner, _, _<em class='brace'>}</em> -&gt; :owner
+<a id='L169' name='L169'></a>      <em class='brace'>{</em>:allowed, _<em class='brace'>}</em> -&gt; :allowed
+<a id='L170' name='L170'></a>      :not_found -&gt; nil
+<a id='L171' name='L171'></a>    end
+<a id='L172' name='L172'></a>  end
+<a id='L173' name='L173'></a>
+<a id='L174' name='L174'></a>  defp <a href='../R/229.html' title='Multiple referred from 37 places.'>checkout</a>(<a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>, caller, opts) <strong class='reserved'>do</strong>
+<a id='L175' name='L175'></a>    %<em class='brace'>{</em><a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>: pool, owner_sup: owner_sup, checkouts: checkouts, owners: owners,
+<a id='L176' name='L176'></a>      ets: ets<em class='brace'>}</em> = <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>
+<a id='L177' name='L177'></a>    <em class='brace'>{</em>:ok, owner<em class='brace'>}</em> = <a href='../S/28.html#L1' title='Defined at 1 in deps/db_connection/lib/db_connection/ownership/owner_supervisor.ex.'>OwnerSupervisor</a>.<a href='../S/28.html#L10' title='Defined at 10 in deps/db_connection/lib/db_connection/ownership/owner_supervisor.ex.'>start_owner</a>(owner_sup, caller, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, opts)
+<a id='L178' name='L178'></a>    ref = Process.<a href='../S/101.html#L143' title='Defined at 143 in deps/ecto/lib/ecto/pools/poolboy/worker.ex.'>monitor</a>(owner)
+<a id='L179' name='L179'></a>    checkouts = Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(checkouts, caller, <em class='brace'>{</em>:owner, ref, owner<em class='brace'>}</em>)
+<a id='L180' name='L180'></a>    owners = Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(owners, ref, <em class='brace'>{</em>owner, caller, []<em class='brace'>}</em>)
+<a id='L181' name='L181'></a>    ets &amp;&amp; :ets.<a href='../D/691.html' title='Multiple defined in 17 places.'>insert</a>(ets, <em class='brace'>{</em>caller, owner<em class='brace'>}</em>)
+<a id='L182' name='L182'></a>    <em class='brace'>{</em>owner, %<em class='brace'>{</em><a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a> | checkouts: checkouts, owners: owners<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L183' name='L183'></a>  end
+<a id='L184' name='L184'></a>
+<a id='L185' name='L185'></a>  defp <a href='../R/695.html' title='Multiple referred from 2 places.'>owner_allow</a>(%<em class='brace'>{</em>ets: ets<em class='brace'>}</em> = <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>, <a href='../S/26.html#L44' title='Defined at 44 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>allow</a>, ref, owner) <strong class='reserved'>do</strong>
+<a id='L186' name='L186'></a>    <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a> = put_in(state.checkouts[<a href='../S/26.html#L44' title='Defined at 44 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>allow</a>], <em class='brace'>{</em>:allowed, owner<em class='brace'>}</em>)
+<a id='L187' name='L187'></a>    <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a> = update_in(state.owners[ref], fn <em class='brace'>{</em>owner, caller, allowed<em class='brace'>}</em> -&gt;
+<a id='L188' name='L188'></a>      <em class='brace'>{</em>owner, caller, [<a href='../S/26.html#L44' title='Defined at 44 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>allow</a>|List.<a href='../D/444.html' title='Multiple defined in 10 places.'>delete</a>(allowed, allow)]<em class='brace'>}</em>
+<a id='L189' name='L189'></a>    end)
+<a id='L190' name='L190'></a>    ets &amp;&amp; :ets.<a href='../D/691.html' title='Multiple defined in 17 places.'>insert</a>(ets, <em class='brace'>{</em><a href='../S/26.html#L44' title='Defined at 44 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>allow</a>, owner<em class='brace'>}</em>)
+<a id='L191' name='L191'></a>    <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>
+<a id='L192' name='L192'></a>  end
+<a id='L193' name='L193'></a>
+<a id='L194' name='L194'></a>  defp <a href='../R/696.html' title='Multiple referred from 2 places.'>owner_down</a>(%<em class='brace'>{</em>ets: ets<em class='brace'>}</em> = <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>, ref) <strong class='reserved'>do</strong>
+<a id='L195' name='L195'></a>    <strong class='reserved'>case</strong> get_and_update_in(<a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>.owners, &amp;Map.pop(&amp;1, ref)) <strong class='reserved'>do</strong>
+<a id='L196' name='L196'></a>      <em class='brace'>{</em><em class='brace'>{</em>_owner, caller, allowed<em class='brace'>}</em>, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em> -&gt;
+<a id='L197' name='L197'></a>        Process.<a href='../D/454.html' title='Multiple defined in 8 places.'>demonitor</a>(ref, [:flush])
+<a id='L198' name='L198'></a>        <a href='../D/555.html' title='Multiple defined in 6 places.'>entries</a> = [caller|allowed]
+<a id='L199' name='L199'></a>        ets &amp;&amp; Enum.each(<a href='../D/555.html' title='Multiple defined in 6 places.'>entries</a>, &amp;:ets.<a href='../D/444.html' title='Multiple defined in 10 places.'>delete</a>(ets, &amp;1))
+<a id='L200' name='L200'></a>        update_in(<a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>.checkouts, &amp;Map.<a href='../S/94.html#L316' title='Defined at 316 in deps/ecto/lib/ecto/migration.ex.'>drop</a>(&amp;1, <a href='../D/555.html' title='Multiple defined in 6 places.'>entries</a>))
+<a id='L201' name='L201'></a>      <em class='brace'>{</em>nil, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em> -&gt;
+<a id='L202' name='L202'></a>        <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>
+<a id='L203' name='L203'></a>    end
+<a id='L204' name='L204'></a>  end
+<a id='L205' name='L205'></a>
+<a id='L206' name='L206'></a>  defp <a href='../R/878.html' title='Multiple referred from 2 places.'>share_and_reply</a>(%<em class='brace'>{</em>checkouts: checkouts<em class='brace'>}</em> = <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>, pid) <strong class='reserved'>do</strong>
+<a id='L207' name='L207'></a>    <strong class='reserved'>case</strong> Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(checkouts, pid, :not_found) <strong class='reserved'>do</strong>
+<a id='L208' name='L208'></a>      <em class='brace'>{</em>:owner, ref, _<em class='brace'>}</em> -&gt;
+<a id='L209' name='L209'></a>        <em class='brace'>{</em>:reply, :ok, %<em class='brace'>{</em><a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a> | mode: <em class='brace'>{</em>:shared, pid<em class='brace'>}</em>, mode_ref: ref<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L210' name='L210'></a>      <em class='brace'>{</em>:allowed, _<em class='brace'>}</em> -&gt;
+<a id='L211' name='L211'></a>        <em class='brace'>{</em>:reply, :not_owner, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L212' name='L212'></a>      :not_found -&gt;
+<a id='L213' name='L213'></a>        <em class='brace'>{</em>:reply, :not_found, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L214' name='L214'></a>    end
+<a id='L215' name='L215'></a>  end
+<a id='L216' name='L216'></a>
+<a id='L217' name='L217'></a>  defp <a href='../S/26.html#L159' title='Referred from 159 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>unshare</a>(%<em class='brace'>{</em>mode_ref: ref<em class='brace'>}</em> = <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>, ref) <strong class='reserved'>do</strong>
+<a id='L218' name='L218'></a>    %<em class='brace'>{</em><a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a> | mode: :manual, mode_ref: nil<em class='brace'>}</em>
+<a id='L219' name='L219'></a>  end
+<a id='L220' name='L220'></a>  defp <a href='../S/26.html#L159' title='Referred from 159 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>unshare</a>(<a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>, _ref) <strong class='reserved'>do</strong>
+<a id='L221' name='L221'></a>    <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>
+<a id='L222' name='L222'></a>  end
+<a id='L223' name='L223'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L13'>[^]</a><a href='#L220'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

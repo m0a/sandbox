@@ -1,0 +1,420 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>state</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/17.html#L304'>state</a>             304 deps/connection/lib/connection.ex       def handle_call(msg, _from, state) do</span>
+<span class='curline'><a href='../S/17.html#L309'>state</a>             309 deps/connection/lib/connection.ex           1 -&gt; {:stop, reason, state}</span>
+<span class='curline'><a href='../S/17.html#L314'>state</a>             314 deps/connection/lib/connection.ex       def handle_info(_msg, state) do</span>
+<span class='curline'><a href='../S/17.html#L315'>state</a>             315 deps/connection/lib/connection.ex         {:noreply, state}</span>
+<span class='curline'><a href='../S/17.html#L319'>state</a>             319 deps/connection/lib/connection.ex       def handle_cast(msg, state) do</span>
+<span class='curline'><a href='../S/17.html#L324'>state</a>             324 deps/connection/lib/connection.ex           1 -&gt; {:stop, reason, state}</span>
+<span class='curline'><a href='../S/17.html#L334'>state</a>             334 deps/connection/lib/connection.ex       def code_change(_old, state, _extra) do</span>
+<span class='curline'><a href='../S/17.html#L335'>state</a>             335 deps/connection/lib/connection.ex         {:ok, state}</span>
+<span class='curline'><a href='../S/17.html#L339'>state</a>             339 deps/connection/lib/connection.ex       def connect(info, state) do</span>
+<span class='curline'><a href='../S/17.html#L343'>state</a>             343 deps/connection/lib/connection.ex           1 -&gt; {:stop, reason, state}</span>
+<span class='curline'><a href='../S/17.html#L348'>state</a>             348 deps/connection/lib/connection.ex       def disconnect(info, state) do</span>
+<span class='curline'><a href='../S/17.html#L352'>state</a>             352 deps/connection/lib/connection.ex           1 -&gt; {:stop, reason, state}</span>
+<span class='curline'><a href='../S/44.html#L67'>state</a>              67 deps/db_connection/lib/db_connection.ex     {:ok, state :: any} | {:error, Exception.t}</span>
+<span class='curline'><a href='../S/44.html#L82'>state</a>              82 deps/db_connection/lib/db_connection.ex   @callback checkout(state :: any) ::</span>
+<span class='curline'><a href='../S/44.html#L95'>state</a>              95 deps/db_connection/lib/db_connection.ex   @callback checkin(state :: any) ::</span>
+<span class='curline'><a href='../S/44.html#L110'>state</a>             110 deps/db_connection/lib/db_connection.ex   @callback ping(state :: any) ::</span>
+<span class='curline'><a href='../S/44.html#L121'>state</a>             121 deps/db_connection/lib/db_connection.ex   @callback handle_begin(opts :: Keyword.t, state :: any) ::</span>
+<span class='curline'><a href='../S/44.html#L133'>state</a>             133 deps/db_connection/lib/db_connection.ex   @callback handle_commit(opts :: Keyword.t, state :: any) ::</span>
+<span class='curline'><a href='../S/44.html#L148'>state</a>             148 deps/db_connection/lib/db_connection.ex   @callback handle_rollback(opts :: Keyword.t, state :: any) ::</span>
+<span class='curline'><a href='../S/44.html#L168'>state</a>             168 deps/db_connection/lib/db_connection.ex   @callback handle_prepare(query, opts :: Keyword.t, state :: any) ::</span>
+<span class='curline'><a href='../S/44.html#L180'>state</a>             180 deps/db_connection/lib/db_connection.ex   @callback handle_execute(query, params, opts :: Keyword.t, state :: any) ::</span>
+<span class='curline'><a href='../S/44.html#L196'>state</a>             196 deps/db_connection/lib/db_connection.ex   state :: any) ::</span>
+<span class='curline'><a href='../S/44.html#L208'>state</a>             208 deps/db_connection/lib/db_connection.ex   @callback handle_close(query, opts :: Keyword.t, state :: any) ::</span>
+<span class='curline'><a href='../S/44.html#L222'>state</a>             222 deps/db_connection/lib/db_connection.ex   @callback handle_info(msg :: any, state :: any) ::</span>
+<span class='curline'><a href='../S/44.html#L238'>state</a>             238 deps/db_connection/lib/db_connection.ex   @callback disconnect(err :: Exception.t, state :: any) :: :ok</span>
+<span class='curline'><a href='../S/44.html#L283'>state</a>             283 deps/db_connection/lib/db_connection.ex       def ping(state), do: {:ok, state}</span>
+<span class='curline'><a href='../S/44.html#L309'>state</a>             309 deps/db_connection/lib/db_connection.ex       def handle_prepare(query, _, state), do: {:ok, query, state}</span>
+<span class='curline'><a href='../S/44.html#L319'>state</a>             319 deps/db_connection/lib/db_connection.ex       def handle_execute_close(query, params, opts, state) do</span>
+<span class='curline'><a href='../S/44.html#L320'>state</a>             320 deps/db_connection/lib/db_connection.ex         case handle_execute(query, params, opts, state) do</span>
+<span class='curline'><a href='../S/44.html#L321'>state</a>             321 deps/db_connection/lib/db_connection.ex           {:ok, result, state} -&gt;</span>
+<span class='curline'><a href='../S/44.html#L322'>state</a>             322 deps/db_connection/lib/db_connection.ex             case handle_close(query, opts, state) do</span>
+<span class='curline'><a href='../S/44.html#L323'>state</a>             323 deps/db_connection/lib/db_connection.ex               {:ok, _, state} -&gt; {:ok, result, state}</span>
+<span class='curline'><a href='../S/44.html#L326'>state</a>             326 deps/db_connection/lib/db_connection.ex           {:error, err, state} -&gt;</span>
+<span class='curline'><a href='../S/44.html#L327'>state</a>             327 deps/db_connection/lib/db_connection.ex             case handle_close(query, opts, state) do</span>
+<span class='curline'><a href='../S/44.html#L328'>state</a>             328 deps/db_connection/lib/db_connection.ex               {:ok, _, state} -&gt; {:error, err, state}</span>
+<span class='curline'><a href='../S/44.html#L344'>state</a>             344 deps/db_connection/lib/db_connection.ex       def handle_info(_, state), do: {:ok, state}</span>
+<span class='curline'><a href='../S/22.html#L22'>state</a>              22 deps/db_connection/lib/db_connection/backoff.ex   def backoff(%Backoff{type: :rand, min: min, max: max, state: state} = s) do</span>
+<span class='curline'><a href='../S/22.html#L23'>state</a>              23 deps/db_connection/lib/db_connection/backoff.ex     {backoff, state} = rand(state, min, max)</span>
+<span class='curline'><a href='../S/22.html#L24'>state</a>              24 deps/db_connection/lib/db_connection/backoff.ex     {backoff, %Backoff{s | state: state}}</span>
+<span class='curline'><a href='../S/22.html#L34'>state</a>              34 deps/db_connection/lib/db_connection/backoff.ex   def backoff(%Backoff{type: :rand_exp, max: max, state: state} = s) do</span>
+<span class='curline'><a href='../S/22.html#L35'>state</a>              35 deps/db_connection/lib/db_connection/backoff.ex     {prev, lower, rand_state} = state</span>
+<span class='curline'><a href='../S/22.html#L44'>state</a>              44 deps/db_connection/lib/db_connection/backoff.ex   def reset(%Backoff{type: :rand_exp, min: min, state: state} = s) do</span>
+<span class='curline'><a href='../S/22.html#L45'>state</a>              45 deps/db_connection/lib/db_connection/backoff.ex     {_, lower, rand_state} = state</span>
+<span class='curline'><a href='../S/22.html#L113'>state</a>             113 deps/db_connection/lib/db_connection/backoff.ex   defp rand({mod, state}, min, max) do</span>
+<span class='curline'><a href='../S/22.html#L114'>state</a>             114 deps/db_connection/lib/db_connection/backoff.ex     {int, state} = apply(mod, :uniform_s, [max - min + 1, state])</span>
+<span class='curline'><a href='../S/22.html#L115'>state</a>             115 deps/db_connection/lib/db_connection/backoff.ex     {int + min - 1, {mod, state}}</span>
+<span class='curline'><a href='../S/23.html#L48'>state</a>              48 deps/db_connection/lib/db_connection/connection.ex   def checkin({pid, ref}, state, _) do</span>
+<span class='curline'><a href='../S/23.html#L49'>state</a>              49 deps/db_connection/lib/db_connection/connection.ex     Connection.cast(pid, {:checkin, ref, state})</span>
+<span class='curline'><a href='../S/23.html#L53'>state</a>              53 deps/db_connection/lib/db_connection/connection.ex   def disconnect({pid, ref}, err, state, _) do</span>
+<span class='curline'><a href='../S/23.html#L54'>state</a>              54 deps/db_connection/lib/db_connection/connection.ex     Connection.cast(pid, {:disconnect, ref, err, state})</span>
+<span class='curline'><a href='../S/23.html#L58'>state</a>              58 deps/db_connection/lib/db_connection/connection.ex   def stop({pid, ref}, reason, state, _) do</span>
+<span class='curline'><a href='../S/23.html#L59'>state</a>              59 deps/db_connection/lib/db_connection/connection.ex     Connection.cast(pid, {:stop, ref, reason, state})</span>
+<span class='curline'><a href='../S/23.html#L63'>state</a>              63 deps/db_connection/lib/db_connection/connection.ex   def sync_stop({pid, ref}, reason, state, opts) do</span>
+<span class='curline'><a href='../S/23.html#L66'>state</a>              66 deps/db_connection/lib/db_connection/connection.ex       sync_stop(pid, ref, reason, state, timeout)</span>
+<span class='curline'><a href='../S/23.html#L115'>state</a>             115 deps/db_connection/lib/db_connection/connection.ex       {:ok, state} when after_connect != nil -&gt;</span>
+<span class='curline'><a href='../S/23.html#L118'>state</a>             118 deps/db_connection/lib/db_connection/connection.ex         {:ok, %{s | state: state, client: {ref, :connect}}}</span>
+<span class='curline'><a href='../S/23.html#L119'>state</a>             119 deps/db_connection/lib/db_connection/connection.ex       {:ok, state} when queue == :broker -&gt;</span>
+<span class='curline'><a href='../S/23.html#L123'>state</a>             123 deps/db_connection/lib/db_connection/connection.ex         {:ok, %{s | state: state, client: {ref, :connect}, backoff: backoff}}</span>
+<span class='curline'><a href='../S/23.html#L124'>state</a>             124 deps/db_connection/lib/db_connection/connection.ex       {:ok, state} -&gt;</span>
+<span class='curline'><a href='../S/23.html#L126'>state</a>             126 deps/db_connection/lib/db_connection/connection.ex         {:ok, %{s | state: state, client: nil, backoff: backoff}, idle_timeout}</span>
+<span class='curline'><a href='../S/23.html#L145'>state</a>             145 deps/db_connection/lib/db_connection/connection.ex     %{state: state, client: client, timer: timer, queue: queue,</span>
+<span class='curline'><a href='../S/23.html#L150'>state</a>             150 deps/db_connection/lib/db_connection/connection.ex     :ok = apply(mod, :disconnect, [err, state])</span>
+<span class='curline'><a href='../S/23.html#L168'>state</a>             168 deps/db_connection/lib/db_connection/connection.ex       %{client: nil, state: state} -&gt;</span>
+<span class='curline'><a href='../S/23.html#L170'>state</a>             170 deps/db_connection/lib/db_connection/connection.ex         handle_checkout({ref, mon}, timeout, from, state, s)</span>
+<span class='curline'><a href='../S/23.html#L193'>state</a>             193 deps/db_connection/lib/db_connection/connection.ex   def handle_cast({:checkin, ref, state}, %{client: {ref, _}} = s) do</span>
+<span class='curline'><a href='../S/23.html#L194'>state</a>             194 deps/db_connection/lib/db_connection/connection.ex     handle_next(state, s)</span>
+<span class='curline'><a href='../S/23.html#L197'>state</a>             197 deps/db_connection/lib/db_connection/connection.ex   def handle_cast({:disconnect, ref, err, state}, %{client: {ref, _}} = s) do</span>
+<span class='curline'><a href='../S/23.html#L198'>state</a>             198 deps/db_connection/lib/db_connection/connection.ex     {:disconnect, err, %{s | state: state}}</span>
+<span class='curline'><a href='../S/23.html#L201'>state</a>             201 deps/db_connection/lib/db_connection/connection.ex   def handle_cast({:stop, ref, reason, state}, %{client: {ref, _}} = s) do</span>
+<span class='curline'><a href='../S/23.html#L207'>state</a>             207 deps/db_connection/lib/db_connection/connection.ex     {:stop, {exception, stack}, %{s | state: state}}</span>
+<span class='curline'><a href='../S/23.html#L213'>state</a>             213 deps/db_connection/lib/db_connection/connection.ex   def handle_cast({:cancel, ref}, %{client: {ref, _}, state: state} = s) do</span>
+<span class='curline'><a href='../S/23.html#L214'>state</a>             214 deps/db_connection/lib/db_connection/connection.ex     handle_next(state, s)</span>
+<span class='curline'><a href='../S/23.html#L237'>state</a>             237 deps/db_connection/lib/db_connection/connection.ex     %{mod: mod, state: state, after_connect: after_connect,</span>
+<span class='curline'><a href='../S/23.html#L239'>state</a>             239 deps/db_connection/lib/db_connection/connection.ex     case apply(mod, :checkout, [state]) do</span>
+<span class='curline'><a href='../S/23.html#L240'>state</a>             240 deps/db_connection/lib/db_connection/connection.ex       {:ok, state} -&gt;</span>
+<span class='curline'><a href='../S/23.html#L242'>state</a>             242 deps/db_connection/lib/db_connection/connection.ex         ref = DBConnection.Task.run_child(mod, after_connect, state, opts)</span>
+<span class='curline'><a href='../S/23.html#L244'>state</a>             244 deps/db_connection/lib/db_connection/connection.ex         s = %{s | client: {ref, :after_connect}, timer: timer, state: state}</span>
+<span class='curline'><a href='../S/23.html#L246'>state</a>             246 deps/db_connection/lib/db_connection/connection.ex       {:disconnect, err, state} -&gt;</span>
+<span class='curline'><a href='../S/23.html#L247'>state</a>             247 deps/db_connection/lib/db_connection/connection.ex         {:disconnect, err, %{s | state: state}}</span>
+<span class='curline'><a href='../S/23.html#L256'>state</a>             256 deps/db_connection/lib/db_connection/connection.ex     %{mod: mod, state: state, broker: broker} = s</span>
+<span class='curline'><a href='../S/23.html#L257'>state</a>             257 deps/db_connection/lib/db_connection/connection.ex     case apply(mod, :checkout, [state]) do</span>
+<span class='curline'><a href='../S/23.html#L258'>state</a>             258 deps/db_connection/lib/db_connection/connection.ex       {:ok, state} -&gt;</span>
+<span class='curline'><a href='../S/23.html#L259'>state</a>             259 deps/db_connection/lib/db_connection/connection.ex         info = {self(), mod, state}</span>
+<span class='curline'><a href='../S/23.html#L261'>state</a>             261 deps/db_connection/lib/db_connection/connection.ex         {:noreply,  %{s | client: {ref, :broker}, state: state}}</span>
+<span class='curline'><a href='../S/23.html#L262'>state</a>             262 deps/db_connection/lib/db_connection/connection.ex       {:disconnect, err, state} -&gt;</span>
+<span class='curline'><a href='../S/23.html#L263'>state</a>             263 deps/db_connection/lib/db_connection/connection.ex         {:disconnect, err, %{s | state: state}}</span>
+<span class='curline'><a href='../S/23.html#L312'>state</a>             312 deps/db_connection/lib/db_connection/connection.ex     %{mod: mod, state: state} = s</span>
+<span class='curline'><a href='../S/23.html#L313'>state</a>             313 deps/db_connection/lib/db_connection/connection.ex     case apply(mod, :ping, [state]) do</span>
+<span class='curline'><a href='../S/23.html#L314'>state</a>             314 deps/db_connection/lib/db_connection/connection.ex       {:ok, state} -&gt;</span>
+<span class='curline'><a href='../S/23.html#L315'>state</a>             315 deps/db_connection/lib/db_connection/connection.ex         handle_timeout(%{s | state: state})</span>
+<span class='curline'><a href='../S/23.html#L316'>state</a>             316 deps/db_connection/lib/db_connection/connection.ex       {:disconnect, err, state} -&gt;</span>
+<span class='curline'><a href='../S/23.html#L317'>state</a>             317 deps/db_connection/lib/db_connection/connection.ex         {:disconnect, err, %{s | state: state}}</span>
+<span class='curline'><a href='../S/23.html#L340'>state</a>             340 deps/db_connection/lib/db_connection/connection.ex   def format_status(info, [pdict, %{mod: mod, state: state}]) do</span>
+<span class='curline'><a href='../S/23.html#L343'>state</a>             343 deps/db_connection/lib/db_connection/connection.ex         normal_status(mod, pdict, state)</span>
+<span class='curline'><a href='../S/23.html#L345'>state</a>             345 deps/db_connection/lib/db_connection/connection.ex         normal_status_default(mod, state)</span>
+<span class='curline'><a href='../S/23.html#L347'>state</a>             347 deps/db_connection/lib/db_connection/connection.ex         terminate_status(mod, pdict, state)</span>
+<span class='curline'><a href='../S/23.html#L349'>state</a>             349 deps/db_connection/lib/db_connection/connection.ex         state</span>
+<span class='curline'><a href='../S/23.html#L371'>state</a>             371 deps/db_connection/lib/db_connection/connection.ex   defp sync_stop(pid, ref, reason, state, timeout) do</span>
+<span class='curline'><a href='../S/23.html#L373'>state</a>             373 deps/db_connection/lib/db_connection/connection.ex     case Connection.call(pid, {:stop, ref, reason, state}, timeout) do</span>
+<span class='curline'><a href='../S/23.html#L383'>state</a>             383 deps/db_connection/lib/db_connection/connection.ex   defp handle_checkout({ref, _} = client, timeout, from, state, s) do</span>
+<span class='curline'><a href='../S/23.html#L385'>state</a>             385 deps/db_connection/lib/db_connection/connection.ex     case apply(mod, :checkout, [state]) do</span>
+<span class='curline'><a href='../S/23.html#L386'>state</a>             386 deps/db_connection/lib/db_connection/connection.ex       {:ok, state} -&gt;</span>
+<span class='curline'><a href='../S/23.html#L387'>state</a>             387 deps/db_connection/lib/db_connection/connection.ex         Connection.reply(from, {:ok, {self(), ref}, mod, state})</span>
+<span class='curline'><a href='../S/23.html#L389'>state</a>             389 deps/db_connection/lib/db_connection/connection.ex         {:noreply,  %{s | client: client, timer: timer, state: state}}</span>
+<span class='curline'><a href='../S/23.html#L390'>state</a>             390 deps/db_connection/lib/db_connection/connection.ex       {:disconnect, err, state} -&gt;</span>
+<span class='curline'><a href='../S/23.html#L391'>state</a>             391 deps/db_connection/lib/db_connection/connection.ex         {:disconnect, err, %{s | state: state}}</span>
+<span class='curline'><a href='../S/23.html#L395'>state</a>             395 deps/db_connection/lib/db_connection/connection.ex   defp handle_next(state, %{client: {_, :after_connect} = client} = s) do</span>
+<span class='curline'><a href='../S/23.html#L399'>state</a>             399 deps/db_connection/lib/db_connection/connection.ex     handle_next(state, %{s | client: nil, backoff: backoff})</span>
+<span class='curline'><a href='../S/23.html#L401'>state</a>             401 deps/db_connection/lib/db_connection/connection.ex   defp handle_next(state, %{queue: :broker} = s) do</span>
+<span class='curline'><a href='../S/23.html#L405'>state</a>             405 deps/db_connection/lib/db_connection/connection.ex     info = {self(), mod, state}</span>
+<span class='curline'><a href='../S/23.html#L407'>state</a>             407 deps/db_connection/lib/db_connection/connection.ex     {:noreply,  %{s | state: state, client: {ref, :broker}, timer: nil}}</span>
+<span class='curline'><a href='../S/23.html#L409'>state</a>             409 deps/db_connection/lib/db_connection/connection.ex   defp handle_next(state, s) do</span>
+<span class='curline'><a href='../S/23.html#L418'>state</a>             418 deps/db_connection/lib/db_connection/connection.ex         Connection.reply(from, {:ok, {self(), ref}, mod, state})</span>
+<span class='curline'><a href='../S/23.html#L420'>state</a>             420 deps/db_connection/lib/db_connection/connection.ex         {:noreply,  %{s | client: new_client, timer: timer, state: state}}</span>
+<span class='curline'><a href='../S/23.html#L422'>state</a>             422 deps/db_connection/lib/db_connection/connection.ex         handle_checkin(state, s)</span>
+<span class='curline'><a href='../S/23.html#L426'>state</a>             426 deps/db_connection/lib/db_connection/connection.ex   defp handle_checkin(state, %{mod: mod} = s) do</span>
+<span class='curline'><a href='../S/23.html#L427'>state</a>             427 deps/db_connection/lib/db_connection/connection.ex     case apply(mod, :checkin, [state]) do</span>
+<span class='curline'><a href='../S/23.html#L428'>state</a>             428 deps/db_connection/lib/db_connection/connection.ex       {:ok, state} -&gt;</span>
+<span class='curline'><a href='../S/23.html#L429'>state</a>             429 deps/db_connection/lib/db_connection/connection.ex         handle_timeout(%{s | state: state})</span>
+<span class='curline'><a href='../S/23.html#L430'>state</a>             430 deps/db_connection/lib/db_connection/connection.ex       {:disconnect, err, state} -&gt;</span>
+<span class='curline'><a href='../S/23.html#L431'>state</a>             431 deps/db_connection/lib/db_connection/connection.ex         {:disconnect, err, %{s | state: state}}</span>
+<span class='curline'><a href='../S/23.html#L442'>state</a>             442 deps/db_connection/lib/db_connection/connection.ex     %{mod: mod, state: state, broker: broker, client: {ref, :broker}} = s</span>
+<span class='curline'><a href='../S/23.html#L443'>state</a>             443 deps/db_connection/lib/db_connection/connection.ex     case apply(mod, :ping, [state]) do</span>
+<span class='curline'><a href='../S/23.html#L444'>state</a>             444 deps/db_connection/lib/db_connection/connection.ex       {:ok, state} -&gt;</span>
+<span class='curline'><a href='../S/23.html#L445'>state</a>             445 deps/db_connection/lib/db_connection/connection.ex         info = {self(), mod, state}</span>
+<span class='curline'><a href='../S/23.html#L447'>state</a>             447 deps/db_connection/lib/db_connection/connection.ex         {:noreply,  %{s | state: state}}</span>
+<span class='curline'><a href='../S/23.html#L448'>state</a>             448 deps/db_connection/lib/db_connection/connection.ex       {:disconnect, err, state} -&gt;</span>
+<span class='curline'><a href='../S/23.html#L449'>state</a>             449 deps/db_connection/lib/db_connection/connection.ex         {:disconnect, err, %{s | state: state}}</span>
+<span class='curline'><a href='../S/23.html#L453'>state</a>             453 deps/db_connection/lib/db_connection/connection.ex   defp do_handle_info(msg, %{mod: mod, state: state} = s) do</span>
+<span class='curline'><a href='../S/23.html#L454'>state</a>             454 deps/db_connection/lib/db_connection/connection.ex     case apply(mod, :handle_info, [msg, state]) do</span>
+<span class='curline'><a href='../S/23.html#L455'>state</a>             455 deps/db_connection/lib/db_connection/connection.ex       {:ok, state} -&gt;</span>
+<span class='curline'><a href='../S/23.html#L456'>state</a>             456 deps/db_connection/lib/db_connection/connection.ex         handle_timeout(%{s | state: state})</span>
+<span class='curline'><a href='../S/23.html#L457'>state</a>             457 deps/db_connection/lib/db_connection/connection.ex       {:disconnect, err, state} -&gt;</span>
+<span class='curline'><a href='../S/23.html#L458'>state</a>             458 deps/db_connection/lib/db_connection/connection.ex         {:disconnect, err, %{s | state: state}}</span>
+<span class='curline'><a href='../S/23.html#L509'>state</a>             509 deps/db_connection/lib/db_connection/connection.ex   defp normal_status(mod, pdict, state) do</span>
+<span class='curline'><a href='../S/23.html#L511'>state</a>             511 deps/db_connection/lib/db_connection/connection.ex       mod.format_status(:normal, [pdict, state])</span>
+<span class='curline'><a href='../S/23.html#L514'>state</a>             514 deps/db_connection/lib/db_connection/connection.ex         normal_status_default(mod, state)</span>
+<span class='curline'><a href='../S/23.html#L521'>state</a>             521 deps/db_connection/lib/db_connection/connection.ex   defp normal_status_default(mod, state) do</span>
+<span class='curline'><a href='../S/23.html#L522'>state</a>             522 deps/db_connection/lib/db_connection/connection.ex     [{:data, [{'Module', mod}, {'State', state}]}]</span>
+<span class='curline'><a href='../S/23.html#L525'>state</a>             525 deps/db_connection/lib/db_connection/connection.ex   defp terminate_status(mod, pdict, state) do</span>
+<span class='curline'><a href='../S/23.html#L527'>state</a>             527 deps/db_connection/lib/db_connection/connection.ex       mod.format_status(:terminate, [pdict, state])</span>
+<span class='curline'><a href='../S/23.html#L530'>state</a>             530 deps/db_connection/lib/db_connection/connection.ex         state</span>
+<span class='curline'><a href='../S/31.html#L129'>state</a>             129 deps/db_connection/lib/db_connection/ownership.ex   def checkin(owner, state, opts) do</span>
+<span class='curline'><a href='../S/31.html#L130'>state</a>             130 deps/db_connection/lib/db_connection/ownership.ex     Owner.checkin(owner, state, opts)</span>
+<span class='curline'><a href='../S/31.html#L134'>state</a>             134 deps/db_connection/lib/db_connection/ownership.ex   def disconnect(owner, exception, state, opts) do</span>
+<span class='curline'><a href='../S/31.html#L135'>state</a>             135 deps/db_connection/lib/db_connection/ownership.ex     Owner.disconnect(owner, exception, state, opts)</span>
+<span class='curline'><a href='../S/31.html#L139'>state</a>             139 deps/db_connection/lib/db_connection/ownership.ex   def stop(owner, reason, state, opts) do</span>
+<span class='curline'><a href='../S/31.html#L140'>state</a>             140 deps/db_connection/lib/db_connection/ownership.ex     Owner.stop(owner, reason, state, opts)</span>
+<span class='curline'><a href='../S/26.html#L86'>state</a>              86 deps/db_connection/lib/db_connection/ownership/manager.ex   def handle_call({:mode, {:shared, pid}}, _from, %{mode: {:shared, current}} = state) do</span>
+<span class='curline'><a href='../S/26.html#L89'>state</a>              89 deps/db_connection/lib/db_connection/ownership/manager.ex         {:reply, :ok, state}</span>
+<span class='curline'><a href='../S/26.html#L91'>state</a>              91 deps/db_connection/lib/db_connection/ownership/manager.ex         {:reply, :already_shared, state}</span>
+<span class='curline'><a href='../S/26.html#L93'>state</a>              93 deps/db_connection/lib/db_connection/ownership/manager.ex         share_and_reply(state, pid)</span>
+<span class='curline'><a href='../S/26.html#L96'>state</a>              96 deps/db_connection/lib/db_connection/ownership/manager.ex   def handle_call({:mode, {:shared, pid}}, _from, state) do</span>
+<span class='curline'><a href='../S/26.html#L97'>state</a>              97 deps/db_connection/lib/db_connection/ownership/manager.ex     share_and_reply(state, pid)</span>
+<span class='curline'><a href='../S/26.html#L99'>state</a>              99 deps/db_connection/lib/db_connection/ownership/manager.ex   def handle_call({:mode, mode}, _from, state) do</span>
+<span class='curline'><a href='../S/26.html#L100'>state</a>             100 deps/db_connection/lib/db_connection/ownership/manager.ex     {:reply, :ok, %{state | mode: mode, mode_ref: nil}}</span>
+<span class='curline'><a href='../S/26.html#L104'>state</a>             104 deps/db_connection/lib/db_connection/ownership/manager.ex                   %{checkouts: checkouts, mode: mode} = state) do</span>
+<span class='curline'><a href='../S/26.html#L107'>state</a>             107 deps/db_connection/lib/db_connection/ownership/manager.ex         {:reply, {:ok, owner}, state}</span>
+<span class='curline'><a href='../S/26.html#L109'>state</a>             109 deps/db_connection/lib/db_connection/ownership/manager.ex         {:reply, {:ok, owner}, state}</span>
+<span class='curline'><a href='../S/26.html#L111'>state</a>             111 deps/db_connection/lib/db_connection/ownership/manager.ex         {:reply, :not_found, state}</span>
+<span class='curline'><a href='../S/26.html#L113'>state</a>             113 deps/db_connection/lib/db_connection/ownership/manager.ex         {owner, state} = checkout(state, caller, opts)</span>
+<span class='curline'><a href='../S/26.html#L114'>state</a>             114 deps/db_connection/lib/db_connection/ownership/manager.ex         {:reply, {:init, owner}, state}</span>
+<span class='curline'><a href='../S/26.html#L118'>state</a>             118 deps/db_connection/lib/db_connection/ownership/manager.ex         {:reply, {:ok, owner}, owner_allow(state, caller, ref, owner)}</span>
+<span class='curline'><a href='../S/26.html#L122'>state</a>             122 deps/db_connection/lib/db_connection/ownership/manager.ex   def handle_call(:checkin, {caller, _}, state) do</span>
+<span class='curline'><a href='../S/26.html#L123'>state</a>             123 deps/db_connection/lib/db_connection/ownership/manager.ex     case get_and_update_in(state.checkouts, &amp;Map.pop(&amp;1, caller, :not_found)) do</span>
+<span class='curline'><a href='../S/26.html#L124'>state</a>             124 deps/db_connection/lib/db_connection/ownership/manager.ex       {{:owner, ref, owner}, state} -&gt;</span>
+<span class='curline'><a href='../S/26.html#L126'>state</a>             126 deps/db_connection/lib/db_connection/ownership/manager.ex         {:reply, :ok, owner_down(state, ref)}</span>
+<span class='curline'><a href='../S/26.html#L128'>state</a>             128 deps/db_connection/lib/db_connection/ownership/manager.ex         {:reply, :not_owner, state}</span>
+<span class='curline'><a href='../S/26.html#L130'>state</a>             130 deps/db_connection/lib/db_connection/ownership/manager.ex         {:reply, :not_found, state}</span>
+<span class='curline'><a href='../S/26.html#L134'>state</a>             134 deps/db_connection/lib/db_connection/ownership/manager.ex   def handle_call({:allow, caller, allow}, _from, %{checkouts: checkouts} = state) do</span>
+<span class='curline'><a href='../S/26.html#L136'>state</a>             136 deps/db_connection/lib/db_connection/ownership/manager.ex       {:reply, {:already, kind}, state}</span>
+<span class='curline'><a href='../S/26.html#L140'>state</a>             140 deps/db_connection/lib/db_connection/ownership/manager.ex           {:reply, :ok, owner_allow(state, allow, ref, owner)}</span>
+<span class='curline'><a href='../S/26.html#L142'>state</a>             142 deps/db_connection/lib/db_connection/ownership/manager.ex           {:reply, :not_owner, state}</span>
+<span class='curline'><a href='../S/26.html#L144'>state</a>             144 deps/db_connection/lib/db_connection/ownership/manager.ex           {:reply, :not_found, state}</span>
+<span class='curline'><a href='../S/26.html#L149'>state</a>             149 deps/db_connection/lib/db_connection/ownership/manager.ex   def handle_call({:checkout, opts}, {caller, _}, %{checkouts: checkouts} = state) do</span>
+<span class='curline'><a href='../S/26.html#L151'>state</a>             151 deps/db_connection/lib/db_connection/ownership/manager.ex       {:reply, {:already, kind}, state}</span>
+<span class='curline'><a href='../S/26.html#L153'>state</a>             153 deps/db_connection/lib/db_connection/ownership/manager.ex       {owner, state} = checkout(state, caller, opts)</span>
+<span class='curline'><a href='../S/26.html#L154'>state</a>             154 deps/db_connection/lib/db_connection/ownership/manager.ex       {:reply, {:init, owner}, state}</span>
+<span class='curline'><a href='../S/26.html#L158'>state</a>             158 deps/db_connection/lib/db_connection/ownership/manager.ex   def handle_info({:DOWN, ref, _, _, _}, state) do</span>
+<span class='curline'><a href='../S/26.html#L159'>state</a>             159 deps/db_connection/lib/db_connection/ownership/manager.ex     {:noreply, state |&gt; owner_down(ref) |&gt; unshare(ref)}</span>
+<span class='curline'><a href='../S/26.html#L162'>state</a>             162 deps/db_connection/lib/db_connection/ownership/manager.ex   def handle_info(_msg, state) do</span>
+<span class='curline'><a href='../S/26.html#L163'>state</a>             163 deps/db_connection/lib/db_connection/ownership/manager.ex     {:noreply, state}</span>
+<span class='curline'><a href='../S/26.html#L174'>state</a>             174 deps/db_connection/lib/db_connection/ownership/manager.ex   defp checkout(state, caller, opts) do</span>
+<span class='curline'><a href='../S/26.html#L176'>state</a>             176 deps/db_connection/lib/db_connection/ownership/manager.ex       ets: ets} = state</span>
+<span class='curline'><a href='../S/26.html#L182'>state</a>             182 deps/db_connection/lib/db_connection/ownership/manager.ex     {owner, %{state | checkouts: checkouts, owners: owners}}</span>
+<span class='curline'><a href='../S/26.html#L185'>state</a>             185 deps/db_connection/lib/db_connection/ownership/manager.ex   defp owner_allow(%{ets: ets} = state, allow, ref, owner) do</span>
+<span class='curline'><a href='../S/26.html#L186'>state</a>             186 deps/db_connection/lib/db_connection/ownership/manager.ex     state = put_in(state.checkouts[allow], {:allowed, owner})</span>
+<span class='curline'><a href='../S/26.html#L187'>state</a>             187 deps/db_connection/lib/db_connection/ownership/manager.ex     state = update_in(state.owners[ref], fn {owner, caller, allowed} -&gt;</span>
+<span class='curline'><a href='../S/26.html#L191'>state</a>             191 deps/db_connection/lib/db_connection/ownership/manager.ex     state</span>
+<span class='curline'><a href='../S/26.html#L194'>state</a>             194 deps/db_connection/lib/db_connection/ownership/manager.ex   defp owner_down(%{ets: ets} = state, ref) do</span>
+<span class='curline'><a href='../S/26.html#L195'>state</a>             195 deps/db_connection/lib/db_connection/ownership/manager.ex     case get_and_update_in(state.owners, &amp;Map.pop(&amp;1, ref)) do</span>
+<span class='curline'><a href='../S/26.html#L196'>state</a>             196 deps/db_connection/lib/db_connection/ownership/manager.ex       {{_owner, caller, allowed}, state} -&gt;</span>
+<span class='curline'><a href='../S/26.html#L200'>state</a>             200 deps/db_connection/lib/db_connection/ownership/manager.ex         update_in(state.checkouts, &amp;Map.drop(&amp;1, entries))</span>
+<span class='curline'><a href='../S/26.html#L201'>state</a>             201 deps/db_connection/lib/db_connection/ownership/manager.ex       {nil, state} -&gt;</span>
+<span class='curline'><a href='../S/26.html#L202'>state</a>             202 deps/db_connection/lib/db_connection/ownership/manager.ex         state</span>
+<span class='curline'><a href='../S/26.html#L206'>state</a>             206 deps/db_connection/lib/db_connection/ownership/manager.ex   defp share_and_reply(%{checkouts: checkouts} = state, pid) do</span>
+<span class='curline'><a href='../S/26.html#L209'>state</a>             209 deps/db_connection/lib/db_connection/ownership/manager.ex         {:reply, :ok, %{state | mode: {:shared, pid}, mode_ref: ref}}</span>
+<span class='curline'><a href='../S/26.html#L211'>state</a>             211 deps/db_connection/lib/db_connection/ownership/manager.ex         {:reply, :not_owner, state}</span>
+<span class='curline'><a href='../S/26.html#L213'>state</a>             213 deps/db_connection/lib/db_connection/ownership/manager.ex         {:reply, :not_found, state}</span>
+<span class='curline'><a href='../S/26.html#L217'>state</a>             217 deps/db_connection/lib/db_connection/ownership/manager.ex   defp unshare(%{mode_ref: ref} = state, ref) do</span>
+<span class='curline'><a href='../S/26.html#L218'>state</a>             218 deps/db_connection/lib/db_connection/ownership/manager.ex     %{state | mode: :manual, mode_ref: nil}</span>
+<span class='curline'><a href='../S/26.html#L220'>state</a>             220 deps/db_connection/lib/db_connection/ownership/manager.ex   defp unshare(state, _ref) do</span>
+<span class='curline'><a href='../S/26.html#L221'>state</a>             221 deps/db_connection/lib/db_connection/ownership/manager.ex     state</span>
+<span class='curline'><a href='../S/27.html#L34'>state</a>              34 deps/db_connection/lib/db_connection/ownership/owner.ex   def checkin({owner, ref}, state, _opts) do</span>
+<span class='curline'><a href='../S/27.html#L35'>state</a>              35 deps/db_connection/lib/db_connection/ownership/owner.ex     GenServer.cast(owner, {:checkin, ref, state})</span>
+<span class='curline'><a href='../S/27.html#L38'>state</a>              38 deps/db_connection/lib/db_connection/ownership/owner.ex   def disconnect({owner, ref}, exception, state, _opts) do</span>
+<span class='curline'><a href='../S/27.html#L39'>state</a>              39 deps/db_connection/lib/db_connection/ownership/owner.ex     GenServer.cast(owner, {:disconnect, ref, exception, state})</span>
+<span class='curline'><a href='../S/27.html#L42'>state</a>              42 deps/db_connection/lib/db_connection/ownership/owner.ex   def stop({owner, ref}, reason, state, _opts) do</span>
+<span class='curline'><a href='../S/27.html#L43'>state</a>              43 deps/db_connection/lib/db_connection/ownership/owner.ex     GenServer.cast(owner, {:stop, ref, reason, state})</span>
+<span class='curline'><a href='../S/27.html#L56'>state</a>              56 deps/db_connection/lib/db_connection/ownership/owner.ex     state = %{client: nil, timer: nil, conn_state: nil, conn_module: nil,</span>
+<span class='curline'><a href='../S/27.html#L60'>state</a>              60 deps/db_connection/lib/db_connection/ownership/owner.ex     {:ok, state}</span>
+<span class='curline'><a href='../S/27.html#L63'>state</a>              63 deps/db_connection/lib/db_connection/ownership/owner.ex   def handle_info({:DOWN, mon, _, _, _}, %{client: {_, mon}} = state) do</span>
+<span class='curline'><a href='../S/27.html#L64'>state</a>              64 deps/db_connection/lib/db_connection/ownership/owner.ex     disconnect("client down", state)</span>
+<span class='curline'><a href='../S/27.html#L67'>state</a>              67 deps/db_connection/lib/db_connection/ownership/owner.ex   def handle_info({:DOWN, ref, _, _, _}, %{owner_ref: ref} = state) do</span>
+<span class='curline'><a href='../S/27.html#L68'>state</a>              68 deps/db_connection/lib/db_connection/ownership/owner.ex     down("owner down", state)</span>
+<span class='curline'><a href='../S/27.html#L71'>state</a>              71 deps/db_connection/lib/db_connection/ownership/owner.ex   def handle_info({:timeout, timer, __MODULE__}, %{timer: timer} = state) do</span>
+<span class='curline'><a href='../S/27.html#L72'>state</a>              72 deps/db_connection/lib/db_connection/ownership/owner.ex     disconnect("client timeout", state)</span>
+<span class='curline'><a href='../S/27.html#L75'>state</a>              75 deps/db_connection/lib/db_connection/ownership/owner.ex   def handle_info(_msg, state) do</span>
+<span class='curline'><a href='../S/27.html#L76'>state</a>              76 deps/db_connection/lib/db_connection/ownership/owner.ex     {:noreply, state}</span>
+<span class='curline'><a href='../S/27.html#L79'>state</a>              79 deps/db_connection/lib/db_connection/ownership/owner.ex   def handle_call(:init, from, state) do</span>
+<span class='curline'><a href='../S/27.html#L80'>state</a>              80 deps/db_connection/lib/db_connection/ownership/owner.ex     %{pool: pool, pool_mod: pool_mod, pool_opts: pool_opts} = state</span>
+<span class='curline'><a href='../S/27.html#L92'>state</a>              92 deps/db_connection/lib/db_connection/ownership/owner.ex         state =  %{state | conn_state: conn_state, conn_module: conn_module,</span>
+<span class='curline'><a href='../S/27.html#L94'>state</a>              94 deps/db_connection/lib/db_connection/ownership/owner.ex         {:reply, :ok, state}</span>
+<span class='curline'><a href='../S/27.html#L96'>state</a>              96 deps/db_connection/lib/db_connection/ownership/owner.ex         {:stop, {:shutdown, "no checkout"}, error, state}</span>
+<span class='curline'><a href='../S/27.html#L100'>state</a>             100 deps/db_connection/lib/db_connection/ownership/owner.ex   def handle_call({:checkout, ref, queue?, timeout}, from, %{queue: queue} = state) do</span>
+<span class='curline'><a href='../S/27.html#L105'>state</a>             105 deps/db_connection/lib/db_connection/ownership/owner.ex       {:noreply, next(queue, state)}</span>
+<span class='curline'><a href='../S/27.html#L108'>state</a>             108 deps/db_connection/lib/db_connection/ownership/owner.ex       {:reply, {:error, err}, state}</span>
+<span class='curline'><a href='../S/27.html#L112'>state</a>             112 deps/db_connection/lib/db_connection/ownership/owner.ex   def handle_cast({:checkin, ref, conn_state}, %{client: {ref, mon}} = state) do</span>
+<span class='curline'><a href='../S/27.html#L113'>state</a>             113 deps/db_connection/lib/db_connection/ownership/owner.ex     %{queue: queue} = state</span>
+<span class='curline'><a href='../S/27.html#L115'>state</a>             115 deps/db_connection/lib/db_connection/ownership/owner.ex     {:noreply, next(:queue.drop(queue), %{state | conn_state: conn_state})}</span>
+<span class='curline'><a href='../S/27.html#L118'>state</a>             118 deps/db_connection/lib/db_connection/ownership/owner.ex   def handle_cast({:checkin, _, _}, state) do</span>
+<span class='curline'><a href='../S/27.html#L119'>state</a>             119 deps/db_connection/lib/db_connection/ownership/owner.ex     {:noreply, state}</span>
+<span class='curline'><a href='../S/27.html#L122'>state</a>             122 deps/db_connection/lib/db_connection/ownership/owner.ex   def handle_cast({tag, ref, error, conn_state}, %{client: {ref, _}} = state)</span>
+<span class='curline'><a href='../S/27.html#L124'>state</a>             124 deps/db_connection/lib/db_connection/ownership/owner.ex     %{pool_mod: pool_mod, pool_ref: pool_ref, pool_opts: pool_opts} = state</span>
+<span class='curline'><a href='../S/27.html#L126'>state</a>             126 deps/db_connection/lib/db_connection/ownership/owner.ex     {:stop, {:shutdown, tag}, state}</span>
+<span class='curline'><a href='../S/27.html#L129'>state</a>             129 deps/db_connection/lib/db_connection/ownership/owner.ex   def handle_cast({tag, _, _, _}, state) when tag in [:disconnect, :stop] do</span>
+<span class='curline'><a href='../S/27.html#L130'>state</a>             130 deps/db_connection/lib/db_connection/ownership/owner.ex     {:noreply, state}</span>
+<span class='curline'><a href='../S/27.html#L133'>state</a>             133 deps/db_connection/lib/db_connection/ownership/owner.ex   def handle_cast({:cancel, ref}, %{client: {ref, mon}} = state) do</span>
+<span class='curline'><a href='../S/27.html#L134'>state</a>             134 deps/db_connection/lib/db_connection/ownership/owner.ex     %{queue: queue} = state</span>
+<span class='curline'><a href='../S/27.html#L136'>state</a>             136 deps/db_connection/lib/db_connection/ownership/owner.ex     {:noreply, next(:queue.drop(queue), state)}</span>
+<span class='curline'><a href='../S/27.html#L139'>state</a>             139 deps/db_connection/lib/db_connection/ownership/owner.ex   def handle_cast({:cancel, ref}, %{queue: queue} = state) do</span>
+<span class='curline'><a href='../S/27.html#L149'>state</a>             149 deps/db_connection/lib/db_connection/ownership/owner.ex     {:noreply, %{state | queue: :queue.filter(cancel, queue)}}</span>
+<span class='curline'><a href='../S/27.html#L152'>state</a>             152 deps/db_connection/lib/db_connection/ownership/owner.ex   def handle_cast(:stop, state) do</span>
+<span class='curline'><a href='../S/27.html#L153'>state</a>             153 deps/db_connection/lib/db_connection/ownership/owner.ex     down("owner checkin", state)</span>
+<span class='curline'><a href='../S/27.html#L156'>state</a>             156 deps/db_connection/lib/db_connection/ownership/owner.ex   defp next(queue, %{timer: timer} = state) do</span>
+<span class='curline'><a href='../S/27.html#L161'>state</a>             161 deps/db_connection/lib/db_connection/ownership/owner.ex         %{conn_module: conn_module, conn_state: conn_state} = state</span>
+<span class='curline'><a href='../S/27.html#L163'>state</a>             163 deps/db_connection/lib/db_connection/ownership/owner.ex         %{state | queue: queue, client: client, timer: start_timer(timeout)}</span>
+<span class='curline'><a href='../S/27.html#L165'>state</a>             165 deps/db_connection/lib/db_connection/ownership/owner.ex         %{state | queue: queue, client: nil, timer: nil}</span>
+<span class='curline'><a href='../S/27.html#L191'>state</a>             191 deps/db_connection/lib/db_connection/ownership/owner.ex   defp down(reason, %{conn_module: nil} = state) do</span>
+<span class='curline'><a href='../S/27.html#L192'>state</a>             192 deps/db_connection/lib/db_connection/ownership/owner.ex     {:stop, {:shutdown, reason}, state}</span>
+<span class='curline'><a href='../S/27.html#L196'>state</a>             196 deps/db_connection/lib/db_connection/ownership/owner.ex   defp down(reason, %{client: nil} = state) do</span>
+<span class='curline'><a href='../S/27.html#L198'>state</a>             198 deps/db_connection/lib/db_connection/ownership/owner.ex       conn_state: conn_state, pool_opts: pool_opts} = state</span>
+<span class='curline'><a href='../S/27.html#L200'>state</a>             200 deps/db_connection/lib/db_connection/ownership/owner.ex     {:stop, {:shutdown, reason}, state}</span>
+<span class='curline'><a href='../S/27.html#L204'>state</a>             204 deps/db_connection/lib/db_connection/ownership/owner.ex   defp down(reason, state) do</span>
+<span class='curline'><a href='../S/27.html#L206'>state</a>             206 deps/db_connection/lib/db_connection/ownership/owner.ex       conn_state: conn_state, pool_opts: pool_opts} = state</span>
+<span class='curline'><a href='../S/27.html#L209'>state</a>             209 deps/db_connection/lib/db_connection/ownership/owner.ex     {:stop, {:shutdown, reason}, state}</span>
+<span class='curline'><a href='../S/27.html#L212'>state</a>             212 deps/db_connection/lib/db_connection/ownership/owner.ex   defp disconnect(reason, state) do</span>
+<span class='curline'><a href='../S/27.html#L214'>state</a>             214 deps/db_connection/lib/db_connection/ownership/owner.ex       pool_opts: pool_opts, pool_ref: pool_ref} = state</span>
+<span class='curline'><a href='../S/27.html#L217'>state</a>             217 deps/db_connection/lib/db_connection/ownership/owner.ex     {:stop, {:shutdown, reason}, state}</span>
+<span class='curline'><a href='../S/32.html#L29'>state</a>              29 deps/db_connection/lib/db_connection/pool.ex     {:ok, pool_ref :: any, module, state :: any} | {:error, Exception.t}</span>
+<span class='curline'><a href='../S/32.html#L38'>state</a>              38 deps/db_connection/lib/db_connection/pool.ex   @callback checkin(pool_ref :: any, state :: any, opts :: Keyword.t) :: :ok</span>
+<span class='curline'><a href='../S/32.html#L48'>state</a>              48 deps/db_connection/lib/db_connection/pool.ex   @callback disconnect(pool_ref :: any, err :: Exception.t, state :: any, opts :: Keyword.t) ::</span>
+<span class='curline'><a href='../S/32.html#L60'>state</a>              60 deps/db_connection/lib/db_connection/pool.ex   @callback stop(pool_ref :: any, reason :: any, state :: any, opts :: Keyword.t) ::</span>
+<span class='curline'><a href='../S/34.html#L46'>state</a>              46 deps/db_connection/lib/db_connection/poolboy.ex   def checkin({pool, worker, worker_ref}, state, opts) do</span>
+<span class='curline'><a href='../S/34.html#L48'>state</a>              48 deps/db_connection/lib/db_connection/poolboy.ex     DBConnection.Connection.checkin(worker_ref, state, opts)</span>
+<span class='curline'><a href='../S/34.html#L52'>state</a>              52 deps/db_connection/lib/db_connection/poolboy.ex   def disconnect({pool, worker, worker_ref}, err, state, opts) do</span>
+<span class='curline'><a href='../S/34.html#L54'>state</a>              54 deps/db_connection/lib/db_connection/poolboy.ex     DBConnection.Connection.disconnect(worker_ref, err, state, opts)</span>
+<span class='curline'><a href='../S/34.html#L58'>state</a>              58 deps/db_connection/lib/db_connection/poolboy.ex   def stop({pool, worker, worker_ref}, reason, state, opts) do</span>
+<span class='curline'><a href='../S/34.html#L63'>state</a>              63 deps/db_connection/lib/db_connection/poolboy.ex       DBConnection.Connection.sync_stop(worker_ref, reason, state, opts)</span>
+<span class='curline'><a href='../S/34.html#L98'>state</a>              98 deps/db_connection/lib/db_connection/poolboy.ex       {:ok, worker_ref, mod, state} -&gt;</span>
+<span class='curline'><a href='../S/34.html#L99'>state</a>              99 deps/db_connection/lib/db_connection/poolboy.ex         {:ok, {pool, worker, worker_ref}, mod, state}</span>
+<span class='curline'><a href='../S/41.html#L41'>state</a>              41 deps/db_connection/lib/db_connection/sojourn.ex       {:go, ref, {pid, mod, state}, _, _} -&gt;</span>
+<span class='curline'><a href='../S/41.html#L42'>state</a>              42 deps/db_connection/lib/db_connection/sojourn.ex         {:ok, {pid, ref}, mod, state}</span>
+<span class='curline'><a href='../S/41.html#L49'>state</a>              49 deps/db_connection/lib/db_connection/sojourn.ex   defdelegate checkin(ref, state, opts), to: DBConnection.Connection</span>
+<span class='curline'><a href='../S/41.html#L52'>state</a>              52 deps/db_connection/lib/db_connection/sojourn.ex   defdelegate disconnect(ref, err, state, opts), to: DBConnection.Connection</span>
+<span class='curline'><a href='../S/41.html#L55'>state</a>              55 deps/db_connection/lib/db_connection/sojourn.ex   defdelegate stop(ref, reason, state, opts), to: DBConnection.Connection</span>
+<span class='curline'><a href='../S/42.html#L8'>state</a>               8 deps/db_connection/lib/db_connection/task.ex   def run_child(mod, fun, state, opts) do</span>
+<span class='curline'><a href='../S/42.html#L10'>state</a>              10 deps/db_connection/lib/db_connection/task.ex     arg = [mod, fun, ref, self(), state, opts]</span>
+<span class='curline'><a href='../S/42.html#L17'>state</a>              17 deps/db_connection/lib/db_connection/task.ex   def init(mod, fun, ref, conn, state, opts) do</span>
+<span class='curline'><a href='../S/42.html#L22'>state</a>              22 deps/db_connection/lib/db_connection/task.ex         pool = {:via, __MODULE__, {{conn, mon}, mod, state}}</span>
+<span class='curline'><a href='../S/42.html#L28'>state</a>              28 deps/db_connection/lib/db_connection/task.ex   def checkout({:via, __MODULE__, {info, mod, state}}, _) do</span>
+<span class='curline'><a href='../S/42.html#L29'>state</a>              29 deps/db_connection/lib/db_connection/task.ex     {:ok, info, mod, state}</span>
+<span class='curline'><a href='../S/42.html#L32'>state</a>              32 deps/db_connection/lib/db_connection/task.ex   defdelegate checkin(info, state, opts), to: DBConnection.Connection</span>
+<span class='curline'><a href='../S/42.html#L33'>state</a>              33 deps/db_connection/lib/db_connection/task.ex   defdelegate disconnect(info, err, state, opts), to: DBConnection.Connection</span>
+<span class='curline'><a href='../S/42.html#L34'>state</a>              34 deps/db_connection/lib/db_connection/task.ex   defdelegate stop(info, reason, state, opts), to: DBConnection.Connection</span>
+<span class='curline'><a href='../S/56.html#L54'>state</a>              54 deps/ecto/integration_test/cases/repo.exs     deleted_meta = put_in meta.state, :deleted</span>
+<span class='curline'><a href='../S/56.html#L58'>state</a>              58 deps/ecto/integration_test/cases/repo.exs     loaded_meta = put_in meta.state, :loaded</span>
+<span class='curline'><a href='../S/56.html#L62'>state</a>              62 deps/ecto/integration_test/cases/repo.exs     assert post.__meta__.state == :loaded</span>
+<span class='curline'><a href='../S/56.html#L221'>state</a>             221 deps/ecto/integration_test/cases/repo.exs     assert changeset.model.__meta__.state == :built</span>
+<span class='curline'><a href='../S/56.html#L235'>state</a>             235 deps/ecto/integration_test/cases/repo.exs     assert changeset.model.__meta__.state == :built</span>
+<span class='curline'><a href='../S/134.html#L546'>state</a>             546 deps/ecto/lib/ecto.ex   defp update_meta([{:state, state}|t], meta) do</span>
+<span class='curline'><a href='../S/134.html#L547'>state</a>             547 deps/ecto/lib/ecto.ex     if state in [:built, :loaded, :deleted] do</span>
+<span class='curline'><a href='../S/134.html#L548'>state</a>             548 deps/ecto/lib/ecto.ex       update_meta t, %{meta | state: state}</span>
+<span class='curline'><a href='../S/134.html#L550'>state</a>             550 deps/ecto/lib/ecto.ex       raise ArgumentError, "invalid state #{inspect state}"</span>
+<span class='curline'><a href='../S/88.html#L213'>state</a>             213 deps/ecto/lib/ecto/embedded.ex     put_in(model.__meta__.state, :loaded)</span>
+<span class='curline'><a href='../S/91.html#L81'>state</a>              81 deps/ecto/lib/ecto/migration/runner.ex     %{commands: commands, direction: direction} = Agent.get_and_update(runner(), fn (state) -&gt;</span>
+<span class='curline'><a href='../S/91.html#L82'>state</a>              82 deps/ecto/lib/ecto/migration/runner.ex       {state, %{state | commands: []}}</span>
+<span class='curline'><a href='../S/91.html#L100'>state</a>             100 deps/ecto/lib/ecto/migration/runner.ex     Agent.update runner(), fn state -&gt;</span>
+<span class='curline'><a href='../S/91.html#L101'>state</a>             101 deps/ecto/lib/ecto/migration/runner.ex       %{state | command: nil, subcommands: [], commands: [command|state.commands]}</span>
+<span class='curline'><a href='../S/91.html#L116'>state</a>             116 deps/ecto/lib/ecto/migration/runner.ex     Agent.update runner(), fn state -&gt;</span>
+<span class='curline'><a href='../S/91.html#L117'>state</a>             117 deps/ecto/lib/ecto/migration/runner.ex       {operation, object} = state.command</span>
+<span class='curline'><a href='../S/91.html#L118'>state</a>             118 deps/ecto/lib/ecto/migration/runner.ex       command = {operation, object, Enum.reverse(state.subcommands)}</span>
+<span class='curline'><a href='../S/91.html#L119'>state</a>             119 deps/ecto/lib/ecto/migration/runner.ex       %{state | command: nil, subcommands: [], commands: [command|state.commands]}</span>
+<span class='curline'><a href='../S/91.html#L129'>state</a>             129 deps/ecto/lib/ecto/migration/runner.ex         %{command: nil} = state -&gt;</span>
+<span class='curline'><a href='../S/91.html#L130'>state</a>             130 deps/ecto/lib/ecto/migration/runner.ex           {:error, state}</span>
+<span class='curline'><a href='../S/91.html#L131'>state</a>             131 deps/ecto/lib/ecto/migration/runner.ex         state -&gt;</span>
+<span class='curline'><a href='../S/91.html#L132'>state</a>             132 deps/ecto/lib/ecto/migration/runner.ex           {:ok, update_in(state.subcommands, &amp;[subcommand|&amp;1])}</span>
+<span class='curline'><a href='../S/127.html#L181'>state</a>             181 deps/ecto/lib/ecto/repo/schema.ex       state   -&gt; raise ArgumentError, "the changeset has an invalid state " &lt;&gt;</span>
+<span class='curline'><a href='../S/127.html#L182'>state</a>             182 deps/ecto/lib/ecto/repo/schema.ex                                       "for Repo.insert_or_update/2: #{state}"</span>
+<span class='curline'><a href='../S/127.html#L193'>state</a>             193 deps/ecto/lib/ecto/repo/schema.ex       state   -&gt; raise ArgumentError, "the changeset has an invalid state " &lt;&gt;</span>
+<span class='curline'><a href='../S/127.html#L194'>state</a>             194 deps/ecto/lib/ecto/repo/schema.ex                                       "for Repo.insert_or_update!/2: #{state}"</span>
+<span class='curline'><a href='../S/127.html#L198'>state</a>             198 deps/ecto/lib/ecto/repo/schema.ex   defp get_state(%Changeset{model: model}), do: model.__meta__.state</span>
+<span class='curline'><a href='../S/127.html#L331'>state</a>             331 deps/ecto/lib/ecto/repo/schema.ex     model = put_in(model.__meta__.state, action_to_state(action))</span>
+<span class='curline'><a href='../S/130.html#L267'>state</a>             267 deps/ecto/lib/ecto/schema.ex         concat ["#Ecto.Schema.Metadata&lt;", to_doc(metadata.state, opts), "&gt;"]</span>
+<span class='curline'><a href='../S/189.html#L53'>state</a>              53 deps/postgrex/lib/postgrex/parameters.ex     state = :ets.new(__MODULE__, opts)</span>
+<span class='curline'><a href='../S/189.html#L54'>state</a>              54 deps/postgrex/lib/postgrex/parameters.ex     {:ok, state}</span>
+<span class='curline'><a href='../S/189.html#L57'>state</a>              57 deps/postgrex/lib/postgrex/parameters.ex   def handle_call({:insert, parameters}, {pid, _}, state) do</span>
+<span class='curline'><a href='../S/189.html#L59'>state</a>              59 deps/postgrex/lib/postgrex/parameters.ex     true = :ets.insert_new(state, {ref, parameters})</span>
+<span class='curline'><a href='../S/189.html#L60'>state</a>              60 deps/postgrex/lib/postgrex/parameters.ex     {:reply, ref, state}</span>
+<span class='curline'><a href='../S/189.html#L63'>state</a>              63 deps/postgrex/lib/postgrex/parameters.ex   def handle_cast({:delete, ref}, state) do</span>
+<span class='curline'><a href='../S/189.html#L64'>state</a>              64 deps/postgrex/lib/postgrex/parameters.ex     :ets.delete(state, ref)</span>
+<span class='curline'><a href='../S/189.html#L65'>state</a>              65 deps/postgrex/lib/postgrex/parameters.ex     {:noreply, state}</span>
+<span class='curline'><a href='../S/189.html#L68'>state</a>              68 deps/postgrex/lib/postgrex/parameters.ex   def handle_info({:DOWN, ref, :process, _, _}, state) do</span>
+<span class='curline'><a href='../S/189.html#L69'>state</a>              69 deps/postgrex/lib/postgrex/parameters.ex     :ets.delete(state, ref)</span>
+<span class='curline'><a href='../S/189.html#L70'>state</a>              70 deps/postgrex/lib/postgrex/parameters.ex     {:noreply, state}</span>
+<span class='curline'><a href='../S/190.html#L17'>state</a>              17 deps/postgrex/lib/postgrex/protocol.ex   @type state :: %__MODULE__{sock: {module, any},</span>
+<span class='curline'><a href='../S/190.html#L37'>state</a>              37 deps/postgrex/lib/postgrex/protocol.ex     {:ok, state} | {:error, Postgrex.Error.t}</span>
+<span class='curline'><a href='../S/190.html#L83'>state</a>              83 deps/postgrex/lib/postgrex/protocol.ex   @spec disconnect(Exception.t, state) :: :ok</span>
+<span class='curline'><a href='../S/190.html#L97'>state</a>              97 deps/postgrex/lib/postgrex/protocol.ex   @spec ping(state) ::</span>
+<span class='curline'><a href='../S/190.html#L98'>state</a>              98 deps/postgrex/lib/postgrex/protocol.ex     {:ok, state} | {:disconnect, Postgrex.Error.t, state}</span>
+<span class='curline'><a href='../S/190.html#L110'>state</a>             110 deps/postgrex/lib/postgrex/protocol.ex   @spec checkout(state) ::</span>
+<span class='curline'><a href='../S/190.html#L111'>state</a>             111 deps/postgrex/lib/postgrex/protocol.ex     {:ok, state} | {:disconnect, Postgrex.Error.t, state}</span>
+<span class='curline'><a href='../S/190.html#L122'>state</a>             122 deps/postgrex/lib/postgrex/protocol.ex   @spec checkin(state) ::</span>
+<span class='curline'><a href='../S/190.html#L123'>state</a>             123 deps/postgrex/lib/postgrex/protocol.ex   {:ok, state} | {:disconnect, Postgrex.Error.t, state}</span>
+<span class='curline'><a href='../S/190.html#L131'>state</a>             131 deps/postgrex/lib/postgrex/protocol.ex   @spec handle_prepare(Postgrex.Query.t, Keyword.t, state) ::</span>
+<span class='curline'><a href='../S/190.html#L132'>state</a>             132 deps/postgrex/lib/postgrex/protocol.ex     {:ok, Postgrex.Query.t, state} |</span>
+<span class='curline'><a href='../S/190.html#L133'>state</a>             133 deps/postgrex/lib/postgrex/protocol.ex     {:error, ArgumentError.t, state} |</span>
+<span class='curline'><a href='../S/190.html#L134'>state</a>             134 deps/postgrex/lib/postgrex/protocol.ex     {:error | :disconnect, Postgrex.Query.t, state}</span>
+<span class='curline'><a href='../S/190.html#L159'>state</a>             159 deps/postgrex/lib/postgrex/protocol.ex   @spec handle_execute(Postgrex.Query.t, list, Keyword.t, state) ::</span>
+<span class='curline'><a href='../S/190.html#L160'>state</a>             160 deps/postgrex/lib/postgrex/protocol.ex     {:ok, Postgrex.Result.t, state} |</span>
+<span class='curline'><a href='../S/190.html#L161'>state</a>             161 deps/postgrex/lib/postgrex/protocol.ex     {:error, ArgumentError.t, state} |</span>
+<span class='curline'><a href='../S/190.html#L162'>state</a>             162 deps/postgrex/lib/postgrex/protocol.ex     {:error | :disconnect, Postgrex.Error.t, state}</span>
+<span class='curline'><a href='../S/190.html#L166'>state</a>             166 deps/postgrex/lib/postgrex/protocol.ex   @spec handle_execute(Postgrex.Parameters.t, nil, Keyword.t, state) ::</span>
+<span class='curline'><a href='../S/190.html#L167'>state</a>             167 deps/postgrex/lib/postgrex/protocol.ex     {:ok, %{binary =&gt; binary}, state} |</span>
+<span class='curline'><a href='../S/190.html#L168'>state</a>             168 deps/postgrex/lib/postgrex/protocol.ex     {:error, Postgrex.Errpr.t, state}</span>
+<span class='curline'><a href='../S/190.html#L179'>state</a>             179 deps/postgrex/lib/postgrex/protocol.ex   @spec handle_execute_close(Postgrex.Query.t, list, Keyword.t, state) ::</span>
+<span class='curline'><a href='../S/190.html#L180'>state</a>             180 deps/postgrex/lib/postgrex/protocol.ex     {:ok, Postgrex.Result.t, state} |</span>
+<span class='curline'><a href='../S/190.html#L181'>state</a>             181 deps/postgrex/lib/postgrex/protocol.ex     {:error, ArgumentError.t, state} |</span>
+<span class='curline'><a href='../S/190.html#L182'>state</a>             182 deps/postgrex/lib/postgrex/protocol.ex     {:error | :disconnect, Postgrex.Error.t, state}</span>
+<span class='curline'><a href='../S/190.html#L194'>state</a>             194 deps/postgrex/lib/postgrex/protocol.ex   @spec handle_close(Postgrex.Query.t, Keyword.t, state) ::</span>
+<span class='curline'><a href='../S/190.html#L195'>state</a>             195 deps/postgrex/lib/postgrex/protocol.ex     {:ok, Postgrex.Result.t, state} |</span>
+<span class='curline'><a href='../S/190.html#L196'>state</a>             196 deps/postgrex/lib/postgrex/protocol.ex     {:error, ArgumentError.t, state} |</span>
+<span class='curline'><a href='../S/190.html#L197'>state</a>             197 deps/postgrex/lib/postgrex/protocol.ex     {:error | :disconnect, Postgrex.Error.t, state}</span>
+<span class='curline'><a href='../S/190.html#L208'>state</a>             208 deps/postgrex/lib/postgrex/protocol.ex   @spec handle_begin(Keyword.t, state) ::</span>
+<span class='curline'><a href='../S/190.html#L209'>state</a>             209 deps/postgrex/lib/postgrex/protocol.ex     {:ok, Postgrex.Result.t, state} |</span>
+<span class='curline'><a href='../S/190.html#L210'>state</a>             210 deps/postgrex/lib/postgrex/protocol.ex     {:error | :disconnect, Postgrex.Error.t, state}</span>
+<span class='curline'><a href='../S/190.html#L222'>state</a>             222 deps/postgrex/lib/postgrex/protocol.ex   @spec handle_commit(Keyword.t, state) ::</span>
+<span class='curline'><a href='../S/190.html#L223'>state</a>             223 deps/postgrex/lib/postgrex/protocol.ex     {:ok, Postgrex.Result.t, state} |</span>
+<span class='curline'><a href='../S/190.html#L224'>state</a>             224 deps/postgrex/lib/postgrex/protocol.ex     {:error | :disconnect, Postgrex.Error.t, state}</span>
+<span class='curline'><a href='../S/190.html#L236'>state</a>             236 deps/postgrex/lib/postgrex/protocol.ex   @spec handle_rollback(Keyword.t, state) ::</span>
+<span class='curline'><a href='../S/190.html#L237'>state</a>             237 deps/postgrex/lib/postgrex/protocol.ex     {:ok, Postgrex.Result.t, state} |</span>
+<span class='curline'><a href='../S/190.html#L238'>state</a>             238 deps/postgrex/lib/postgrex/protocol.ex     {:error | :disconnect, Postgrex.Error.t, state}</span>
+<span class='curline'><a href='../S/190.html#L251'>state</a>             251 deps/postgrex/lib/postgrex/protocol.ex   @spec handle_simple(String.t, Keyword.t, state) ::</span>
+<span class='curline'><a href='../S/190.html#L252'>state</a>             252 deps/postgrex/lib/postgrex/protocol.ex     {:ok, Postgrex.Result.t, state} |</span>
+<span class='curline'><a href='../S/190.html#L253'>state</a>             253 deps/postgrex/lib/postgrex/protocol.ex     {:error | :disconnect, Postgrex.Error.t, state}</span>
+<span class='curline'><a href='../S/190.html#L259'>state</a>             259 deps/postgrex/lib/postgrex/protocol.ex   @spec handle_info(any, Keyword.t, state) ::</span>
+<span class='curline'><a href='../S/190.html#L260'>state</a>             260 deps/postgrex/lib/postgrex/protocol.ex     {:ok, state} | {:error | :disconnect, Postgrex.Error.t, state}</span>
+<span class='curline'><a href='../S/194.html#L127'>state</a>             127 deps/postgrex/lib/postgrex/type_server.ex   def handle_info(_other, state) do</span>
+<span class='curline'><a href='../S/194.html#L128'>state</a>             128 deps/postgrex/lib/postgrex/type_server.ex     {:noreply, state}</span>
+<span class='curline'><a href='../S/195.html#L18'>state</a>              18 deps/postgrex/lib/postgrex/types.ex   @opaque state :: :ets.tab</span>
+<span class='curline'><a href='../S/195.html#L214'>state</a>             214 deps/postgrex/lib/postgrex/types.ex   def encoder(oid, state) do</span>
+<span class='curline'><a href='../S/195.html#L215'>state</a>             215 deps/postgrex/lib/postgrex/types.ex     {_, info, extension} = fetch!(state, oid)</span>
+<span class='curline'><a href='../S/195.html#L216'>state</a>             216 deps/postgrex/lib/postgrex/types.ex     opts = fetch_opts(state, extension)</span>
+<span class='curline'><a href='../S/195.html#L217'>state</a>             217 deps/postgrex/lib/postgrex/types.ex     {format(info, extension, state), &amp;extension.encode(info, &amp;1, state, opts)}</span>
+<span class='curline'><a href='../S/195.html#L221'>state</a>             221 deps/postgrex/lib/postgrex/types.ex   def decoder(oid, state) do</span>
+<span class='curline'><a href='../S/195.html#L222'>state</a>             222 deps/postgrex/lib/postgrex/types.ex     {_, info, extension} = fetch!(state, oid)</span>
+<span class='curline'><a href='../S/195.html#L223'>state</a>             223 deps/postgrex/lib/postgrex/types.ex     opts = fetch_opts(state, extension)</span>
+<span class='curline'><a href='../S/195.html#L224'>state</a>             224 deps/postgrex/lib/postgrex/types.ex     {format(info, extension, state), &amp;extension.decode(info, &amp;1, state, opts)}</span>
+<span class='curline'><a href='../S/195.html#L227'>state</a>             227 deps/postgrex/lib/postgrex/types.ex   defp format(oid, state) do</span>
+<span class='curline'><a href='../S/195.html#L228'>state</a>             228 deps/postgrex/lib/postgrex/types.ex     {_, info, extension} = fetch!(state, oid)</span>
+<span class='curline'><a href='../S/195.html#L229'>state</a>             229 deps/postgrex/lib/postgrex/types.ex     format(info, extension, state)</span>
+<span class='curline'><a href='../S/195.html#L232'>state</a>             232 deps/postgrex/lib/postgrex/types.ex   defp format(info, extension, state) do</span>
+<span class='curline'><a href='../S/195.html#L235'>state</a>             235 deps/postgrex/lib/postgrex/types.ex         format(info.array_elem, state)</span>
+<span class='curline'><a href='../S/195.html#L237'>state</a>             237 deps/postgrex/lib/postgrex/types.ex         format(info.base_type, state)</span>
+<span class='curline'><a href='../S/195.html#L243'>state</a>             243 deps/postgrex/lib/postgrex/types.ex           format(hd(info.comp_elems), state)</span>
+<span class='curline'><a href='../S/195.html#L246'>state</a>             246 deps/postgrex/lib/postgrex/types.ex         opts = fetch_opts(state, extension)</span>
+<span class='curline'><a href='../S/195.html#L256'>state</a>             256 deps/postgrex/lib/postgrex/types.ex   @spec encode(oid, term, state) :: binary</span>
+<span class='curline'><a href='../S/195.html#L257'>state</a>             257 deps/postgrex/lib/postgrex/types.ex   def encode(oid, value, state) do</span>
+<span class='curline'><a href='../S/195.html#L258'>state</a>             258 deps/postgrex/lib/postgrex/types.ex     {_oid, info, extension} = fetch!(state, oid)</span>
+<span class='curline'><a href='../S/195.html#L259'>state</a>             259 deps/postgrex/lib/postgrex/types.ex     opts = fetch_opts(state, extension)</span>
+<span class='curline'><a href='../S/195.html#L260'>state</a>             260 deps/postgrex/lib/postgrex/types.ex     extension.encode(info, value, state, opts)</span>
+<span class='curline'><a href='../S/195.html#L266'>state</a>             266 deps/postgrex/lib/postgrex/types.ex   @spec encode(Extension.t, oid, term, state) :: binary</span>
+<span class='curline'><a href='../S/195.html#L267'>state</a>             267 deps/postgrex/lib/postgrex/types.ex   def encode(extension, oid, value, state) do</span>
+<span class='curline'><a href='../S/195.html#L268'>state</a>             268 deps/postgrex/lib/postgrex/types.ex     {_oid, info, _extension} = fetch!(state, oid)</span>
+<span class='curline'><a href='../S/195.html#L269'>state</a>             269 deps/postgrex/lib/postgrex/types.ex     opts = fetch_opts(state, extension)</span>
+<span class='curline'><a href='../S/195.html#L270'>state</a>             270 deps/postgrex/lib/postgrex/types.ex     extension.encode(info, value, state, opts)</span>
+<span class='curline'><a href='../S/195.html#L276'>state</a>             276 deps/postgrex/lib/postgrex/types.ex   @spec decode(oid, binary, state) :: term</span>
+<span class='curline'><a href='../S/195.html#L277'>state</a>             277 deps/postgrex/lib/postgrex/types.ex   def decode(oid, binary, state) do</span>
+<span class='curline'><a href='../S/195.html#L278'>state</a>             278 deps/postgrex/lib/postgrex/types.ex     {_oid, info, extension} = fetch!(state, oid)</span>
+<span class='curline'><a href='../S/195.html#L279'>state</a>             279 deps/postgrex/lib/postgrex/types.ex     opts = fetch_opts(state, extension)</span>
+<span class='curline'><a href='../S/195.html#L280'>state</a>             280 deps/postgrex/lib/postgrex/types.ex     extension.decode(info, binary, state, opts)</span>
+<span class='curline'><a href='../S/195.html#L286'>state</a>             286 deps/postgrex/lib/postgrex/types.ex   @spec decode(Extension.t, oid, binary, state) :: term</span>
+<span class='curline'><a href='../S/195.html#L287'>state</a>             287 deps/postgrex/lib/postgrex/types.ex   def decode(extension, oid, binary, state) do</span>
+<span class='curline'><a href='../S/195.html#L288'>state</a>             288 deps/postgrex/lib/postgrex/types.ex     {_oid, info, _extension} = fetch!(state, oid)</span>
+<span class='curline'><a href='../S/195.html#L289'>state</a>             289 deps/postgrex/lib/postgrex/types.ex     opts = fetch_opts(state, extension)</span>
+<span class='curline'><a href='../S/195.html#L290'>state</a>             290 deps/postgrex/lib/postgrex/types.ex     extension.decode(info, binary, state, opts)</span>
+</pre>
+</body>
+</html>

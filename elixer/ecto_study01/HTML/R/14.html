@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Context</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/47.html#L820'>Context</a>           820 deps/decimal/lib/decimal.ex   @spec with_context(Context.t, (() -&gt; x)) :: x when x: var</span>
+<span class='curline'><a href='../S/47.html#L821'>Context</a>           821 deps/decimal/lib/decimal.ex   def with_context(%Context{} = context, fun) when is_function(fun, 0) do</span>
+<span class='curline'><a href='../S/47.html#L826'>Context</a>           826 deps/decimal/lib/decimal.ex       set_context(old || %Context{})</span>
+<span class='curline'><a href='../S/47.html#L833'>Context</a>           833 deps/decimal/lib/decimal.ex   @spec get_context() :: Context.t</span>
+<span class='curline'><a href='../S/47.html#L835'>Context</a>           835 deps/decimal/lib/decimal.ex     Process.get(@context_key, %Context{})</span>
+<span class='curline'><a href='../S/47.html#L841'>Context</a>           841 deps/decimal/lib/decimal.ex   @spec set_context(Context.t) :: :ok</span>
+<span class='curline'><a href='../S/47.html#L842'>Context</a>           842 deps/decimal/lib/decimal.ex   def set_context(%Context{} = context) do</span>
+<span class='curline'><a href='../S/47.html#L850'>Context</a>           850 deps/decimal/lib/decimal.ex   @spec update_context((Context.t -&gt; Context.t)) :: :ok</span>
+</pre>
+</body>
+</html>

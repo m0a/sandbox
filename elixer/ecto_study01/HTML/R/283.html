@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>data</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/81.html#L440'>data</a>              440 deps/ecto/lib/ecto/adapters/sql.ex   def load({:embed, _} = type, data, loader),</span>
+<span class='curline'><a href='../S/81.html#L441'>data</a>              441 deps/ecto/lib/ecto/adapters/sql.ex     do: Ecto.Type.load(type, data, fn</span>
+<span class='curline'><a href='../S/81.html#L445'>data</a>              445 deps/ecto/lib/ecto/adapters/sql.ex   def load(:binary_id, data, loader),</span>
+<span class='curline'><a href='../S/81.html#L446'>data</a>              446 deps/ecto/lib/ecto/adapters/sql.ex     do: Ecto.Type.load(Ecto.UUID, data, loader)</span>
+<span class='curline'><a href='../S/81.html#L447'>data</a>              447 deps/ecto/lib/ecto/adapters/sql.ex   def load(type, data, loader),</span>
+<span class='curline'><a href='../S/81.html#L448'>data</a>              448 deps/ecto/lib/ecto/adapters/sql.ex     do: Ecto.Type.load(type, data, loader)</span>
+<span class='curline'><a href='../S/81.html#L451'>data</a>              451 deps/ecto/lib/ecto/adapters/sql.ex   def dump({:embed, _} = type, data, dumper),</span>
+<span class='curline'><a href='../S/81.html#L452'>data</a>              452 deps/ecto/lib/ecto/adapters/sql.ex     do: Ecto.Type.dump(type, data, fn</span>
+<span class='curline'><a href='../S/81.html#L456'>data</a>              456 deps/ecto/lib/ecto/adapters/sql.ex   def dump(:binary_id, data, dumper),</span>
+<span class='curline'><a href='../S/81.html#L457'>data</a>              457 deps/ecto/lib/ecto/adapters/sql.ex     do: Ecto.Type.dump(Ecto.UUID, data, dumper)</span>
+<span class='curline'><a href='../S/81.html#L458'>data</a>              458 deps/ecto/lib/ecto/adapters/sql.ex   def dump(type, data, dumper),</span>
+<span class='curline'><a href='../S/81.html#L459'>data</a>              459 deps/ecto/lib/ecto/adapters/sql.ex     do: Ecto.Type.dump(type, data, dumper)</span>
+<span class='curline'><a href='../S/85.html#L1163'>data</a>             1163 deps/ecto/lib/ecto/changeset.ex   def validate_inclusion(changeset, field, data, opts \\ []) do</span>
+<span class='curline'><a href='../S/85.html#L1164'>data</a>             1164 deps/ecto/lib/ecto/changeset.ex     validate_change changeset, field, {:inclusion, data}, fn _, value -&gt;</span>
+<span class='curline'><a href='../S/85.html#L1165'>data</a>             1165 deps/ecto/lib/ecto/changeset.ex       if value in data, do: [], else: [{field, message(opts, "is invalid")}]</span>
+<span class='curline'><a href='../S/85.html#L1184'>data</a>             1184 deps/ecto/lib/ecto/changeset.ex   def validate_subset(changeset, field, data, opts \\ []) do</span>
+<span class='curline'><a href='../S/85.html#L1185'>data</a>             1185 deps/ecto/lib/ecto/changeset.ex     validate_change changeset, field, {:subset, data}, fn _, value -&gt;</span>
+<span class='curline'><a href='../S/85.html#L1186'>data</a>             1186 deps/ecto/lib/ecto/changeset.ex       case Enum.any?(value, fn(x) -&gt; not x in data end) do</span>
+<span class='curline'><a href='../S/85.html#L1206'>data</a>             1206 deps/ecto/lib/ecto/changeset.ex   def validate_exclusion(changeset, field, data, opts \\ []) do</span>
+<span class='curline'><a href='../S/85.html#L1207'>data</a>             1207 deps/ecto/lib/ecto/changeset.ex     validate_change changeset, field, {:exclusion, data}, fn _, value -&gt;</span>
+<span class='curline'><a href='../S/85.html#L1208'>data</a>             1208 deps/ecto/lib/ecto/changeset.ex       if value in data, do: [{field, message(opts, "is reserved")}], else: []</span>
+<span class='curline'><a href='../S/96.html#L252'>data</a>              252 deps/ecto/lib/ecto/model/callbacks.ex   def __apply__(module, callback, %{__struct__: expected} = data) do</span>
+<span class='curline'><a href='../S/96.html#L254'>data</a>              254 deps/ecto/lib/ecto/model/callbacks.ex       case apply(module, callback, [data]) do</span>
+<span class='curline'><a href='../S/96.html#L255'>data</a>              255 deps/ecto/lib/ecto/model/callbacks.ex         %{__struct__: ^expected} = data -&gt;</span>
+<span class='curline'><a href='../S/96.html#L256'>data</a>              256 deps/ecto/lib/ecto/model/callbacks.ex           data</span>
+<span class='curline'><a href='../S/96.html#L262'>data</a>              262 deps/ecto/lib/ecto/model/callbacks.ex       data</span>
+<span class='curline'><a href='../S/123.html#L9'>data</a>                9 deps/ecto/lib/ecto/queryable.ex   def to_query(data)</span>
+<span class='curline'><a href='../S/125.html#L70'>data</a>               70 deps/ecto/lib/ecto/repo/preloader.ex       Enum.reduce entries, struct, fn {kind, assoc, data}, acc -&gt;</span>
+<span class='curline'><a href='../S/125.html#L75'>data</a>               75 deps/ecto/lib/ecto/repo/preloader.ex             load_assoc(acc, assoc, data)</span>
+<span class='curline'><a href='../S/125.html#L77'>data</a>               77 deps/ecto/lib/ecto/repo/preloader.ex             load_through(acc, assoc, data)</span>
+<span class='curline'><a href='../S/130.html#L952'>data</a>              952 deps/ecto/lib/ecto/schema.ex   def __load__(model, prefix, source, context, data, loader) do</span>
+<span class='curline'><a href='../S/130.html#L957'>data</a>              957 deps/ecto/lib/ecto/schema.ex     loaded = do_load(struct, fields, data, loader)</span>
+<span class='curline'><a href='../S/163.html#L22'>data</a>               22 deps/postgrex/lib/postgrex/extensions/array.ex     {data, ndims, lengths} = encode_array(list, 0, [], encoder)</span>
+<span class='curline'><a href='../S/163.html#L24'>data</a>               24 deps/postgrex/lib/postgrex/extensions/array.ex     [&lt;&lt;ndims :: int32, 0 :: int32, elem_oid :: uint32&gt;&gt;, lengths, data]</span>
+<span class='curline'><a href='../S/163.html#L34'>data</a>               34 deps/postgrex/lib/postgrex/extensions/array.ex     {data, ndims, lengths} = encode_array(head, ndims, lengths, encoder)</span>
+<span class='curline'><a href='../S/163.html#L38'>data</a>               38 deps/postgrex/lib/postgrex/extensions/array.ex       {data, _, [len|_]} = encode_array(sublist, ndims, lengths, encoder)</span>
+<span class='curline'><a href='../S/163.html#L42'>data</a>               42 deps/postgrex/lib/postgrex/extensions/array.ex         [acc|data]</span>
+<span class='curline'><a href='../S/163.html#L45'>data</a>               45 deps/postgrex/lib/postgrex/extensions/array.ex     {[data|rest], ndims+1, lengths}</span>
+<span class='curline'><a href='../S/163.html#L49'>data</a>               49 deps/postgrex/lib/postgrex/extensions/array.ex     {data, length} =</span>
+<span class='curline'><a href='../S/163.html#L54'>data</a>               54 deps/postgrex/lib/postgrex/extensions/array.ex         data = encoder.(elem)</span>
+<span class='curline'><a href='../S/163.html#L55'>data</a>               55 deps/postgrex/lib/postgrex/extensions/array.ex         data = [&lt;&lt;IO.iodata_length(data)::int32&gt;&gt;, data]</span>
+<span class='curline'><a href='../S/163.html#L56'>data</a>               56 deps/postgrex/lib/postgrex/extensions/array.ex         {data, length + 1}</span>
+<span class='curline'><a href='../S/163.html#L58'>data</a>               58 deps/postgrex/lib/postgrex/extensions/array.ex     {data, ndims+1, [length|lengths]}</span>
+<span class='curline'><a href='../S/179.html#L38'>data</a>               38 deps/postgrex/lib/postgrex/extensions/range.ex         data = Types.encode(oid, range.lower, types)</span>
+<span class='curline'><a href='../S/179.html#L39'>data</a>               39 deps/postgrex/lib/postgrex/extensions/range.ex         {flags, [&lt;&lt;IO.iodata_length(data)::int32&gt;&gt;, data]}</span>
+<span class='curline'><a href='../S/179.html#L46'>data</a>               46 deps/postgrex/lib/postgrex/extensions/range.ex       data = Types.encode(oid, range.upper, types)</span>
+<span class='curline'><a href='../S/179.html#L47'>data</a>               47 deps/postgrex/lib/postgrex/extensions/range.ex       {flags, [bin, &lt;&lt;IO.iodata_length(data)::int32&gt;&gt;, data]}</span>
+<span class='curline'><a href='../S/181.html#L23'>data</a>               23 deps/postgrex/lib/postgrex/extensions/record.ex     {data, count} =</span>
+<span class='curline'><a href='../S/181.html#L28'>data</a>               28 deps/postgrex/lib/postgrex/extensions/record.ex           data = Types.encode(oid, value, types)</span>
+<span class='curline'><a href='../S/181.html#L29'>data</a>               29 deps/postgrex/lib/postgrex/extensions/record.ex           data = [&lt;&lt;oid::uint32&gt;&gt;, &lt;&lt;IO.iodata_length(data)::int32&gt;&gt;, data]</span>
+<span class='curline'><a href='../S/181.html#L30'>data</a>               30 deps/postgrex/lib/postgrex/extensions/record.ex           {data, count + 1}</span>
+<span class='curline'><a href='../S/181.html#L33'>data</a>               33 deps/postgrex/lib/postgrex/extensions/record.ex     [&lt;&lt;count :: int32&gt;&gt;, data]</span>
+<span class='curline'><a href='../S/187.html#L57'>data</a>               57 deps/postgrex/lib/postgrex/messages.ex     data =</span>
+<span class='curline'><a href='../S/187.html#L60'>data</a>               60 deps/postgrex/lib/postgrex/messages.ex           &lt;&lt;data :: binary-size(4)&gt;&gt; = rest</span>
+<span class='curline'><a href='../S/187.html#L61'>data</a>               61 deps/postgrex/lib/postgrex/messages.ex           data</span>
+<span class='curline'><a href='../S/187.html#L64'>data</a>               64 deps/postgrex/lib/postgrex/messages.ex           &lt;&lt;data :: size(rest_size)&gt;&gt; = rest</span>
+<span class='curline'><a href='../S/187.html#L65'>data</a>               65 deps/postgrex/lib/postgrex/messages.ex           data</span>
+<span class='curline'><a href='../S/187.html#L69'>data</a>               69 deps/postgrex/lib/postgrex/messages.ex     msg_auth(type: type, data: data)</span>
+<span class='curline'><a href='../S/187.html#L169'>data</a>              169 deps/postgrex/lib/postgrex/messages.ex     {first, data} = encode(msg)</span>
+<span class='curline'><a href='../S/187.html#L170'>data</a>              170 deps/postgrex/lib/postgrex/messages.ex     size = IO.iodata_length(data) + 4</span>
+<span class='curline'><a href='../S/187.html#L173'>data</a>              173 deps/postgrex/lib/postgrex/messages.ex       [first, &lt;&lt;size :: int32&gt;&gt;, data]</span>
+<span class='curline'><a href='../S/187.html#L175'>data</a>              175 deps/postgrex/lib/postgrex/messages.ex      [&lt;&lt;size :: int32&gt;&gt;, data]</span>
+<span class='curline'><a href='../S/190.html#L263'>data</a>              263 deps/postgrex/lib/postgrex/protocol.ex   def handle_info({:tcp, sock, data}, opts, %{sock: {:gen_tcp, sock}} = s) do</span>
+<span class='curline'><a href='../S/190.html#L264'>data</a>              264 deps/postgrex/lib/postgrex/protocol.ex     handle_data(s, opts, data)</span>
+<span class='curline'><a href='../S/190.html#L274'>data</a>              274 deps/postgrex/lib/postgrex/protocol.ex   def handle_info({:ssl, sock, data}, opts, %{sock: {:ssl, sock}} = s) do</span>
+<span class='curline'><a href='../S/190.html#L275'>data</a>              275 deps/postgrex/lib/postgrex/protocol.ex     handle_data(s, opts, data)</span>
+<span class='curline'><a href='../S/190.html#L914'>data</a>              914 deps/postgrex/lib/postgrex/protocol.ex     data(s, %{notify: notify(opts)}, buffer)</span>
+<span class='curline'><a href='../S/190.html#L924'>data</a>              924 deps/postgrex/lib/postgrex/protocol.ex         data(handle_msg(s, status, msg), status, buffer)</span>
+<span class='curline'><a href='../S/190.html#L1016'>data</a>             1016 deps/postgrex/lib/postgrex/protocol.ex       {:ok, data} -&gt;</span>
+<span class='curline'><a href='../S/190.html#L1017'>data</a>             1017 deps/postgrex/lib/postgrex/protocol.ex         msg_recv(s, timeout, buffer &lt;&gt; data)</span>
+<span class='curline'><a href='../S/190.html#L1053'>data</a>             1053 deps/postgrex/lib/postgrex/protocol.ex   defp do_send(%{sock: {mod, sock}} = s, data, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L1054'>data</a>             1054 deps/postgrex/lib/postgrex/protocol.ex     case mod.send(sock, data) do</span>
+</pre>
+</body>
+</html>

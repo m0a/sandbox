@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>parameters</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/197.html#L329'>parameters</a>        329 deps/postgrex/lib/postgrex.ex   @spec parameters(conn, Keyword.t) :: %{binary =&gt; binary}</span>
+<span class='curline'><a href='../S/186.html#L4'>parameters</a>          4 deps/postgrex/lib/postgrex/extensions/void.ex   def init(parameters, _opts) do</span>
+<span class='curline'><a href='../S/186.html#L5'>parameters</a>          5 deps/postgrex/lib/postgrex/extensions/void.ex     case parameters["server_version"] |&gt; Postgrex.Utils.parse_version do</span>
+<span class='curline'><a href='../S/189.html#L14'>parameters</a>         14 deps/postgrex/lib/postgrex/parameters.ex   def insert(parameters) do</span>
+<span class='curline'><a href='../S/189.html#L15'>parameters</a>         15 deps/postgrex/lib/postgrex/parameters.ex     GenServer.call(__MODULE__, {:insert, parameters})</span>
+<span class='curline'><a href='../S/189.html#L26'>parameters</a>         26 deps/postgrex/lib/postgrex/parameters.ex       parameters -&gt;</span>
+<span class='curline'><a href='../S/189.html#L27'>parameters</a>         27 deps/postgrex/lib/postgrex/parameters.ex         parameters = Map.put(parameters, name, value)</span>
+<span class='curline'><a href='../S/189.html#L28'>parameters</a>         28 deps/postgrex/lib/postgrex/parameters.ex         :ets.update_element(__MODULE__, ref, {2, parameters})</span>
+<span class='curline'><a href='../S/189.html#L45'>parameters</a>         45 deps/postgrex/lib/postgrex/parameters.ex       parameters -&gt;</span>
+<span class='curline'><a href='../S/189.html#L46'>parameters</a>         46 deps/postgrex/lib/postgrex/parameters.ex         {:ok, parameters}</span>
+<span class='curline'><a href='../S/189.html#L57'>parameters</a>         57 deps/postgrex/lib/postgrex/parameters.ex   def handle_call({:insert, parameters}, {pid, _}, state) do</span>
+<span class='curline'><a href='../S/189.html#L59'>parameters</a>         59 deps/postgrex/lib/postgrex/parameters.ex     true = :ets.insert_new(state, {ref, parameters})</span>
+<span class='curline'><a href='../S/189.html#L78'>parameters</a>         78 deps/postgrex/lib/postgrex/parameters.ex   def decode(_, parameters, _), do: parameters</span>
+<span class='curline'><a href='../S/190.html#L74'>parameters</a>         74 deps/postgrex/lib/postgrex/protocol.ex   defp connected({:ok, %{parameters: parameters} = s}) do</span>
+<span class='curline'><a href='../S/190.html#L75'>parameters</a>         75 deps/postgrex/lib/postgrex/protocol.ex     ref = Postgrex.Parameters.insert(parameters)</span>
+<span class='curline'><a href='../S/190.html#L170'>parameters</a>        170 deps/postgrex/lib/postgrex/protocol.ex     %{parameters: parameters} = s</span>
+<span class='curline'><a href='../S/190.html#L171'>parameters</a>        171 deps/postgrex/lib/postgrex/protocol.ex     case Postgrex.Parameters.fetch(parameters) do</span>
+<span class='curline'><a href='../S/190.html#L172'>parameters</a>        172 deps/postgrex/lib/postgrex/protocol.ex       {:ok, parameters} -&gt;</span>
+<span class='curline'><a href='../S/190.html#L173'>parameters</a>        173 deps/postgrex/lib/postgrex/protocol.ex         {:ok, parameters, s}</span>
+<span class='curline'><a href='../S/190.html#L430'>parameters</a>        430 deps/postgrex/lib/postgrex/protocol.ex   defp bootstrap_send(%{parameters: parameters} = s, status, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L434'>parameters</a>        434 deps/postgrex/lib/postgrex/protocol.ex     extension_opts = Types.prepare_extensions(extensions, parameters)</span>
+<span class='curline'><a href='../S/190.html#L436'>parameters</a>        436 deps/postgrex/lib/postgrex/protocol.ex     version = parameters["server_version"] |&gt; Postgrex.Utils.parse_version</span>
+<span class='curline'><a href='../S/190.html#L1063'>parameters</a>       1063 deps/postgrex/lib/postgrex/protocol.ex     %{parameters: parameters} = s</span>
+<span class='curline'><a href='../S/190.html#L1069'>parameters</a>       1069 deps/postgrex/lib/postgrex/protocol.ex       is_reference(parameters) -&gt;</span>
+<span class='curline'><a href='../S/190.html#L1070'>parameters</a>       1070 deps/postgrex/lib/postgrex/protocol.ex         _ = Postgrex.Parameters.put(parameters, name, value)</span>
+<span class='curline'><a href='../S/190.html#L1072'>parameters</a>       1072 deps/postgrex/lib/postgrex/protocol.ex       is_map(parameters) -&gt;</span>
+<span class='curline'><a href='../S/190.html#L1073'>parameters</a>       1073 deps/postgrex/lib/postgrex/protocol.ex         %{s | parameters: Map.put(parameters, name, value)}</span>
+<span class='curline'><a href='../S/195.html#L54'>parameters</a>         54 deps/postgrex/lib/postgrex/types.ex   def prepare_extensions(extensions, parameters) do</span>
+<span class='curline'><a href='../S/195.html#L56'>parameters</a>         56 deps/postgrex/lib/postgrex/types.ex       {extension, extension.init(parameters, opts)}</span>
+</pre>
+</body>
+</html>

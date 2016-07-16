@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>to_constraints</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/74.html#L38'>to_constraints</a>     38 deps/ecto/lib/ecto/adapters/mysql/connection.ex def to_constraints(%Mariaex.Error{mariadb: %{code: 1062, message: message}}) do</span>
+<span class='curline'><a href='../S/74.html#L44'>to_constraints</a>     44 deps/ecto/lib/ecto/adapters/mysql/connection.ex def to_constraints(%Mariaex.Error{mariadb: %{code: code, message: message}})</span>
+<span class='curline'><a href='../S/74.html#L51'>to_constraints</a>     51 deps/ecto/lib/ecto/adapters/mysql/connection.ex def to_constraints(%Mariaex.Error{}),</span>
+<span class='curline'><a href='../S/76.html#L40'>to_constraints</a>     40 deps/ecto/lib/ecto/adapters/postgres/connection.ex def to_constraints(%Postgrex.Error{postgres: %{code: :unique_violation, constraint: constraint}}),</span>
+<span class='curline'><a href='../S/76.html#L42'>to_constraints</a>     42 deps/ecto/lib/ecto/adapters/postgres/connection.ex def to_constraints(%Postgrex.Error{postgres: %{code: :foreign_key_violation, constraint: constraint}}),</span>
+<span class='curline'><a href='../S/76.html#L44'>to_constraints</a>     44 deps/ecto/lib/ecto/adapters/postgres/connection.ex def to_constraints(%Postgrex.Error{postgres: %{code: :exclusion_violation, constraint: constraint}}),</span>
+<span class='curline'><a href='../S/76.html#L48'>to_constraints</a>     48 deps/ecto/lib/ecto/adapters/postgres/connection.ex def to_constraints(%Postgrex.Error{postgres: %{code: :unique_violation, message: message}}) do</span>
+<span class='curline'><a href='../S/76.html#L54'>to_constraints</a>     54 deps/ecto/lib/ecto/adapters/postgres/connection.ex def to_constraints(%Postgrex.Error{postgres: %{code: :foreign_key_violation, message: message}}) do</span>
+<span class='curline'><a href='../S/76.html#L60'>to_constraints</a>     60 deps/ecto/lib/ecto/adapters/postgres/connection.ex def to_constraints(%Postgrex.Error{postgres: %{code: :exclusion_violation, message: message}}) do</span>
+<span class='curline'><a href='../S/76.html#L67'>to_constraints</a>     67 deps/ecto/lib/ecto/adapters/postgres/connection.ex def to_constraints(%Postgrex.Error{}),</span>
+<span class='curline'><a href='../S/79.html#L39'>to_constraints</a>     39 deps/ecto/lib/ecto/adapters/sql/query.ex defcallback to_constraints(Exception.t) :: Keyword.t</span>
+</pre>
+</body>
+</html>

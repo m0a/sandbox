@@ -1,0 +1,754 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/date_time.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/date_time.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L7'>[^]</a><a href='#L640'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L7' title='Defined at 7.'>zero_pad</a></li>
+<li><a href='#L13' title='Defined at 13.'>to_i</a></li>
+<li><a href='#L14' title='Defined at 14.'>to_i</a></li>
+<li><a href='#L15' title='Defined at 15.'>to_i</a></li>
+<li><a href='#L23' title='Defined at 23.'>is_date</a></li>
+<li><a href='#L30' title='Defined at 30.'>is_time</a></li>
+<li><a href='#L42' title='Defined at 42.'>is_iso_8601</a></li>
+<li><a href='#L51' title='Defined at 51.'>usec</a></li>
+<li><a href='#L62' title='Defined at 62.'>usec</a></li>
+<li><a href='#L63' title='Defined at 63.'>usec</a></li>
+<li><a href='#L71' title='Defined at 71.'>compare</a></li>
+<li><a href='#L81' title='Defined at 81.'>parse</a></li>
+<li><a href='#L82' title='Defined at 82.'>parse</a></li>
+<li><a href='#L94' title='Defined at 94.'>compare</a></li>
+<li><a href='#L126' title='Defined at 126.'>cast</a></li>
+<li><a href='#L128' title='Defined at 128.'>cast</a></li>
+<li><a href='#L131' title='Defined at 131.'>cast</a></li>
+<li><a href='#L133' title='Defined at 133.'>cast</a></li>
+<li><a href='#L135' title='Defined at 135.'>cast</a></li>
+<li><a href='#L137' title='Defined at 137.'>cast</a></li>
+<li><a href='#L139' title='Defined at 139.'>cast</a></li>
+<li><a href='#L145' title='Defined at 145.'>cast!</a></li>
+<li><a href='#L152' title='Defined at 152.'>from_parts</a></li>
+<li><a href='#L155' title='Defined at 155.'>from_parts</a></li>
+<li><a href='#L160' title='Defined at 160.'>dump</a></li>
+<li><a href='#L163' title='Defined at 163.'>dump</a></li>
+<li><a href='#L168' title='Defined at 168.'>load</a></li>
+<li><a href='#L171' title='Defined at 171.'>load</a></li>
+<li><a href='#L176' title='Defined at 176.'>to_string</a></li>
+<li><a href='#L183' title='Defined at 183.'>to_iso8601</a></li>
+<li><a href='#L212' title='Defined at 212.'>to_erl</a></li>
+<li><a href='#L219' title='Defined at 219.'>from_erl</a></li>
+<li><a href='#L233' title='Defined at 233.'>compare</a></li>
+<li><a href='#L265' title='Defined at 265.'>cast</a></li>
+<li><a href='#L272' title='Defined at 272.'>cast</a></li>
+<li><a href='#L274' title='Defined at 274.'>cast</a></li>
+<li><a href='#L276' title='Defined at 276.'>cast</a></li>
+<li><a href='#L278' title='Defined at 278.'>cast</a></li>
+<li><a href='#L280' title='Defined at 280.'>cast</a></li>
+<li><a href='#L282' title='Defined at 282.'>cast</a></li>
+<li><a href='#L288' title='Defined at 288.'>cast!</a></li>
+<li><a href='#L295' title='Defined at 295.'>from_parts</a></li>
+<li><a href='#L297' title='Defined at 297.'>from_parts</a></li>
+<li><a href='#L304' title='Defined at 304.'>dump</a></li>
+<li><a href='#L307' title='Defined at 307.'>dump</a></li>
+<li><a href='#L312' title='Defined at 312.'>load</a></li>
+<li><a href='#L315' title='Defined at 315.'>load</a></li>
+<li><a href='#L318' title='Defined at 318.'>load</a></li>
+<li><a href='#L323' title='Defined at 323.'>to_string</a></li>
+<li><a href='#L336' title='Defined at 336.'>to_iso8601</a></li>
+<li><a href='#L360' title='Defined at 360.'>utc</a></li>
+<li><a href='#L362' title='Defined at 362.'>utc</a></li>
+<li><a href='#L367' title='Defined at 367.'>utc</a></li>
+<li><a href='#L376' title='Defined at 376.'>to_erl</a></li>
+<li><a href='#L383' title='Defined at 383.'>from_erl</a></li>
+<li><a href='#L397' title='Defined at 397.'>compare</a></li>
+<li><a href='#L429' title='Defined at 429.'>cast</a></li>
+<li><a href='#L439' title='Defined at 439.'>cast</a></li>
+<li><a href='#L443' title='Defined at 443.'>cast</a></li>
+<li><a href='#L449' title='Defined at 449.'>cast</a></li>
+<li><a href='#L455' title='Defined at 455.'>cast</a></li>
+<li><a href='#L460' title='Defined at 460.'>cast</a></li>
+<li><a href='#L465' title='Defined at 465.'>cast</a></li>
+<li><a href='#L472' title='Defined at 472.'>cast!</a></li>
+<li><a href='#L479' title='Defined at 479.'>from_parts</a></li>
+<li><a href='#L483' title='Defined at 483.'>from_parts</a></li>
+<li><a href='#L488' title='Defined at 488.'>dump</a></li>
+<li><a href='#L491' title='Defined at 491.'>dump</a></li>
+<li><a href='#L496' title='Defined at 496.'>load</a></li>
+<li><a href='#L499' title='Defined at 499.'>load</a></li>
+<li><a href='#L502' title='Defined at 502.'>load</a></li>
+<li><a href='#L507' title='Defined at 507.'>to_date</a></li>
+<li><a href='#L514' title='Defined at 514.'>to_time</a></li>
+<li><a href='#L522' title='Defined at 522.'>from_date</a></li>
+<li><a href='#L530' title='Defined at 530.'>from_date_and_time</a></li>
+<li><a href='#L539' title='Defined at 539.'>to_string</a></li>
+<li><a href='#L559' title='Defined at 559.'>to_iso8601</a></li>
+<li><a href='#L591' title='Defined at 591.'>utc</a></li>
+<li><a href='#L598' title='Defined at 598.'>to_erl</a></li>
+<li><a href='#L605' title='Defined at 605.'>from_erl</a></li>
+<li><a href='#L612' title='Defined at 612.'>autogenerate</a></li>
+<li><a href='#L614' title='Defined at 614.'>autogenerate</a></li>
+<li><a href='#L619' title='Defined at 619.'>autogenerate</a></li>
+<li><a href='#L625' title='Defined at 625.'>erl_load</a></li>
+<li><a href='#L632' title='Defined at 632.'>to_string</a></li>
+<li><a href='#L640' title='Defined at 640.'>inspect</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>import Kernel, except: [to_string: 1]
+<a id='L2' name='L2'></a>
+<a id='L3' name='L3'></a>defmodule Ecto.DateTime.Utils <strong class='reserved'>do</strong>
+<a id='L4' name='L4'></a>  @moduledoc false
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>  @doc "Pads with zero"
+<a id='L7' name='L7'></a>  def <a href='../R/1044.html' title='Multiple referred from 9 places.'>zero_pad</a>(val, <a href='../D/394.html' title='Multiple defined in 2 places.'>count</a>) <strong class='reserved'>do</strong>
+<a id='L8' name='L8'></a>    num = Integer.<a href='../D/1119.html' title='Multiple defined in 14 places.'>to_string</a>(val)
+<a id='L9' name='L9'></a>    :binary.copy("0", <a href='../D/394.html' title='Multiple defined in 2 places.'>count</a> - byte_size(num)) &lt;&gt; num
+<a id='L10' name='L10'></a>  end
+<a id='L11' name='L11'></a>
+<a id='L12' name='L12'></a>  @doc "Converts to integer if possible"
+<a id='L13' name='L13'></a>  def <a href='../R/949.html' title='Multiple referred from 22 places.'>to_i</a>(nil), <strong class='reserved'>do</strong>: nil
+<a id='L14' name='L14'></a>  def <a href='../R/949.html' title='Multiple referred from 22 places.'>to_i</a>(<strong class='reserved'>int</strong>) when is_integer(<strong class='reserved'>int</strong>), <strong class='reserved'>do</strong>: <strong class='reserved'>int</strong>
+<a id='L15' name='L15'></a>  def <a href='../R/949.html' title='Multiple referred from 22 places.'>to_i</a>(bin) when is_binary(bin) <strong class='reserved'>do</strong>
+<a id='L16' name='L16'></a>    <strong class='reserved'>case</strong> Integer.<a href='../D/856.html' title='Multiple defined in 25 places.'>parse</a>(bin) <strong class='reserved'>do</strong>
+<a id='L17' name='L17'></a>      <em class='brace'>{</em><strong class='reserved'>int</strong>, ""<em class='brace'>}</em> -&gt; <strong class='reserved'>int</strong>
+<a id='L18' name='L18'></a>      _ -&gt; nil
+<a id='L19' name='L19'></a>    end
+<a id='L20' name='L20'></a>  end
+<a id='L21' name='L21'></a>
+<a id='L22' name='L22'></a>  @doc "A guard to check for dates"
+<a id='L23' name='L23'></a>  defmacro <a href='../R/564.html' title='Multiple referred from 2 places.'>is_date</a>(_year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>) <strong class='reserved'>do</strong>
+<a id='L24' name='L24'></a>    quote <strong class='reserved'>do</strong>
+<a id='L25' name='L25'></a>      unquote(<a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>) in 1..12 and unquote(<a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>) in 1..31
+<a id='L26' name='L26'></a>    end
+<a id='L27' name='L27'></a>  end
+<a id='L28' name='L28'></a>
+<a id='L29' name='L29'></a>  @doc "A guard to check for times"
+<a id='L30' name='L30'></a>  defmacro <a href='../R/567.html' title='Multiple referred from 2 places.'>is_time</a>(<a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a> \\ 0) <strong class='reserved'>do</strong>
+<a id='L31' name='L31'></a>    quote <strong class='reserved'>do</strong>
+<a id='L32' name='L32'></a>      unquote(<a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>) in 0..23 and
+<a id='L33' name='L33'></a>        unquote(<a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>) in 0..59 and
+<a id='L34' name='L34'></a>        unquote(sec) in 0..59 and
+<a id='L35' name='L35'></a>        unquote(<a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>) in 0..999_999
+<a id='L36' name='L36'></a>    end
+<a id='L37' name='L37'></a>  end
+<a id='L38' name='L38'></a>
+<a id='L39' name='L39'></a>  @doc """
+<a id='L40' name='L40'></a>  Checks <strong class='reserved'>if</strong> the trailing part of a date/time matches ISO specs.
+<a id='L41' name='L41'></a>  """
+<a id='L42' name='L42'></a>  defmacro <a href='../R/565.html' title='Multiple referred from 3 places.'>is_iso_8601</a>(x) <strong class='reserved'>do</strong>
+<a id='L43' name='L43'></a>    quote <strong class='reserved'>do</strong>: unquote(x) in ["", "Z"]
+<a id='L44' name='L44'></a>  end
+<a id='L45' name='L45'></a>
+<a id='L46' name='L46'></a>  @doc """
+<a id='L47' name='L47'></a>  Gets microseconds from rest and validates it.
+<a id='L48' name='L48'></a>
+<a id='L49' name='L49'></a>  Returns nil <strong class='reserved'>if</strong> an invalid format is given.
+<a id='L50' name='L50'></a>  """
+<a id='L51' name='L51'></a>  def <a href='../R/1015.html' title='Multiple referred from 60 places.'>usec</a>("." &lt;&gt; rest) <strong class='reserved'>do</strong>
+<a id='L52' name='L52'></a>    <strong class='reserved'>case</strong> <a href='../D/856.html' title='Multiple defined in 25 places.'>parse</a>(rest, "") <strong class='reserved'>do</strong>
+<a id='L53' name='L53'></a>      <em class='brace'>{</em><strong class='reserved'>int</strong>, rest<em class='brace'>}</em> when byte_size(<strong class='reserved'>int</strong>) &gt; 6 and <a href='../S/87.html#L42' title='Defined at 42 in deps/ecto/lib/ecto/date_time.ex.'>is_iso_8601</a>(rest) -&gt;
+<a id='L54' name='L54'></a>        String.to_integer(binary_part(<strong class='reserved'>int</strong>, 0, 6))
+<a id='L55' name='L55'></a>      <em class='brace'>{</em><strong class='reserved'>int</strong>, rest<em class='brace'>}</em> when byte_size(<strong class='reserved'>int</strong>) in 1..6 and <a href='../S/87.html#L42' title='Defined at 42 in deps/ecto/lib/ecto/date_time.ex.'>is_iso_8601</a>(rest) -&gt;
+<a id='L56' name='L56'></a>        <a href='../D/851.html' title='Multiple defined in 2 places.'>pad</a> = String.duplicate("0", 6 - byte_size(<strong class='reserved'>int</strong>))
+<a id='L57' name='L57'></a>        String.to_integer(<strong class='reserved'>int</strong> &lt;&gt; <a href='../D/851.html' title='Multiple defined in 2 places.'>pad</a>)
+<a id='L58' name='L58'></a>      _ -&gt;
+<a id='L59' name='L59'></a>        nil
+<a id='L60' name='L60'></a>    end
+<a id='L61' name='L61'></a>  end
+<a id='L62' name='L62'></a>  def <a href='../R/1015.html' title='Multiple referred from 60 places.'>usec</a>(rest) when <a href='../S/87.html#L42' title='Defined at 42 in deps/ecto/lib/ecto/date_time.ex.'>is_iso_8601</a>(rest), <strong class='reserved'>do</strong>: 0
+<a id='L63' name='L63'></a>  def <a href='../R/1015.html' title='Multiple referred from 60 places.'>usec</a>(_), <strong class='reserved'>do</strong>: nil
+<a id='L64' name='L64'></a>
+<a id='L65' name='L65'></a>  @doc """
+<a id='L66' name='L66'></a>  Compare two datetimes.
+<a id='L67' name='L67'></a>
+<a id='L68' name='L68'></a>  Receives two datetimes and compares the `t1`
+<a id='L69' name='L69'></a>  against `t2` and returns `:lt`, `:eq` or `:gt`.
+<a id='L70' name='L70'></a>  """
+<a id='L71' name='L71'></a>  def <a href='../R/253.html' title='Multiple referred from 6 places.'>compare</a>(%<em class='brace'>{</em>__struct__: module<em class='brace'>}</em> = t1, %<em class='brace'>{</em>__struct__: module<em class='brace'>}</em> = t2) <strong class='reserved'>do</strong>
+<a id='L72' name='L72'></a>    <em class='brace'>{</em>:ok, t1<em class='brace'>}</em> = module.<a href='../D/512.html' title='Multiple defined in 28 places.'>dump</a>(t1)
+<a id='L73' name='L73'></a>    <em class='brace'>{</em>:ok, t2<em class='brace'>}</em> = module.<a href='../D/512.html' title='Multiple defined in 28 places.'>dump</a>(t2)
+<a id='L74' name='L74'></a>    cond <strong class='reserved'>do</strong>
+<a id='L75' name='L75'></a>      t1 == t2 -&gt; :eq
+<a id='L76' name='L76'></a>      t1 &gt; t2 -&gt; :gt
+<a id='L77' name='L77'></a>      true -&gt; :lt
+<a id='L78' name='L78'></a>    end
+<a id='L79' name='L79'></a>  end
+<a id='L80' name='L80'></a>
+<a id='L81' name='L81'></a>  defp <a href='../R/707.html' title='Multiple referred from 20 places.'>parse</a>(&lt;&lt;h, t::<a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>&gt;&gt;, acc) when h in ?0..?9, <strong class='reserved'>do</strong>: parse(t, &lt;&lt;acc::binary, h&gt;&gt;)
+<a id='L82' name='L82'></a>  defp <a href='../R/707.html' title='Multiple referred from 20 places.'>parse</a>(rest, acc), <strong class='reserved'>do</strong>: <em class='brace'>{</em>acc, rest<em class='brace'>}</em>
+<a id='L83' name='L83'></a>end
+<a id='L84' name='L84'></a>
+<a id='L85' name='L85'></a>defmodule Ecto.Date <strong class='reserved'>do</strong>
+<a id='L86' name='L86'></a>  import Ecto.DateTime.Utils
+<a id='L87' name='L87'></a>
+<a id='L88' name='L88'></a>  @doc """
+<a id='L89' name='L89'></a>  Compare two dates.
+<a id='L90' name='L90'></a>
+<a id='L91' name='L91'></a>  Receives two dates and compares the `t1`
+<a id='L92' name='L92'></a>  against `t2` and returns `:lt`, `:eq` or `:gt`.
+<a id='L93' name='L93'></a>  """
+<a id='L94' name='L94'></a>  defdelegate <a href='../R/253.html' title='Multiple referred from 6 places.'>compare</a>(t1, t2), to: Ecto.DateTime.Utils
+<a id='L95' name='L95'></a>
+<a id='L96' name='L96'></a>  @moduledoc """
+<a id='L97' name='L97'></a>  An Ecto type <strong class='reserved'>for</strong> dates.
+<a id='L98' name='L98'></a>  """
+<a id='L99' name='L99'></a>
+<a id='L100' name='L100'></a>  @behaviour Ecto.Type
+<a id='L101' name='L101'></a>  defstruct [:year, :month, :day]
+<a id='L102' name='L102'></a>
+<a id='L103' name='L103'></a>  @doc """
+<a id='L104' name='L104'></a>  The Ecto primitive type.
+<a id='L105' name='L105'></a>  """
+<a id='L106' name='L106'></a>  def <a href='../R/981.html' title='Multiple referred from 375 places.'>type</a>, <strong class='reserved'>do</strong>: :date
+<a id='L107' name='L107'></a>
+<a id='L108' name='L108'></a>  @doc """
+<a id='L109' name='L109'></a>  Casts the given value to date.
+<a id='L110' name='L110'></a>
+<a id='L111' name='L111'></a>  It supports:
+<a id='L112' name='L112'></a>
+<a id='L113' name='L113'></a>    * a binary in the "YYYY-MM-DD" format
+<a id='L114' name='L114'></a>    * a binary in the "YYYY-MM-DD HH:MM:DD" format
+<a id='L115' name='L115'></a>      (may be separated by T and/or followed by "Z", as in `2014-04-17T14:00:00Z`)
+<a id='L116' name='L116'></a>    * a binary in the "YYYY-MM-DD HH:MM:DD.USEC" format
+<a id='L117' name='L117'></a>      (may be separated by T and/or followed by "Z", as in `2014-04-17T14:00:00.030Z`)
+<a id='L118' name='L118'></a>    * a map with `"year"`, `"month"` and `"day"` keys
+<a id='L119' name='L119'></a>      with integer or binaries as values
+<a id='L120' name='L120'></a>    * a map with `:year`, `:month` and `:day` keys
+<a id='L121' name='L121'></a>      with integer or binaries as values
+<a id='L122' name='L122'></a>    * a tuple with `<em class='brace'>{</em>year, month, day<em class='brace'>}</em>` as integers or binaries
+<a id='L123' name='L123'></a>    * an `Ecto.Date` <strong class='reserved'>struct</strong> itself
+<a id='L124' name='L124'></a>
+<a id='L125' name='L125'></a>  """
+<a id='L126' name='L126'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(&lt;&lt;<a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>::4-bytes, ?-, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>::2-bytes, ?-, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>::2-bytes&gt;&gt;),
+<a id='L127' name='L127'></a>    <strong class='reserved'>do</strong>: <a href='../D/626.html' title='Multiple defined in 6 places.'>from_parts</a>(<a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(<a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>), to_i(<a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>), to_i(<a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>))
+<a id='L128' name='L128'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(&lt;&lt;<a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>::4-bytes, ?-, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>::2-bytes, ?-, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>::2-bytes, sep,
+<a id='L129' name='L129'></a>             _hour::2-bytes, ?:, _min::2-bytes, ?:, _sec::2-bytes, _rest::<a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>&gt;&gt;) when sep in [?\s, ?T],
+<a id='L130' name='L130'></a>    <strong class='reserved'>do</strong>: <a href='../D/626.html' title='Multiple defined in 6 places.'>from_parts</a>(<a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(<a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>), to_i(<a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>), to_i(<a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>))
+<a id='L131' name='L131'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(%Ecto.Date<em class='brace'>{</em><em class='brace'>}</em> = <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a>),
+<a id='L132' name='L132'></a>    <strong class='reserved'>do</strong>: <em class='brace'>{</em>:ok, <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a><em class='brace'>}</em>
+<a id='L133' name='L133'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(%<em class='brace'>{</em>"year" =&gt; <a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>, "month" =&gt; <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, "day" =&gt; <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a><em class='brace'>}</em>),
+<a id='L134' name='L134'></a>    <strong class='reserved'>do</strong>: <a href='../D/626.html' title='Multiple defined in 6 places.'>from_parts</a>(<a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(<a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>), to_i(<a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>), to_i(<a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>))
+<a id='L135' name='L135'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(%<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day<em class='brace'>}</em>),
+<a id='L136' name='L136'></a>    <strong class='reserved'>do</strong>: <a href='../D/626.html' title='Multiple defined in 6 places.'>from_parts</a>(<a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(<a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>), to_i(<a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>), to_i(<a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>))
+<a id='L137' name='L137'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a><em class='brace'>}</em>),
+<a id='L138' name='L138'></a>    <strong class='reserved'>do</strong>: <a href='../D/626.html' title='Multiple defined in 6 places.'>from_parts</a>(<a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(<a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>), to_i(<a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>), to_i(<a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>))
+<a id='L139' name='L139'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(_),
+<a id='L140' name='L140'></a>    <strong class='reserved'>do</strong>: :error
+<a id='L141' name='L141'></a>
+<a id='L142' name='L142'></a>  @doc """
+<a id='L143' name='L143'></a>  Same as `cast/1` but raises on invalid dates.
+<a id='L144' name='L144'></a>  """
+<a id='L145' name='L145'></a>  def cast!(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) <strong class='reserved'>do</strong>
+<a id='L146' name='L146'></a>    <strong class='reserved'>case</strong> <a href='../D/331.html' title='Multiple defined in 58 places.'>cast</a>(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) <strong class='reserved'>do</strong>
+<a id='L147' name='L147'></a>      <em class='brace'>{</em>:ok, date<em class='brace'>}</em> -&gt; date
+<a id='L148' name='L148'></a>      :error -&gt; raise ArgumentError, "cannot cast #{inspect value} to date"
+<a id='L149' name='L149'></a>    end
+<a id='L150' name='L150'></a>  end
+<a id='L151' name='L151'></a>
+<a id='L152' name='L152'></a>  defp <a href='../R/492.html' title='Multiple referred from 15 places.'>from_parts</a>(<a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>) when <a href='../S/87.html#L23' title='Defined at 23 in deps/ecto/lib/ecto/date_time.ex.'>is_date</a>(year, month, day) <strong class='reserved'>do</strong>
+<a id='L153' name='L153'></a>    <em class='brace'>{</em>:ok, %Ecto.Date<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L154' name='L154'></a>  end
+<a id='L155' name='L155'></a>  defp <a href='../R/492.html' title='Multiple referred from 15 places.'>from_parts</a>(_, _, _), <strong class='reserved'>do</strong>: :error
+<a id='L156' name='L156'></a>
+<a id='L157' name='L157'></a>  @doc """
+<a id='L158' name='L158'></a>  Converts an `Ecto.Date` into a date triplet.
+<a id='L159' name='L159'></a>  """
+<a id='L160' name='L160'></a>  def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(%Ecto.Date<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L161' name='L161'></a>    <em class='brace'>{</em>:ok, <em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a><em class='brace'>}</em><em class='brace'>}</em>
+<a id='L162' name='L162'></a>  end
+<a id='L163' name='L163'></a>  def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(_), <strong class='reserved'>do</strong>: :error
+<a id='L164' name='L164'></a>
+<a id='L165' name='L165'></a>  @doc """
+<a id='L166' name='L166'></a>  Converts a date triplet into an `Ecto.Date`.
+<a id='L167' name='L167'></a>  """
+<a id='L168' name='L168'></a>  def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a><em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L169' name='L169'></a>    <em class='brace'>{</em>:ok, %Ecto.Date<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L170' name='L170'></a>  end
+<a id='L171' name='L171'></a>  def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(_), <strong class='reserved'>do</strong>: :error
+<a id='L172' name='L172'></a>
+<a id='L173' name='L173'></a>  @doc """
+<a id='L174' name='L174'></a>  Converts `Ecto.Date` to a readable string representation.
+<a id='L175' name='L175'></a>  """
+<a id='L176' name='L176'></a>  def <a href='../R/956.html' title='Multiple referred from 88 places.'>to_string</a>(%Ecto.Date<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L177' name='L177'></a>    <a href='../S/87.html#L7' title='Defined at 7 in deps/ecto/lib/ecto/date_time.ex.'>zero_pad</a>(<a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>, 4) &lt;&gt; "-" &lt;&gt; zero_pad(<a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, 2) &lt;&gt; "-" &lt;&gt; zero_pad(<a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>, 2)
+<a id='L178' name='L178'></a>  end
+<a id='L179' name='L179'></a>
+<a id='L180' name='L180'></a>  @doc """
+<a id='L181' name='L181'></a>  Converts `Ecto.Date` to ISO8601 representation.
+<a id='L182' name='L182'></a>  """
+<a id='L183' name='L183'></a>  def <a href='../R/951.html' title='Multiple referred from 2 places.'>to_iso8601</a>(date) <strong class='reserved'>do</strong>
+<a id='L184' name='L184'></a>    <a href='../D/1119.html' title='Multiple defined in 14 places.'>to_string</a>(date)
+<a id='L185' name='L185'></a>  end
+<a id='L186' name='L186'></a>
+<a id='L187' name='L187'></a>  @doc """
+<a id='L188' name='L188'></a>  Returns an `Ecto.Date` in local time.
+<a id='L189' name='L189'></a>
+<a id='L190' name='L190'></a>  WARNING: The local time is often not always increasing due
+<a id='L191' name='L191'></a>  to DST changes, which can lead to bugs. Please prefer the
+<a id='L192' name='L192'></a>  `utc/0` function instead.
+<a id='L193' name='L193'></a>  """
+<a id='L194' name='L194'></a>  def <a href='../S/149.html#L24' title='Referred from 24 in deps/poolboy/src/poolboy.erl.'>local</a> <strong class='reserved'>do</strong>
+<a id='L195' name='L195'></a>    IO.write :stderr, "warning: Ecto.Date.local/0 is deprecated as it is unsafe. Use utc/0 instead." &lt;&gt;
+<a id='L196' name='L196'></a>                      Exception.format_stacktrace
+<a id='L197' name='L197'></a>    <em class='brace'>{</em><em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a><em class='brace'>}</em>, _time<em class='brace'>}</em> = :erlang.localtime
+<a id='L198' name='L198'></a>    %Ecto.Date<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day<em class='brace'>}</em>
+<a id='L199' name='L199'></a>  end
+<a id='L200' name='L200'></a>
+<a id='L201' name='L201'></a>  @doc """
+<a id='L202' name='L202'></a>  Returns an `Ecto.Date` in UTC.
+<a id='L203' name='L203'></a>  """
+<a id='L204' name='L204'></a>  def <a href='../R/1018.html' title='Multiple referred from 3 places.'>utc</a> <strong class='reserved'>do</strong>
+<a id='L205' name='L205'></a>    <em class='brace'>{</em><em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a><em class='brace'>}</em>, _time<em class='brace'>}</em> = :erlang.universaltime
+<a id='L206' name='L206'></a>    %Ecto.Date<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day<em class='brace'>}</em>
+<a id='L207' name='L207'></a>  end
+<a id='L208' name='L208'></a>
+<a id='L209' name='L209'></a>  @doc """
+<a id='L210' name='L210'></a>  Returns an Erlang date tuple from an `Ecto.Date`.
+<a id='L211' name='L211'></a>  """
+<a id='L212' name='L212'></a>  def to_erl(%Ecto.Date<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L213' name='L213'></a>    <em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a><em class='brace'>}</em>
+<a id='L214' name='L214'></a>  end
+<a id='L215' name='L215'></a>
+<a id='L216' name='L216'></a>  @doc """
+<a id='L217' name='L217'></a>  Returns an `Ecto.Date` from an Erlang date tuple.
+<a id='L218' name='L218'></a>  """
+<a id='L219' name='L219'></a>  def <a href='../R/491.html' title='Multiple referred from 3 places.'>from_erl</a>(<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a><em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L220' name='L220'></a>    %Ecto.Date<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day<em class='brace'>}</em>
+<a id='L221' name='L221'></a>  end
+<a id='L222' name='L222'></a>end
+<a id='L223' name='L223'></a>
+<a id='L224' name='L224'></a>defmodule Ecto.Time <strong class='reserved'>do</strong>
+<a id='L225' name='L225'></a>  import Ecto.DateTime.Utils
+<a id='L226' name='L226'></a>
+<a id='L227' name='L227'></a>  @doc """
+<a id='L228' name='L228'></a>  Compare two times.
+<a id='L229' name='L229'></a>
+<a id='L230' name='L230'></a>  Receives two times and compares the `t1`
+<a id='L231' name='L231'></a>  against `t2` and returns `:lt`, `:eq` or `:gt`.
+<a id='L232' name='L232'></a>  """
+<a id='L233' name='L233'></a>  defdelegate <a href='../R/253.html' title='Multiple referred from 6 places.'>compare</a>(t1, t2), to: Ecto.DateTime.Utils
+<a id='L234' name='L234'></a>
+<a id='L235' name='L235'></a>  @moduledoc """
+<a id='L236' name='L236'></a>  An Ecto type <strong class='reserved'>for</strong> time.
+<a id='L237' name='L237'></a>  """
+<a id='L238' name='L238'></a>
+<a id='L239' name='L239'></a>  @behaviour Ecto.Type
+<a id='L240' name='L240'></a>  defstruct [:hour, :min, :sec, usec: 0]
+<a id='L241' name='L241'></a>
+<a id='L242' name='L242'></a>  @doc """
+<a id='L243' name='L243'></a>  The Ecto primitive type.
+<a id='L244' name='L244'></a>  """
+<a id='L245' name='L245'></a>  def <a href='../R/981.html' title='Multiple referred from 375 places.'>type</a>, <strong class='reserved'>do</strong>: :time
+<a id='L246' name='L246'></a>
+<a id='L247' name='L247'></a>  @doc """
+<a id='L248' name='L248'></a>  Casts the given value to time.
+<a id='L249' name='L249'></a>
+<a id='L250' name='L250'></a>  It supports:
+<a id='L251' name='L251'></a>
+<a id='L252' name='L252'></a>    * a binary in the "HH:MM:DD" format
+<a id='L253' name='L253'></a>      (may be followed by "Z", as in `12:00:00Z`)
+<a id='L254' name='L254'></a>    * a binary in the "HH:MM:DD.USEC" format
+<a id='L255' name='L255'></a>      (may be followed by "Z", as in `12:00:00.005Z`)
+<a id='L256' name='L256'></a>    * a map with `"hour"`, `"min"` keys with `"sec"` and `"usec"`
+<a id='L257' name='L257'></a>      as optional keys and values are integers or binaries
+<a id='L258' name='L258'></a>    * a map with `:hour`, `:min` keys with `:sec` and `:usec`
+<a id='L259' name='L259'></a>      as optional keys and values are integers or binaries
+<a id='L260' name='L260'></a>    * a tuple with `<em class='brace'>{</em>hour, min, sec<em class='brace'>}</em>` as integers or binaries
+<a id='L261' name='L261'></a>    * a tuple with `<em class='brace'>{</em>hour, min, sec, usec<em class='brace'>}</em>` as integers or binaries
+<a id='L262' name='L262'></a>    * an `Ecto.Time` <strong class='reserved'>struct</strong> itself
+<a id='L263' name='L263'></a>
+<a id='L264' name='L264'></a>  """
+<a id='L265' name='L265'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(&lt;&lt;<a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>::2-bytes, ?:, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>::2-bytes, ?:, sec::2-bytes, rest::<a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>&gt;&gt;) <strong class='reserved'>do</strong>
+<a id='L266' name='L266'></a>    <strong class='reserved'>if</strong> <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a> = usec(rest) <strong class='reserved'>do</strong>
+<a id='L267' name='L267'></a>      <a href='../D/626.html' title='Multiple defined in 6 places.'>from_parts</a>(<a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(<a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>), to_i(<a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>), to_i(sec), <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>)
+<a id='L268' name='L268'></a>    <strong class='reserved'>else</strong>
+<a id='L269' name='L269'></a>      :error
+<a id='L270' name='L270'></a>    end
+<a id='L271' name='L271'></a>  end
+<a id='L272' name='L272'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(%Ecto.Time<em class='brace'>{</em><em class='brace'>}</em> = t),
+<a id='L273' name='L273'></a>    <strong class='reserved'>do</strong>: <em class='brace'>{</em>:ok, t<em class='brace'>}</em>
+<a id='L274' name='L274'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(%<em class='brace'>{</em>"hour" =&gt; <a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, "min" =&gt; <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a><em class='brace'>}</em> = map),
+<a id='L275' name='L275'></a>    <strong class='reserved'>do</strong>: <a href='../D/626.html' title='Multiple defined in 6 places.'>from_parts</a>(<a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(<a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>), to_i(<a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>), to_i(Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(map, "sec", 0)), to_i(Map.get(map, "usec", 0)))
+<a id='L276' name='L276'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(%<em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min<em class='brace'>}</em> = map),
+<a id='L277' name='L277'></a>    <strong class='reserved'>do</strong>: <a href='../D/626.html' title='Multiple defined in 6 places.'>from_parts</a>(<a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(<a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>), to_i(<a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>), to_i(Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(map, :sec, 0)), to_i(Map.get(map, :usec, 0)))
+<a id='L278' name='L278'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(<em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, sec<em class='brace'>}</em>),
+<a id='L279' name='L279'></a>    <strong class='reserved'>do</strong>: <a href='../D/626.html' title='Multiple defined in 6 places.'>from_parts</a>(<a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(<a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>), to_i(<a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>), to_i(sec), 0)
+<a id='L280' name='L280'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(<em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a><em class='brace'>}</em>),
+<a id='L281' name='L281'></a>    <strong class='reserved'>do</strong>: <a href='../D/626.html' title='Multiple defined in 6 places.'>from_parts</a>(<a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(<a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>), to_i(<a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>), to_i(sec), to_i(<a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>))
+<a id='L282' name='L282'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(_),
+<a id='L283' name='L283'></a>    <strong class='reserved'>do</strong>: :error
+<a id='L284' name='L284'></a>
+<a id='L285' name='L285'></a>  @doc """
+<a id='L286' name='L286'></a>  Same as `cast/1` but raises on invalid times.
+<a id='L287' name='L287'></a>  """
+<a id='L288' name='L288'></a>  def cast!(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) <strong class='reserved'>do</strong>
+<a id='L289' name='L289'></a>    <strong class='reserved'>case</strong> <a href='../D/331.html' title='Multiple defined in 58 places.'>cast</a>(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) <strong class='reserved'>do</strong>
+<a id='L290' name='L290'></a>      <em class='brace'>{</em>:ok, <a href='../D/1100.html' title='Multiple defined in 3 places.'>time</a><em class='brace'>}</em> -&gt; time
+<a id='L291' name='L291'></a>      :error -&gt; raise ArgumentError, "cannot cast #{inspect value} to time"
+<a id='L292' name='L292'></a>    end
+<a id='L293' name='L293'></a>  end
+<a id='L294' name='L294'></a>
+<a id='L295' name='L295'></a>  defp <a href='../R/492.html' title='Multiple referred from 15 places.'>from_parts</a>(<a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>) when <a href='../S/87.html#L30' title='Defined at 30 in deps/ecto/lib/ecto/date_time.ex.'>is_time</a>(hour, min, sec, usec),
+<a id='L296' name='L296'></a>    <strong class='reserved'>do</strong>: <em class='brace'>{</em>:ok, %Ecto.Time<em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min, sec: sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>: usec<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L297' name='L297'></a>  defp <a href='../R/492.html' title='Multiple referred from 15 places.'>from_parts</a>(_, _, _, _),
+<a id='L298' name='L298'></a>    <strong class='reserved'>do</strong>: :error
+<a id='L299' name='L299'></a>
+<a id='L300' name='L300'></a>  @doc """
+<a id='L301' name='L301'></a>  Converts an `Ecto.Time` into a time tuple (in the form `<em class='brace'>{</em>hour, min, sec,
+<a id='L302' name='L302'></a>  usec<em class='brace'>}</em>`).
+<a id='L303' name='L303'></a>  """
+<a id='L304' name='L304'></a>  def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(%Ecto.Time<em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min, sec: sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>: usec<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L305' name='L305'></a>    <em class='brace'>{</em>:ok, <em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a><em class='brace'>}</em><em class='brace'>}</em>
+<a id='L306' name='L306'></a>  end
+<a id='L307' name='L307'></a>  def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(_), <strong class='reserved'>do</strong>: :error
+<a id='L308' name='L308'></a>
+<a id='L309' name='L309'></a>  @doc """
+<a id='L310' name='L310'></a>  Converts a time tuple like the one returned by `dump/1` into an `Ecto.Time`.
+<a id='L311' name='L311'></a>  """
+<a id='L312' name='L312'></a>  def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(<em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a><em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L313' name='L313'></a>    <em class='brace'>{</em>:ok, %Ecto.Time<em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min, sec: sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>: usec<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L314' name='L314'></a>  end
+<a id='L315' name='L315'></a>  def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(<em class='brace'>{</em>_, _, _<em class='brace'>}</em> = <a href='../D/1100.html' title='Multiple defined in 3 places.'>time</a>) <strong class='reserved'>do</strong>
+<a id='L316' name='L316'></a>    <em class='brace'>{</em>:ok, <a href='../D/625.html' title='Multiple defined in 3 places.'>from_erl</a>(<a href='../D/1100.html' title='Multiple defined in 3 places.'>time</a>)<em class='brace'>}</em>
+<a id='L317' name='L317'></a>  end
+<a id='L318' name='L318'></a>  def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(_), <strong class='reserved'>do</strong>: :error
+<a id='L319' name='L319'></a>
+<a id='L320' name='L320'></a>  @doc """
+<a id='L321' name='L321'></a>  Converts `Ecto.Time` to a string representation.
+<a id='L322' name='L322'></a>  """
+<a id='L323' name='L323'></a>  def <a href='../R/956.html' title='Multiple referred from 88 places.'>to_string</a>(%Ecto.Time<em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min, sec: sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>: usec<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L324' name='L324'></a>    str = <a href='../S/87.html#L7' title='Defined at 7 in deps/ecto/lib/ecto/date_time.ex.'>zero_pad</a>(<a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, 2) &lt;&gt; ":" &lt;&gt; zero_pad(<a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, 2) &lt;&gt; ":" &lt;&gt; zero_pad(sec, 2)
+<a id='L325' name='L325'></a>
+<a id='L326' name='L326'></a>    <strong class='reserved'>if</strong> <a href='../S/107.html#L100' title='Defined at 100 in deps/ecto/lib/ecto/query/api.ex.'>is_nil</a>(<a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>) or usec == 0 <strong class='reserved'>do</strong>
+<a id='L327' name='L327'></a>      str
+<a id='L328' name='L328'></a>    <strong class='reserved'>else</strong>
+<a id='L329' name='L329'></a>      str &lt;&gt; "." &lt;&gt; <a href='../S/87.html#L7' title='Defined at 7 in deps/ecto/lib/ecto/date_time.ex.'>zero_pad</a>(<a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>, 6)
+<a id='L330' name='L330'></a>    end
+<a id='L331' name='L331'></a>  end
+<a id='L332' name='L332'></a>
+<a id='L333' name='L333'></a>  @doc """
+<a id='L334' name='L334'></a>  Converts `Ecto.Time` to its ISO 8601 representation.
+<a id='L335' name='L335'></a>  """
+<a id='L336' name='L336'></a>  def <a href='../R/951.html' title='Multiple referred from 2 places.'>to_iso8601</a>(<a href='../D/1100.html' title='Multiple defined in 3 places.'>time</a>) <strong class='reserved'>do</strong>
+<a id='L337' name='L337'></a>    <a href='../D/1119.html' title='Multiple defined in 14 places.'>to_string</a>(<a href='../D/1100.html' title='Multiple defined in 3 places.'>time</a>)
+<a id='L338' name='L338'></a>  end
+<a id='L339' name='L339'></a>
+<a id='L340' name='L340'></a>  @doc """
+<a id='L341' name='L341'></a>  Returns an `Ecto.Time` in local time.
+<a id='L342' name='L342'></a>
+<a id='L343' name='L343'></a>  WARNING: The local time is often not always increasing due
+<a id='L344' name='L344'></a>  to DST changes, which can lead to bugs. Please prefer the
+<a id='L345' name='L345'></a>  `utc/1` function instead.
+<a id='L346' name='L346'></a>  """
+<a id='L347' name='L347'></a>  def <a href='../S/149.html#L24' title='Referred from 24 in deps/poolboy/src/poolboy.erl.'>local</a> <strong class='reserved'>do</strong>
+<a id='L348' name='L348'></a>    IO.write :stderr, "warning: Ecto.Time.local/0 is deprecated as it is unsafe. Use utc/0 instead." &lt;&gt;
+<a id='L349' name='L349'></a>                      Exception.format_stacktrace
+<a id='L350' name='L350'></a>
+<a id='L351' name='L351'></a>    <em class='brace'>{</em>_, <em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, sec<em class='brace'>}</em><em class='brace'>}</em> = :erlang.localtime
+<a id='L352' name='L352'></a>    %Ecto.Time<em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min, sec: sec<em class='brace'>}</em>
+<a id='L353' name='L353'></a>  end
+<a id='L354' name='L354'></a>
+<a id='L355' name='L355'></a>  @doc """
+<a id='L356' name='L356'></a>  Returns an `Ecto.Time` in UTC.
+<a id='L357' name='L357'></a>
+<a id='L358' name='L358'></a>  `precision` can be `:sec` or `:usec.`
+<a id='L359' name='L359'></a>  """
+<a id='L360' name='L360'></a>  def <a href='../R/1018.html' title='Multiple referred from 3 places.'>utc</a>(<a href='../D/884.html' title='Multiple defined in 4 places.'>precision</a> \\ :sec)
+<a id='L361' name='L361'></a>
+<a id='L362' name='L362'></a>  def <a href='../R/1018.html' title='Multiple referred from 3 places.'>utc</a>(:sec) <strong class='reserved'>do</strong>
+<a id='L363' name='L363'></a>    <em class='brace'>{</em>_, <em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, sec<em class='brace'>}</em><em class='brace'>}</em> = :erlang.universaltime
+<a id='L364' name='L364'></a>    %Ecto.Time<em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min, sec: sec<em class='brace'>}</em>
+<a id='L365' name='L365'></a>  end
+<a id='L366' name='L366'></a>
+<a id='L367' name='L367'></a>  def <a href='../R/1018.html' title='Multiple referred from 3 places.'>utc</a>(:usec) <strong class='reserved'>do</strong>
+<a id='L368' name='L368'></a>    now = <em class='brace'>{</em>_, _, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a><em class='brace'>}</em> = :os.<a href='../S/138.html#L56' title='Defined at 56 in deps/ecto/lib/mix/tasks/ecto.gen.migration.ex.'>timestamp</a>
+<a id='L369' name='L369'></a>    <em class='brace'>{</em>_date, <em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, sec<em class='brace'>}</em><em class='brace'>}</em> = :calendar.now_to_universal_time(now)
+<a id='L370' name='L370'></a>    %Ecto.Time<em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min, sec: sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>: usec<em class='brace'>}</em>
+<a id='L371' name='L371'></a>  end
+<a id='L372' name='L372'></a>
+<a id='L373' name='L373'></a>  @doc """
+<a id='L374' name='L374'></a>  Returns an Erlang time tuple from an `Ecto.Time`.
+<a id='L375' name='L375'></a>  """
+<a id='L376' name='L376'></a>  def to_erl(%Ecto.Time<em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min, sec: sec<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L377' name='L377'></a>    <em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, sec<em class='brace'>}</em>
+<a id='L378' name='L378'></a>  end
+<a id='L379' name='L379'></a>
+<a id='L380' name='L380'></a>  @doc """
+<a id='L381' name='L381'></a>  Returns an `Ecto.Time` from an Erlang time tuple.
+<a id='L382' name='L382'></a>  """
+<a id='L383' name='L383'></a>  def <a href='../R/491.html' title='Multiple referred from 3 places.'>from_erl</a>(<em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, sec<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L384' name='L384'></a>    %Ecto.Time<em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min, sec: sec<em class='brace'>}</em>
+<a id='L385' name='L385'></a>  end
+<a id='L386' name='L386'></a>end
+<a id='L387' name='L387'></a>
+<a id='L388' name='L388'></a>defmodule Ecto.DateTime <strong class='reserved'>do</strong>
+<a id='L389' name='L389'></a>  import Ecto.DateTime.Utils
+<a id='L390' name='L390'></a>
+<a id='L391' name='L391'></a>  @doc """
+<a id='L392' name='L392'></a>  Compare two datetimes.
+<a id='L393' name='L393'></a>
+<a id='L394' name='L394'></a>  Receives two datetimes and compares the `t1`
+<a id='L395' name='L395'></a>  against `t2` and returns `:lt`, `:eq` or `:gt`.
+<a id='L396' name='L396'></a>  """
+<a id='L397' name='L397'></a>  defdelegate <a href='../R/253.html' title='Multiple referred from 6 places.'>compare</a>(t1, t2), to: Ecto.DateTime.Utils
+<a id='L398' name='L398'></a>
+<a id='L399' name='L399'></a>  @moduledoc """
+<a id='L400' name='L400'></a>  An Ecto type that includes a date and a time.
+<a id='L401' name='L401'></a>  """
+<a id='L402' name='L402'></a>
+<a id='L403' name='L403'></a>  @behaviour Ecto.Type
+<a id='L404' name='L404'></a>  defstruct [:year, :month, :day, :hour, :min, :sec, usec: 0]
+<a id='L405' name='L405'></a>
+<a id='L406' name='L406'></a>  @doc """
+<a id='L407' name='L407'></a>  The Ecto primitive type.
+<a id='L408' name='L408'></a>  """
+<a id='L409' name='L409'></a>  def <a href='../R/981.html' title='Multiple referred from 375 places.'>type</a>, <strong class='reserved'>do</strong>: :datetime
+<a id='L410' name='L410'></a>
+<a id='L411' name='L411'></a>  @doc """
+<a id='L412' name='L412'></a>  Casts the given value to datetime.
+<a id='L413' name='L413'></a>
+<a id='L414' name='L414'></a>  It supports:
+<a id='L415' name='L415'></a>
+<a id='L416' name='L416'></a>    * a binary in the "YYYY-MM-DD HH:MM:DD" format
+<a id='L417' name='L417'></a>      (may be separated by T and/or followed by "Z", as in `2014-04-17T14:00:00Z`)
+<a id='L418' name='L418'></a>    * a binary in the "YYYY-MM-DD HH:MM:DD.USEC" format
+<a id='L419' name='L419'></a>      (may be separated by T and/or followed by "Z", as in `2014-04-17T14:00:00.030Z`)
+<a id='L420' name='L420'></a>    * a map with `"year"`, `"month"`,`"day"`, `"hour"`, `"min"` keys
+<a id='L421' name='L421'></a>      with `"sec"` and `"usec"` as optional keys and values are integers or binaries
+<a id='L422' name='L422'></a>    * a map with `:year`, `:month`,`:day`, `:hour`, `:min` keys
+<a id='L423' name='L423'></a>      with `:sec` and `:usec` as optional keys and values are integers or binaries
+<a id='L424' name='L424'></a>    * a tuple with `<em class='brace'>{</em><em class='brace'>{</em>year, month, day<em class='brace'>}</em>, <em class='brace'>{</em>hour, min, sec<em class='brace'>}</em><em class='brace'>}</em>` as integers or binaries
+<a id='L425' name='L425'></a>    * a tuple with `<em class='brace'>{</em><em class='brace'>{</em>year, month, day<em class='brace'>}</em>, <em class='brace'>{</em>hour, min, sec, usec<em class='brace'>}</em><em class='brace'>}</em>` as integers or binaries
+<a id='L426' name='L426'></a>    * an `Ecto.DateTime` <strong class='reserved'>struct</strong> itself
+<a id='L427' name='L427'></a>
+<a id='L428' name='L428'></a>  """
+<a id='L429' name='L429'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(&lt;&lt;<a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>::4-bytes, ?-, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>::2-bytes, ?-, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>::2-bytes, sep,
+<a id='L430' name='L430'></a>             <a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>::2-bytes, ?:, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>::2-bytes, ?:, sec::2-bytes, rest::<a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>&gt;&gt;) when sep in [?\s, ?T] <strong class='reserved'>do</strong>
+<a id='L431' name='L431'></a>    <strong class='reserved'>if</strong> <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a> = usec(rest) <strong class='reserved'>do</strong>
+<a id='L432' name='L432'></a>      <a href='../D/626.html' title='Multiple defined in 6 places.'>from_parts</a>(<a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(<a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>), to_i(<a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>), to_i(<a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>),
+<a id='L433' name='L433'></a>                 <a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(<a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>), to_i(<a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>), to_i(sec), <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>)
+<a id='L434' name='L434'></a>    <strong class='reserved'>else</strong>
+<a id='L435' name='L435'></a>      :error
+<a id='L436' name='L436'></a>    end
+<a id='L437' name='L437'></a>  end
+<a id='L438' name='L438'></a>
+<a id='L439' name='L439'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(%Ecto.DateTime<em class='brace'>{</em><em class='brace'>}</em> = dt) <strong class='reserved'>do</strong>
+<a id='L440' name='L440'></a>    <em class='brace'>{</em>:ok, dt<em class='brace'>}</em>
+<a id='L441' name='L441'></a>  end
+<a id='L442' name='L442'></a>
+<a id='L443' name='L443'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(%<em class='brace'>{</em>"year" =&gt; <a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>, "month" =&gt; <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, "day" =&gt; <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>, "hour" =&gt; <a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, "min" =&gt; <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a><em class='brace'>}</em> = map) <strong class='reserved'>do</strong>
+<a id='L444' name='L444'></a>    <a href='../D/626.html' title='Multiple defined in 6 places.'>from_parts</a>(<a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(<a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>), to_i(<a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>), to_i(<a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>),
+<a id='L445' name='L445'></a>               <a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(<a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>), to_i(<a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>), to_i(Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(map, "sec", 0)),
+<a id='L446' name='L446'></a>               <a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(map, "usec", 0)))
+<a id='L447' name='L447'></a>  end
+<a id='L448' name='L448'></a>
+<a id='L449' name='L449'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(%<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day, <a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min<em class='brace'>}</em> = map) <strong class='reserved'>do</strong>
+<a id='L450' name='L450'></a>    <a href='../D/626.html' title='Multiple defined in 6 places.'>from_parts</a>(<a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(<a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>), to_i(<a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>), to_i(<a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>),
+<a id='L451' name='L451'></a>               <a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(<a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>), to_i(<a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>), to_i(Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(map, :sec, 0)),
+<a id='L452' name='L452'></a>               <a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(map, :usec, 0)))
+<a id='L453' name='L453'></a>  end
+<a id='L454' name='L454'></a>
+<a id='L455' name='L455'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(<em class='brace'>{</em><em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a><em class='brace'>}</em>, <em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, sec<em class='brace'>}</em><em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L456' name='L456'></a>    <a href='../D/626.html' title='Multiple defined in 6 places.'>from_parts</a>(<a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(<a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>), to_i(<a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>), to_i(<a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>),
+<a id='L457' name='L457'></a>               <a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(<a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>), to_i(<a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>), to_i(sec), 0)
+<a id='L458' name='L458'></a>  end
+<a id='L459' name='L459'></a>
+<a id='L460' name='L460'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(<em class='brace'>{</em><em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a><em class='brace'>}</em>, <em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a><em class='brace'>}</em><em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L461' name='L461'></a>    <a href='../D/626.html' title='Multiple defined in 6 places.'>from_parts</a>(<a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(<a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>), to_i(<a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>), to_i(<a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>),
+<a id='L462' name='L462'></a>               <a href='../D/1112.html' title='Multiple defined in 3 places.'>to_i</a>(<a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>), to_i(<a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>), to_i(sec), to_i(<a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>))
+<a id='L463' name='L463'></a>  end
+<a id='L464' name='L464'></a>
+<a id='L465' name='L465'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(_) <strong class='reserved'>do</strong>
+<a id='L466' name='L466'></a>    :error
+<a id='L467' name='L467'></a>  end
+<a id='L468' name='L468'></a>
+<a id='L469' name='L469'></a>  @doc """
+<a id='L470' name='L470'></a>  Same as `cast/1` but raises on invalid datetimes.
+<a id='L471' name='L471'></a>  """
+<a id='L472' name='L472'></a>  def cast!(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) <strong class='reserved'>do</strong>
+<a id='L473' name='L473'></a>    <strong class='reserved'>case</strong> <a href='../D/331.html' title='Multiple defined in 58 places.'>cast</a>(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) <strong class='reserved'>do</strong>
+<a id='L474' name='L474'></a>      <em class='brace'>{</em>:ok, datetime<em class='brace'>}</em> -&gt; datetime
+<a id='L475' name='L475'></a>      :error -&gt; raise ArgumentError, "cannot cast #{inspect value} to datetime"
+<a id='L476' name='L476'></a>    end
+<a id='L477' name='L477'></a>  end
+<a id='L478' name='L478'></a>
+<a id='L479' name='L479'></a>  defp <a href='../R/492.html' title='Multiple referred from 15 places.'>from_parts</a>(<a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>, <a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>)
+<a id='L480' name='L480'></a>      when <a href='../S/87.html#L23' title='Defined at 23 in deps/ecto/lib/ecto/date_time.ex.'>is_date</a>(<a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>) and <a href='../S/87.html#L30' title='Defined at 30 in deps/ecto/lib/ecto/date_time.ex.'>is_time</a>(<a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>) <strong class='reserved'>do</strong>
+<a id='L481' name='L481'></a>    <em class='brace'>{</em>:ok, %Ecto.DateTime<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day, <a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min, sec: sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>: usec<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L482' name='L482'></a>  end
+<a id='L483' name='L483'></a>  defp <a href='../R/492.html' title='Multiple referred from 15 places.'>from_parts</a>(_, _, _, _, _, _, _), <strong class='reserved'>do</strong>: :error
+<a id='L484' name='L484'></a>
+<a id='L485' name='L485'></a>  @doc """
+<a id='L486' name='L486'></a>  Converts an `Ecto.DateTime` into a `<em class='brace'>{</em>date, time<em class='brace'>}</em>` tuple.
+<a id='L487' name='L487'></a>  """
+<a id='L488' name='L488'></a>  def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(%Ecto.DateTime<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day, <a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min, sec: sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>: usec<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L489' name='L489'></a>    <em class='brace'>{</em>:ok, <em class='brace'>{</em><em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a><em class='brace'>}</em>, <em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a><em class='brace'>}</em><em class='brace'>}</em><em class='brace'>}</em>
+<a id='L490' name='L490'></a>  end
+<a id='L491' name='L491'></a>  def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(_), <strong class='reserved'>do</strong>: :error
+<a id='L492' name='L492'></a>
+<a id='L493' name='L493'></a>  @doc """
+<a id='L494' name='L494'></a>  Converts a `<em class='brace'>{</em>date, time<em class='brace'>}</em>` tuple into an `Ecto.DateTime`.
+<a id='L495' name='L495'></a>  """
+<a id='L496' name='L496'></a>  def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(<em class='brace'>{</em><em class='brace'>{</em>_, _, _<em class='brace'>}</em>, <em class='brace'>{</em>_, _, _, _<em class='brace'>}</em><em class='brace'>}</em> = datetime) <strong class='reserved'>do</strong>
+<a id='L497' name='L497'></a>    <em class='brace'>{</em>:ok, <a href='../S/87.html#L625' title='Defined at 625 in deps/ecto/lib/ecto/date_time.ex.'>erl_load</a>(datetime)<em class='brace'>}</em>
+<a id='L498' name='L498'></a>  end
+<a id='L499' name='L499'></a>  def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(<em class='brace'>{</em><em class='brace'>{</em>_, _, _<em class='brace'>}</em>, <em class='brace'>{</em>_, _, _<em class='brace'>}</em><em class='brace'>}</em> = datetime) <strong class='reserved'>do</strong>
+<a id='L500' name='L500'></a>    <em class='brace'>{</em>:ok, <a href='../D/625.html' title='Multiple defined in 3 places.'>from_erl</a>(datetime)<em class='brace'>}</em>
+<a id='L501' name='L501'></a>  end
+<a id='L502' name='L502'></a>  def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(_), <strong class='reserved'>do</strong>: :error
+<a id='L503' name='L503'></a>
+<a id='L504' name='L504'></a>  @doc """
+<a id='L505' name='L505'></a>  Converts `Ecto.DateTime` into an `Ecto.Date`.
+<a id='L506' name='L506'></a>  """
+<a id='L507' name='L507'></a>  def to_date(%Ecto.DateTime<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L508' name='L508'></a>    %Ecto.Date<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day<em class='brace'>}</em>
+<a id='L509' name='L509'></a>  end
+<a id='L510' name='L510'></a>
+<a id='L511' name='L511'></a>  @doc """
+<a id='L512' name='L512'></a>  Converts `Ecto.DateTime` into an `Ecto.Time`.
+<a id='L513' name='L513'></a>  """
+<a id='L514' name='L514'></a>  def to_time(%Ecto.DateTime<em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min, sec: sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>: usec<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L515' name='L515'></a>    %Ecto.Time<em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min, sec: sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>: usec<em class='brace'>}</em>
+<a id='L516' name='L516'></a>  end
+<a id='L517' name='L517'></a>
+<a id='L518' name='L518'></a>  @doc """
+<a id='L519' name='L519'></a>  Converts the given `Ecto.Date` into `Ecto.DateTime` with the time being
+<a id='L520' name='L520'></a>  00:00:00.
+<a id='L521' name='L521'></a>  """
+<a id='L522' name='L522'></a>  def from_date(%Ecto.Date<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L523' name='L523'></a>    %Ecto.DateTime<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day,
+<a id='L524' name='L524'></a>      hour: 0, min: 0, sec: 0, usec: 0<em class='brace'>}</em>
+<a id='L525' name='L525'></a>  end
+<a id='L526' name='L526'></a>
+<a id='L527' name='L527'></a>  @doc """
+<a id='L528' name='L528'></a>  Converts the given `Ecto.Date` and `Ecto.Time` into `Ecto.DateTime`.
+<a id='L529' name='L529'></a>  """
+<a id='L530' name='L530'></a>  def from_date_and_time(%Ecto.Date<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day<em class='brace'>}</em>,
+<a id='L531' name='L531'></a>                         %Ecto.Time<em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min, sec: sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>: usec<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L532' name='L532'></a>    %Ecto.DateTime<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day,
+<a id='L533' name='L533'></a>                   <a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min, sec: sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>: usec<em class='brace'>}</em>
+<a id='L534' name='L534'></a>  end
+<a id='L535' name='L535'></a>
+<a id='L536' name='L536'></a>  @doc """
+<a id='L537' name='L537'></a>  Converts `Ecto.DateTime` to its string representation.
+<a id='L538' name='L538'></a>  """
+<a id='L539' name='L539'></a>  def <a href='../R/956.html' title='Multiple referred from 88 places.'>to_string</a>(%Ecto.DateTime<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day, <a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min, sec: sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>: usec<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L540' name='L540'></a>    str = <a href='../S/87.html#L7' title='Defined at 7 in deps/ecto/lib/ecto/date_time.ex.'>zero_pad</a>(<a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>, 4) &lt;&gt; "-" &lt;&gt; zero_pad(<a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, 2) &lt;&gt; "-" &lt;&gt; zero_pad(<a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>, 2) &lt;&gt; " " &lt;&gt;
+<a id='L541' name='L541'></a>          <a href='../S/87.html#L7' title='Defined at 7 in deps/ecto/lib/ecto/date_time.ex.'>zero_pad</a>(<a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, 2) &lt;&gt; ":" &lt;&gt; zero_pad(<a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, 2) &lt;&gt; ":" &lt;&gt; zero_pad(sec, 2)
+<a id='L542' name='L542'></a>
+<a id='L543' name='L543'></a>    <strong class='reserved'>if</strong> <a href='../S/107.html#L100' title='Defined at 100 in deps/ecto/lib/ecto/query/api.ex.'>is_nil</a>(<a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>) or usec == 0 <strong class='reserved'>do</strong>
+<a id='L544' name='L544'></a>      str
+<a id='L545' name='L545'></a>    <strong class='reserved'>else</strong>
+<a id='L546' name='L546'></a>      str &lt;&gt; "." &lt;&gt; <a href='../S/87.html#L7' title='Defined at 7 in deps/ecto/lib/ecto/date_time.ex.'>zero_pad</a>(<a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>, 6)
+<a id='L547' name='L547'></a>    end
+<a id='L548' name='L548'></a>  end
+<a id='L549' name='L549'></a>
+<a id='L550' name='L550'></a>  @doc """
+<a id='L551' name='L551'></a>  Converts `Ecto.DateTime` to its ISO 8601 UTC representation <strong class='reserved'>if</strong> the
+<a id='L552' name='L552'></a>  `Ecto.DateTime` is UTC.
+<a id='L553' name='L553'></a>
+<a id='L554' name='L554'></a>  WARNING: This will produce an incorrect result unless the datetime is UTC!
+<a id='L555' name='L555'></a>  Make sure that the datetime is UTC. `inserted_at` and `updated_at` fields
+<a id='L556' name='L556'></a>  populated by the Ecto `timestamps` feature are UTC. But other `Ecto.DateTime`
+<a id='L557' name='L557'></a>  fields are not always UTC.
+<a id='L558' name='L558'></a>  """
+<a id='L559' name='L559'></a>  def <a href='../R/951.html' title='Multiple referred from 2 places.'>to_iso8601</a>(%Ecto.DateTime<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day,
+<a id='L560' name='L560'></a>                                <a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min, sec: sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>: usec<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L561' name='L561'></a>    str = <a href='../S/87.html#L7' title='Defined at 7 in deps/ecto/lib/ecto/date_time.ex.'>zero_pad</a>(<a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>, 4) &lt;&gt; "-" &lt;&gt; zero_pad(<a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, 2) &lt;&gt; "-" &lt;&gt; zero_pad(<a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>, 2) &lt;&gt; "T" &lt;&gt;
+<a id='L562' name='L562'></a>          <a href='../S/87.html#L7' title='Defined at 7 in deps/ecto/lib/ecto/date_time.ex.'>zero_pad</a>(<a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, 2) &lt;&gt; ":" &lt;&gt; zero_pad(<a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, 2) &lt;&gt; ":" &lt;&gt; zero_pad(sec, 2)
+<a id='L563' name='L563'></a>
+<a id='L564' name='L564'></a>    <strong class='reserved'>if</strong> <a href='../S/107.html#L100' title='Defined at 100 in deps/ecto/lib/ecto/query/api.ex.'>is_nil</a>(<a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>) or usec == 0 <strong class='reserved'>do</strong>
+<a id='L565' name='L565'></a>      str &lt;&gt; "Z"
+<a id='L566' name='L566'></a>    <strong class='reserved'>else</strong>
+<a id='L567' name='L567'></a>      str &lt;&gt; "." &lt;&gt; <a href='../S/87.html#L7' title='Defined at 7 in deps/ecto/lib/ecto/date_time.ex.'>zero_pad</a>(<a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>, 6) &lt;&gt; "Z"
+<a id='L568' name='L568'></a>    end
+<a id='L569' name='L569'></a>  end
+<a id='L570' name='L570'></a>
+<a id='L571' name='L571'></a>  @doc """
+<a id='L572' name='L572'></a>  Returns an `Ecto.DateTime` in local time.
+<a id='L573' name='L573'></a>
+<a id='L574' name='L574'></a>  WARNING: Using the local time of the server will often lead to
+<a id='L575' name='L575'></a>  intermittent bugs.
+<a id='L576' name='L576'></a>
+<a id='L577' name='L577'></a>  This function only exists <strong class='reserved'>for</strong> legacy purposes. It is recommended to not
+<a id='L578' name='L578'></a>  use this function. Please use the `utc/1` function instead.
+<a id='L579' name='L579'></a>  """
+<a id='L580' name='L580'></a>  def <a href='../S/149.html#L24' title='Referred from 24 in deps/poolboy/src/poolboy.erl.'>local</a> <strong class='reserved'>do</strong>
+<a id='L581' name='L581'></a>    IO.write :stderr, "warning: Ecto.DateTime.local/0 is deprecated as it is unsafe. Use utc/0 instead." &lt;&gt;
+<a id='L582' name='L582'></a>                      Exception.format_stacktrace
+<a id='L583' name='L583'></a>    <a href='../D/625.html' title='Multiple defined in 3 places.'>from_erl</a>(:erlang.localtime)
+<a id='L584' name='L584'></a>  end
+<a id='L585' name='L585'></a>
+<a id='L586' name='L586'></a>  @doc """
+<a id='L587' name='L587'></a>  Returns an `Ecto.DateTime` in UTC.
+<a id='L588' name='L588'></a>
+<a id='L589' name='L589'></a>  `precision` can be `:sec` or `:usec`.
+<a id='L590' name='L590'></a>  """
+<a id='L591' name='L591'></a>  def <a href='../R/1018.html' title='Multiple referred from 3 places.'>utc</a>(<a href='../D/884.html' title='Multiple defined in 4 places.'>precision</a> \\ :sec) <strong class='reserved'>do</strong>
+<a id='L592' name='L592'></a>    <a href='../S/87.html#L625' title='Defined at 625 in deps/ecto/lib/ecto/date_time.ex.'>erl_load</a>(<a href='../D/280.html' title='Multiple defined in 6 places.'>autogenerate</a>(<a href='../D/884.html' title='Multiple defined in 4 places.'>precision</a>))
+<a id='L593' name='L593'></a>  end
+<a id='L594' name='L594'></a>
+<a id='L595' name='L595'></a>  @doc """
+<a id='L596' name='L596'></a>  Returns an Erlang datetime tuple from an `Ecto.DateTime`.
+<a id='L597' name='L597'></a>  """
+<a id='L598' name='L598'></a>  def to_erl(%Ecto.DateTime<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day, <a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min, sec: sec<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L599' name='L599'></a>    <em class='brace'>{</em><em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a><em class='brace'>}</em>, <em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, sec<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L600' name='L600'></a>  end
+<a id='L601' name='L601'></a>
+<a id='L602' name='L602'></a>  @doc """
+<a id='L603' name='L603'></a>  Returns an `Ecto.DateTime` from an Erlang datetime tuple.
+<a id='L604' name='L604'></a>  """
+<a id='L605' name='L605'></a>  def <a href='../R/491.html' title='Multiple referred from 3 places.'>from_erl</a>(<em class='brace'>{</em><em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a><em class='brace'>}</em>, <em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, sec<em class='brace'>}</em><em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L606' name='L606'></a>    %Ecto.DateTime<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day,
+<a id='L607' name='L607'></a>                   <a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min, sec: sec<em class='brace'>}</em>
+<a id='L608' name='L608'></a>  end
+<a id='L609' name='L609'></a>
+<a id='L610' name='L610'></a>  # Callback invoked by autogenerate in schema.
+<a id='L611' name='L611'></a>  @doc false
+<a id='L612' name='L612'></a>  def <a href='../R/165.html' title='Multiple referred from 2 places.'>autogenerate</a>(<a href='../D/884.html' title='Multiple defined in 4 places.'>precision</a> \\ :sec)
+<a id='L613' name='L613'></a>
+<a id='L614' name='L614'></a>  def <a href='../R/165.html' title='Multiple referred from 2 places.'>autogenerate</a>(:sec) <strong class='reserved'>do</strong>
+<a id='L615' name='L615'></a>    <em class='brace'>{</em>date, <em class='brace'>{</em>h, m, s<em class='brace'>}</em><em class='brace'>}</em> = :erlang.universaltime
+<a id='L616' name='L616'></a>    <em class='brace'>{</em>date, <em class='brace'>{</em>h, m, s, 0<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L617' name='L617'></a>  end
+<a id='L618' name='L618'></a>
+<a id='L619' name='L619'></a>  def <a href='../R/165.html' title='Multiple referred from 2 places.'>autogenerate</a>(:usec) <strong class='reserved'>do</strong>
+<a id='L620' name='L620'></a>    <a href='../S/138.html#L56' title='Defined at 56 in deps/ecto/lib/mix/tasks/ecto.gen.migration.ex.'>timestamp</a> = <em class='brace'>{</em>_, _, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a><em class='brace'>}</em> = :os.timestamp
+<a id='L621' name='L621'></a>    <em class='brace'>{</em>date, <em class='brace'>{</em>h, m, s<em class='brace'>}</em><em class='brace'>}</em> =:calendar.now_to_datetime(<a href='../S/138.html#L56' title='Defined at 56 in deps/ecto/lib/mix/tasks/ecto.gen.migration.ex.'>timestamp</a>)
+<a id='L622' name='L622'></a>    <em class='brace'>{</em>date, <em class='brace'>{</em>h, m, s, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a><em class='brace'>}</em><em class='brace'>}</em>
+<a id='L623' name='L623'></a>  end
+<a id='L624' name='L624'></a>
+<a id='L625' name='L625'></a>  defp <a href='../R/431.html' title='Multiple referred from 2 places.'>erl_load</a>(<em class='brace'>{</em><em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a><em class='brace'>}</em>, <em class='brace'>{</em><a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>, sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a><em class='brace'>}</em><em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L626' name='L626'></a>    %Ecto.DateTime<em class='brace'>{</em><a href='../D/1213.html' title='Multiple defined in 2 places.'>year</a>: year, <a href='../D/794.html' title='Multiple defined in 2 places.'>month</a>: month, <a href='../D/410.html' title='Multiple defined in 2 places.'>day</a>: day,
+<a id='L627' name='L627'></a>                   <a href='../D/676.html' title='Multiple defined in 2 places.'>hour</a>: hour, <a href='../D/779.html' title='Multiple defined in 4 places.'>min</a>: min, sec: sec, <a href='../D/1182.html' title='Multiple defined in 4 places.'>usec</a>: usec<em class='brace'>}</em>
+<a id='L628' name='L628'></a>  end
+<a id='L629' name='L629'></a>end
+<a id='L630' name='L630'></a>
+<a id='L631' name='L631'></a>defimpl String.Chars, <strong class='reserved'>for</strong>: [Ecto.DateTime, Ecto.Date, Ecto.Time] <strong class='reserved'>do</strong>
+<a id='L632' name='L632'></a>  def <a href='../R/956.html' title='Multiple referred from 88 places.'>to_string</a>(dt) <strong class='reserved'>do</strong>
+<a id='L633' name='L633'></a>    @<strong class='reserved'>for</strong>.<a href='../D/1119.html' title='Multiple defined in 14 places.'>to_string</a>(dt)
+<a id='L634' name='L634'></a>  end
+<a id='L635' name='L635'></a>end
+<a id='L636' name='L636'></a>
+<a id='L637' name='L637'></a>defimpl Inspect, <strong class='reserved'>for</strong>: [Ecto.DateTime, Ecto.Date, Ecto.Time] <strong class='reserved'>do</strong>
+<a id='L638' name='L638'></a>  @inspected <a href='../D/696.html' title='Multiple defined in 5 places.'>inspect</a>(@<strong class='reserved'>for</strong>)
+<a id='L639' name='L639'></a>
+<a id='L640' name='L640'></a>  def <a href='../R/559.html' title='Multiple referred from 222 places.'>inspect</a>(dt, _opts) <strong class='reserved'>do</strong>
+<a id='L641' name='L641'></a>    "#" &lt;&gt; @inspected &lt;&gt; "&lt;" &lt;&gt; @<strong class='reserved'>for</strong>.<a href='../D/1114.html' title='Multiple defined in 3 places.'>to_iso8601</a>(dt) &lt;&gt; "&gt;"
+<a id='L642' name='L642'></a>  end
+<a id='L643' name='L643'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L7'>[^]</a><a href='#L640'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

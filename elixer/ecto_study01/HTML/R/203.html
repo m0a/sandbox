@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>call</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/44.html#L911'>call</a>              911 deps/db_connection/lib/db_connection.ex   defp execute(conn, call, callback, query, params, opts) do</span>
+<span class='curline'><a href='../S/44.html#L916'>call</a>              916 deps/db_connection/lib/db_connection.ex         decode_log(call, query, params, meter, ok)</span>
+<span class='curline'><a href='../S/44.html#L918'>call</a>              918 deps/db_connection/lib/db_connection.ex         log(call, query, params, meter, error)</span>
+<span class='curline'><a href='../S/44.html#L975'>call</a>              975 deps/db_connection/lib/db_connection.ex   defp decode_log(call, query, params, {log, times}, result) do</span>
+<span class='curline'><a href='../S/44.html#L976'>call</a>              976 deps/db_connection/lib/db_connection.ex    log(call, query, params, log, [decode: time()] ++ times, result)</span>
+<span class='curline'><a href='../S/44.html#L981'>call</a>              981 deps/db_connection/lib/db_connection.ex     call = transaction_call(callback)</span>
+<span class='curline'><a href='../S/44.html#L983'>call</a>              983 deps/db_connection/lib/db_connection.ex     log(:transaction, call, nil, log, times, result)</span>
+<span class='curline'><a href='../S/44.html#L994'>call</a>              994 deps/db_connection/lib/db_connection.ex   defp log(call, query, params, {log, times}, result) do</span>
+<span class='curline'><a href='../S/44.html#L995'>call</a>              995 deps/db_connection/lib/db_connection.ex     log(call, query, params, log, times, result)</span>
+<span class='curline'><a href='../S/44.html#L998'>call</a>              998 deps/db_connection/lib/db_connection.ex   defp log(call, query, params, log, times, result) do</span>
+<span class='curline'><a href='../S/44.html#L999'>call</a>              999 deps/db_connection/lib/db_connection.ex     entry = DBConnection.LogEntry.new(call, query, params, times, result)</span>
+<span class='curline'><a href='../S/23.html#L39'>call</a>               39 deps/db_connection/lib/db_connection/connection.ex       Connection.call(pool, {:checkout, ref, queue?, timeout}, pool_timeout)</span>
+<span class='curline'><a href='../S/23.html#L373'>call</a>              373 deps/db_connection/lib/db_connection/connection.ex     case Connection.call(pid, {:stop, ref, reason, state}, timeout) do</span>
+<span class='curline'><a href='../S/25.html#L32'>call</a>               32 deps/db_connection/lib/db_connection/log_entry.ex   def new(call, query, params, times, result) do</span>
+<span class='curline'><a href='../S/25.html#L33'>call</a>               33 deps/db_connection/lib/db_connection/log_entry.ex     entry = %__MODULE__{call: call, query: query, params: params,</span>
+<span class='curline'><a href='../S/26.html#L23'>call</a>               23 deps/db_connection/lib/db_connection/ownership/manager.ex     GenServer.call(manager, {:checkout, opts}, timeout)</span>
+<span class='curline'><a href='../S/26.html#L30'>call</a>               30 deps/db_connection/lib/db_connection/ownership/manager.ex     GenServer.call(manager, :checkin, timeout)</span>
+<span class='curline'><a href='../S/26.html#L39'>call</a>               39 deps/db_connection/lib/db_connection/ownership/manager.ex     GenServer.call(manager, {:mode, mode}, timeout)</span>
+<span class='curline'><a href='../S/26.html#L46'>call</a>               46 deps/db_connection/lib/db_connection/ownership/manager.ex     GenServer.call(manager, {:allow, parent, allow}, timeout)</span>
+<span class='curline'><a href='../S/26.html#L65'>call</a>               65 deps/db_connection/lib/db_connection/ownership/manager.ex     GenServer.call(manager, {:lookup, opts}, timeout)</span>
+<span class='curline'><a href='../S/27.html#L13'>call</a>               13 deps/db_connection/lib/db_connection/ownership/owner.ex     case GenServer.call(owner, :init, :infinity) do</span>
+<span class='curline'><a href='../S/27.html#L26'>call</a>               26 deps/db_connection/lib/db_connection/ownership/owner.ex       GenServer.call(pool, {:checkout, ref, queue?, timeout}, pool_timeout)</span>
+<span class='curline'><a href='../S/80.html#L57'>call</a>               57 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     GenServer.call(pool, :mode, timeout)</span>
+<span class='curline'><a href='../S/80.html#L82'>call</a>               82 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     GenServer.call(pool, {:break, ref}, timeout)</span>
+<span class='curline'><a href='../S/80.html#L227'>call</a>              227 deps/ecto/lib/ecto/adapters/sql/sandbox.ex       GenServer.call(pool, {:checkout, ref, fun}, timeout)</span>
+<span class='curline'><a href='../S/80.html#L238'>call</a>              238 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     GenServer.call(pool, {:query, query, log, opts}, timeout)</span>
+<span class='curline'><a href='../S/101.html#L19'>call</a>               19 deps/ecto/lib/ecto/pools/poolboy/worker.ex     GenServer.call(worker, {:checkout, fun}, timeout)</span>
+<span class='curline'><a href='../S/101.html#L29'>call</a>               29 deps/ecto/lib/ecto/pools/poolboy/worker.ex     GenServer.call(worker, :break, timeout)</span>
+<span class='curline'><a href='../S/105.html#L20'>call</a>               20 deps/ecto/lib/ecto/pools/sojourn_broker/worker.ex     GenServer.call(worker, {:mod_conn, ref}, timeout)</span>
+<span class='curline'><a href='../S/149.html#L55'>call</a>               55 deps/poolboy/src/poolboy.erl         gen_server:call(Pool, {checkout, CRef, Block}, Timeout)</span>
+<span class='curline'><a href='../S/149.html#L119'>call</a>              119 deps/poolboy/src/poolboy.erl     gen_server:call(Pool, stop).</span>
+<span class='curline'><a href='../S/149.html#L123'>call</a>              123 deps/poolboy/src/poolboy.erl     gen_server:call(Pool, status).</span>
+<span class='curline'><a href='../S/188.html#L43'>call</a>               43 deps/postgrex/lib/postgrex/notifications.ex     Connection.call(pid, message, timeout)</span>
+<span class='curline'><a href='../S/188.html#L67'>call</a>               67 deps/postgrex/lib/postgrex/notifications.ex     case Connection.call(pid, message, timeout) do</span>
+<span class='curline'><a href='../S/189.html#L15'>call</a>               15 deps/postgrex/lib/postgrex/parameters.ex     GenServer.call(__MODULE__, {:insert, parameters})</span>
+<span class='curline'><a href='../S/194.html#L27'>call</a>               27 deps/postgrex/lib/postgrex/type_server.ex     GenServer.call(@name, {:fetch, key}, 60_000)</span>
+<span class='curline'><a href='../S/194.html#L35'>call</a>               35 deps/postgrex/lib/postgrex/type_server.ex     GenServer.call(@name, {:unlock, ref})</span>
+</pre>
+</body>
+</html>

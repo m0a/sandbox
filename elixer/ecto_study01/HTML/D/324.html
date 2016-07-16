@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>call_type</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/119.html#L287'>call_type</a>         287 deps/ecto/lib/ecto/query/builder.ex defp call_type(agg, 1) when agg in ~w(max count sum min avg)a, do: {:any, :any}</span>
+<span class='curline'><a href='../S/119.html#L288'>call_type</a>         288 deps/ecto/lib/ecto/query/builder.ex defp call_type(agg, 2) when agg in @distinct, do: {:any, :any}</span>
+<span class='curline'><a href='../S/119.html#L289'>call_type</a>         289 deps/ecto/lib/ecto/query/builder.ex defp call_type(comp, 2) when comp in ~w(== != &lt; &gt; &lt;= &gt;=)a, do: {:any, :boolean}</span>
+<span class='curline'><a href='../S/119.html#L290'>call_type</a>         290 deps/ecto/lib/ecto/query/builder.ex defp call_type(like, 2) when like in ~w(like ilike)a, do: {:string, :boolean}</span>
+<span class='curline'><a href='../S/119.html#L291'>call_type</a>         291 deps/ecto/lib/ecto/query/builder.ex defp call_type(bool, 2) when bool in ~w(and or)a, do: {:boolean, :boolean}</span>
+<span class='curline'><a href='../S/119.html#L292'>call_type</a>         292 deps/ecto/lib/ecto/query/builder.ex defp call_type(:not, 1), do: {:boolean, :boolean}</span>
+<span class='curline'><a href='../S/119.html#L293'>call_type</a>         293 deps/ecto/lib/ecto/query/builder.ex defp call_type(:is_nil, 1), do: {:any, :boolean}</span>
+<span class='curline'><a href='../S/119.html#L294'>call_type</a>         294 deps/ecto/lib/ecto/query/builder.ex defp call_type(_, _), do: nil</span>
+</pre>
+</body>
+</html>

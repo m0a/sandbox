@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>reduce</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/25.html#L41'>reduce</a>             41 deps/db_connection/lib/db_connection/log_entry.ex     {_, entry} = Enum.reduce(times, {first, entry}, &amp;parse_time/2)</span>
+<span class='curline'><a href='../S/47.html#L631'>reduce</a>            631 deps/decimal/lib/decimal.ex   @spec reduce(t) :: t</span>
+<span class='curline'><a href='../S/47.html#L674'>reduce</a>            674 deps/decimal/lib/decimal.ex     %Decimal{sign: sign, coef: coef, exp: exp} = reduce(num)</span>
+<span class='curline'><a href='../S/47.html#L1067'>reduce</a>           1067 deps/decimal/lib/decimal.ex     Enum.reduce(elems, list, &amp;put_uniq(&amp;2, &amp;1))</span>
+<span class='curline'><a href='../S/47.html#L1152'>reduce</a>           1152 deps/decimal/lib/decimal.ex     flags = Enum.reduce(signals, context.flags, &amp;put_uniq(&amp;2, &amp;1))</span>
+<span class='curline'><a href='../S/83.html#L467'>reduce</a>            467 deps/ecto/lib/ecto/association.ex     Enum.reduce(through, {query, counter}, fn current, {acc, counter} -&gt;</span>
+<span class='curline'><a href='../S/85.html#L248'>reduce</a>            248 deps/ecto/lib/ecto/changeset.ex     Enum.reduce(new_changes, {old_changes, errors, valid?}, fn</span>
+<span class='curline'><a href='../S/85.html#L497'>reduce</a>            497 deps/ecto/lib/ecto/changeset.ex     Enum.reduce(params, nil, fn</span>
+<span class='curline'><a href='../S/85.html#L1804'>reduce</a>           1804 deps/ecto/lib/ecto/changeset.ex     Enum.reduce(errors, %{}, fn({key, val}, acc) -&gt;</span>
+<span class='curline'><a href='../S/85.html#L1811'>reduce</a>           1811 deps/ecto/lib/ecto/changeset.ex     Enum.reduce types, map, fn</span>
+<span class='curline'><a href='../S/84.html#L61'>reduce</a>             61 deps/ecto/lib/ecto/changeset/relation.ex       Enum.reduce(related, {model, changes, true}, fn {field, changeset}, acc -&gt;</span>
+<span class='curline'><a href='../S/84.html#L224'>reduce</a>            224 deps/ecto/lib/ecto/changeset/relation.ex       Enum.reduce(embeds ++ assocs, Map.take(struct, fields), fn field, acc -&gt;</span>
+<span class='curline'><a href='../S/88.html#L55'>reduce</a>             55 deps/ecto/lib/ecto/embedded.ex       Enum.reduce(embeds, changes, fn name, changes -&gt;</span>
+<span class='curline'><a href='../S/88.html#L68'>reduce</a>             68 deps/ecto/lib/ecto/embedded.ex     Enum.reduce(embeds, changeset, fn field, acc -&gt;</span>
+<span class='curline'><a href='../S/88.html#L149'>reduce</a>            149 deps/ecto/lib/ecto/embedded.ex       Enum.reduce model.__schema__(:autogenerate, action), changes,</span>
+<span class='curline'><a href='../S/96.html#L20'>reduce</a>             20 deps/ecto/lib/ecto/model/callbacks.ex       body = Enum.reduce Enum.reverse(callbacks),</span>
+<span class='curline'><a href='../S/109.html#L82'>reduce</a>             82 deps/ecto/lib/ecto/query/builder/filter.ex     expr = Enum.reduce parts, &amp;{:{}, [], [:and, [], [&amp;2, &amp;1]]}</span>
+<span class='curline'><a href='../S/109.html#L99'>reduce</a>             99 deps/ecto/lib/ecto/query/builder/filter.ex     {Enum.reduce(parts, &amp;{:and, [], [&amp;2, &amp;1]}), params}</span>
+<span class='curline'><a href='../S/116.html#L54'>reduce</a>             54 deps/ecto/lib/ecto/query/builder/preload.ex     Enum.reduce list, {preloads, assocs}, fn item, acc -&gt;</span>
+<span class='curline'><a href='../S/121.html#L177'>reduce</a>            177 deps/ecto/lib/ecto/query/planner.ex     Enum.reduce expr.params, {params, true}, fn</span>
+<span class='curline'><a href='../S/121.html#L423'>reduce</a>            423 deps/ecto/lib/ecto/query/planner.ex       Enum.reduce(exprs, {[], counter}, fn</span>
+<span class='curline'><a href='../S/121.html#L657'>reduce</a>            657 deps/ecto/lib/ecto/query/planner.ex       Enum.reduce(updates, %{}, fn update, acc -&gt;</span>
+<span class='curline'><a href='../S/121.html#L658'>reduce</a>            658 deps/ecto/lib/ecto/query/planner.ex         Enum.reduce(update.expr, acc, fn {_op, kw}, acc -&gt;</span>
+<span class='curline'><a href='../S/121.html#L659'>reduce</a>            659 deps/ecto/lib/ecto/query/planner.ex           Enum.reduce(kw, acc, fn {k, v}, acc -&gt;</span>
+<span class='curline'><a href='../S/124.html#L27'>reduce</a>             27 deps/ecto/lib/ecto/repo/assoc.ex     {_keys, rows, sub_dicts} = Enum.reduce(rows, accs, fn row, acc -&gt;</span>
+<span class='curline'><a href='../S/124.html#L72'>reduce</a>             72 deps/ecto/lib/ecto/repo/assoc.ex     Enum.reduce :lists.zip(sub_dicts, refls), struct, fn</span>
+<span class='curline'><a href='../S/125.html#L70'>reduce</a>             70 deps/ecto/lib/ecto/repo/preloader.ex       Enum.reduce entries, struct, fn {kind, assoc, data}, acc -&gt;</span>
+<span class='curline'><a href='../S/125.html#L140'>reduce</a>            140 deps/ecto/lib/ecto/repo/preloader.ex     Enum.reduce structs, HashDict.new, fn x, acc -&gt;</span>
+<span class='curline'><a href='../S/125.html#L176'>reduce</a>            176 deps/ecto/lib/ecto/repo/preloader.ex     loaded  = Enum.reduce(t, initial, &amp;recur_through/2)</span>
+<span class='curline'><a href='../S/125.html#L186'>reduce</a>            186 deps/ecto/lib/ecto/repo/preloader.ex     Enum.reduce(structs, {[], HashSet.new}, fn struct, acc -&gt;</span>
+<span class='curline'><a href='../S/125.html#L189'>reduce</a>            189 deps/ecto/lib/ecto/repo/preloader.ex       Enum.reduce children, acc, fn child, {fresh, set} -&gt;</span>
+<span class='curline'><a href='../S/125.html#L229'>reduce</a>            229 deps/ecto/lib/ecto/repo/preloader.ex     Enum.reduce(wrap(other, original), acc, &amp;normalize_each(&amp;1, &amp;2, assocs, original))</span>
+<span class='curline'><a href='../S/125.html#L252'>reduce</a>            252 deps/ecto/lib/ecto/repo/preloader.ex     Enum.reduce(preloads, acc, fn {preload, sub_preloads}, acc -&gt;</span>
+<span class='curline'><a href='../S/125.html#L268'>reduce</a>            268 deps/ecto/lib/ecto/repo/preloader.ex                 |&gt; Enum.reduce(sub_preloads, &amp;{nil, [{&amp;1, &amp;2}]})</span>
+<span class='curline'><a href='../S/126.html#L161'>reduce</a>            161 deps/ecto/lib/ecto/repo/queryable.ex     Enum.reduce pairs, {%{}, values}, fn({key, value}, {map, values_acc}) -&gt;</span>
+<span class='curline'><a href='../S/127.html#L276'>reduce</a>            276 deps/ecto/lib/ecto/repo/schema.ex     Enum.reduce(Enum.reverse(prepare), changeset, fn fun, acc -&gt;</span>
+<span class='curline'><a href='../S/127.html#L308'>reduce</a>            308 deps/ecto/lib/ecto/repo/schema.ex     Enum.reduce constraints, changeset, fn {type, constraint}, acc -&gt;</span>
+<span class='curline'><a href='../S/127.html#L336'>reduce</a>            336 deps/ecto/lib/ecto/repo/schema.ex     Enum.reduce(kv, struct, fn</span>
+<span class='curline'><a href='../S/127.html#L356'>reduce</a>            356 deps/ecto/lib/ecto/repo/schema.ex       Enum.reduce embeds, Map.take(struct, fields), fn field, acc -&gt;</span>
+<span class='curline'><a href='../S/127.html#L454'>reduce</a>            454 deps/ecto/lib/ecto/repo/schema.ex     Enum.reduce model.__schema__(:autogenerate, action), {changes, []},</span>
+<span class='curline'><a href='../S/127.html#L464'>reduce</a>            464 deps/ecto/lib/ecto/repo/schema.ex     Enum.reduce Ecto.primary_key!(struct), filters, fn</span>
+<span class='curline'><a href='../S/130.html#L964'>reduce</a>            964 deps/ecto/lib/ecto/schema.ex     Enum.reduce(fields, struct, fn</span>
+<span class='curline'><a href='../S/130.html#L972'>reduce</a>            972 deps/ecto/lib/ecto/schema.ex     Enum.reduce(fields, {struct, list}, fn</span>
+<span class='curline'><a href='../S/132.html#L381'>reduce</a>            381 deps/ecto/lib/ecto/type.ex     Enum.reduce(types, %{}, fn {field, type}, acc -&gt;</span>
+<span class='curline'><a href='../S/163.html#L37'>reduce</a>             37 deps/postgrex/lib/postgrex/extensions/array.ex     rest = Enum.reduce(tail, [], fn sublist, acc -&gt;</span>
+<span class='curline'><a href='../S/168.html#L18'>reduce</a>             18 deps/postgrex/lib/postgrex/extensions/hstore.ex     keys_and_values = Enum.reduce hstore_map, "", fn ({key, value}, acc) -&gt;</span>
+<span class='curline'><a href='../S/187.html#L181'>reduce</a>            181 deps/postgrex/lib/postgrex/messages.ex     params = Enum.reduce(params, [], fn {key, value}, acc -&gt;</span>
+<span class='curline'><a href='../S/190.html#L1045'>reduce</a>           1045 deps/postgrex/lib/postgrex/protocol.ex     binaries = Enum.reduce(msgs, [], &amp;[&amp;2 | encode_msg(&amp;1)])</span>
+<span class='curline'><a href='../S/195.html#L64'>reduce</a>             64 deps/postgrex/lib/postgrex/types.ex       Enum.reduce(extensions, map, fn extension, map -&gt;</span>
+<span class='curline'><a href='../S/195.html#L66'>reduce</a>             66 deps/postgrex/lib/postgrex/types.ex         Enum.reduce(extension.matching(opts), map, fn {key, value}, map -&gt;</span>
+</pre>
+</body>
+</html>

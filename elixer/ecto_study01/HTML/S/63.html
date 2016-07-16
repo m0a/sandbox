@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/integration_test/sql/transaction.exs</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/228.html'>integration_test</a>/<a href='../files/230.html'>sql</a>/transaction.exs</h2>
+<em class='comment'>/* [&lt;][&gt;][^][v][top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Integration.TransactionTest <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  # We can keep this test async as <strong class='reserved'>long</strong> as it
+<a id='L3' name='L3'></a>  # is the only one access the transactions table
+<a id='L4' name='L4'></a>  use ExUnit.Case, async: true
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>  import Ecto.Query
+<a id='L7' name='L7'></a>  alias Ecto.Integration.PoolRepo
+<a id='L8' name='L8'></a>  alias Ecto.Integration.TestRepo
+<a id='L9' name='L9'></a>
+<a id='L10' name='L10'></a>  defmodule <a href='../R/89.html' title='Multiple referred from 14 places.'>UniqueError</a> <strong class='reserved'>do</strong>
+<a id='L11' name='L11'></a>    defexception [:message]
+<a id='L12' name='L12'></a>  end
+<a id='L13' name='L13'></a>
+<a id='L14' name='L14'></a>  setup <strong class='reserved'>do</strong>
+<a id='L15' name='L15'></a>    PoolRepo.<a href='../D/446.html' title='Multiple defined in 6 places.'>delete_all</a> "transactions"
+<a id='L16' name='L16'></a>    :ok
+<a id='L17' name='L17'></a>  end
+<a id='L18' name='L18'></a>
+<a id='L19' name='L19'></a>  defmodule <a href='../R/86.html' title='Multiple referred from 31 places.'>Trans</a> <strong class='reserved'>do</strong>
+<a id='L20' name='L20'></a>    use Ecto.Schema
+<a id='L21' name='L21'></a>
+<a id='L22' name='L22'></a>    <a href='../S/130.html#L310' title='Defined at 310 in deps/ecto/lib/ecto/schema.ex.'>schema</a> "transactions" <strong class='reserved'>do</strong>
+<a id='L23' name='L23'></a>      <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :text, :string
+<a id='L24' name='L24'></a>    end
+<a id='L25' name='L25'></a>  end
+<a id='L26' name='L26'></a>
+<a id='L27' name='L27'></a>  test "transaction returns value" <strong class='reserved'>do</strong>
+<a id='L28' name='L28'></a>    x = PoolRepo.<a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a>(fn -&gt;
+<a id='L29' name='L29'></a>      PoolRepo.<a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a>(fn -&gt;
+<a id='L30' name='L30'></a>        42
+<a id='L31' name='L31'></a>      end)
+<a id='L32' name='L32'></a>    end)
+<a id='L33' name='L33'></a>    assert x == <em class='brace'>{</em>:ok, <em class='brace'>{</em>:ok, 42<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L34' name='L34'></a>  end
+<a id='L35' name='L35'></a>
+<a id='L36' name='L36'></a>  test "transaction re-raises" <strong class='reserved'>do</strong>
+<a id='L37' name='L37'></a>    assert_raise <a href='../S/63.html#L10' title='Defined at 10 in deps/ecto/integration_test/sql/transaction.exs.'>UniqueError</a>, fn -&gt;
+<a id='L38' name='L38'></a>      PoolRepo.<a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a>(fn -&gt;
+<a id='L39' name='L39'></a>        PoolRepo.<a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a>(fn -&gt;
+<a id='L40' name='L40'></a>          raise <a href='../S/63.html#L10' title='Defined at 10 in deps/ecto/integration_test/sql/transaction.exs.'>UniqueError</a>
+<a id='L41' name='L41'></a>        end)
+<a id='L42' name='L42'></a>      end)
+<a id='L43' name='L43'></a>    end
+<a id='L44' name='L44'></a>  end
+<a id='L45' name='L45'></a>
+<a id='L46' name='L46'></a>  test "transaction commits" <strong class='reserved'>do</strong>
+<a id='L47' name='L47'></a>    PoolRepo.<a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a>(fn -&gt;
+<a id='L48' name='L48'></a>      e = PoolRepo.insert!(%<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a><em class='brace'>{</em>text: "1"<em class='brace'>}</em>)
+<a id='L49' name='L49'></a>      assert [^e] = PoolRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a>)
+<a id='L50' name='L50'></a>      assert [] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a>)
+<a id='L51' name='L51'></a>    end)
+<a id='L52' name='L52'></a>
+<a id='L53' name='L53'></a>    assert [%<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a><em class='brace'>{</em>text: "1"<em class='brace'>}</em>] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(Trans)
+<a id='L54' name='L54'></a>  end
+<a id='L55' name='L55'></a>
+<a id='L56' name='L56'></a>  test "transaction rolls back" <strong class='reserved'>do</strong>
+<a id='L57' name='L57'></a>    try <strong class='reserved'>do</strong>
+<a id='L58' name='L58'></a>      PoolRepo.<a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a>(fn -&gt;
+<a id='L59' name='L59'></a>        e = PoolRepo.insert!(%<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a><em class='brace'>{</em>text: "2"<em class='brace'>}</em>)
+<a id='L60' name='L60'></a>        assert [^e] = PoolRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a>)
+<a id='L61' name='L61'></a>        assert [] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a>)
+<a id='L62' name='L62'></a>        raise <a href='../S/63.html#L10' title='Defined at 10 in deps/ecto/integration_test/sql/transaction.exs.'>UniqueError</a>
+<a id='L63' name='L63'></a>      end)
+<a id='L64' name='L64'></a>    rescue
+<a id='L65' name='L65'></a>      <a href='../S/63.html#L10' title='Defined at 10 in deps/ecto/integration_test/sql/transaction.exs.'>UniqueError</a> -&gt; :ok
+<a id='L66' name='L66'></a>    end
+<a id='L67' name='L67'></a>
+<a id='L68' name='L68'></a>    assert [] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a>)
+<a id='L69' name='L69'></a>  end
+<a id='L70' name='L70'></a>
+<a id='L71' name='L71'></a>  test "transaction rolls back per repository" <strong class='reserved'>do</strong>
+<a id='L72' name='L72'></a>    <a href='../D/768.html' title='Multiple defined in 3 places.'>message</a> = "cannot call rollback outside of transaction"
+<a id='L73' name='L73'></a>
+<a id='L74' name='L74'></a>    assert_raise RuntimeError, <a href='../D/768.html' title='Multiple defined in 3 places.'>message</a>, fn -&gt;
+<a id='L75' name='L75'></a>      PoolRepo.<a href='../D/995.html' title='Multiple defined in 18 places.'>rollback</a>(:done)
+<a id='L76' name='L76'></a>    end
+<a id='L77' name='L77'></a>
+<a id='L78' name='L78'></a>    assert_raise RuntimeError, <a href='../D/768.html' title='Multiple defined in 3 places.'>message</a>, fn -&gt;
+<a id='L79' name='L79'></a>      TestRepo.<a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a> fn -&gt;
+<a id='L80' name='L80'></a>        PoolRepo.<a href='../D/995.html' title='Multiple defined in 18 places.'>rollback</a>(:done)
+<a id='L81' name='L81'></a>      end
+<a id='L82' name='L82'></a>    end
+<a id='L83' name='L83'></a>  end
+<a id='L84' name='L84'></a>
+<a id='L85' name='L85'></a>  test "nested transaction partial rollback" <strong class='reserved'>do</strong>
+<a id='L86' name='L86'></a>    assert PoolRepo.<a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a>(fn -&gt;
+<a id='L87' name='L87'></a>      e1 = PoolRepo.insert!(%<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a><em class='brace'>{</em>text: "3"<em class='brace'>}</em>)
+<a id='L88' name='L88'></a>      assert [^e1] = PoolRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a>)
+<a id='L89' name='L89'></a>
+<a id='L90' name='L90'></a>      try <strong class='reserved'>do</strong>
+<a id='L91' name='L91'></a>        PoolRepo.<a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a>(fn -&gt;
+<a id='L92' name='L92'></a>          e2 = PoolRepo.insert!(%<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a><em class='brace'>{</em>text: "4"<em class='brace'>}</em>)
+<a id='L93' name='L93'></a>          assert [^e1, ^e2] = PoolRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(t in <a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a>, order_by: t.text))
+<a id='L94' name='L94'></a>          raise <a href='../S/63.html#L10' title='Defined at 10 in deps/ecto/integration_test/sql/transaction.exs.'>UniqueError</a>
+<a id='L95' name='L95'></a>        end)
+<a id='L96' name='L96'></a>      rescue
+<a id='L97' name='L97'></a>        <a href='../S/63.html#L10' title='Defined at 10 in deps/ecto/integration_test/sql/transaction.exs.'>UniqueError</a> -&gt; :ok
+<a id='L98' name='L98'></a>      end
+<a id='L99' name='L99'></a>
+<a id='L100' name='L100'></a>      assert <em class='brace'>{</em>:noconnect, _<em class='brace'>}</em> = catch_exit(PoolRepo.insert!(%<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a><em class='brace'>{</em>text: "5"<em class='brace'>}</em>))
+<a id='L101' name='L101'></a>    end) == <em class='brace'>{</em>:error, :rollback<em class='brace'>}</em>
+<a id='L102' name='L102'></a>
+<a id='L103' name='L103'></a>    assert TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a>) == []
+<a id='L104' name='L104'></a>  end
+<a id='L105' name='L105'></a>
+<a id='L106' name='L106'></a>  test "manual rollback doesn't bubble up" <strong class='reserved'>do</strong>
+<a id='L107' name='L107'></a>    x = PoolRepo.<a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a>(fn -&gt;
+<a id='L108' name='L108'></a>      e = PoolRepo.insert!(%<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a><em class='brace'>{</em>text: "6"<em class='brace'>}</em>)
+<a id='L109' name='L109'></a>      assert [^e] = PoolRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a>)
+<a id='L110' name='L110'></a>      PoolRepo.<a href='../D/995.html' title='Multiple defined in 18 places.'>rollback</a>(:oops)
+<a id='L111' name='L111'></a>    end)
+<a id='L112' name='L112'></a>
+<a id='L113' name='L113'></a>    assert x == <em class='brace'>{</em>:error, :oops<em class='brace'>}</em>
+<a id='L114' name='L114'></a>    assert [] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a>)
+<a id='L115' name='L115'></a>  end
+<a id='L116' name='L116'></a>
+<a id='L117' name='L117'></a>  test "manual rollback bubbles up on nested transaction" <strong class='reserved'>do</strong>
+<a id='L118' name='L118'></a>    x = PoolRepo.<a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a>(fn -&gt;
+<a id='L119' name='L119'></a>      e = PoolRepo.insert!(%<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a><em class='brace'>{</em>text: "6"<em class='brace'>}</em>)
+<a id='L120' name='L120'></a>      assert [^e] = PoolRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a>)
+<a id='L121' name='L121'></a>      assert <em class='brace'>{</em>:error, :oops<em class='brace'>}</em> = PoolRepo.<a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a>(fn -&gt;
+<a id='L122' name='L122'></a>        PoolRepo.<a href='../D/995.html' title='Multiple defined in 18 places.'>rollback</a>(:oops)
+<a id='L123' name='L123'></a>      end)
+<a id='L124' name='L124'></a>      assert <em class='brace'>{</em>:noconnect, _<em class='brace'>}</em> = catch_exit(PoolRepo.insert!(%<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a><em class='brace'>{</em>text: "5"<em class='brace'>}</em>))
+<a id='L125' name='L125'></a>    end)
+<a id='L126' name='L126'></a>
+<a id='L127' name='L127'></a>    assert x == <em class='brace'>{</em>:error, :rollback<em class='brace'>}</em>
+<a id='L128' name='L128'></a>    assert [] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a>)
+<a id='L129' name='L129'></a>  end
+<a id='L130' name='L130'></a>
+<a id='L131' name='L131'></a>  test "transactions are not shared in repo" <strong class='reserved'>do</strong>
+<a id='L132' name='L132'></a>    pid = self
+<a id='L133' name='L133'></a>
+<a id='L134' name='L134'></a>    new_pid = spawn_link fn -&gt;
+<a id='L135' name='L135'></a>      PoolRepo.<a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a>(fn -&gt;
+<a id='L136' name='L136'></a>        e = PoolRepo.insert!(%<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a><em class='brace'>{</em>text: "7"<em class='brace'>}</em>)
+<a id='L137' name='L137'></a>        assert [^e] = PoolRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a>)
+<a id='L138' name='L138'></a>        <a href='../S/17.html#L19' title='Defined at 19 in deps/connection/lib/connection.ex.'>send</a>(pid, :in_transaction)
+<a id='L139' name='L139'></a>        receive <strong class='reserved'>do</strong>
+<a id='L140' name='L140'></a>          :commit -&gt; :ok
+<a id='L141' name='L141'></a>        after
+<a id='L142' name='L142'></a>          5000 -&gt; raise "timeout"
+<a id='L143' name='L143'></a>        end
+<a id='L144' name='L144'></a>      end)
+<a id='L145' name='L145'></a>      <a href='../S/17.html#L19' title='Defined at 19 in deps/connection/lib/connection.ex.'>send</a>(pid, :committed)
+<a id='L146' name='L146'></a>    end
+<a id='L147' name='L147'></a>
+<a id='L148' name='L148'></a>    receive <strong class='reserved'>do</strong>
+<a id='L149' name='L149'></a>      :in_transaction -&gt; :ok
+<a id='L150' name='L150'></a>    after
+<a id='L151' name='L151'></a>      5000 -&gt; raise "timeout"
+<a id='L152' name='L152'></a>    end
+<a id='L153' name='L153'></a>    assert [] = PoolRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a>)
+<a id='L154' name='L154'></a>
+<a id='L155' name='L155'></a>    <a href='../S/17.html#L19' title='Defined at 19 in deps/connection/lib/connection.ex.'>send</a>(new_pid, :commit)
+<a id='L156' name='L156'></a>    receive <strong class='reserved'>do</strong>
+<a id='L157' name='L157'></a>      :committed -&gt; :ok
+<a id='L158' name='L158'></a>    after
+<a id='L159' name='L159'></a>      5000 -&gt; raise "timeout"
+<a id='L160' name='L160'></a>    end
+<a id='L161' name='L161'></a>
+<a id='L162' name='L162'></a>    assert [%<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a><em class='brace'>{</em>text: "7"<em class='brace'>}</em>] = PoolRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(Trans)
+<a id='L163' name='L163'></a>  end
+<a id='L164' name='L164'></a>
+<a id='L165' name='L165'></a><em class='sharp'>  #</em># Failures when logging
+<a id='L166' name='L166'></a>
+<a id='L167' name='L167'></a>  @tag :strict_savepoint
+<a id='L168' name='L168'></a>  test "log raises after begin, drops transaction" <strong class='reserved'>do</strong>
+<a id='L169' name='L169'></a>    try <strong class='reserved'>do</strong>
+<a id='L170' name='L170'></a>      Process.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(:on_log, fn -&gt; raise <a href='../S/63.html#L10' title='Defined at 10 in deps/ecto/integration_test/sql/transaction.exs.'>UniqueError</a> end)
+<a id='L171' name='L171'></a>      PoolRepo.<a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a>(fn -&gt; :ok end)
+<a id='L172' name='L172'></a>    rescue
+<a id='L173' name='L173'></a>      <a href='../S/63.html#L10' title='Defined at 10 in deps/ecto/integration_test/sql/transaction.exs.'>UniqueError</a> -&gt; :ok
+<a id='L174' name='L174'></a>    end
+<a id='L175' name='L175'></a>
+<a id='L176' name='L176'></a>    # If it doesn't fail, the transaction was not closed properly.
+<a id='L177' name='L177'></a>    catch_error(Ecto.Adapters.SQL.query!(PoolRepo, "savepoint foobar", []))
+<a id='L178' name='L178'></a>  end
+<a id='L179' name='L179'></a>
+<a id='L180' name='L180'></a>  test "log raises after begin, drops the whole transaction" <strong class='reserved'>do</strong>
+<a id='L181' name='L181'></a>    try <strong class='reserved'>do</strong>
+<a id='L182' name='L182'></a>      PoolRepo.<a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a>(fn -&gt;
+<a id='L183' name='L183'></a>        PoolRepo.insert!(%<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a><em class='brace'>{</em>text: "8"<em class='brace'>}</em>)
+<a id='L184' name='L184'></a>        Process.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(:on_log, fn -&gt; raise <a href='../S/63.html#L10' title='Defined at 10 in deps/ecto/integration_test/sql/transaction.exs.'>UniqueError</a> end)
+<a id='L185' name='L185'></a>        PoolRepo.<a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a>(fn -&gt; flunk "log did not raise" end)
+<a id='L186' name='L186'></a>      end)
+<a id='L187' name='L187'></a>    rescue
+<a id='L188' name='L188'></a>      <a href='../S/63.html#L10' title='Defined at 10 in deps/ecto/integration_test/sql/transaction.exs.'>UniqueError</a> -&gt; :ok
+<a id='L189' name='L189'></a>    end
+<a id='L190' name='L190'></a>
+<a id='L191' name='L191'></a>    assert [] = PoolRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a>)
+<a id='L192' name='L192'></a>  end
+<a id='L193' name='L193'></a>
+<a id='L194' name='L194'></a>  test "log raises after commit, does commit" <strong class='reserved'>do</strong>
+<a id='L195' name='L195'></a>    try <strong class='reserved'>do</strong>
+<a id='L196' name='L196'></a>      PoolRepo.<a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a>(fn -&gt;
+<a id='L197' name='L197'></a>        PoolRepo.insert!(%<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a><em class='brace'>{</em>text: "10"<em class='brace'>}</em>)
+<a id='L198' name='L198'></a>        Process.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(:on_log, fn -&gt; raise <a href='../S/63.html#L10' title='Defined at 10 in deps/ecto/integration_test/sql/transaction.exs.'>UniqueError</a> end)
+<a id='L199' name='L199'></a>      end)
+<a id='L200' name='L200'></a>    rescue
+<a id='L201' name='L201'></a>      <a href='../S/63.html#L10' title='Defined at 10 in deps/ecto/integration_test/sql/transaction.exs.'>UniqueError</a> -&gt; :ok
+<a id='L202' name='L202'></a>    end
+<a id='L203' name='L203'></a>
+<a id='L204' name='L204'></a>    assert [%<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a><em class='brace'>{</em>text: "10"<em class='brace'>}</em>] = PoolRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(Trans)
+<a id='L205' name='L205'></a>  end
+<a id='L206' name='L206'></a>
+<a id='L207' name='L207'></a>  test "log raises after rollback, does rollback" <strong class='reserved'>do</strong>
+<a id='L208' name='L208'></a>    try <strong class='reserved'>do</strong>
+<a id='L209' name='L209'></a>      PoolRepo.<a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a>(fn -&gt;
+<a id='L210' name='L210'></a>        PoolRepo.insert!(%<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a><em class='brace'>{</em>text: "11"<em class='brace'>}</em>)
+<a id='L211' name='L211'></a>        Process.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(:on_log, fn -&gt; raise <a href='../S/63.html#L10' title='Defined at 10 in deps/ecto/integration_test/sql/transaction.exs.'>UniqueError</a> end)
+<a id='L212' name='L212'></a>        PoolRepo.<a href='../D/995.html' title='Multiple defined in 18 places.'>rollback</a>(:rollback)
+<a id='L213' name='L213'></a>      end)
+<a id='L214' name='L214'></a>    rescue
+<a id='L215' name='L215'></a>      <a href='../S/63.html#L10' title='Defined at 10 in deps/ecto/integration_test/sql/transaction.exs.'>UniqueError</a> -&gt; :ok
+<a id='L216' name='L216'></a>    end
+<a id='L217' name='L217'></a>
+<a id='L218' name='L218'></a>    assert [] = PoolRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../S/63.html#L19' title='Defined at 19 in deps/ecto/integration_test/sql/transaction.exs.'>Trans</a>)
+<a id='L219' name='L219'></a>  end
+<a id='L220' name='L220'></a>
+<a id='L221' name='L221'></a><em class='sharp'>  #</em># Timeouts
+<a id='L222' name='L222'></a>  # Those tests are very sensitive to timeouts and
+<a id='L223' name='L223'></a>  # may fail in CI servers and similar. They are
+<a id='L224' name='L224'></a>  # tagged so they can be easily skipped.
+<a id='L225' name='L225'></a>
+<a id='L226' name='L226'></a>  # TODO: Uncomment those tests with Elixir 1.1
+<a id='L227' name='L227'></a>  # and by <strong class='reserved'>default</strong> exclude the tests in build
+<a id='L228' name='L228'></a>
+<a id='L229' name='L229'></a><em class='sharp'>  #</em> @tag :timeout_sensitive
+<a id='L230' name='L230'></a>  # test "transaction exit includes :timeout on begin timeout" <strong class='reserved'>do</strong>
+<a id='L231' name='L231'></a><em class='sharp'>  #   assert</em> match?(<em class='brace'>{</em>:timeout, _<em class='brace'>}</em>,
+<a id='L232' name='L232'></a>  #     catch_exit(PoolRepo.transaction([timeout: 0], fn -&gt;
+<a id='L233' name='L233'></a>  #       flunk "did not timeout"
+<a id='L234' name='L234'></a>  #     end)))
+<a id='L235' name='L235'></a>  # end
+<a id='L236' name='L236'></a>
+<a id='L237' name='L237'></a><em class='sharp'>  #</em> @tag :timeout_sensitive
+<a id='L238' name='L238'></a>  # test "transaction exit includes :timeout on query timeout" <strong class='reserved'>do</strong>
+<a id='L239' name='L239'></a><em class='sharp'>  #   assert</em> match?(<em class='brace'>{</em>:timeout, _<em class='brace'>}</em>,
+<a id='L240' name='L240'></a>  #     catch_exit(PoolRepo.transaction(fn -&gt;
+<a id='L241' name='L241'></a>  #       PoolRepo.transaction(fn -&gt;
+<a id='L242' name='L242'></a>  #         PoolRepo.insert!(%Trans<em class='brace'>{</em>text: "13"<em class='brace'>}</em>, [timeout: 0])
+<a id='L243' name='L243'></a>  #       end)
+<a id='L244' name='L244'></a>  #     end)))
+<a id='L245' name='L245'></a><em class='sharp'>  #   assert</em> [] = PoolRepo.all(Trans)
+<a id='L246' name='L246'></a>  # end
+<a id='L247' name='L247'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;][^][v]<a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

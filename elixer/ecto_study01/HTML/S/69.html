@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/adapter/migration.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/<a href='../files/234.html'>adapter</a>/migration.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L54'>[^]</a>[v][top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L54' title='Defined at 54.'>execute_ddl</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Adapter.Migration  <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc """
+<a id='L3' name='L3'></a>  Specifies the adapter migrations API.
+<a id='L4' name='L4'></a>  """
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>  use Behaviour
+<a id='L7' name='L7'></a>
+<a id='L8' name='L8'></a>  alias Ecto.Migration.Table
+<a id='L9' name='L9'></a>  alias Ecto.Migration.Index
+<a id='L10' name='L10'></a>  alias Ecto.Migration.Reference
+<a id='L11' name='L11'></a>
+<a id='L12' name='L12'></a>  @typedoc "All migration commands"
+<a id='L13' name='L13'></a>  @type <a href='../D/372.html' title='Multiple defined in 12 places.'>command</a> ::
+<a id='L14' name='L14'></a>    raw :: String.t |
+<a id='L15' name='L15'></a>    <em class='brace'>{</em>:create, <a href='../S/94.html#L145' title='Defined at 145 in deps/ecto/lib/ecto/migration.ex.'>Table</a>.t, [table_subcommand]<em class='brace'>}</em> |
+<a id='L16' name='L16'></a>    <em class='brace'>{</em>:create_if_not_exists, <a href='../S/94.html#L145' title='Defined at 145 in deps/ecto/lib/ecto/migration.ex.'>Table</a>.t, [table_subcommand]<em class='brace'>}</em> |
+<a id='L17' name='L17'></a>    <em class='brace'>{</em>:alter, <a href='../S/94.html#L145' title='Defined at 145 in deps/ecto/lib/ecto/migration.ex.'>Table</a>.t, [table_subcommand]<em class='brace'>}</em> |
+<a id='L18' name='L18'></a>    <em class='brace'>{</em>:drop, <a href='../S/94.html#L145' title='Defined at 145 in deps/ecto/lib/ecto/migration.ex.'>Table</a>.t<em class='brace'>}</em> |
+<a id='L19' name='L19'></a>    <em class='brace'>{</em>:drop_if_exists, <a href='../S/94.html#L145' title='Defined at 145 in deps/ecto/lib/ecto/migration.ex.'>Table</a>.t<em class='brace'>}</em> |
+<a id='L20' name='L20'></a>    <em class='brace'>{</em>:create, <a href='../S/94.html#L122' title='Defined at 122 in deps/ecto/lib/ecto/migration.ex.'>Index</a>.t<em class='brace'>}</em> |
+<a id='L21' name='L21'></a>    <em class='brace'>{</em>:create_if_not_exists, <a href='../S/94.html#L122' title='Defined at 122 in deps/ecto/lib/ecto/migration.ex.'>Index</a>.t<em class='brace'>}</em> |
+<a id='L22' name='L22'></a>    <em class='brace'>{</em>:drop, <a href='../S/94.html#L122' title='Defined at 122 in deps/ecto/lib/ecto/migration.ex.'>Index</a>.t<em class='brace'>}</em> |
+<a id='L23' name='L23'></a>    <em class='brace'>{</em>:drop_if_exists, <a href='../S/94.html#L122' title='Defined at 122 in deps/ecto/lib/ecto/migration.ex.'>Index</a>.t<em class='brace'>}</em>
+<a id='L24' name='L24'></a>
+<a id='L25' name='L25'></a>  @typedoc "All commands allowed within the block passed to `table/2`"
+<a id='L26' name='L26'></a>  @type table_subcommand ::
+<a id='L27' name='L27'></a>    <em class='brace'>{</em>:add, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :: atom, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a> :: Ecto.Type.t | <a href='../S/94.html#L153' title='Defined at 153 in deps/ecto/lib/ecto/migration.ex.'>Reference</a>.t, Keyword.t<em class='brace'>}</em> |
+<a id='L28' name='L28'></a>    <em class='brace'>{</em>:modify, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :: atom, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a> :: Ecto.Type.t | <a href='../S/94.html#L153' title='Defined at 153 in deps/ecto/lib/ecto/migration.ex.'>Reference</a>.t, Keyword.t<em class='brace'>}</em> |
+<a id='L29' name='L29'></a>    <em class='brace'>{</em>:remove, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :: atom<em class='brace'>}</em>
+<a id='L30' name='L30'></a>
+<a id='L31' name='L31'></a>  @typedoc """
+<a id='L32' name='L32'></a>  A DDL object is a <strong class='reserved'>struct</strong> that represents a table or index in a database schema.
+<a id='L33' name='L33'></a>  These database objects can be modified through the use of a Data Definition Language,
+<a id='L34' name='L34'></a>  hence the name DDL object.
+<a id='L35' name='L35'></a>  """
+<a id='L36' name='L36'></a>  @type ddl_object :: <a href='../S/94.html#L145' title='Defined at 145 in deps/ecto/lib/ecto/migration.ex.'>Table</a>.t | <a href='../S/94.html#L122' title='Defined at 122 in deps/ecto/lib/ecto/migration.ex.'>Index</a>.t
+<a id='L37' name='L37'></a>
+<a id='L38' name='L38'></a>  @doc """
+<a id='L39' name='L39'></a>  Checks <strong class='reserved'>if</strong> the adapter supports ddl transaction.
+<a id='L40' name='L40'></a>  """
+<a id='L41' name='L41'></a>  defcallback supports_ddl_transaction? :: <a href='../D/305.html' title='Multiple defined in 4 places.'>boolean</a>
+<a id='L42' name='L42'></a>
+<a id='L43' name='L43'></a>  @doc """
+<a id='L44' name='L44'></a>  Executes migration commands.
+<a id='L45' name='L45'></a>
+<a id='L46' name='L46'></a><em class='sharp'>  #</em># Options
+<a id='L47' name='L47'></a>
+<a id='L48' name='L48'></a>    * `:timeout` - The time in milliseconds to wait <strong class='reserved'>for</strong> the query call to
+<a id='L49' name='L49'></a>      finish, `:infinity` will wait indefinitely (<strong class='reserved'>default</strong>: 15000);
+<a id='L50' name='L50'></a>    * `:pool_timeout` - The time in milliseconds to wait <strong class='reserved'>for</strong> calls to the pool
+<a id='L51' name='L51'></a>      to finish, `:infinity` will wait indefinitely (<strong class='reserved'>default</strong>: 5000);
+<a id='L52' name='L52'></a>    * `:log` - When false, does not log begin/commit/rollback queries
+<a id='L53' name='L53'></a>  """
+<a id='L54' name='L54'></a>  defcallback <a href='../R/455.html' title='Multiple referred from 4 places.'>execute_ddl</a>(Ecto.Repo.t, <a href='../D/372.html' title='Multiple defined in 12 places.'>command</a>, Keyword.t) :: :ok | no_return
+<a id='L55' name='L55'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;][^]<a href='#L54'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

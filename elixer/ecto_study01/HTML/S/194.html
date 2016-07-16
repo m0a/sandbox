@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/postgrex/lib/postgrex/type_server.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/252.html'>postgrex</a>/<a href='../files/253.html'>lib</a>/<a href='../files/254.html'>postgrex</a>/type_server.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L26'>[^]</a><a href='#L138'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L26' title='Defined at 26.'>fetch</a></li>
+<li><a href='#L34' title='Defined at 34.'>unlock</a></li>
+<li><a href='#L40' title='Defined at 40.'>init</a></li>
+<li><a href='#L44' title='Defined at 44.'>handle_call</a></li>
+<li><a href='#L64' title='Defined at 64.'>handle_call</a></li>
+<li><a href='#L77' title='Defined at 77.'>handle_info</a></li>
+<li><a href='#L114' title='Defined at 114.'>handle_info</a></li>
+<li><a href='#L127' title='Defined at 127.'>handle_info</a></li>
+<li><a href='#L131' title='Defined at 131.'>add_connection</a></li>
+<li><a href='#L137' title='Defined at 137.'>cancel_timer</a></li>
+<li><a href='#L138' title='Defined at 138.'>cancel_timer</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Postgrex.TypeServer <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc false
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>  use GenServer
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>  @name __MODULE__
+<a id='L7' name='L7'></a>  @type <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a> :: :ets.tab
+<a id='L8' name='L8'></a>
+<a id='L9' name='L9'></a>  @doc """
+<a id='L10' name='L10'></a>  Starts the type server.
+<a id='L11' name='L11'></a>  """
+<a id='L12' name='L12'></a>  @spec <a href='../D/1059.html' title='Multiple defined in 41 places.'>start_link</a> :: GenServer.on_start
+<a id='L13' name='L13'></a>  def <a href='../R/900.html' title='Multiple referred from 71 places.'>start_link</a> <strong class='reserved'>do</strong>
+<a id='L14' name='L14'></a>    GenServer.<a href='../D/1059.html' title='Multiple defined in 41 places.'>start_link</a>(__MODULE__, [], name: @name)
+<a id='L15' name='L15'></a>  end
+<a id='L16' name='L16'></a>
+<a id='L17' name='L17'></a>  @doc """
+<a id='L18' name='L18'></a>  Fetches the cached type entry <strong class='reserved'>for</strong> the given pid.
+<a id='L19' name='L19'></a>
+<a id='L20' name='L20'></a>  If one does not exist, we attempt to achieve a lock on key
+<a id='L21' name='L21'></a>  <strong class='reserved'>for</strong> fetching the entries. If another process got the lock,
+<a id='L22' name='L22'></a>  we wait until the entries are available or the other process
+<a id='L23' name='L23'></a>  crashes.
+<a id='L24' name='L24'></a>  """
+<a id='L25' name='L25'></a>  @spec <a href='../D/597.html' title='Multiple defined in 2 places.'>fetch</a>(<a href='../D/712.html' title='Multiple defined in 3 places.'>key</a> :: term) :: <em class='brace'>{</em>:ok, <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em> | <em class='brace'>{</em>:lock, reference, table<em class='brace'>}</em>
+<a id='L26' name='L26'></a>  def <a href='../R/466.html' title='Multiple referred from 32 places.'>fetch</a>(<a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>) <strong class='reserved'>do</strong>
+<a id='L27' name='L27'></a>    GenServer.<a href='../D/323.html' title='Multiple defined in 2 places.'>call</a>(@name, <em class='brace'>{</em>:fetch, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a><em class='brace'>}</em>, 60_000)
+<a id='L28' name='L28'></a>  end
+<a id='L29' name='L29'></a>
+<a id='L30' name='L30'></a>  @doc """
+<a id='L31' name='L31'></a>  Unlocks the given reference <strong class='reserved'>for</strong> a given key after types are loaded.
+<a id='L32' name='L32'></a>  """
+<a id='L33' name='L33'></a>  @spec <a href='../S/194.html#L34' title='Defined at 34 in deps/postgrex/lib/postgrex/type_server.ex.'>unlock</a>(reference) :: :ok | :error
+<a id='L34' name='L34'></a>  def <a href='../R/996.html' title='Multiple referred from 2 places.'>unlock</a>(ref) <strong class='reserved'>do</strong>
+<a id='L35' name='L35'></a>    GenServer.<a href='../D/323.html' title='Multiple defined in 2 places.'>call</a>(@name, <em class='brace'>{</em>:unlock, ref<em class='brace'>}</em>)
+<a id='L36' name='L36'></a>  end
+<a id='L37' name='L37'></a>
+<a id='L38' name='L38'></a><em class='sharp'>  #</em># Callbacks
+<a id='L39' name='L39'></a>
+<a id='L40' name='L40'></a>  def <a href='../R/550.html' title='Multiple referred from 12 places.'>init</a>([]) <strong class='reserved'>do</strong>
+<a id='L41' name='L41'></a>    <em class='brace'>{</em>:ok, <em class='brace'>{</em>%<em class='brace'>{</em><em class='brace'>}</em>, HashDict.<a href='../D/805.html' title='Multiple defined in 14 places.'>new</a><em class='brace'>}</em><em class='brace'>}</em>
+<a id='L42' name='L42'></a>  end
+<a id='L43' name='L43'></a>
+<a id='L44' name='L44'></a>  def <a href='../R/517.html' title='Multiple referred from 6 places.'>handle_call</a>(<em class='brace'>{</em>:fetch, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a><em class='brace'>}</em>, <em class='brace'>{</em>pid, _<em class='brace'>}</em> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>, <em class='brace'>{</em>tables, conns<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L45' name='L45'></a>    <em class='brace'>{</em>ref, conns<em class='brace'>}</em> = <a href='../S/194.html#L131' title='Defined at 131 in deps/postgrex/lib/postgrex/type_server.ex.'>add_connection</a>(pid, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, conns)
+<a id='L46' name='L46'></a>
+<a id='L47' name='L47'></a>    <strong class='reserved'>case</strong> Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(tables, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, :missing) <strong class='reserved'>do</strong>
+<a id='L48' name='L48'></a>      <em class='brace'>{</em>:ready, counter, timer, <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em> -&gt;
+<a id='L49' name='L49'></a>        <a href='../D/330.html' title='Multiple defined in 6 places.'>cancel_timer</a>(timer)
+<a id='L50' name='L50'></a>        tables = Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(tables, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, <em class='brace'>{</em>:ready, counter + 1, nil, <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em>)
+<a id='L51' name='L51'></a>        <em class='brace'>{</em>:reply, <em class='brace'>{</em>:ok, <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em>, <em class='brace'>{</em>tables, conns<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L52' name='L52'></a>
+<a id='L53' name='L53'></a>      <em class='brace'>{</em>:waiting, owner_ref, waiting, <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em> -&gt;
+<a id='L54' name='L54'></a>        tables = Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(tables, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, <em class='brace'>{</em>:waiting, owner_ref, [<em class='brace'>{</em>ref, <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a><em class='brace'>}</em>|waiting], <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em>)
+<a id='L55' name='L55'></a>        <em class='brace'>{</em>:noreply, <em class='brace'>{</em>tables, conns<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L56' name='L56'></a>
+<a id='L57' name='L57'></a>      :missing -&gt;
+<a id='L58' name='L58'></a>        <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a> = :ets.<a href='../D/805.html' title='Multiple defined in 14 places.'>new</a>(:postgrex_type_server, [:set, :public, read_concurrency: true])
+<a id='L59' name='L59'></a>        tables = Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(tables, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, <em class='brace'>{</em>:waiting, ref, [], <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em>)
+<a id='L60' name='L60'></a>        <em class='brace'>{</em>:reply, <em class='brace'>{</em>:lock, ref, <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em>, <em class='brace'>{</em>tables, conns<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L61' name='L61'></a>    end
+<a id='L62' name='L62'></a>  end
+<a id='L63' name='L63'></a>
+<a id='L64' name='L64'></a>  def <a href='../R/517.html' title='Multiple referred from 6 places.'>handle_call</a>(<em class='brace'>{</em>:unlock, ref<em class='brace'>}</em>, _from, <em class='brace'>{</em>tables, conns<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L65' name='L65'></a>    <strong class='reserved'>case</strong> HashDict.<a href='../D/597.html' title='Multiple defined in 2 places.'>fetch</a>(conns, ref) <strong class='reserved'>do</strong>
+<a id='L66' name='L66'></a>      <em class='brace'>{</em>:ok, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a><em class='brace'>}</em> -&gt;
+<a id='L67' name='L67'></a>        <em class='brace'>{</em>:waiting, ^ref, waiting, <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em> = Map.fetch!(tables, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>)
+<a id='L68' name='L68'></a>        <strong class='reserved'>for</strong> <em class='brace'>{</em>_ref, <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a><em class='brace'>}</em> &lt;- waiting, <strong class='reserved'>do</strong>: GenServer.<a href='../S/17.html#L415' title='Defined at 415 in deps/connection/lib/connection.ex.'>reply</a>(from, <em class='brace'>{</em>:ok, <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em>)
+<a id='L69' name='L69'></a>        tables = Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(tables, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, <em class='brace'>{</em>:ready, 1 + length(waiting), nil, <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em>)
+<a id='L70' name='L70'></a>        <em class='brace'>{</em>:reply, :ok, <em class='brace'>{</em>tables, conns<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L71' name='L71'></a>
+<a id='L72' name='L72'></a>      :error -&gt;
+<a id='L73' name='L73'></a>        <em class='brace'>{</em>:reply, :error, <em class='brace'>{</em>tables, conns<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L74' name='L74'></a>    end
+<a id='L75' name='L75'></a>  end
+<a id='L76' name='L76'></a>
+<a id='L77' name='L77'></a>  def <a href='../R/527.html' title='Multiple referred from 4 places.'>handle_info</a>(<em class='brace'>{</em>:DOWN, ref, _, _, _<em class='brace'>}</em>, <em class='brace'>{</em>tables, conns<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L78' name='L78'></a>    <em class='brace'>{</em><a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, conns<em class='brace'>}</em> = HashDict.pop(conns, ref)
+<a id='L79' name='L79'></a>
+<a id='L80' name='L80'></a>    tables =
+<a id='L81' name='L81'></a>      <strong class='reserved'>case</strong> Map.fetch!(tables, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>) <strong class='reserved'>do</strong>
+<a id='L82' name='L82'></a>        # There will be no one left using the table
+<a id='L83' name='L83'></a>        <em class='brace'>{</em>:ready, 1, nil, <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em> -&gt;
+<a id='L84' name='L84'></a>          ref     = make_ref()
+<a id='L85' name='L85'></a>          <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a> = <a href='../S/82.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/application.ex.'>Application</a>.get_env(:postgrex, :type_server_reap_after)
+<a id='L86' name='L86'></a>          timer   = Process.send_after(self(), <em class='brace'>{</em>:drop, ref, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a><em class='brace'>}</em>, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>)
+<a id='L87' name='L87'></a>          Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(tables, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, <em class='brace'>{</em>:ready, 0, <em class='brace'>{</em>ref, timer<em class='brace'>}</em>, <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em>)
+<a id='L88' name='L88'></a>
+<a id='L89' name='L89'></a>        # Others are using the table
+<a id='L90' name='L90'></a>        <em class='brace'>{</em>:ready, counter, nil, <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em> -&gt;
+<a id='L91' name='L91'></a>          Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(tables, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, <em class='brace'>{</em>:ready, counter - 1, nil, <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em>)
+<a id='L92' name='L92'></a>
+<a id='L93' name='L93'></a>        # The process responsible <strong class='reserved'>for</strong> creating the table crashed
+<a id='L94' name='L94'></a>        # and no one <strong class='reserved'>else</strong> is interested on it
+<a id='L95' name='L95'></a>        <em class='brace'>{</em>:waiting, ^ref, [], <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em> -&gt;
+<a id='L96' name='L96'></a>          :ets.<a href='../D/444.html' title='Multiple defined in 10 places.'>delete</a>(<a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a>)
+<a id='L97' name='L97'></a>          Map.<a href='../D/444.html' title='Multiple defined in 10 places.'>delete</a>(tables, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>)
+<a id='L98' name='L98'></a>
+<a id='L99' name='L99'></a>        # The process responsible <strong class='reserved'>for</strong> creating the table crashed
+<a id='L100' name='L100'></a>        # and others are waiting
+<a id='L101' name='L101'></a>        <em class='brace'>{</em>:waiting, ^ref, [<em class='brace'>{</em>owner_ref, <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a><em class='brace'>}</em>|waiting], <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em> -&gt;
+<a id='L102' name='L102'></a>          GenServer.<a href='../S/17.html#L415' title='Defined at 415 in deps/connection/lib/connection.ex.'>reply</a>(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>, <em class='brace'>{</em>:lock, owner_ref, <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em>)
+<a id='L103' name='L103'></a>          Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(tables, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, <em class='brace'>{</em>:waiting, owner_ref, waiting, <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em>)
+<a id='L104' name='L104'></a>
+<a id='L105' name='L105'></a>        # One process in the waiting list crashed
+<a id='L106' name='L106'></a>        <em class='brace'>{</em>:waiting, owner_ref, waiting, <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em> -&gt;
+<a id='L107' name='L107'></a>          waiting = List.keydelete(waiting, ref, 0)
+<a id='L108' name='L108'></a>          Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(tables, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, <em class='brace'>{</em>:waiting, owner_ref, waiting, <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em>)
+<a id='L109' name='L109'></a>      end
+<a id='L110' name='L110'></a>
+<a id='L111' name='L111'></a>    <em class='brace'>{</em>:noreply, <em class='brace'>{</em>tables, conns<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L112' name='L112'></a>  end
+<a id='L113' name='L113'></a>
+<a id='L114' name='L114'></a>  def <a href='../R/527.html' title='Multiple referred from 4 places.'>handle_info</a>(<em class='brace'>{</em>:drop, ref, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a><em class='brace'>}</em>, <em class='brace'>{</em>tables, conns<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L115' name='L115'></a>    tables =
+<a id='L116' name='L116'></a>      <strong class='reserved'>case</strong> Map.fetch!(tables, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>) <strong class='reserved'>do</strong>
+<a id='L117' name='L117'></a>        <em class='brace'>{</em>:ready, 0, <em class='brace'>{</em>^ref, _timer<em class='brace'>}</em>, <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a><em class='brace'>}</em> -&gt;
+<a id='L118' name='L118'></a>          :ets.<a href='../D/444.html' title='Multiple defined in 10 places.'>delete</a>(<a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a>)
+<a id='L119' name='L119'></a>          Map.<a href='../D/444.html' title='Multiple defined in 10 places.'>delete</a>(tables, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>)
+<a id='L120' name='L120'></a>        _ -&gt;
+<a id='L121' name='L121'></a>          tables
+<a id='L122' name='L122'></a>      end
+<a id='L123' name='L123'></a>
+<a id='L124' name='L124'></a>    <em class='brace'>{</em>:noreply, <em class='brace'>{</em>tables, conns<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L125' name='L125'></a>  end
+<a id='L126' name='L126'></a>
+<a id='L127' name='L127'></a>  def <a href='../R/527.html' title='Multiple referred from 4 places.'>handle_info</a>(_other, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>) <strong class='reserved'>do</strong>
+<a id='L128' name='L128'></a>    <em class='brace'>{</em>:noreply, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L129' name='L129'></a>  end
+<a id='L130' name='L130'></a>
+<a id='L131' name='L131'></a>  defp <a href='../S/194.html#L45' title='Referred from 45 in deps/postgrex/lib/postgrex/type_server.ex.'>add_connection</a>(pid, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, conns) <strong class='reserved'>do</strong>
+<a id='L132' name='L132'></a>    ref   = Process.<a href='../S/101.html#L143' title='Defined at 143 in deps/ecto/lib/ecto/pools/poolboy/worker.ex.'>monitor</a>(pid)
+<a id='L133' name='L133'></a>    conns = HashDict.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(conns, ref, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>)
+<a id='L134' name='L134'></a>    <em class='brace'>{</em>ref, conns<em class='brace'>}</em>
+<a id='L135' name='L135'></a>  end
+<a id='L136' name='L136'></a>
+<a id='L137' name='L137'></a>  defp <a href='../R/210.html' title='Multiple referred from 8 places.'>cancel_timer</a>(nil), <strong class='reserved'>do</strong>: :ok
+<a id='L138' name='L138'></a>  defp <a href='../R/210.html' title='Multiple referred from 8 places.'>cancel_timer</a>(<em class='brace'>{</em>_, timer<em class='brace'>}</em>), <strong class='reserved'>do</strong>: :erlang.cancel_timer(timer)
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L26'>[^]</a><a href='#L138'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

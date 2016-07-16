@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>start_link</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/17.html#L374'>start_link</a>        374 deps/connection/lib/connection.ex   @spec start_link(module, any, GenServer.options) :: GenServer.on_start</span>
+<span class='curline'><a href='../S/44.html#L375'>start_link</a>        375 deps/db_connection/lib/db_connection.ex   @spec start_link(module, opts :: Keyword.t) :: GenServer.on_start</span>
+<span class='curline'><a href='../S/21.html#L12'>start_link</a>         12 deps/db_connection/lib/db_connection/app.ex     Supervisor.start_link(children, [strategy: :one_for_one, name: __MODULE__])</span>
+<span class='curline'><a href='../S/23.html#L23'>start_link</a>         23 deps/db_connection/lib/db_connection/connection.ex     start_link(mod, opts, :connection)</span>
+<span class='curline'><a href='../S/23.html#L80'>start_link</a>         80 deps/db_connection/lib/db_connection/connection.ex     Connection.start_link(__MODULE__, {mod, opts, mode, info}, start_opts)</span>
+<span class='curline'><a href='../S/31.html#L96'>start_link</a>         96 deps/db_connection/lib/db_connection/ownership.ex     Manager.start_link(module, opts)</span>
+<span class='curline'><a href='../S/26.html#L11'>start_link</a>         11 deps/db_connection/lib/db_connection/ownership/manager.ex   @callback start_link(module, opts :: Keyword.t) ::</span>
+<span class='curline'><a href='../S/26.html#L16'>start_link</a>         16 deps/db_connection/lib/db_connection/ownership/manager.ex     GenServer.start_link(__MODULE__, {module, owner_opts, pool_mod, pool_opts}, owner_opts)</span>
+<span class='curline'><a href='../S/27.html#L9'>start_link</a>          9 deps/db_connection/lib/db_connection/ownership/owner.ex     GenServer.start_link(__MODULE__, {manager, caller, pool, pool_opts}, [])</span>
+<span class='curline'><a href='../S/28.html#L7'>start_link</a>          7 deps/db_connection/lib/db_connection/ownership/owner_supervisor.ex     Supervisor.start_link(children, opts)</span>
+<span class='curline'><a href='../S/29.html#L12'>start_link</a>         12 deps/db_connection/lib/db_connection/ownership/pool.ex     Supervisor.start_link(children, sup_opts)</span>
+<span class='curline'><a href='../S/30.html#L10'>start_link</a>         10 deps/db_connection/lib/db_connection/ownership/pool_supervisor.ex     Supervisor.start_link([pool], sup_opts)</span>
+<span class='curline'><a href='../S/32.html#L10'>start_link</a>         10 deps/db_connection/lib/db_connection/pool.ex   @callback start_link(module, opts :: Keyword.t) ::</span>
+<span class='curline'><a href='../S/34.html#L21'>start_link</a>         21 deps/db_connection/lib/db_connection/poolboy.ex     :poolboy.start_link(pool_opts, worker_opts)</span>
+<span class='curline'><a href='../S/33.html#L8'>start_link</a>          8 deps/db_connection/lib/db_connection/poolboy/worker.ex     DBConnection.Connection.start_link(mod, opts, :poolboy)</span>
+<span class='curline'><a href='../S/37.html#L9'>start_link</a>          9 deps/db_connection/lib/db_connection/sojourn/pool.ex     Supervisor.start_link(children, opts)</span>
+<span class='curline'><a href='../S/38.html#L7'>start_link</a>          7 deps/db_connection/lib/db_connection/sojourn/starter.ex     Connection.start_link(__MODULE__, {self(), broker, opts})</span>
+<span class='curline'><a href='../S/39.html#L10'>start_link</a>         10 deps/db_connection/lib/db_connection/sojourn/supervisor.ex     Supervisor.start_link(children, opts)</span>
+<span class='curline'><a href='../S/42.html#L5'>start_link</a>          5 deps/db_connection/lib/db_connection/task.ex     Task.Supervisor.start_link([name: __MODULE__])</span>
+<span class='curline'><a href='../S/43.html#L7'>start_link</a>          7 deps/db_connection/lib/db_connection/watcher.ex     GenServer.start_link(__MODULE__, owner)</span>
+<span class='curline'><a href='../S/54.html#L31'>start_link</a>         31 deps/ecto/integration_test/cases/pool.exs       Task.start_link(fn -&gt; :timer.sleep(:infinity) end)</span>
+<span class='curline'><a href='../S/54.html#L41'>start_link</a>         41 deps/ecto/integration_test/cases/pool.exs     assert {:ok, _} = MockRepo.start_link(lazy: false, name: MockRepo.AfterConnect, query_cache_owner: false)</span>
+<span class='curline'><a href='../S/54.html#L46'>start_link</a>         46 deps/ecto/integration_test/cases/pool.exs     assert {:ok, pool1} = MockRepo.start_link()</span>
+<span class='curline'><a href='../S/54.html#L47'>start_link</a>         47 deps/ecto/integration_test/cases/pool.exs     assert {:error, {:already_started, _}} = MockRepo.start_link()</span>
+<span class='curline'><a href='../S/54.html#L49'>start_link</a>         49 deps/ecto/integration_test/cases/pool.exs     assert {:ok, pool2} = MockRepo.start_link(name: MockRepo.Named, query_cache_owner: false)</span>
+<span class='curline'><a href='../S/54.html#L55'>start_link</a>         55 deps/ecto/integration_test/cases/pool.exs       MockRepo.start_link(name: MockRepo.Alternative, pool: MockPool, foo: :bar, query_cache_owner: false)</span>
+<span class='curline'><a href='../S/56.html#L18'>start_link</a>         18 deps/ecto/integration_test/cases/repo.exs     assert {:error, {:already_started, _}} = TestRepo.start_link</span>
+<span class='curline'><a href='../S/59.html#L37'>start_link</a>         37 deps/ecto/integration_test/sql/lock.exs       Task.start_link fn -&gt;</span>
+<span class='curline'><a href='../S/62.html#L11'>start_link</a>         11 deps/ecto/integration_test/sql/test_transaction.exs     assert {:ok, _} = Ecto.Adapters.SQL.Sandbox.start_link(UnknownModuleBecauseLazy, [])</span>
+<span class='curline'><a href='../S/62.html#L104'>start_link</a>        104 deps/ecto/integration_test/sql/test_transaction.exs     {:ok, task} = Task.start_link(fn -&gt;</span>
+<span class='curline'><a href='../S/62.html#L130'>start_link</a>        130 deps/ecto/integration_test/sql/test_transaction.exs     {:ok, task} = Task.start_link(fn -&gt;</span>
+<span class='curline'><a href='../S/62.html#L167'>start_link</a>        167 deps/ecto/integration_test/sql/test_transaction.exs     {:ok, task} = Task.start_link(fn -&gt;</span>
+<span class='curline'><a href='../S/62.html#L193'>start_link</a>        193 deps/ecto/integration_test/sql/test_transaction.exs     {:ok, task} = Task.start_link(fn -&gt;</span>
+<span class='curline'><a href='../S/74.html#L14'>start_link</a>         14 deps/ecto/lib/ecto/adapters/mysql/connection.ex       Mariaex.Connection.start_link(opts)</span>
+<span class='curline'><a href='../S/76.html#L22'>start_link</a>         22 deps/ecto/lib/ecto/adapters/postgres/connection.ex       Postgrex.start_link(opts)</span>
+<span class='curline'><a href='../S/81.html#L38'>start_link</a>         38 deps/ecto/lib/ecto/adapters/sql.ex         Ecto.Adapters.SQL.start_link(@conn, @adapter, repo, opts)</span>
+<span class='curline'><a href='../S/81.html#L434'>start_link</a>        434 deps/ecto/lib/ecto/adapters/sql.ex     pool.start_link(connection, opts)</span>
+<span class='curline'><a href='../S/80.html#L24'>start_link</a>         24 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   @spec start_link(module, Keyword.t) :: {:ok, pid} | {:error, any}</span>
+<span class='curline'><a href='../S/80.html#L32'>start_link</a>         32 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     Supervisor.start_link(children, sup_opts)</span>
+<span class='curline'><a href='../S/82.html#L14'>start_link</a>         14 deps/ecto/lib/ecto/application.ex     Supervisor.start_link(children, opts)</span>
+<span class='curline'><a href='../S/91.html#L37'>start_link</a>         37 deps/ecto/lib/ecto/migration/runner.ex     Agent.start_link(fn -&gt;</span>
+<span class='curline'><a href='../S/93.html#L7'>start_link</a>          7 deps/ecto/lib/ecto/migration/supervisor.ex     Supervisor.start_link(__MODULE__, :ok, name: __MODULE__)</span>
+<span class='curline'><a href='../S/102.html#L30'>start_link</a>         30 deps/ecto/lib/ecto/pools/poolboy.ex     Supervisor.start_link(children, sup_opts)</span>
+<span class='curline'><a href='../S/101.html#L11'>start_link</a>         11 deps/ecto/lib/ecto/pools/poolboy/worker.ex   @spec start_link({module, Keyword.t}) :: {:ok, pid}</span>
+<span class='curline'><a href='../S/101.html#L13'>start_link</a>         13 deps/ecto/lib/ecto/pools/poolboy/worker.ex     GenServer.start_link(__MODULE__, {module, params}, [])</span>
+<span class='curline'><a href='../S/106.html#L44'>start_link</a>         44 deps/ecto/lib/ecto/pools/sojourn_broker.ex     Supervisor.start_link(children, sup_opts)</span>
+<span class='curline'><a href='../S/105.html#L12'>start_link</a>         12 deps/ecto/lib/ecto/pools/sojourn_broker/worker.ex   @spec start_link(module, module, Keyword.t) :: {:ok, pid}</span>
+<span class='curline'><a href='../S/105.html#L14'>start_link</a>         14 deps/ecto/lib/ecto/pools/sojourn_broker/worker.ex     GenServer.start_link(__MODULE__, {module, broker, params}, [])</span>
+<span class='curline'><a href='../S/129.html#L80'>start_link</a>         80 deps/ecto/lib/ecto/repo.ex         Ecto.Repo.Supervisor.start_link(__MODULE__, @otp_app, @adapter, opts)</span>
+<span class='curline'><a href='../S/128.html#L11'>start_link</a>         11 deps/ecto/lib/ecto/repo/supervisor.ex     Supervisor.start_link(__MODULE__, {name, repo, otp_app, adapter, opts}, [name: name])</span>
+<span class='curline'><a href='../S/135.html#L80'>start_link</a>         80 deps/ecto/lib/mix/ecto.ex     case repo.start_link do</span>
+<span class='curline'><a href='../S/149.html#L8'>start_link</a>          8 deps/poolboy/src/poolboy.erl          start_link/1, start_link/2, stop/1, status/1]).</span>
+<span class='curline'><a href='../S/149.html#L91'>start_link</a>         91 deps/poolboy/src/poolboy.erl     {PoolId, {poolboy, start_link, [PoolArgs, WorkerArgs]},</span>
+<span class='curline'><a href='../S/149.html#L105'>start_link</a>        105 deps/poolboy/src/poolboy.erl -spec start_link(PoolArgs :: proplists:proplist())</span>
+<span class='curline'><a href='../S/149.html#L109'>start_link</a>        109 deps/poolboy/src/poolboy.erl     start_link(PoolArgs, PoolArgs).</span>
+<span class='curline'><a href='../S/149.html#L111'>start_link</a>        111 deps/poolboy/src/poolboy.erl -spec start_link(PoolArgs :: proplists:proplist(),</span>
+<span class='curline'><a href='../S/149.html#L115'>start_link</a>        115 deps/poolboy/src/poolboy.erl     start_pool(start_link, PoolArgs, WorkerArgs).</span>
+<span class='curline'><a href='../S/149.html#L132'>start_link</a>        132 deps/poolboy/src/poolboy.erl     {ok, Sup} = poolboy_sup:start_link(Mod, WorkerArgs),</span>
+<span class='curline'><a href='../S/150.html#L6'>start_link</a>          6 deps/poolboy/src/poolboy_sup.erl -export([start_link/2, init/1]).</span>
+<span class='curline'><a href='../S/150.html#L9'>start_link</a>          9 deps/poolboy/src/poolboy_sup.erl     supervisor:start_link(?MODULE, {Mod, Args}).</span>
+<span class='curline'><a href='../S/150.html#L13'>start_link</a>         13 deps/poolboy/src/poolboy_sup.erl           [{Mod, {Mod, start_link, [Args]},</span>
+<span class='curline'><a href='../S/151.html#L5'>start_link</a>          5 deps/poolboy/src/poolboy_worker.erl -callback start_link(WorkerArgs) -&gt; {ok, Pid} |</span>
+<span class='curline'><a href='../S/197.html#L70'>start_link</a>         70 deps/postgrex/lib/postgrex.ex   @spec start_link(Keyword.t) :: {:ok, pid} | {:error, Postgrex.Error.t | term}</span>
+<span class='curline'><a href='../S/197.html#L73'>start_link</a>         73 deps/postgrex/lib/postgrex.ex     DBConnection.start_link(Postgrex.Protocol, opts)</span>
+<span class='curline'><a href='../S/155.html#L10'>start_link</a>         10 deps/postgrex/lib/postgrex/app.ex     Supervisor.start_link(children, opts)</span>
+<span class='curline'><a href='../S/188.html#L25'>start_link</a>         25 deps/postgrex/lib/postgrex/notifications.ex   @spec start_link(Keyword.t) :: {:ok, pid} | {:error, Postgrex.Error.t | term}</span>
+<span class='curline'><a href='../S/188.html#L27'>start_link</a>         27 deps/postgrex/lib/postgrex/notifications.ex     Connection.start_link(__MODULE__, Postgrex.Utils.default_opts(opts))</span>
+<span class='curline'><a href='../S/189.html#L10'>start_link</a>         10 deps/postgrex/lib/postgrex/parameters.ex     GenServer.start_link(__MODULE__, nil, [name: __MODULE__])</span>
+<span class='curline'><a href='../S/194.html#L12'>start_link</a>         12 deps/postgrex/lib/postgrex/type_server.ex   @spec start_link :: GenServer.on_start</span>
+<span class='curline'><a href='../S/194.html#L14'>start_link</a>         14 deps/postgrex/lib/postgrex/type_server.ex     GenServer.start_link(__MODULE__, [], name: @name)</span>
+<span class='curline'><a href='../S/201.html#L12'>start_link</a>         12 lib/ecto_study01.ex     Supervisor.start_link(children, opts)</span>
+</pre>
+</body>
+</html>

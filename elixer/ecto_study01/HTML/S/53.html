@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/integration_test/cases/migrator.exs</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/228.html'>integration_test</a>/<a href='../files/229.html'>cases</a>/migrator.exs</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L113'>[^]</a><a href='#L142'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L113' title='Defined at 113.'>count_entries</a></li>
+<li><a href='#L117' title='Defined at 117.'>create_migration</a></li>
+<li><a href='#L133' title='Defined at 133.'>update</a></li>
+<li><a href='#L142' title='Defined at 142.'>purge</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>Code.require_file "../support/file_helpers.exs", __DIR__
+<a id='L2' name='L2'></a>
+<a id='L3' name='L3'></a>defmodule Ecto.Integration.MigratorTest <strong class='reserved'>do</strong>
+<a id='L4' name='L4'></a>  use ExUnit.Case
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>  import Support.FileHelpers
+<a id='L7' name='L7'></a>  import Ecto.Migrator, only: [migrated_versions: 1]
+<a id='L8' name='L8'></a>
+<a id='L9' name='L9'></a>  alias Ecto.Integration.TestRepo
+<a id='L10' name='L10'></a>  alias Ecto.Migration.SchemaMigration
+<a id='L11' name='L11'></a>
+<a id='L12' name='L12'></a>  setup <strong class='reserved'>do</strong>
+<a id='L13' name='L13'></a>    TestRepo.<a href='../D/446.html' title='Multiple defined in 6 places.'>delete_all</a>(<a href='../S/92.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/migration/schema_migration.ex.'>SchemaMigration</a>)
+<a id='L14' name='L14'></a>    :ok
+<a id='L15' name='L15'></a>  end
+<a id='L16' name='L16'></a>
+<a id='L17' name='L17'></a>  defmodule <a href='../R/27.html' title='Multiple referred from 5 places.'>GoodMigration</a> <strong class='reserved'>do</strong>
+<a id='L18' name='L18'></a>    use Ecto.Migration
+<a id='L19' name='L19'></a>
+<a id='L20' name='L20'></a>    def <a href='../R/1003.html' title='Multiple referred from 22 places.'>up</a> <strong class='reserved'>do</strong>
+<a id='L21' name='L21'></a>      :ok
+<a id='L22' name='L22'></a>    end
+<a id='L23' name='L23'></a>
+<a id='L24' name='L24'></a>    def <a href='../R/382.html' title='Multiple referred from 22 places.'>down</a> <strong class='reserved'>do</strong>
+<a id='L25' name='L25'></a>      :ok
+<a id='L26' name='L26'></a>    end
+<a id='L27' name='L27'></a>  end
+<a id='L28' name='L28'></a>
+<a id='L29' name='L29'></a>  defmodule <a href='../S/53.html#L61' title='Referred from 61 in deps/ecto/integration_test/cases/migrator.exs.'>BadMigration</a> <strong class='reserved'>do</strong>
+<a id='L30' name='L30'></a>    use Ecto.Migration
+<a id='L31' name='L31'></a>
+<a id='L32' name='L32'></a>    def <a href='../R/220.html' title='Multiple referred from 42 places.'>change</a> <strong class='reserved'>do</strong>
+<a id='L33' name='L33'></a>      <a href='../D/581.html' title='Multiple defined in 10 places.'>execute</a> "CREATE WHAT"
+<a id='L34' name='L34'></a>    end
+<a id='L35' name='L35'></a>  end
+<a id='L36' name='L36'></a>
+<a id='L37' name='L37'></a>  import Ecto.Migrator
+<a id='L38' name='L38'></a>
+<a id='L39' name='L39'></a>  test "schema migration" <strong class='reserved'>do</strong>
+<a id='L40' name='L40'></a>    <a href='../D/1170.html' title='Multiple defined in 18 places.'>up</a>(TestRepo, 20100906120000, <a href='../S/53.html#L17' title='Defined at 17 in deps/ecto/integration_test/cases/migrator.exs.'>GoodMigration</a>, log: false)
+<a id='L41' name='L41'></a>
+<a id='L42' name='L42'></a>    [<a href='../D/773.html' title='Multiple defined in 2 places.'>migration</a>] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../S/92.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/migration/schema_migration.ex.'>SchemaMigration</a>)
+<a id='L43' name='L43'></a>    assert <a href='../D/773.html' title='Multiple defined in 2 places.'>migration</a>.version == 20100906120000
+<a id='L44' name='L44'></a>    assert <a href='../D/773.html' title='Multiple defined in 2 places.'>migration</a>.inserted_at
+<a id='L45' name='L45'></a>  end
+<a id='L46' name='L46'></a>
+<a id='L47' name='L47'></a>  test "migrations up and down" <strong class='reserved'>do</strong>
+<a id='L48' name='L48'></a>    assert <a href='../D/772.html' title='Multiple defined in 2 places.'>migrated_versions</a>(TestRepo) == []
+<a id='L49' name='L49'></a>    assert <a href='../D/1170.html' title='Multiple defined in 18 places.'>up</a>(TestRepo, 20100906120000, <a href='../S/53.html#L17' title='Defined at 17 in deps/ecto/integration_test/cases/migrator.exs.'>GoodMigration</a>, log: false) == :ok
+<a id='L50' name='L50'></a>
+<a id='L51' name='L51'></a>    assert <a href='../D/772.html' title='Multiple defined in 2 places.'>migrated_versions</a>(TestRepo) == [20100906120000]
+<a id='L52' name='L52'></a>    assert <a href='../D/1170.html' title='Multiple defined in 18 places.'>up</a>(TestRepo, 20100906120000, <a href='../S/53.html#L17' title='Defined at 17 in deps/ecto/integration_test/cases/migrator.exs.'>GoodMigration</a>, log: false) == :already_up
+<a id='L53' name='L53'></a>    assert <a href='../D/772.html' title='Multiple defined in 2 places.'>migrated_versions</a>(TestRepo) == [20100906120000]
+<a id='L54' name='L54'></a>    assert <a href='../D/508.html' title='Multiple defined in 22 places.'>down</a>(TestRepo, 21100906120000, <a href='../S/53.html#L17' title='Defined at 17 in deps/ecto/integration_test/cases/migrator.exs.'>GoodMigration</a>, log: false) == :already_down
+<a id='L55' name='L55'></a>    assert <a href='../D/772.html' title='Multiple defined in 2 places.'>migrated_versions</a>(TestRepo) == [20100906120000]
+<a id='L56' name='L56'></a>    assert <a href='../D/508.html' title='Multiple defined in 22 places.'>down</a>(TestRepo, 20100906120000, <a href='../S/53.html#L17' title='Defined at 17 in deps/ecto/integration_test/cases/migrator.exs.'>GoodMigration</a>, log: false) == :ok
+<a id='L57' name='L57'></a>    assert <a href='../D/772.html' title='Multiple defined in 2 places.'>migrated_versions</a>(TestRepo) == []
+<a id='L58' name='L58'></a>  end
+<a id='L59' name='L59'></a>
+<a id='L60' name='L60'></a>  test "bad migration" <strong class='reserved'>do</strong>
+<a id='L61' name='L61'></a>    assert catch_error(<a href='../D/1170.html' title='Multiple defined in 18 places.'>up</a>(TestRepo, 20100906120000, <a href='../S/53.html#L29' title='Defined at 29 in deps/ecto/integration_test/cases/migrator.exs.'>BadMigration</a>, log: false))
+<a id='L62' name='L62'></a>  end
+<a id='L63' name='L63'></a>
+<a id='L64' name='L64'></a>  test "run up to/step migration" <strong class='reserved'>do</strong>
+<a id='L65' name='L65'></a>    <a href='../S/64.html#L15' title='Defined at 15 in deps/ecto/integration_test/support/file_helpers.exs.'>in_tmp</a> fn path -&gt;
+<a id='L66' name='L66'></a>      <a href='../S/53.html#L117' title='Defined at 117 in deps/ecto/integration_test/cases/migrator.exs.'>create_migration</a>(47)
+<a id='L67' name='L67'></a>      <a href='../S/53.html#L117' title='Defined at 117 in deps/ecto/integration_test/cases/migrator.exs.'>create_migration</a>(48)
+<a id='L68' name='L68'></a>
+<a id='L69' name='L69'></a>      assert [47] = <a href='../D/1001.html' title='Multiple defined in 11 places.'>run</a>(TestRepo, path, :up, step: 1, log: false)
+<a id='L70' name='L70'></a>      assert <a href='../S/53.html#L113' title='Defined at 113 in deps/ecto/integration_test/cases/migrator.exs.'>count_entries</a>() == 1
+<a id='L71' name='L71'></a>
+<a id='L72' name='L72'></a>      assert [48] = <a href='../D/1001.html' title='Multiple defined in 11 places.'>run</a>(TestRepo, path, :up, to: 48, log: false)
+<a id='L73' name='L73'></a>    end
+<a id='L74' name='L74'></a>  end
+<a id='L75' name='L75'></a>
+<a id='L76' name='L76'></a>  test "run down to/step migration" <strong class='reserved'>do</strong>
+<a id='L77' name='L77'></a>    <a href='../S/64.html#L15' title='Defined at 15 in deps/ecto/integration_test/support/file_helpers.exs.'>in_tmp</a> fn path -&gt;
+<a id='L78' name='L78'></a>      <a href='../D/774.html' title='Multiple defined in 2 places.'>migrations</a> = [
+<a id='L79' name='L79'></a>        <a href='../S/53.html#L117' title='Defined at 117 in deps/ecto/integration_test/cases/migrator.exs.'>create_migration</a>(49),
+<a id='L80' name='L80'></a>        <a href='../S/53.html#L117' title='Defined at 117 in deps/ecto/integration_test/cases/migrator.exs.'>create_migration</a>(50),
+<a id='L81' name='L81'></a>      ]
+<a id='L82' name='L82'></a>
+<a id='L83' name='L83'></a>      assert [49, 50] = <a href='../D/1001.html' title='Multiple defined in 11 places.'>run</a>(TestRepo, path, :up, all: true, log: false)
+<a id='L84' name='L84'></a>      <a href='../S/53.html#L142' title='Defined at 142 in deps/ecto/integration_test/cases/migrator.exs.'>purge</a> <a href='../D/774.html' title='Multiple defined in 2 places.'>migrations</a>
+<a id='L85' name='L85'></a>
+<a id='L86' name='L86'></a>      assert [50] = <a href='../D/1001.html' title='Multiple defined in 11 places.'>run</a>(TestRepo, path, :down, step: 1, log: false)
+<a id='L87' name='L87'></a>      <a href='../S/53.html#L142' title='Defined at 142 in deps/ecto/integration_test/cases/migrator.exs.'>purge</a> <a href='../D/774.html' title='Multiple defined in 2 places.'>migrations</a>
+<a id='L88' name='L88'></a>
+<a id='L89' name='L89'></a>      assert <a href='../S/53.html#L113' title='Defined at 113 in deps/ecto/integration_test/cases/migrator.exs.'>count_entries</a>() == 1
+<a id='L90' name='L90'></a>      assert [50] = <a href='../D/1001.html' title='Multiple defined in 11 places.'>run</a>(TestRepo, path, :up, to: 50, log: false)
+<a id='L91' name='L91'></a>    end
+<a id='L92' name='L92'></a>  end
+<a id='L93' name='L93'></a>
+<a id='L94' name='L94'></a>  test "runs all migrations" <strong class='reserved'>do</strong>
+<a id='L95' name='L95'></a>    <a href='../S/64.html#L15' title='Defined at 15 in deps/ecto/integration_test/support/file_helpers.exs.'>in_tmp</a> fn path -&gt;
+<a id='L96' name='L96'></a>      <a href='../D/774.html' title='Multiple defined in 2 places.'>migrations</a> = [
+<a id='L97' name='L97'></a>        <a href='../S/53.html#L117' title='Defined at 117 in deps/ecto/integration_test/cases/migrator.exs.'>create_migration</a>(53),
+<a id='L98' name='L98'></a>        <a href='../S/53.html#L117' title='Defined at 117 in deps/ecto/integration_test/cases/migrator.exs.'>create_migration</a>(54),
+<a id='L99' name='L99'></a>      ]
+<a id='L100' name='L100'></a>
+<a id='L101' name='L101'></a>      assert [53, 54] = <a href='../D/1001.html' title='Multiple defined in 11 places.'>run</a>(TestRepo, path, :up, all: true, log: false)
+<a id='L102' name='L102'></a>      assert [] = <a href='../D/1001.html' title='Multiple defined in 11 places.'>run</a>(TestRepo, path, :up, all: true, log: false)
+<a id='L103' name='L103'></a>      <a href='../S/53.html#L142' title='Defined at 142 in deps/ecto/integration_test/cases/migrator.exs.'>purge</a> <a href='../D/774.html' title='Multiple defined in 2 places.'>migrations</a>
+<a id='L104' name='L104'></a>
+<a id='L105' name='L105'></a>      assert [54, 53] = <a href='../D/1001.html' title='Multiple defined in 11 places.'>run</a>(TestRepo, path, :down, all: true, log: false)
+<a id='L106' name='L106'></a>      <a href='../S/53.html#L142' title='Defined at 142 in deps/ecto/integration_test/cases/migrator.exs.'>purge</a> <a href='../D/774.html' title='Multiple defined in 2 places.'>migrations</a>
+<a id='L107' name='L107'></a>
+<a id='L108' name='L108'></a>      assert <a href='../S/53.html#L113' title='Defined at 113 in deps/ecto/integration_test/cases/migrator.exs.'>count_entries</a>() == 0
+<a id='L109' name='L109'></a>      assert [53, 54] = <a href='../D/1001.html' title='Multiple defined in 11 places.'>run</a>(TestRepo, path, :up, all: true, log: false)
+<a id='L110' name='L110'></a>    end
+<a id='L111' name='L111'></a>  end
+<a id='L112' name='L112'></a>
+<a id='L113' name='L113'></a>  defp <a href='../R/273.html' title='Multiple referred from 3 places.'>count_entries</a>() <strong class='reserved'>do</strong>
+<a id='L114' name='L114'></a>    length Process.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(:migrations)
+<a id='L115' name='L115'></a>  end
+<a id='L116' name='L116'></a>
+<a id='L117' name='L117'></a>  defp <a href='../R/278.html' title='Multiple referred from 6 places.'>create_migration</a>(num) <strong class='reserved'>do</strong>
+<a id='L118' name='L118'></a>    module = Module.concat(__MODULE__, "Migration#{num}")
+<a id='L119' name='L119'></a>
+<a id='L120' name='L120'></a>    File.write! "#{num}_migration_#{num}.exs", """
+<a id='L121' name='L121'></a>    defmodule #<em class='brace'>{</em>module<em class='brace'>}</em> <strong class='reserved'>do</strong>
+<a id='L122' name='L122'></a>      use Ecto.Migration
+<a id='L123' name='L123'></a>
+<a id='L124' name='L124'></a>
+<a id='L125' name='L125'></a>      def <a href='../R/1003.html' title='Multiple referred from 22 places.'>up</a> <strong class='reserved'>do</strong>
+<a id='L126' name='L126'></a>        update &amp;[#<em class='brace'>{</em>num<em class='brace'>}</em>|&amp;1]
+<a id='L127' name='L127'></a>      end
+<a id='L128' name='L128'></a>
+<a id='L129' name='L129'></a>      def <a href='../R/382.html' title='Multiple referred from 22 places.'>down</a> <strong class='reserved'>do</strong>
+<a id='L130' name='L130'></a>        update &amp;List.delete(&amp;1, #<em class='brace'>{</em>num<em class='brace'>}</em>)
+<a id='L131' name='L131'></a>      end
+<a id='L132' name='L132'></a>
+<a id='L133' name='L133'></a>      defp <a href='../R/1004.html' title='Multiple referred from 24 places.'>update</a>(fun) <strong class='reserved'>do</strong>
+<a id='L134' name='L134'></a>        Process.put(:migrations, fun.(Process.get(:migrations) || []))
+<a id='L135' name='L135'></a>      end
+<a id='L136' name='L136'></a>    end
+<a id='L137' name='L137'></a>    """
+<a id='L138' name='L138'></a>
+<a id='L139' name='L139'></a>    module
+<a id='L140' name='L140'></a>  end
+<a id='L141' name='L141'></a>
+<a id='L142' name='L142'></a>  defp <a href='../R/764.html' title='Multiple referred from 5 places.'>purge</a>(modules) <strong class='reserved'>do</strong>
+<a id='L143' name='L143'></a>    Enum.each(List.<a href='../D/1209.html' title='Multiple defined in 3 places.'>wrap</a>(modules), fn m -&gt;
+<a id='L144' name='L144'></a>      :code.<a href='../D/444.html' title='Multiple defined in 10 places.'>delete</a> m
+<a id='L145' name='L145'></a>      :code.<a href='../S/53.html#L142' title='Defined at 142 in deps/ecto/integration_test/cases/migrator.exs.'>purge</a> m
+<a id='L146' name='L146'></a>    end)
+<a id='L147' name='L147'></a>  end
+<a id='L148' name='L148'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L113'>[^]</a><a href='#L142'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

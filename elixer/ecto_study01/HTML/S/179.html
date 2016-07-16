@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/postgrex/lib/postgrex/extensions/range.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/252.html'>postgrex</a>/<a href='../files/253.html'>lib</a>/<a href='../files/254.html'>postgrex</a>/<a href='../files/255.html'>extensions</a>/range.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L15'>[^]</a><a href='#L71'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L15' title='Defined at 15.'>encode</a></li>
+<li><a href='#L17' title='Defined at 17.'>encode</a></li>
+<li><a href='#L22' title='Defined at 22.'>decode</a></li>
+<li><a href='#L27' title='Defined at 27.'>encode_range</a></li>
+<li><a href='#L31' title='Defined at 31.'>encode_range</a></li>
+<li><a href='#L67' title='Defined at 67.'>decode_range</a></li>
+<li><a href='#L71' title='Defined at 71.'>decode_range</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Postgrex.Extensions.<a href='../S/196.html#L79' title='Referred from 79 in deps/postgrex/lib/postgrex/utils.ex.'>Range</a> <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc false
+<a id='L3' name='L3'></a>  alias Postgrex.TypeInfo
+<a id='L4' name='L4'></a>  alias Postgrex.Types
+<a id='L5' name='L5'></a>  import Postgrex.BinaryUtils
+<a id='L6' name='L6'></a>  use Postgrex.BinaryExtension, [] # send: "range_send" hard coded in types
+<a id='L7' name='L7'></a>  use Bitwise, only_operators: true
+<a id='L8' name='L8'></a>
+<a id='L9' name='L9'></a>  @range_empty   0x01
+<a id='L10' name='L10'></a>  @range_lb_inc  0x02
+<a id='L11' name='L11'></a>  @range_ub_inc  0x04
+<a id='L12' name='L12'></a>  @range_lb_inf  0x08
+<a id='L13' name='L13'></a>  @range_ub_inf  0x10
+<a id='L14' name='L14'></a>
+<a id='L15' name='L15'></a>  def <a href='../R/398.html' title='Multiple referred from 16 places.'>encode</a>(%<a href='../S/193.html#L1' title='Defined at 1 in deps/postgrex/lib/postgrex/type_info.ex.'>TypeInfo</a><em class='brace'>{</em>base_type: oid<em class='brace'>}</em>, %Postgrex.Range<em class='brace'>{</em><em class='brace'>}</em> = range, <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>, _),
+<a id='L16' name='L16'></a>    <strong class='reserved'>do</strong>: <a href='../D/537.html' title='Multiple defined in 2 places.'>encode_range</a>(range, oid, <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>)
+<a id='L17' name='L17'></a>  def <a href='../R/398.html' title='Multiple referred from 16 places.'>encode</a>(type_info, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, _, _) <strong class='reserved'>do</strong>
+<a id='L18' name='L18'></a>    raise ArgumentError,
+<a id='L19' name='L19'></a>      Postgrex.Utils.<a href='../D/532.html' title='Multiple defined in 2 places.'>encode_msg</a>(type_info, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, Postgrex.Range)
+<a id='L20' name='L20'></a>  end
+<a id='L21' name='L21'></a>
+<a id='L22' name='L22'></a>  def <a href='../R/289.html' title='Multiple referred from 21 places.'>decode</a>(%<a href='../S/193.html#L1' title='Defined at 1 in deps/postgrex/lib/postgrex/type_info.ex.'>TypeInfo</a><em class='brace'>{</em>base_type: oid<em class='brace'>}</em>, bin, <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>, _),
+<a id='L23' name='L23'></a>    <strong class='reserved'>do</strong>: <a href='../D/426.html' title='Multiple defined in 2 places.'>decode_range</a>(bin, oid, <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>)
+<a id='L24' name='L24'></a>
+<a id='L25' name='L25'></a><em class='sharp'>  #</em># Helpers
+<a id='L26' name='L26'></a>
+<a id='L27' name='L27'></a>  defp <a href='../S/179.html#L16' title='Referred from 16 in deps/postgrex/lib/postgrex/extensions/range.ex.'>encode_range</a>(%Postgrex.Range<em class='brace'>{</em>lower: nil, upper: nil<em class='brace'>}</em>, _oid, _types) <strong class='reserved'>do</strong>
+<a id='L28' name='L28'></a>    &lt;&lt;@range_empty&gt;&gt;
+<a id='L29' name='L29'></a>  end
+<a id='L30' name='L30'></a>
+<a id='L31' name='L31'></a>  defp <a href='../S/179.html#L16' title='Referred from 16 in deps/postgrex/lib/postgrex/extensions/range.ex.'>encode_range</a>(range, oid, <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>) <strong class='reserved'>do</strong>
+<a id='L32' name='L32'></a>    flags = 0
+<a id='L33' name='L33'></a>
+<a id='L34' name='L34'></a>    <em class='brace'>{</em>flags, bin<em class='brace'>}</em> =
+<a id='L35' name='L35'></a>      <strong class='reserved'>if</strong> range.<a href='../D/744.html' title='Multiple defined in 3 places.'>lower</a> == nil <strong class='reserved'>do</strong>
+<a id='L36' name='L36'></a>        <em class='brace'>{</em>flags ||| @range_lb_inf, ""<em class='brace'>}</em>
+<a id='L37' name='L37'></a>      <strong class='reserved'>else</strong>
+<a id='L38' name='L38'></a>        <a href='../S/190.html#L917' title='Defined at 917 in deps/postgrex/lib/postgrex/protocol.ex.'>data</a> = <a href='../S/195.html#L1' title='Defined at 1 in deps/postgrex/lib/postgrex/types.ex.'>Types</a>.<a href='../D/526.html' title='Multiple defined in 84 places.'>encode</a>(oid, range.<a href='../D/744.html' title='Multiple defined in 3 places.'>lower</a>, <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>)
+<a id='L39' name='L39'></a>        <em class='brace'>{</em>flags, [&lt;&lt;IO.iodata_length(<a href='../S/190.html#L917' title='Defined at 917 in deps/postgrex/lib/postgrex/protocol.ex.'>data</a>)::int32&gt;&gt;, data]<em class='brace'>}</em>
+<a id='L40' name='L40'></a>      end
+<a id='L41' name='L41'></a>
+<a id='L42' name='L42'></a>    <em class='brace'>{</em>flags, bin<em class='brace'>}</em> =
+<a id='L43' name='L43'></a>    <strong class='reserved'>if</strong> range.upper == nil <strong class='reserved'>do</strong>
+<a id='L44' name='L44'></a>      <em class='brace'>{</em>flags ||| @range_ub_inf, bin<em class='brace'>}</em>
+<a id='L45' name='L45'></a>    <strong class='reserved'>else</strong>
+<a id='L46' name='L46'></a>      <a href='../S/190.html#L917' title='Defined at 917 in deps/postgrex/lib/postgrex/protocol.ex.'>data</a> = <a href='../S/195.html#L1' title='Defined at 1 in deps/postgrex/lib/postgrex/types.ex.'>Types</a>.<a href='../D/526.html' title='Multiple defined in 84 places.'>encode</a>(oid, range.upper, <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>)
+<a id='L47' name='L47'></a>      <em class='brace'>{</em>flags, [bin, &lt;&lt;IO.iodata_length(<a href='../S/190.html#L917' title='Defined at 917 in deps/postgrex/lib/postgrex/protocol.ex.'>data</a>)::int32&gt;&gt;, data]<em class='brace'>}</em>
+<a id='L48' name='L48'></a>    end
+<a id='L49' name='L49'></a>
+<a id='L50' name='L50'></a>    flags =
+<a id='L51' name='L51'></a>      <strong class='reserved'>if</strong> range.lower_inclusive <strong class='reserved'>do</strong>
+<a id='L52' name='L52'></a>        flags ||| @range_lb_inc
+<a id='L53' name='L53'></a>      <strong class='reserved'>else</strong>
+<a id='L54' name='L54'></a>        flags
+<a id='L55' name='L55'></a>      end
+<a id='L56' name='L56'></a>
+<a id='L57' name='L57'></a>    flags =
+<a id='L58' name='L58'></a>      <strong class='reserved'>if</strong> range.upper_inclusive <strong class='reserved'>do</strong>
+<a id='L59' name='L59'></a>        flags ||| @range_ub_inc
+<a id='L60' name='L60'></a>      <strong class='reserved'>else</strong>
+<a id='L61' name='L61'></a>        flags
+<a id='L62' name='L62'></a>      end
+<a id='L63' name='L63'></a>
+<a id='L64' name='L64'></a>    [flags|bin]
+<a id='L65' name='L65'></a>  end
+<a id='L66' name='L66'></a>
+<a id='L67' name='L67'></a>  defp <a href='../S/179.html#L23' title='Referred from 23 in deps/postgrex/lib/postgrex/extensions/range.ex.'>decode_range</a>(&lt;&lt;flags&gt;&gt;, _oid, _types) when (flags &amp;&amp;&amp; @range_empty) != 0 <strong class='reserved'>do</strong>
+<a id='L68' name='L68'></a>    %Postgrex.Range<em class='brace'>{</em><em class='brace'>}</em>
+<a id='L69' name='L69'></a>  end
+<a id='L70' name='L70'></a>
+<a id='L71' name='L71'></a>  defp <a href='../S/179.html#L23' title='Referred from 23 in deps/postgrex/lib/postgrex/extensions/range.ex.'>decode_range</a>(&lt;&lt;flags, rest::<a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>&gt;&gt;, oid, <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>) <strong class='reserved'>do</strong>
+<a id='L72' name='L72'></a>    <em class='brace'>{</em><a href='../D/744.html' title='Multiple defined in 3 places.'>lower</a>, rest<em class='brace'>}</em> =
+<a id='L73' name='L73'></a>      <strong class='reserved'>if</strong> (flags &amp;&amp;&amp; @range_lb_inf) != 0 <strong class='reserved'>do</strong>
+<a id='L74' name='L74'></a>        <em class='brace'>{</em>nil, rest<em class='brace'>}</em>
+<a id='L75' name='L75'></a>      <strong class='reserved'>else</strong>
+<a id='L76' name='L76'></a>        &lt;&lt;size::int32, <a href='../D/744.html' title='Multiple defined in 3 places.'>lower</a>::<a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>(size), rest::binary&gt;&gt; = rest
+<a id='L77' name='L77'></a>        <em class='brace'>{</em><a href='../S/195.html#L1' title='Defined at 1 in deps/postgrex/lib/postgrex/types.ex.'>Types</a>.<a href='../D/413.html' title='Multiple defined in 49 places.'>decode</a>(oid, <a href='../D/744.html' title='Multiple defined in 3 places.'>lower</a>, <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>), rest<em class='brace'>}</em>
+<a id='L78' name='L78'></a>      end
+<a id='L79' name='L79'></a>
+<a id='L80' name='L80'></a>    <em class='brace'>{</em>upper, rest<em class='brace'>}</em> =
+<a id='L81' name='L81'></a>      <strong class='reserved'>if</strong> (flags &amp;&amp;&amp; @range_ub_inf) != 0 <strong class='reserved'>do</strong>
+<a id='L82' name='L82'></a>        <em class='brace'>{</em>nil, rest<em class='brace'>}</em>
+<a id='L83' name='L83'></a>      <strong class='reserved'>else</strong>
+<a id='L84' name='L84'></a>        &lt;&lt;size::int32, upper::<a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>(size), rest::binary&gt;&gt; = rest
+<a id='L85' name='L85'></a>        <em class='brace'>{</em><a href='../S/195.html#L1' title='Defined at 1 in deps/postgrex/lib/postgrex/types.ex.'>Types</a>.<a href='../D/413.html' title='Multiple defined in 49 places.'>decode</a>(oid, upper, <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>), rest<em class='brace'>}</em>
+<a id='L86' name='L86'></a>      end
+<a id='L87' name='L87'></a>
+<a id='L88' name='L88'></a>    "" = rest
+<a id='L89' name='L89'></a>    lower_inclusive = (flags &amp;&amp;&amp; @range_lb_inc) != 0
+<a id='L90' name='L90'></a>    upper_inclusive = (flags &amp;&amp;&amp; @range_ub_inc) != 0
+<a id='L91' name='L91'></a>    %Postgrex.Range<em class='brace'>{</em><a href='../D/744.html' title='Multiple defined in 3 places.'>lower</a>: lower, upper: upper, lower_inclusive: lower_inclusive,
+<a id='L92' name='L92'></a>                    upper_inclusive: upper_inclusive<em class='brace'>}</em>
+<a id='L93' name='L93'></a>  end
+<a id='L94' name='L94'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L15'>[^]</a><a href='#L71'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

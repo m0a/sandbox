@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>sync</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/190.html#L104'>sync</a>              104 deps/postgrex/lib/postgrex/protocol.ex         sync(s, status, :active_once, buffer)</span>
+<span class='curline'><a href='../S/190.html#L106'>sync</a>              106 deps/postgrex/lib/postgrex/protocol.ex         sync(s, status, nil, buffer)</span>
+<span class='curline'><a href='../S/190.html#L598'>sync</a>              598 deps/postgrex/lib/postgrex/protocol.ex         sync(s, status, Postgrex.Error.exception(postgres: fields), buffer)</span>
+<span class='curline'><a href='../S/190.html#L618'>sync</a>              618 deps/postgrex/lib/postgrex/protocol.ex         sync(s, status, Postgrex.Error.exception(postgres: fields), buffer)</span>
+<span class='curline'><a href='../S/190.html#L628'>sync</a>              628 deps/postgrex/lib/postgrex/protocol.ex   defp handle_execute(query, params, sync, opts, s) do</span>
+<span class='curline'><a href='../S/190.html#L630'>sync</a>              630 deps/postgrex/lib/postgrex/protocol.ex     status = %{notify: notify(opts), sync: sync, prepare: :parse_execute}</span>
+<span class='curline'><a href='../S/190.html#L1124'>sync</a>             1124 deps/postgrex/lib/postgrex/protocol.ex   defp sync_recv(s, %{sync: sync} = status, query, result, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L1133'>sync</a>             1133 deps/postgrex/lib/postgrex/protocol.ex       {:ok, msg_ready(), buffer} when sync == :sync -&gt;</span>
+<span class='curline'><a href='../S/190.html#L1135'>sync</a>             1135 deps/postgrex/lib/postgrex/protocol.ex       {:ok, msg_ready(), buffer} when sync == :sync_close -&gt;</span>
+</pre>
+</body>
+</html>

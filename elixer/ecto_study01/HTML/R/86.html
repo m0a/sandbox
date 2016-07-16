@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Trans</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/63.html#L48'>Trans</a>              48 deps/ecto/integration_test/sql/transaction.exs       e = PoolRepo.insert!(%Trans{text: "1"})</span>
+<span class='curline'><a href='../S/63.html#L49'>Trans</a>              49 deps/ecto/integration_test/sql/transaction.exs       assert [^e] = PoolRepo.all(Trans)</span>
+<span class='curline'><a href='../S/63.html#L50'>Trans</a>              50 deps/ecto/integration_test/sql/transaction.exs       assert [] = TestRepo.all(Trans)</span>
+<span class='curline'><a href='../S/63.html#L53'>Trans</a>              53 deps/ecto/integration_test/sql/transaction.exs     assert [%Trans{text: "1"}] = TestRepo.all(Trans)</span>
+<span class='curline'><a href='../S/63.html#L59'>Trans</a>              59 deps/ecto/integration_test/sql/transaction.exs         e = PoolRepo.insert!(%Trans{text: "2"})</span>
+<span class='curline'><a href='../S/63.html#L60'>Trans</a>              60 deps/ecto/integration_test/sql/transaction.exs         assert [^e] = PoolRepo.all(Trans)</span>
+<span class='curline'><a href='../S/63.html#L61'>Trans</a>              61 deps/ecto/integration_test/sql/transaction.exs         assert [] = TestRepo.all(Trans)</span>
+<span class='curline'><a href='../S/63.html#L68'>Trans</a>              68 deps/ecto/integration_test/sql/transaction.exs     assert [] = TestRepo.all(Trans)</span>
+<span class='curline'><a href='../S/63.html#L87'>Trans</a>              87 deps/ecto/integration_test/sql/transaction.exs       e1 = PoolRepo.insert!(%Trans{text: "3"})</span>
+<span class='curline'><a href='../S/63.html#L88'>Trans</a>              88 deps/ecto/integration_test/sql/transaction.exs       assert [^e1] = PoolRepo.all(Trans)</span>
+<span class='curline'><a href='../S/63.html#L92'>Trans</a>              92 deps/ecto/integration_test/sql/transaction.exs           e2 = PoolRepo.insert!(%Trans{text: "4"})</span>
+<span class='curline'><a href='../S/63.html#L93'>Trans</a>              93 deps/ecto/integration_test/sql/transaction.exs           assert [^e1, ^e2] = PoolRepo.all(from(t in Trans, order_by: t.text))</span>
+<span class='curline'><a href='../S/63.html#L100'>Trans</a>             100 deps/ecto/integration_test/sql/transaction.exs       assert {:noconnect, _} = catch_exit(PoolRepo.insert!(%Trans{text: "5"}))</span>
+<span class='curline'><a href='../S/63.html#L103'>Trans</a>             103 deps/ecto/integration_test/sql/transaction.exs     assert TestRepo.all(Trans) == []</span>
+<span class='curline'><a href='../S/63.html#L108'>Trans</a>             108 deps/ecto/integration_test/sql/transaction.exs       e = PoolRepo.insert!(%Trans{text: "6"})</span>
+<span class='curline'><a href='../S/63.html#L109'>Trans</a>             109 deps/ecto/integration_test/sql/transaction.exs       assert [^e] = PoolRepo.all(Trans)</span>
+<span class='curline'><a href='../S/63.html#L114'>Trans</a>             114 deps/ecto/integration_test/sql/transaction.exs     assert [] = TestRepo.all(Trans)</span>
+<span class='curline'><a href='../S/63.html#L119'>Trans</a>             119 deps/ecto/integration_test/sql/transaction.exs       e = PoolRepo.insert!(%Trans{text: "6"})</span>
+<span class='curline'><a href='../S/63.html#L120'>Trans</a>             120 deps/ecto/integration_test/sql/transaction.exs       assert [^e] = PoolRepo.all(Trans)</span>
+<span class='curline'><a href='../S/63.html#L124'>Trans</a>             124 deps/ecto/integration_test/sql/transaction.exs       assert {:noconnect, _} = catch_exit(PoolRepo.insert!(%Trans{text: "5"}))</span>
+<span class='curline'><a href='../S/63.html#L128'>Trans</a>             128 deps/ecto/integration_test/sql/transaction.exs     assert [] = TestRepo.all(Trans)</span>
+<span class='curline'><a href='../S/63.html#L136'>Trans</a>             136 deps/ecto/integration_test/sql/transaction.exs         e = PoolRepo.insert!(%Trans{text: "7"})</span>
+<span class='curline'><a href='../S/63.html#L137'>Trans</a>             137 deps/ecto/integration_test/sql/transaction.exs         assert [^e] = PoolRepo.all(Trans)</span>
+<span class='curline'><a href='../S/63.html#L153'>Trans</a>             153 deps/ecto/integration_test/sql/transaction.exs     assert [] = PoolRepo.all(Trans)</span>
+<span class='curline'><a href='../S/63.html#L162'>Trans</a>             162 deps/ecto/integration_test/sql/transaction.exs     assert [%Trans{text: "7"}] = PoolRepo.all(Trans)</span>
+<span class='curline'><a href='../S/63.html#L183'>Trans</a>             183 deps/ecto/integration_test/sql/transaction.exs         PoolRepo.insert!(%Trans{text: "8"})</span>
+<span class='curline'><a href='../S/63.html#L191'>Trans</a>             191 deps/ecto/integration_test/sql/transaction.exs     assert [] = PoolRepo.all(Trans)</span>
+<span class='curline'><a href='../S/63.html#L197'>Trans</a>             197 deps/ecto/integration_test/sql/transaction.exs         PoolRepo.insert!(%Trans{text: "10"})</span>
+<span class='curline'><a href='../S/63.html#L204'>Trans</a>             204 deps/ecto/integration_test/sql/transaction.exs     assert [%Trans{text: "10"}] = PoolRepo.all(Trans)</span>
+<span class='curline'><a href='../S/63.html#L210'>Trans</a>             210 deps/ecto/integration_test/sql/transaction.exs         PoolRepo.insert!(%Trans{text: "11"})</span>
+<span class='curline'><a href='../S/63.html#L218'>Trans</a>             218 deps/ecto/integration_test/sql/transaction.exs     assert [] = PoolRepo.all(Trans)</span>
+</pre>
+</body>
+</html>

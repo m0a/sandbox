@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/postgrex/lib/postgrex/extensions/network.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/252.html'>postgrex</a>/<a href='../files/253.html'>lib</a>/<a href='../files/254.html'>postgrex</a>/<a href='../files/255.html'>extensions</a>/network.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L6'>[^]</a><a href='#L46'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L6' title='Defined at 6.'>encode</a></li>
+<li><a href='#L8' title='Defined at 8.'>encode</a></li>
+<li><a href='#L10' title='Defined at 10.'>encode</a></li>
+<li><a href='#L16' title='Defined at 16.'>decode</a></li>
+<li><a href='#L21' title='Defined at 21.'>encode_network</a></li>
+<li><a href='#L23' title='Defined at 23.'>encode_network</a></li>
+<li><a href='#L25' title='Defined at 25.'>encode_network</a></li>
+<li><a href='#L27' title='Defined at 27.'>encode_network</a></li>
+<li><a href='#L30' title='Defined at 30.'>tuple_to_binary</a></li>
+<li><a href='#L32' title='Defined at 32.'>tuple_to_binary</a></li>
+<li><a href='#L35' title='Defined at 35.'>decode_network</a></li>
+<li><a href='#L37' title='Defined at 37.'>decode_network</a></li>
+<li><a href='#L39' title='Defined at 39.'>decode_network</a></li>
+<li><a href='#L41' title='Defined at 41.'>decode_network</a></li>
+<li><a href='#L44' title='Defined at 44.'>binary_to_tuple</a></li>
+<li><a href='#L46' title='Defined at 46.'>binary_to_tuple</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Postgrex.Extensions.Network <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc false
+<a id='L3' name='L3'></a>  alias Postgrex.TypeInfo
+<a id='L4' name='L4'></a>  use Postgrex.BinaryExtension, [send: "inet_send", send: "cidr_send"]
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>  def <a href='../R/398.html' title='Multiple referred from 16 places.'>encode</a>(%<a href='../S/193.html#L1' title='Defined at 1 in deps/postgrex/lib/postgrex/type_info.ex.'>TypeInfo</a><em class='brace'>{</em>type: "inet"<em class='brace'>}</em>, %Postgrex.INET<em class='brace'>{</em><em class='brace'>}</em> = inet, _, _),
+<a id='L7' name='L7'></a>    <strong class='reserved'>do</strong>: <a href='../D/533.html' title='Multiple defined in 4 places.'>encode_network</a>(inet)
+<a id='L8' name='L8'></a>  def <a href='../R/398.html' title='Multiple referred from 16 places.'>encode</a>(%<a href='../S/193.html#L1' title='Defined at 1 in deps/postgrex/lib/postgrex/type_info.ex.'>TypeInfo</a><em class='brace'>{</em>type: "cidr"<em class='brace'>}</em>, %Postgrex.CIDR<em class='brace'>{</em><em class='brace'>}</em> = cidr, _, _),
+<a id='L9' name='L9'></a>    <strong class='reserved'>do</strong>: <a href='../D/533.html' title='Multiple defined in 4 places.'>encode_network</a>(cidr)
+<a id='L10' name='L10'></a>  def <a href='../R/398.html' title='Multiple referred from 16 places.'>encode</a>(%<a href='../S/193.html#L1' title='Defined at 1 in deps/postgrex/lib/postgrex/type_info.ex.'>TypeInfo</a><em class='brace'>{</em><a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>: type<em class='brace'>}</em> = type_info, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, _, _) <strong class='reserved'>do</strong>
+<a id='L11' name='L11'></a>    <strong class='reserved'>struct</strong> = <strong class='reserved'>if</strong> <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a> == "inet", <strong class='reserved'>do</strong>: Postgrex.INET, <strong class='reserved'>else</strong>: Postgrex.CIDR
+<a id='L12' name='L12'></a>    raise ArgumentError,
+<a id='L13' name='L13'></a>      Postgrex.Utils.<a href='../D/532.html' title='Multiple defined in 2 places.'>encode_msg</a>(type_info, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, <strong class='reserved'>struct</strong>)
+<a id='L14' name='L14'></a>  end
+<a id='L15' name='L15'></a>
+<a id='L16' name='L16'></a>  def <a href='../R/289.html' title='Multiple referred from 21 places.'>decode</a>(_, <a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>, _, _),
+<a id='L17' name='L17'></a>    <strong class='reserved'>do</strong>: <a href='../D/423.html' title='Multiple defined in 4 places.'>decode_network</a>(<a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>)
+<a id='L18' name='L18'></a>
+<a id='L19' name='L19'></a><em class='sharp'>  #</em># Helpers
+<a id='L20' name='L20'></a>
+<a id='L21' name='L21'></a>  defp <a href='../R/405.html' title='Multiple referred from 2 places.'>encode_network</a>(%Postgrex.INET<em class='brace'>{</em>address: <em class='brace'>{</em>_, _, _, _<em class='brace'>}</em> = addr<em class='brace'>}</em>),
+<a id='L22' name='L22'></a>    <strong class='reserved'>do</strong>: &lt;&lt;2, 32, 0, 4&gt;&gt; &lt;&gt; <a href='../D/1145.html' title='Multiple defined in 2 places.'>tuple_to_binary</a>(addr)
+<a id='L23' name='L23'></a>  defp <a href='../R/405.html' title='Multiple referred from 2 places.'>encode_network</a>(%Postgrex.CIDR<em class='brace'>{</em>address: <em class='brace'>{</em>_, _, _, _<em class='brace'>}</em> = addr, netmask: n<em class='brace'>}</em>),
+<a id='L24' name='L24'></a>    <strong class='reserved'>do</strong>: &lt;&lt;2, n, 1, 4&gt;&gt; &lt;&gt; <a href='../D/1145.html' title='Multiple defined in 2 places.'>tuple_to_binary</a>(addr)
+<a id='L25' name='L25'></a>  defp <a href='../R/405.html' title='Multiple referred from 2 places.'>encode_network</a>(%Postgrex.INET<em class='brace'>{</em>address: <em class='brace'>{</em>_, _, _, _, _, _, _, _<em class='brace'>}</em> = addr<em class='brace'>}</em>),
+<a id='L26' name='L26'></a>    <strong class='reserved'>do</strong>: &lt;&lt;3, 128, 0, 16&gt;&gt; &lt;&gt; <a href='../D/1145.html' title='Multiple defined in 2 places.'>tuple_to_binary</a>(addr)
+<a id='L27' name='L27'></a>  defp <a href='../R/405.html' title='Multiple referred from 2 places.'>encode_network</a>(%Postgrex.CIDR<em class='brace'>{</em>address: <em class='brace'>{</em>_, _, _, _, _, _, _, _<em class='brace'>}</em> = addr, netmask: n<em class='brace'>}</em>),
+<a id='L28' name='L28'></a>    <strong class='reserved'>do</strong>: &lt;&lt;3, n, 1, 16&gt;&gt; &lt;&gt; <a href='../D/1145.html' title='Multiple defined in 2 places.'>tuple_to_binary</a>(addr)
+<a id='L29' name='L29'></a>
+<a id='L30' name='L30'></a>  defp <a href='../R/980.html' title='Multiple referred from 4 places.'>tuple_to_binary</a>(<em class='brace'>{</em>a, b, c, <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a><em class='brace'>}</em>),
+<a id='L31' name='L31'></a>    <strong class='reserved'>do</strong>: &lt;&lt;a::8, b::8, c::8, <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a>::8&gt;&gt;
+<a id='L32' name='L32'></a>  defp <a href='../R/980.html' title='Multiple referred from 4 places.'>tuple_to_binary</a>(<em class='brace'>{</em>a, b, c, <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a>, e, f, g, h<em class='brace'>}</em>),
+<a id='L33' name='L33'></a>    <strong class='reserved'>do</strong>: &lt;&lt;a::16, b::16, c::16, <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a>::16, e::16, f::16, g::16, h::16&gt;&gt;
+<a id='L34' name='L34'></a>
+<a id='L35' name='L35'></a>  defp <a href='../S/175.html#L17' title='Referred from 17 in deps/postgrex/lib/postgrex/extensions/network.ex.'>decode_network</a>(&lt;&lt;2, 32, 0, 4, addr::<a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>&gt;&gt;),
+<a id='L36' name='L36'></a>    <strong class='reserved'>do</strong>: %Postgrex.INET<em class='brace'>{</em>address: <a href='../D/301.html' title='Multiple defined in 2 places.'>binary_to_tuple</a>(addr)<em class='brace'>}</em>
+<a id='L37' name='L37'></a>  defp <a href='../S/175.html#L17' title='Referred from 17 in deps/postgrex/lib/postgrex/extensions/network.ex.'>decode_network</a>(&lt;&lt;2, netmask::8, 1, 4, addr::<a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>&gt;&gt;),
+<a id='L38' name='L38'></a>    <strong class='reserved'>do</strong>: %Postgrex.CIDR<em class='brace'>{</em>address: <a href='../D/301.html' title='Multiple defined in 2 places.'>binary_to_tuple</a>(addr), netmask: netmask<em class='brace'>}</em>
+<a id='L39' name='L39'></a>  defp <a href='../S/175.html#L17' title='Referred from 17 in deps/postgrex/lib/postgrex/extensions/network.ex.'>decode_network</a>(&lt;&lt;3, 128, 0, 16, addr::<a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>&gt;&gt;),
+<a id='L40' name='L40'></a>    <strong class='reserved'>do</strong>: %Postgrex.INET<em class='brace'>{</em>address: <a href='../D/301.html' title='Multiple defined in 2 places.'>binary_to_tuple</a>(addr)<em class='brace'>}</em>
+<a id='L41' name='L41'></a>  defp <a href='../S/175.html#L17' title='Referred from 17 in deps/postgrex/lib/postgrex/extensions/network.ex.'>decode_network</a>(&lt;&lt;3, netmask::8, 1, 16, addr::<a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>&gt;&gt;),
+<a id='L42' name='L42'></a>    <strong class='reserved'>do</strong>: %Postgrex.CIDR<em class='brace'>{</em>address: <a href='../D/301.html' title='Multiple defined in 2 places.'>binary_to_tuple</a>(addr), netmask: netmask<em class='brace'>}</em>
+<a id='L43' name='L43'></a>
+<a id='L44' name='L44'></a>  defp <a href='../R/181.html' title='Multiple referred from 4 places.'>binary_to_tuple</a>(&lt;&lt;a::8, b::8, c::8, <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a>::8&gt;&gt;),
+<a id='L45' name='L45'></a>    <strong class='reserved'>do</strong>: <em class='brace'>{</em>a, b, c, <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a><em class='brace'>}</em>
+<a id='L46' name='L46'></a>  defp <a href='../R/181.html' title='Multiple referred from 4 places.'>binary_to_tuple</a>(&lt;&lt;a::16, b::16, c::16, <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a>::16, e::16, f::16, g::16, h::16&gt;&gt;),
+<a id='L47' name='L47'></a>    <strong class='reserved'>do</strong>: <em class='brace'>{</em>a, b, c, <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a>, e, f, g, h<em class='brace'>}</em>
+<a id='L48' name='L48'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L6'>[^]</a><a href='#L46'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>assoc</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/52.html#L48'>assoc</a>              48 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, join: c in assoc(p, :permalink), order_by: p.id, select: {p, c})</span>
+<span class='curline'><a href='../S/52.html#L51'>assoc</a>              51 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, left_join: c in assoc(p, :permalink), order_by: p.id, select: {p, c})</span>
+<span class='curline'><a href='../S/52.html#L66'>assoc</a>              66 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, right_join: c in assoc(p, :comments),</span>
+<span class='curline'><a href='../S/52.html#L81'>assoc</a>              81 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, join: c in assoc(p, :comments), select: {p, c}, order_by: p.id)</span>
+<span class='curline'><a href='../S/52.html#L90'>assoc</a>              90 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, join: c in assoc(p, :permalink), select: {p, c}, order_by: c.id)</span>
+<span class='curline'><a href='../S/52.html#L99'>assoc</a>              99 deps/ecto/integration_test/cases/joins.exs     query = from(p in Permalink, join: c in assoc(p, :post), select: {p, c}, order_by: p.id)</span>
+<span class='curline'><a href='../S/52.html#L115'>assoc</a>             115 deps/ecto/integration_test/cases/joins.exs     [u2, u1] = TestRepo.all Ecto.assoc([p1, p2], :comments_authors)</span>
+<span class='curline'><a href='../S/52.html#L131'>assoc</a>             131 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, join: c in assoc(p, :comments), preload: [comments: c])</span>
+<span class='curline'><a href='../S/52.html#L145'>assoc</a>             145 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, join: pl in assoc(p, :permalink), preload: [permalink: pl])</span>
+<span class='curline'><a href='../S/52.html#L160'>assoc</a>             160 deps/ecto/integration_test/cases/joins.exs     query = from(pl in Permalink, left_join: p in assoc(pl, :post), preload: [post: p], order_by: pl.id)</span>
+<span class='curline'><a href='../S/52.html#L180'>assoc</a>             180 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, left_join: ca in assoc(p, :comments_authors),</span>
+<span class='curline'><a href='../S/52.html#L207'>assoc</a>             207 deps/ecto/integration_test/cases/joins.exs     query = from(p in Permalink, left_join: ca in assoc(p, :post_comments_authors),</span>
+<span class='curline'><a href='../S/52.html#L220'>assoc</a>             220 deps/ecto/integration_test/cases/joins.exs                     left_join: assoc(p, :post),</span>
+<span class='curline'><a href='../S/52.html#L221'>assoc</a>             221 deps/ecto/integration_test/cases/joins.exs                     left_join: ca in assoc(p, :post_comments_authors),</span>
+<span class='curline'><a href='../S/52.html#L222'>assoc</a>             222 deps/ecto/integration_test/cases/joins.exs                     left_join: assoc(p, :post),</span>
+<span class='curline'><a href='../S/52.html#L223'>assoc</a>             223 deps/ecto/integration_test/cases/joins.exs                     left_join: assoc(p, :post),</span>
+<span class='curline'><a href='../S/52.html#L247'>assoc</a>             247 deps/ecto/integration_test/cases/joins.exs       left_join: c in assoc(p, :comments),</span>
+<span class='curline'><a href='../S/52.html#L248'>assoc</a>             248 deps/ecto/integration_test/cases/joins.exs       left_join: u in assoc(c, :author),</span>
+<span class='curline'><a href='../S/52.html#L282'>assoc</a>             282 deps/ecto/integration_test/cases/joins.exs       left_join: c in assoc(p, :comments),</span>
+<span class='curline'><a href='../S/52.html#L283'>assoc</a>             283 deps/ecto/integration_test/cases/joins.exs       left_join: u in assoc(c, :author),</span>
+<span class='curline'><a href='../S/52.html#L315'>assoc</a>             315 deps/ecto/integration_test/cases/joins.exs       left_join: c in assoc(p, :comments),</span>
+<span class='curline'><a href='../S/56.html#L546'>assoc</a>             546 deps/ecto/integration_test/cases/repo.exs     [c1, c2] = TestRepo.all Ecto.assoc(p1, :comments)</span>
+<span class='curline'><a href='../S/56.html#L550'>assoc</a>             550 deps/ecto/integration_test/cases/repo.exs     [c1, c2, c3] = TestRepo.all Ecto.assoc([p1, p2], :comments)</span>
+<span class='curline'><a href='../S/56.html#L564'>assoc</a>             564 deps/ecto/integration_test/cases/repo.exs     [l1, l3] = TestRepo.all Ecto.assoc([p1, p2], :permalink)</span>
+<span class='curline'><a href='../S/56.html#L577'>assoc</a>             577 deps/ecto/integration_test/cases/repo.exs     assert [p1, p2] = TestRepo.all Ecto.assoc([l1, l2, l3], :post)</span>
+<span class='curline'><a href='../S/134.html#L467'>assoc</a>             467 deps/ecto/lib/ecto.ex   def build_assoc(%{__struct__: model} = struct, assoc, attributes \\ %{}) do</span>
+<span class='curline'><a href='../S/134.html#L468'>assoc</a>             468 deps/ecto/lib/ecto.ex     assoc = Ecto.Association.association_from_model!(model, assoc)</span>
+<span class='curline'><a href='../S/134.html#L469'>assoc</a>             469 deps/ecto/lib/ecto.ex     assoc.__struct__.build(assoc, struct, Dict.delete(attributes, :__meta__))</span>
+<span class='curline'><a href='../S/134.html#L494'>assoc</a>             494 deps/ecto/lib/ecto.ex       raise ArgumentError, "cannot retrieve association #{inspect assoc} for empty list"</span>
+<span class='curline'><a href='../S/134.html#L498'>assoc</a>             498 deps/ecto/lib/ecto.ex     assoc = %{owner_key: owner_key} =</span>
+<span class='curline'><a href='../S/134.html#L499'>assoc</a>             499 deps/ecto/lib/ecto.ex       Ecto.Association.association_from_model!(model, assoc)</span>
+<span class='curline'><a href='../S/134.html#L507'>assoc</a>             507 deps/ecto/lib/ecto.ex     assoc.__struct__.assoc_query(assoc, values)</span>
+<span class='curline'><a href='../S/83.html#L111'>assoc</a>             111 deps/ecto/lib/ecto/association.ex   def association_from_model!(model, assoc) do</span>
+<span class='curline'><a href='../S/83.html#L112'>assoc</a>             112 deps/ecto/lib/ecto/association.ex     model.__schema__(:association, assoc) ||</span>
+<span class='curline'><a href='../S/83.html#L113'>assoc</a>             113 deps/ecto/lib/ecto/association.ex       raise ArgumentError, "model #{inspect model} does not have association #{inspect assoc}"</span>
+<span class='curline'><a href='../S/83.html#L349'>assoc</a>             349 deps/ecto/lib/ecto/association.ex   def on_repo_action(assoc, changeset, parent, _adapter, repo, repo_action, opts) do</span>
+<span class='curline'><a href='../S/83.html#L351'>assoc</a>             351 deps/ecto/lib/ecto/association.ex     check_action!(action, repo_action, assoc)</span>
+<span class='curline'><a href='../S/83.html#L353'>assoc</a>             353 deps/ecto/lib/ecto/association.ex     {key, value} = parent_key(assoc, parent)</span>
+<span class='curline'><a href='../S/83.html#L358'>assoc</a>             358 deps/ecto/lib/ecto/association.ex         maybe_replace_one!(assoc, changeset, parent, repo, opts)</span>
+<span class='curline'><a href='../S/83.html#L379'>assoc</a>             379 deps/ecto/lib/ecto/association.ex   defp maybe_replace_one!(%{cardinality: :one, field: field} = assoc,</span>
+<span class='curline'><a href='../S/83.html#L388'>assoc</a>             388 deps/ecto/lib/ecto/association.ex         {:ok, changeset} = Ecto.Changeset.Relation.on_replace(assoc, previous)</span>
+<span class='curline'><a href='../S/83.html#L468'>assoc</a>             468 deps/ecto/lib/ecto/association.ex       {join(acc, :inner, [x: counter], assoc(x, ^current)), counter + 1}</span>
+<span class='curline'><a href='../S/83.html#L501'>assoc</a>             501 deps/ecto/lib/ecto/association.ex     {joins, [assoc]} = Enum.split(query.joins, -1)</span>
+<span class='curline'><a href='../S/83.html#L506'>assoc</a>             506 deps/ecto/lib/ecto/association.ex     assoc_on = rewrite_expr(assoc.on, mapping)</span>
+<span class='curline'><a href='../S/83.html#L509'>assoc</a>             509 deps/ecto/lib/ecto/association.ex               from: merge_from(query.from, assoc.source), sources: nil}</span>
+<span class='curline'><a href='../S/85.html#L436'>assoc</a>             436 deps/ecto/lib/ecto/changeset.ex       {:ok, {:assoc, assoc}} -&gt;</span>
+<span class='curline'><a href='../S/85.html#L437'>assoc</a>             437 deps/ecto/lib/ecto/changeset.ex         {:assoc, %Ecto.Association.Has{assoc | on_cast: fun}}</span>
+<span class='curline'><a href='../S/85.html#L1667'>assoc</a>            1667 deps/ecto/lib/ecto/changeset.ex   def assoc_constraint(changeset, assoc, opts \\ []) do</span>
+<span class='curline'><a href='../S/85.html#L1669'>assoc</a>            1669 deps/ecto/lib/ecto/changeset.ex       (case get_assoc(changeset, assoc) do</span>
+<span class='curline'><a href='../S/85.html#L1678'>assoc</a>            1678 deps/ecto/lib/ecto/changeset.ex     add_constraint(changeset, :foreign_key, to_string(constraint), assoc, message)</span>
+<span class='curline'><a href='../S/85.html#L1716'>assoc</a>            1716 deps/ecto/lib/ecto/changeset.ex   def no_assoc_constraint(changeset, assoc, opts \\ []) do</span>
+<span class='curline'><a href='../S/85.html#L1718'>assoc</a>            1718 deps/ecto/lib/ecto/changeset.ex       (case get_assoc(changeset, assoc) do</span>
+<span class='curline'><a href='../S/85.html#L1728'>assoc</a>            1728 deps/ecto/lib/ecto/changeset.ex     add_constraint(changeset, :foreign_key, to_string(constraint), assoc, message)</span>
+<span class='curline'><a href='../S/85.html#L1767'>assoc</a>            1767 deps/ecto/lib/ecto/changeset.ex   defp get_assoc(%{model: %{__struct__: model}}, assoc) do</span>
+<span class='curline'><a href='../S/85.html#L1768'>assoc</a>            1768 deps/ecto/lib/ecto/changeset.ex     model.__schema__(:association, assoc) ||</span>
+<span class='curline'><a href='../S/85.html#L1769'>assoc</a>            1769 deps/ecto/lib/ecto/changeset.ex       raise(ArgumentError, "cannot add constraint to model because association `#{assoc}` does not exist")</span>
+<span class='curline'><a href='../S/98.html#L51'>assoc</a>              51 deps/ecto/lib/ecto/model.ex   def build(struct, assoc, attributes \\ %{}) do</span>
+<span class='curline'><a href='../S/98.html#L52'>assoc</a>              52 deps/ecto/lib/ecto/model.ex     Ecto.build_assoc(struct, assoc, attributes)</span>
+<span class='curline'><a href='../S/98.html#L57'>assoc</a>              57 deps/ecto/lib/ecto/model.ex     Ecto.assoc(model_or_models, assoc)</span>
+<span class='curline'><a href='../S/112.html#L40'>assoc</a>              40 deps/ecto/lib/ecto/query/builder/join.ex     {_, expr, assoc, params} = escape(expr, vars, env)</span>
+<span class='curline'><a href='../S/112.html#L41'>assoc</a>              41 deps/ecto/lib/ecto/query/builder/join.ex     {var, expr, assoc, params}</span>
+<span class='curline'><a href='../S/120.html#L187'>assoc</a>             187 deps/ecto/lib/ecto/query/inspect.ex       %JoinExpr{assoc: {_var, assoc}} -&gt;</span>
+<span class='curline'><a href='../S/120.html#L188'>assoc</a>             188 deps/ecto/lib/ecto/query/inspect.ex         assoc</span>
+<span class='curline'><a href='../S/121.html#L286'>assoc</a>             286 deps/ecto/lib/ecto/query/planner.ex   defp prepare_joins([%JoinExpr{assoc: {ix, assoc}, qual: qual} = join|t],</span>
+<span class='curline'><a href='../S/121.html#L295'>assoc</a>             295 deps/ecto/lib/ecto/query/planner.ex     refl = model.__schema__(:association, assoc)</span>
+<span class='curline'><a href='../S/121.html#L298'>assoc</a>             298 deps/ecto/lib/ecto/query/planner.ex       error! query, join, "could not find association `#{assoc}` on model #{inspect model}"</span>
+<span class='curline'><a href='../S/121.html#L553'>assoc</a>             553 deps/ecto/lib/ecto/query/planner.ex     Enum.each assocs, fn {assoc, {child_ix, child_assocs}} -&gt;</span>
+<span class='curline'><a href='../S/121.html#L554'>assoc</a>             554 deps/ecto/lib/ecto/query/planner.ex       refl = parent_model.__schema__(:association, assoc)</span>
+<span class='curline'><a href='../S/121.html#L557'>assoc</a>             557 deps/ecto/lib/ecto/query/planner.ex         error! query, "field `#{inspect parent_model}.#{assoc}` " &lt;&gt;</span>
+<span class='curline'><a href='../S/121.html#L565'>assoc</a>             565 deps/ecto/lib/ecto/query/planner.ex           error! query, "association `#{inspect parent_model}.#{assoc}` " &lt;&gt;</span>
+<span class='curline'><a href='../S/125.html#L63'>assoc</a>              63 deps/ecto/lib/ecto/repo/preloader.ex         {_, {:assoc, assoc, related_key}, sub_preloads} -&gt;</span>
+<span class='curline'><a href='../S/125.html#L64'>assoc</a>              64 deps/ecto/lib/ecto/repo/preloader.ex           preload_assoc(structs, module, repo, prefix, assoc, related_key, sub_preloads)</span>
+<span class='curline'><a href='../S/125.html#L70'>assoc</a>              70 deps/ecto/lib/ecto/repo/preloader.ex       Enum.reduce entries, struct, fn {kind, assoc, data}, acc -&gt;</span>
+<span class='curline'><a href='../S/125.html#L72'>assoc</a>              72 deps/ecto/lib/ecto/repo/preloader.ex           loaded?(acc, assoc.field) -&gt;</span>
+<span class='curline'><a href='../S/125.html#L75'>assoc</a>              75 deps/ecto/lib/ecto/repo/preloader.ex             load_assoc(acc, assoc, data)</span>
+<span class='curline'><a href='../S/125.html#L77'>assoc</a>              77 deps/ecto/lib/ecto/repo/preloader.ex             load_through(acc, assoc, data)</span>
+<span class='curline'><a href='../S/125.html#L85'>assoc</a>              85 deps/ecto/lib/ecto/repo/preloader.ex   defp preload_assoc(structs, module, repo, prefix, assoc, related_key, {query, preloads}) do</span>
+<span class='curline'><a href='../S/125.html#L86'>assoc</a>              86 deps/ecto/lib/ecto/repo/preloader.ex     case unique_ids(structs, module, assoc) do</span>
+<span class='curline'><a href='../S/125.html#L88'>assoc</a>              88 deps/ecto/lib/ecto/repo/preloader.ex         {:assoc, assoc, HashDict.new}</span>
+<span class='curline'><a href='../S/125.html#L92'>assoc</a>              92 deps/ecto/lib/ecto/repo/preloader.ex             assoc.__struct__.assoc_query(assoc, query, ids)</span>
+<span class='curline'><a href='../S/125.html#L94'>assoc</a>              94 deps/ecto/lib/ecto/repo/preloader.ex             assoc.__struct__.assoc_query(assoc, ids)</span>
+<span class='curline'><a href='../S/125.html#L96'>assoc</a>              96 deps/ecto/lib/ecto/repo/preloader.ex         preload_assoc(repo, query, prefix, assoc, related_key, preloads)</span>
+<span class='curline'><a href='../S/125.html#L100'>assoc</a>             100 deps/ecto/lib/ecto/repo/preloader.ex   defp preload_assoc(repo, query, prefix, %{cardinality: card} = assoc, related_key, preloads) do</span>
+<span class='curline'><a href='../S/125.html#L109'>assoc</a>             109 deps/ecto/lib/ecto/repo/preloader.ex     {:assoc, assoc, assoc_dict(card, related_key, loaded)}</span>
+<span class='curline'><a href='../S/125.html#L112'>assoc</a>             112 deps/ecto/lib/ecto/repo/preloader.ex   defp unique_ids(structs, module, assoc) do</span>
+<span class='curline'><a href='../S/125.html#L113'>assoc</a>             113 deps/ecto/lib/ecto/repo/preloader.ex     field = assoc.field</span>
+<span class='curline'><a href='../S/125.html#L114'>assoc</a>             114 deps/ecto/lib/ecto/repo/preloader.ex     owner_key = assoc.owner_key</span>
+<span class='curline'><a href='../S/125.html#L161'>assoc</a>             161 deps/ecto/lib/ecto/repo/preloader.ex   defp load_assoc(struct, assoc, dict) do</span>
+<span class='curline'><a href='../S/125.html#L162'>assoc</a>             162 deps/ecto/lib/ecto/repo/preloader.ex     key = Map.fetch!(struct, assoc.owner_key)</span>
+<span class='curline'><a href='../S/125.html#L167'>assoc</a>             167 deps/ecto/lib/ecto/repo/preloader.ex         assoc.cardinality == :many -&gt; []</span>
+<span class='curline'><a href='../S/125.html#L171'>assoc</a>             171 deps/ecto/lib/ecto/repo/preloader.ex     Map.put(struct, assoc.field, loaded)</span>
+<span class='curline'><a href='../S/125.html#L174'>assoc</a>             174 deps/ecto/lib/ecto/repo/preloader.ex   defp load_through(struct, assoc, [h|t]) do</span>
+<span class='curline'><a href='../S/125.html#L178'>assoc</a>             178 deps/ecto/lib/ecto/repo/preloader.ex     if assoc.cardinality == :one do</span>
+<span class='curline'><a href='../S/125.html#L182'>assoc</a>             182 deps/ecto/lib/ecto/repo/preloader.ex     Map.put(struct, assoc.field, loaded)</span>
+<span class='curline'><a href='../S/125.html#L185'>assoc</a>             185 deps/ecto/lib/ecto/repo/preloader.ex   defp recur_through(assoc, structs) do</span>
+<span class='curline'><a href='../S/125.html#L187'>assoc</a>             187 deps/ecto/lib/ecto/repo/preloader.ex       children = struct |&gt; Map.fetch!(assoc) |&gt; List.wrap</span>
+<span class='curline'><a href='../S/125.html#L258'>assoc</a>             258 deps/ecto/lib/ecto/repo/preloader.ex           assoc = Ecto.Association.association_from_model!(model, preload)</span>
+<span class='curline'><a href='../S/125.html#L259'>assoc</a>             259 deps/ecto/lib/ecto/repo/preloader.ex           info  = assoc.__struct__.preload_info(assoc)</span>
+<span class='curline'><a href='../S/127.html#L404'>assoc</a>             404 deps/ecto/lib/ecto/repo/schema.ex           assocs = repo.all Ecto.assoc(model, field)</span>
+<span class='curline'><a href='../S/127.html#L407'>assoc</a>             407 deps/ecto/lib/ecto/repo/schema.ex           repo.delete_all Ecto.assoc(model, field)</span>
+<span class='curline'><a href='../S/127.html#L409'>assoc</a>             409 deps/ecto/lib/ecto/repo/schema.ex           query = Ecto.assoc(model, field)</span>
+<span class='curline'><a href='../S/130.html#L1215'>assoc</a>            1215 deps/ecto/lib/ecto/schema.ex   defp put_struct_field(mod, name, assoc) do</span>
+<span class='curline'><a href='../S/130.html#L1222'>assoc</a>            1222 deps/ecto/lib/ecto/schema.ex     Module.put_attribute(mod, :struct_fields, {name, assoc})</span>
+</pre>
+</body>
+</html>

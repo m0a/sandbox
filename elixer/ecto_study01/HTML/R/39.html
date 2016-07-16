@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>Manager</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/31.html#L48'>Manager</a>            48 deps/db_connection/lib/db_connection/ownership.ex      case Manager.checkout(manager, opts) do</span>
+<span class='curline'><a href='../S/31.html#L68'>Manager</a>            68 deps/db_connection/lib/db_connection/ownership.ex   defdelegate ownership_mode(manager, mode, opts), to: Manager, as: :mode</span>
+<span class='curline'><a href='../S/31.html#L77'>Manager</a>            77 deps/db_connection/lib/db_connection/ownership.ex   defdelegate ownership_checkin(manager, opts), to: Manager, as: :checkin</span>
+<span class='curline'><a href='../S/31.html#L90'>Manager</a>            90 deps/db_connection/lib/db_connection/ownership.ex   defdelegate ownership_allow(manager, owner, allow, opts), to: Manager, as: :allow</span>
+<span class='curline'><a href='../S/31.html#L96'>Manager</a>            96 deps/db_connection/lib/db_connection/ownership.ex     Manager.start_link(module, opts)</span>
+<span class='curline'><a href='../S/31.html#L101'>Manager</a>           101 deps/db_connection/lib/db_connection/ownership.ex     Supervisor.Spec.worker(Manager, [module, opts], child_opts)</span>
+<span class='curline'><a href='../S/31.html#L106'>Manager</a>           106 deps/db_connection/lib/db_connection/ownership.ex     case Manager.lookup(manager, opts) do</span>
+</pre>
+</body>
+</html>

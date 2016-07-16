@@ -1,0 +1,1422 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/schema.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/schema.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L57'>[^]</a><a href='#L1327'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L57' title='Defined at 57.'>__using__</a></li>
+<li><a href='#L266' title='Defined at 266.'>inspect</a></li>
+<li><a href='#L273' title='Defined at 273.'>__using__</a></li>
+<li><a href='#L300' title='Defined at 300.'>embedded_schema</a></li>
+<li><a href='#L310' title='Defined at 310.'>schema</a></li>
+<li><a href='#L387' title='Defined at 387.'>field</a></li>
+<li><a href='#L410' title='Defined at 410.'>timestamps</a></li>
+<li><a href='#L568' title='Defined at 568.'>has_many</a></li>
+<li><a href='#L629' title='Defined at 629.'>has_one</a></li>
+<li><a href='#L771' title='Defined at 771.'>belongs_to</a></li>
+<li><a href='#L846' title='Defined at 846.'>embeds_one</a></li>
+<li><a href='#L943' title='Defined at 943.'>embeds_many</a></li>
+<li><a href='#L952' title='Defined at 952.'>__load__</a></li>
+<li><a href='#L963' title='Defined at 963.'>do_load</a></li>
+<li><a href='#L971' title='Defined at 971.'>do_load</a></li>
+<li><a href='#L979' title='Defined at 979.'>load!</a></li>
+<li><a href='#L987' title='Defined at 987.'>__field__</a></li>
+<li><a href='#L1017' title='Defined at 1017.'>__has_many__</a></li>
+<li><a href='#L1035' title='Defined at 1035.'>__has_one__</a></li>
+<li><a href='#L1048' title='Defined at 1048.'>__belongs_to__</a></li>
+<li><a href='#L1062' title='Defined at 1062.'>__embeds_one__</a></li>
+<li><a href='#L1068' title='Defined at 1068.'>__embeds_many__</a></li>
+<li><a href='#L1077' title='Defined at 1077.'>__changeset__</a></li>
+<li><a href='#L1085' title='Defined at 1085.'>__defstruct__</a></li>
+<li><a href='#L1092' title='Defined at 1092.'>__schema__</a></li>
+<li><a href='#L1102' title='Defined at 1102.'>__schema__</a></li>
+<li><a href='#L1103' title='Defined at 1103.'>__schema__</a></li>
+<li><a href='#L1104' title='Defined at 1104.'>__schema__</a></li>
+<li><a href='#L1105' title='Defined at 1105.'>__schema__</a></li>
+<li><a href='#L1110' title='Defined at 1110.'>__types__</a></li>
+<li><a href='#L1114' title='Defined at 1114.'>__schema__</a></li>
+<li><a href='#L1123' title='Defined at 1123.'>__schema__</a></li>
+<li><a href='#L1125' title='Defined at 1125.'>__schema__</a></li>
+<li><a href='#L1130' title='Defined at 1130.'>__assocs__</a></li>
+<li><a href='#L1134' title='Defined at 1134.'>__schema__</a></li>
+<li><a href='#L1143' title='Defined at 1143.'>__schema__</a></li>
+<li><a href='#L1145' title='Defined at 1145.'>__schema__</a></li>
+<li><a href='#L1150' title='Defined at 1150.'>__embeds__</a></li>
+<li><a href='#L1154' title='Defined at 1154.'>__schema__</a></li>
+<li><a href='#L1163' title='Defined at 1163.'>__schema__</a></li>
+<li><a href='#L1165' title='Defined at 1165.'>__schema__</a></li>
+<li><a href='#L1170' title='Defined at 1170.'>__read_after_writes__</a></li>
+<li><a href='#L1172' title='Defined at 1172.'>__schema__</a></li>
+<li><a href='#L1177' title='Defined at 1177.'>__autogenerate__</a></li>
+<li><a href='#L1179' title='Defined at 1179.'>__schema__</a></li>
+<li><a href='#L1180' title='Defined at 1180.'>__schema__</a></li>
+<li><a href='#L1181' title='Defined at 1181.'>__schema__</a></li>
+<li><a href='#L1186' title='Defined at 1186.'>__before_compile__</a></li>
+<li><a href='#L1196' title='Defined at 1196.'>association</a></li>
+<li><a href='#L1207' title='Defined at 1207.'>embed</a></li>
+<li><a href='#L1215' title='Defined at 1215.'>put_struct_field</a></li>
+<li><a href='#L1225' title='Defined at 1225.'>check_options!</a></li>
+<li><a href='#L1240' title='Defined at 1240.'>check_type!</a></li>
+<li><a href='#L1258' title='Defined at 1258.'>raise_type_error</a></li>
+<li><a href='#L1263' title='Defined at 1263.'>raise_type_error_hint</a></li>
+<li><a href='#L1265' title='Defined at 1265.'>raise_type_error_hint</a></li>
+<li><a href='#L1267' title='Defined at 1267.'>raise_type_error_hint</a></li>
+<li><a href='#L1269' title='Defined at 1269.'>raise_type_error_hint</a></li>
+<li><a href='#L1271' title='Defined at 1271.'>raise_type_error_hint</a></li>
+<li><a href='#L1274' title='Defined at 1274.'>check_default!</a></li>
+<li><a href='#L1275' title='Defined at 1275.'>check_default!</a></li>
+<li><a href='#L1276' title='Defined at 1276.'>check_default!</a></li>
+<li><a href='#L1286' title='Defined at 1286.'>store_autogenerate!</a></li>
+<li><a href='#L1298' title='Defined at 1298.'>store_autogenerate!</a></li>
+<li><a href='#L1318' title='Defined at 1318.'>autogenerate_id</a></li>
+<li><a href='#L1323' title='Defined at 1323.'>default_for_type</a></li>
+<li><a href='#L1327' title='Defined at 1327.'>default_for_type</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Schema <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc ~S"""
+<a id='L3' name='L3'></a>  Defines a schema <strong class='reserved'>for</strong> a model.
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a>  A schema is a <strong class='reserved'>struct</strong> with associated metadata that is persisted to a
+<a id='L6' name='L6'></a>  repository. Every schema model is also a <strong class='reserved'>struct</strong>, that means that you work
+<a id='L7' name='L7'></a>  with models just like you would work with structs.
+<a id='L8' name='L8'></a>
+<a id='L9' name='L9'></a><em class='sharp'>  #</em># Example
+<a id='L10' name='L10'></a>
+<a id='L11' name='L11'></a>      defmodule <a href='../R/91.html' title='Multiple referred from 31 places.'>User</a> <strong class='reserved'>do</strong>
+<a id='L12' name='L12'></a>        use Ecto.Schema
+<a id='L13' name='L13'></a>
+<a id='L14' name='L14'></a>        schema "users" <strong class='reserved'>do</strong>
+<a id='L15' name='L15'></a>          field :name, :string
+<a id='L16' name='L16'></a>          field :age, :integer, <strong class='reserved'>default</strong>: 0
+<a id='L17' name='L17'></a>          has_many :posts, Post
+<a id='L18' name='L18'></a>        end
+<a id='L19' name='L19'></a>      end
+<a id='L20' name='L20'></a>
+<a id='L21' name='L21'></a>  By <strong class='reserved'>default</strong>, a schema will generate a primary key named `id`
+<a id='L22' name='L22'></a>  of type `:integer` and `belongs_to` associations in the schema will generate
+<a id='L23' name='L23'></a>  foreign keys of type `:integer`. Those setting can be configured
+<a id='L24' name='L24'></a>  below.
+<a id='L25' name='L25'></a>
+<a id='L26' name='L26'></a><em class='sharp'>  #</em># Schema attributes
+<a id='L27' name='L27'></a>
+<a id='L28' name='L28'></a>  The schema supports some attributes to be set before hand,
+<a id='L29' name='L29'></a>  configuring the defined schema.
+<a id='L30' name='L30'></a>
+<a id='L31' name='L31'></a>  Those attributes are:
+<a id='L32' name='L32'></a>
+<a id='L33' name='L33'></a>    * `@primary_key` - configures the schema primary key. It expects
+<a id='L34' name='L34'></a>      a tuple with the primary key name, type (:id or :binary_id) and options. Defaults
+<a id='L35' name='L35'></a>      to `<em class='brace'>{</em>:id, :id, autogenerate: true<em class='brace'>}</em>`. When set to
+<a id='L36' name='L36'></a>      false, does not define a primary key in the model;
+<a id='L37' name='L37'></a>
+<a id='L38' name='L38'></a>    * `@foreign_key_type` - configures the <strong class='reserved'>default</strong> foreign key type
+<a id='L39' name='L39'></a>      used by `belongs_to` associations. Defaults to `:integer`;
+<a id='L40' name='L40'></a>
+<a id='L41' name='L41'></a>    * `@timestamps_opts` - configures the <strong class='reserved'>default</strong> timestamps type
+<a id='L42' name='L42'></a>      used by `timestamps`. Defaults to `[type: Ecto.DateTime, usec: false]`;
+<a id='L43' name='L43'></a>
+<a id='L44' name='L44'></a>    * `@derive` - the same as `@derive` available in `Kernel.defstruct/1`
+<a id='L45' name='L45'></a>      as the schema defines a <strong class='reserved'>struct</strong> behind the scenes;
+<a id='L46' name='L46'></a>
+<a id='L47' name='L47'></a>  The advantage of configuring the schema via those attributes is
+<a id='L48' name='L48'></a>  that they can be set with a macro to configure application wide
+<a id='L49' name='L49'></a>  defaults.
+<a id='L50' name='L50'></a>
+<a id='L51' name='L51'></a>  For example, <strong class='reserved'>if</strong> your database does not support autoincrementing
+<a id='L52' name='L52'></a>  primary keys and requires something like UUID or a RecordID, you
+<a id='L53' name='L53'></a>  configure and use`:binary_id` as your primary key type as follows:
+<a id='L54' name='L54'></a>
+<a id='L55' name='L55'></a>      # Define a module to be used as base
+<a id='L56' name='L56'></a>      defmodule MyApp.Schema <strong class='reserved'>do</strong>
+<a id='L57' name='L57'></a>        defmacro __using__(_) <strong class='reserved'>do</strong>
+<a id='L58' name='L58'></a>          quote <strong class='reserved'>do</strong>
+<a id='L59' name='L59'></a>            use Ecto.Schema
+<a id='L60' name='L60'></a>            @primary_key <em class='brace'>{</em>:id, :binary_id, autogenerate: true<em class='brace'>}</em>
+<a id='L61' name='L61'></a>            @foreign_key_type :binary_id
+<a id='L62' name='L62'></a>          end
+<a id='L63' name='L63'></a>        end
+<a id='L64' name='L64'></a>      end
+<a id='L65' name='L65'></a>
+<a id='L66' name='L66'></a>      # Now use MyApp.Schema to define new models
+<a id='L67' name='L67'></a>      defmodule MyApp.<a href='../R/12.html' title='Multiple referred from 118 places.'>Comment</a> <strong class='reserved'>do</strong>
+<a id='L68' name='L68'></a>        use MyApp.Schema
+<a id='L69' name='L69'></a>
+<a id='L70' name='L70'></a>        schema "comments" <strong class='reserved'>do</strong>
+<a id='L71' name='L71'></a>          belongs_to :post, MyApp.Post
+<a id='L72' name='L72'></a>        end
+<a id='L73' name='L73'></a>      end
+<a id='L74' name='L74'></a>
+<a id='L75' name='L75'></a>  Any models using `MyApp.Model` will get the `:id` field with type
+<a id='L76' name='L76'></a>  `:binary_id` as primary key. We explain what the `:binary_id` type
+<a id='L77' name='L77'></a>  entails in the next section.
+<a id='L78' name='L78'></a>
+<a id='L79' name='L79'></a>  The `belongs_to` association on `MyApp.Comment` will also define
+<a id='L80' name='L80'></a>  a `:post_id` field with `:binary_id` type that references the `:id`
+<a id='L81' name='L81'></a>  field of the `MyApp.Post` model.
+<a id='L82' name='L82'></a>
+<a id='L83' name='L83'></a><em class='sharp'>  #</em># Primary keys
+<a id='L84' name='L84'></a>
+<a id='L85' name='L85'></a>  Ecto supports two ID types, called `:id` and `:binary_id` which are
+<a id='L86' name='L86'></a>  often used as the type <strong class='reserved'>for</strong> primary keys and associations.
+<a id='L87' name='L87'></a>
+<a id='L88' name='L88'></a>  The `:id` type is used when the primary key is an integer <strong class='reserved'>while</strong> the
+<a id='L89' name='L89'></a>  `:binary_id` is used when the primary key is in binary format, which
+<a id='L90' name='L90'></a>  may be `Ecto.UUID` <strong class='reserved'>for</strong> databases like PostgreSQL and MySQL, or some
+<a id='L91' name='L91'></a>  specific ObjectID or RecordID often imposed by NoSQL databases.
+<a id='L92' name='L92'></a>
+<a id='L93' name='L93'></a>  In both cases, both types have their semantics specified by the
+<a id='L94' name='L94'></a>  underlying adapter/database. For example, <strong class='reserved'>if</strong> you use the `:id`
+<a id='L95' name='L95'></a>  type with `:autogenerate`, it means the database will be responsible
+<a id='L96' name='L96'></a>  <strong class='reserved'>for</strong> <strong class='reserved'>auto</strong>-generation the id <strong class='reserved'>if</strong> it supports it.
+<a id='L97' name='L97'></a>
+<a id='L98' name='L98'></a>  Similarly, the `:binary_id` type may be generated in the adapter
+<a id='L99' name='L99'></a>  <strong class='reserved'>for</strong> cases like UUID but it may also be handled by the database <strong class='reserved'>if</strong>
+<a id='L100' name='L100'></a>  required. In any <strong class='reserved'>case</strong>, both scenarios are handled transparently by
+<a id='L101' name='L101'></a>  Ecto.
+<a id='L102' name='L102'></a>
+<a id='L103' name='L103'></a>  Besides `:id` and `:binary_id`, which are often used by primary
+<a id='L104' name='L104'></a>  and foreign keys, Ecto provides a huge variety of types to be used
+<a id='L105' name='L105'></a>  by the remaining columns.
+<a id='L106' name='L106'></a>
+<a id='L107' name='L107'></a><em class='sharp'>  #</em># Types and casting
+<a id='L108' name='L108'></a>
+<a id='L109' name='L109'></a>  When defining the schema, types need to be given. Types are split
+<a id='L110' name='L110'></a>  in two categories, primitive types and custom types.
+<a id='L111' name='L111'></a>
+<a id='L112' name='L112'></a><em class='sharp'>  #</em>## Primitive types
+<a id='L113' name='L113'></a>
+<a id='L114' name='L114'></a>  The primitive types are:
+<a id='L115' name='L115'></a>
+<a id='L116' name='L116'></a>  Ecto type               | Elixir type             | Literal syntax in query
+<a id='L117' name='L117'></a>  :---------------------- | :---------------------- | :---------------------
+<a id='L118' name='L118'></a>  `:id`                   | `integer`               | 1, 2, 3
+<a id='L119' name='L119'></a>  `:binary_id`            | `binary`                | `&lt;&lt;<strong class='reserved'>int</strong>, <strong class='reserved'>int</strong>, <strong class='reserved'>int</strong>, ...&gt;&gt;`
+<a id='L120' name='L120'></a>  `:integer`              | `integer`               | 1, 2, 3
+<a id='L121' name='L121'></a>  `:<strong class='reserved'>float</strong>`                | `<strong class='reserved'>float</strong>`                 | 1.0, 2.0, 3.0
+<a id='L122' name='L122'></a>  `:boolean`              | `boolean`               | true, false
+<a id='L123' name='L123'></a>  `:string`               | UTF-8 encoded `string`  | "hello"
+<a id='L124' name='L124'></a>  `:binary`               | `binary`                | `&lt;&lt;<strong class='reserved'>int</strong>, <strong class='reserved'>int</strong>, <strong class='reserved'>int</strong>, ...&gt;&gt;`
+<a id='L125' name='L125'></a>  `<em class='brace'>{</em>:array, inner_type<em class='brace'>}</em>`  | `list`                  | `[value, value, value, ...]`
+<a id='L126' name='L126'></a>  `:decimal`              | [`Decimal`](https:<em class='comment'>//github.com/ericmj/decimal) |</em>
+<a id='L127' name='L127'></a>  `:map`                  | `map` |
+<a id='L128' name='L128'></a>
+<a id='L129' name='L129'></a>  **Note:** For the `:array` type, replace `inner_type` with one of
+<a id='L130' name='L130'></a>  the valid types, such as `:string`.
+<a id='L131' name='L131'></a>
+<a id='L132' name='L132'></a><em class='sharp'>  #</em>## Custom types
+<a id='L133' name='L133'></a>
+<a id='L134' name='L134'></a>  Besides providing primitive types, Ecto allows custom types to be
+<a id='L135' name='L135'></a>  implemented by developers, allowing Ecto behaviour to be extended.
+<a id='L136' name='L136'></a>
+<a id='L137' name='L137'></a>  A custom type is a module that implements the `Ecto.Type` behaviour.
+<a id='L138' name='L138'></a>  By <strong class='reserved'>default</strong>, Ecto provides the following custom types:
+<a id='L139' name='L139'></a>
+<a id='L140' name='L140'></a>  Custom type             | Database type           | Elixir type
+<a id='L141' name='L141'></a>  :---------------------- | :---------------------- | :---------------------
+<a id='L142' name='L142'></a>  `Ecto.DateTime`         | `:datetime`             | `%Ecto.DateTime<em class='brace'>{</em><em class='brace'>}</em>`
+<a id='L143' name='L143'></a>  `Ecto.Date`             | `:date`                 | `%Ecto.Date<em class='brace'>{</em><em class='brace'>}</em>`
+<a id='L144' name='L144'></a>  `Ecto.Time`             | `:time`                 | `%Ecto.Time<em class='brace'>{</em><em class='brace'>}</em>`
+<a id='L145' name='L145'></a>  `Ecto.UUID`             | `:uuid`                 | "uuid-string"
+<a id='L146' name='L146'></a>
+<a id='L147' name='L147'></a>  Read the `Ecto.Type` documentation <strong class='reserved'>for</strong> more information on implementing
+<a id='L148' name='L148'></a>  your own types.
+<a id='L149' name='L149'></a>
+<a id='L150' name='L150'></a><em class='sharp'>  #</em>## The map type
+<a id='L151' name='L151'></a>
+<a id='L152' name='L152'></a>  The map type allows developers to store an Elixir map directly
+<a id='L153' name='L153'></a>  in the database:
+<a id='L154' name='L154'></a>
+<a id='L155' name='L155'></a>      # In your migration
+<a id='L156' name='L156'></a>      create table(:users) <strong class='reserved'>do</strong>
+<a id='L157' name='L157'></a>        add :data, :map
+<a id='L158' name='L158'></a>      end
+<a id='L159' name='L159'></a>
+<a id='L160' name='L160'></a>      # In your model
+<a id='L161' name='L161'></a>      field :data, :map
+<a id='L162' name='L162'></a>
+<a id='L163' name='L163'></a>      # Now in your code
+<a id='L164' name='L164'></a>      %User<em class='brace'>{</em>data: %<em class='brace'>{</em>"foo" =&gt; "bar"<em class='brace'>}</em><em class='brace'>}</em> |&gt; Repo.insert!
+<a id='L165' name='L165'></a>      %User<em class='brace'>{</em>data: %<em class='brace'>{</em>"foo" =&gt; value<em class='brace'>}</em><em class='brace'>}</em> = Repo.one(User)
+<a id='L166' name='L166'></a>      value #=&gt; "bar"
+<a id='L167' name='L167'></a>
+<a id='L168' name='L168'></a>  Keep in mind that we advise the map keys to be strings or integers
+<a id='L169' name='L169'></a>  instead of atoms. Atoms may be accepted depending on how maps are
+<a id='L170' name='L170'></a>  serialized but the database will always <strong class='reserved'>return</strong> atom keys as strings
+<a id='L171' name='L171'></a>  due to security reasons.
+<a id='L172' name='L172'></a>
+<a id='L173' name='L173'></a>  In order to support maps, different databases may employ different
+<a id='L174' name='L174'></a>  techniques. For example, PostgreSQL will store those values in jsonb
+<a id='L175' name='L175'></a>  fields, allowing you to even query parts of it. MySQL and MSSQL, on
+<a id='L176' name='L176'></a>  the other hand, <strong class='reserved'>do</strong> not yet provide a JSON type, so the value will be
+<a id='L177' name='L177'></a>  stored in a text field.
+<a id='L178' name='L178'></a>
+<a id='L179' name='L179'></a>  For maps to work in such databases, Ecto will need a JSON library.
+<a id='L180' name='L180'></a>  By <strong class='reserved'>default</strong> Ecto will use [Poison](http:<em class='comment'>//github.com/devinus/poison)</em>
+<a id='L181' name='L181'></a>  which needs to be added your deps in `mix.exs`:
+<a id='L182' name='L182'></a>
+<a id='L183' name='L183'></a>      <em class='brace'>{</em>:poison, "~&gt; 1.0"<em class='brace'>}</em>
+<a id='L184' name='L184'></a>
+<a id='L185' name='L185'></a>  You can however tell Ecto to use any other library by configuring it:
+<a id='L186' name='L186'></a>
+<a id='L187' name='L187'></a>      config :ecto, :json_library, YourLibraryOfChoice
+<a id='L188' name='L188'></a>
+<a id='L189' name='L189'></a><em class='sharp'>  #</em>## Casting
+<a id='L190' name='L190'></a>
+<a id='L191' name='L191'></a>  When directly manipulating the <strong class='reserved'>struct</strong>, it is the responsibility of
+<a id='L192' name='L192'></a>  the developer to ensure the field values have the proper type. For
+<a id='L193' name='L193'></a>  example, you can create a user <strong class='reserved'>struct</strong> with an invalid value
+<a id='L194' name='L194'></a>  <strong class='reserved'>for</strong> `age`:
+<a id='L195' name='L195'></a>
+<a id='L196' name='L196'></a>      iex&gt; user = %User<em class='brace'>{</em>age: "0"<em class='brace'>}</em>
+<a id='L197' name='L197'></a>      iex&gt; user.age
+<a id='L198' name='L198'></a>      "0"
+<a id='L199' name='L199'></a>
+<a id='L200' name='L200'></a>  However, <strong class='reserved'>if</strong> you attempt to persist the <strong class='reserved'>struct</strong> above, an error will
+<a id='L201' name='L201'></a>  be raised since Ecto validates the types when sending them to the
+<a id='L202' name='L202'></a>  adapter/database.
+<a id='L203' name='L203'></a>
+<a id='L204' name='L204'></a>  Therefore, when working and manipulating external data, it is
+<a id='L205' name='L205'></a>  recommended the usage of `Ecto.Changeset`'s that are able to filter
+<a id='L206' name='L206'></a>  and properly cast external data:
+<a id='L207' name='L207'></a>
+<a id='L208' name='L208'></a>      changeset = Ecto.Changeset.cast(%User<em class='brace'>{</em><em class='brace'>}</em>, %<em class='brace'>{</em>"age" =&gt; "0"<em class='brace'>}</em>, [:age], [])
+<a id='L209' name='L209'></a>      user = Repo.insert!(changeset)
+<a id='L210' name='L210'></a>
+<a id='L211' name='L211'></a>  In fact, `Ecto.Changeset` and custom types provide a powerful
+<a id='L212' name='L212'></a>  combination to extend Ecto types and queries.
+<a id='L213' name='L213'></a>
+<a id='L214' name='L214'></a>  Finally, models can also have virtual fields by passing the
+<a id='L215' name='L215'></a>  `virtual: true` option. These fields are not persisted to the database
+<a id='L216' name='L216'></a>  and can optionally not be type checked by declaring type `:any`.
+<a id='L217' name='L217'></a>
+<a id='L218' name='L218'></a><em class='sharp'>  #</em># Reflection
+<a id='L219' name='L219'></a>
+<a id='L220' name='L220'></a>  Any schema module will generate the `__schema__` function that can be
+<a id='L221' name='L221'></a>  used <strong class='reserved'>for</strong> runtime introspection of the schema:
+<a id='L222' name='L222'></a>
+<a id='L223' name='L223'></a>  * `__schema__(:source)` - Returns the source as given to `schema/2`;
+<a id='L224' name='L224'></a>  * `__schema__(:primary_key)` - Returns a list of primary key fields (empty <strong class='reserved'>if</strong> there is none);
+<a id='L225' name='L225'></a>
+<a id='L226' name='L226'></a>  * `__schema__(:fields)` - Returns a list of all non-virtual field names;
+<a id='L227' name='L227'></a>  * `__schema__(:type, field)` - Returns the type of the given non-virtual field;
+<a id='L228' name='L228'></a>  * `__schema__(:types)` - Returns a keyword list of all non-virtual
+<a id='L229' name='L229'></a>    field names and their type;
+<a id='L230' name='L230'></a>
+<a id='L231' name='L231'></a>  * `__schema__(:associations)` - Returns a list of all association field names;
+<a id='L232' name='L232'></a>  * `__schema__(:association, assoc)` - Returns the association reflection of the given assoc;
+<a id='L233' name='L233'></a>
+<a id='L234' name='L234'></a>  * `__schema__(:embeds)` - Returns a list of all embedded field names;
+<a id='L235' name='L235'></a>  * `__schema__(:embed, embed)` - Returns the embedding reflection of the given embed;
+<a id='L236' name='L236'></a>
+<a id='L237' name='L237'></a>  * `__schema__(:read_after_writes)` - Non-virtual fields that must be read back
+<a id='L238' name='L238'></a>    from the database after every write (insert or update);
+<a id='L239' name='L239'></a>
+<a id='L240' name='L240'></a>  * `__schema__(:autogenerate_id)` - Primary key that is <strong class='reserved'>auto</strong> generated on insert;
+<a id='L241' name='L241'></a>
+<a id='L242' name='L242'></a>  Furthermore, both `__struct__` and `__changeset__` functions are
+<a id='L243' name='L243'></a>  defined so structs and changeset functionalities are available.
+<a id='L244' name='L244'></a>  """
+<a id='L245' name='L245'></a>
+<a id='L246' name='L246'></a>  @type t :: %<em class='brace'>{</em>__struct__: atom<em class='brace'>}</em>
+<a id='L247' name='L247'></a>
+<a id='L248' name='L248'></a>  defmodule <a href='../R/40.html' title='Multiple referred from 2 places.'>Metadata</a> <strong class='reserved'>do</strong>
+<a id='L249' name='L249'></a>    @moduledoc """
+<a id='L250' name='L250'></a>    Stores metadata of a <strong class='reserved'>struct</strong>.
+<a id='L251' name='L251'></a>
+<a id='L252' name='L252'></a>    The fields are:
+<a id='L253' name='L253'></a>
+<a id='L254' name='L254'></a>      * `state` - the state in a <strong class='reserved'>struct</strong>'s lifetime, one of `:built`,
+<a id='L255' name='L255'></a>        `:loaded`, `:deleted`
+<a id='L256' name='L256'></a>      * `source` - the source <strong class='reserved'>for</strong> the model alongside the query prefix,
+<a id='L257' name='L257'></a>        defaults to `<em class='brace'>{</em>nil, "source"<em class='brace'>}</em>`
+<a id='L258' name='L258'></a>      * `context` - context stored by the database
+<a id='L259' name='L259'></a>
+<a id='L260' name='L260'></a>    """
+<a id='L261' name='L261'></a>    defstruct [:state, :source, :context]
+<a id='L262' name='L262'></a>
+<a id='L263' name='L263'></a>    defimpl Inspect <strong class='reserved'>do</strong>
+<a id='L264' name='L264'></a>      import Inspect.Algebra
+<a id='L265' name='L265'></a>
+<a id='L266' name='L266'></a>      def <a href='../R/559.html' title='Multiple referred from 222 places.'>inspect</a>(<a href='../S/127.html#L286' title='Defined at 286 in deps/ecto/lib/ecto/repo/schema.ex.'>metadata</a>, opts) <strong class='reserved'>do</strong>
+<a id='L267' name='L267'></a>        concat ["#Ecto.Schema.Metadata&lt;", to_doc(<a href='../S/127.html#L286' title='Defined at 286 in deps/ecto/lib/ecto/repo/schema.ex.'>metadata</a>.<a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>, opts), "&gt;"]
+<a id='L268' name='L268'></a>      end
+<a id='L269' name='L269'></a>    end
+<a id='L270' name='L270'></a>  end
+<a id='L271' name='L271'></a>
+<a id='L272' name='L272'></a>  @doc false
+<a id='L273' name='L273'></a>  defmacro __using__(_) <strong class='reserved'>do</strong>
+<a id='L274' name='L274'></a>    quote <strong class='reserved'>do</strong>
+<a id='L275' name='L275'></a>      import Ecto.Schema, only: [schema: 2, embedded_schema: 1]
+<a id='L276' name='L276'></a>
+<a id='L277' name='L277'></a>      @primary_key <em class='brace'>{</em>:id, :id, autogenerate: true<em class='brace'>}</em>
+<a id='L278' name='L278'></a>      @timestamps_opts []
+<a id='L279' name='L279'></a>      @foreign_key_type :id
+<a id='L280' name='L280'></a>      @before_compile Ecto.Schema
+<a id='L281' name='L281'></a>
+<a id='L282' name='L282'></a>      Module.register_attribute(__MODULE__, :ecto_fields, accumulate: true)
+<a id='L283' name='L283'></a>      Module.register_attribute(__MODULE__, :ecto_assocs, accumulate: true)
+<a id='L284' name='L284'></a>      Module.register_attribute(__MODULE__, :ecto_embeds, accumulate: true)
+<a id='L285' name='L285'></a>      Module.register_attribute(__MODULE__, :ecto_raw, accumulate: true)
+<a id='L286' name='L286'></a>      Module.register_attribute(__MODULE__, :ecto_autogenerate_insert, accumulate: true)
+<a id='L287' name='L287'></a>      Module.register_attribute(__MODULE__, :ecto_autogenerate_update, accumulate: true)
+<a id='L288' name='L288'></a>      Module.put_attribute(__MODULE__, :ecto_autogenerate_id, nil)
+<a id='L289' name='L289'></a>    end
+<a id='L290' name='L290'></a>  end
+<a id='L291' name='L291'></a>
+<a id='L292' name='L292'></a>  @doc """
+<a id='L293' name='L293'></a>  Defines an embedded schema.
+<a id='L294' name='L294'></a>
+<a id='L295' name='L295'></a>  This function is literally a shortcut <strong class='reserved'>for</strong>:
+<a id='L296' name='L296'></a>
+<a id='L297' name='L297'></a>        @primary_key <em class='brace'>{</em>:id, :binary_id, autogenerate: true<em class='brace'>}</em>
+<a id='L298' name='L298'></a>        schema "embedded Model" <strong class='reserved'>do</strong>
+<a id='L299' name='L299'></a>  """
+<a id='L300' name='L300'></a>  defmacro <a href='../S/66.html#L187' title='Referred from 187 in deps/ecto/integration_test/support/models.exs.'>embedded_schema</a>(opts) <strong class='reserved'>do</strong>
+<a id='L301' name='L301'></a>    quote <strong class='reserved'>do</strong>
+<a id='L302' name='L302'></a>      @primary_key <em class='brace'>{</em>:id, :binary_id, autogenerate: true<em class='brace'>}</em>
+<a id='L303' name='L303'></a>      <a href='../S/130.html#L310' title='Defined at 310 in deps/ecto/lib/ecto/schema.ex.'>schema</a> "embedded #{inspect __MODULE__}", unquote(opts)
+<a id='L304' name='L304'></a>    end
+<a id='L305' name='L305'></a>  end
+<a id='L306' name='L306'></a>
+<a id='L307' name='L307'></a>  @doc """
+<a id='L308' name='L308'></a>  Defines a schema with a source name and field definitions.
+<a id='L309' name='L309'></a>  """
+<a id='L310' name='L310'></a>  defmacro <a href='../R/871.html' title='Multiple referred from 17 places.'>schema</a>(source, [<strong class='reserved'>do</strong>: block]) <strong class='reserved'>do</strong>
+<a id='L311' name='L311'></a>    quote <strong class='reserved'>do</strong>
+<a id='L312' name='L312'></a>      source = unquote(source)
+<a id='L313' name='L313'></a>
+<a id='L314' name='L314'></a>      unless is_binary(source) <strong class='reserved'>do</strong>
+<a id='L315' name='L315'></a>        raise ArgumentError, "schema source must be a string, got: #{inspect source}"
+<a id='L316' name='L316'></a>      end
+<a id='L317' name='L317'></a>
+<a id='L318' name='L318'></a>      Module.register_attribute(__MODULE__, :changeset_fields, accumulate: true)
+<a id='L319' name='L319'></a>      Module.register_attribute(__MODULE__, :struct_fields, accumulate: true)
+<a id='L320' name='L320'></a>      Module.put_attribute(__MODULE__, :struct_fields,
+<a id='L321' name='L321'></a>                           <em class='brace'>{</em>:__meta__, %<a href='../S/130.html#L248' title='Defined at 248 in deps/ecto/lib/ecto/schema.ex.'>Metadata</a><em class='brace'>{</em>state: :built, source: <em class='brace'>{</em>nil, source<em class='brace'>}</em><em class='brace'>}</em><em class='brace'>}</em>)
+<a id='L322' name='L322'></a>
+<a id='L323' name='L323'></a>      primary_key_fields =
+<a id='L324' name='L324'></a>        <strong class='reserved'>case</strong> @primary_key <strong class='reserved'>do</strong>
+<a id='L325' name='L325'></a>          false -&gt;
+<a id='L326' name='L326'></a>            []
+<a id='L327' name='L327'></a>          <em class='brace'>{</em>name, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, opts<em class='brace'>}</em> -&gt;
+<a id='L328' name='L328'></a>            Ecto.Schema.<a href='../S/130.html#L987' title='Defined at 987 in deps/ecto/lib/ecto/schema.ex.'>__field__</a>(__MODULE__, name, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, true, opts)
+<a id='L329' name='L329'></a>            [name]
+<a id='L330' name='L330'></a>          other -&gt;
+<a id='L331' name='L331'></a>            raise ArgumentError, "@primary_key must be false or {name, type, opts}"
+<a id='L332' name='L332'></a>        end
+<a id='L333' name='L333'></a>
+<a id='L334' name='L334'></a>      try <strong class='reserved'>do</strong>
+<a id='L335' name='L335'></a>        import Ecto.Schema
+<a id='L336' name='L336'></a>        unquote(block)
+<a id='L337' name='L337'></a>      after
+<a id='L338' name='L338'></a>        :ok
+<a id='L339' name='L339'></a>      end
+<a id='L340' name='L340'></a>
+<a id='L341' name='L341'></a>      <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a> = @ecto_fields |&gt; Enum.<a href='../D/991.html' title='Multiple defined in 5 places.'>reverse</a>
+<a id='L342' name='L342'></a>      <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a> = @ecto_assocs |&gt; Enum.<a href='../D/991.html' title='Multiple defined in 5 places.'>reverse</a>
+<a id='L343' name='L343'></a>      embeds = @ecto_embeds |&gt; Enum.<a href='../D/991.html' title='Multiple defined in 5 places.'>reverse</a>
+<a id='L344' name='L344'></a>
+<a id='L345' name='L345'></a>      Module.eval_quoted __ENV__, [
+<a id='L346' name='L346'></a>        Ecto.Schema.<a href='../S/130.html#L1085' title='Defined at 1085 in deps/ecto/lib/ecto/schema.ex.'>__defstruct__</a>(@struct_fields),
+<a id='L347' name='L347'></a>        Ecto.Schema.<a href='../D/205.html' title='Multiple defined in 2 places.'>__changeset__</a>(@changeset_fields),
+<a id='L348' name='L348'></a>        Ecto.Schema.<a href='../D/220.html' title='Multiple defined in 18 places.'>__schema__</a>(source, <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, primary_key_fields),
+<a id='L349' name='L349'></a>        Ecto.Schema.<a href='../S/130.html#L1110' title='Defined at 1110 in deps/ecto/lib/ecto/schema.ex.'>__types__</a>(<a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>),
+<a id='L350' name='L350'></a>        Ecto.Schema.<a href='../S/130.html#L1130' title='Defined at 1130 in deps/ecto/lib/ecto/schema.ex.'>__assocs__</a>(<a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a>),
+<a id='L351' name='L351'></a>        Ecto.Schema.<a href='../S/130.html#L1150' title='Defined at 1150 in deps/ecto/lib/ecto/schema.ex.'>__embeds__</a>(embeds),
+<a id='L352' name='L352'></a>        Ecto.Schema.<a href='../S/130.html#L1170' title='Defined at 1170 in deps/ecto/lib/ecto/schema.ex.'>__read_after_writes__</a>(@ecto_raw),
+<a id='L353' name='L353'></a>        Ecto.Schema.<a href='../S/130.html#L1177' title='Defined at 1177 in deps/ecto/lib/ecto/schema.ex.'>__autogenerate__</a>(@ecto_autogenerate_id,
+<a id='L354' name='L354'></a>                                     @ecto_autogenerate_insert,
+<a id='L355' name='L355'></a>                                     @ecto_autogenerate_update)]
+<a id='L356' name='L356'></a>    end
+<a id='L357' name='L357'></a>  end
+<a id='L358' name='L358'></a>
+<a id='L359' name='L359'></a><em class='sharp'>  #</em># API
+<a id='L360' name='L360'></a>
+<a id='L361' name='L361'></a>  @doc """
+<a id='L362' name='L362'></a>  Defines a field on the model schema with given name and type.
+<a id='L363' name='L363'></a>
+<a id='L364' name='L364'></a><em class='sharp'>  #</em># Options
+<a id='L365' name='L365'></a>
+<a id='L366' name='L366'></a>    * `:<strong class='reserved'>default</strong>` - Sets the <strong class='reserved'>default</strong> value on the schema and the <strong class='reserved'>struct</strong>.
+<a id='L367' name='L367'></a>      The <strong class='reserved'>default</strong> value is calculated at compilation time, so don't use
+<a id='L368' name='L368'></a>      expressions like `Ecto.DateTime.utc` or `Ecto.UUID.generate` as
+<a id='L369' name='L369'></a>      they would then be the same <strong class='reserved'>for</strong> all records
+<a id='L370' name='L370'></a>
+<a id='L371' name='L371'></a>    * `:autogenerate` - Annotates the field to be autogenerated before
+<a id='L372' name='L372'></a>      insertion <strong class='reserved'>if</strong> not value is set.
+<a id='L373' name='L373'></a>
+<a id='L374' name='L374'></a>    * `:read_after_writes` - When true, the field is always read back
+<a id='L375' name='L375'></a>      from the database after insert and updates.
+<a id='L376' name='L376'></a>
+<a id='L377' name='L377'></a>      For relational databases, this means the RETURNING option of those
+<a id='L378' name='L378'></a>      statements are used. For this reason, MySQL does not support this
+<a id='L379' name='L379'></a>      option and will raise an error <strong class='reserved'>if</strong> a model is inserted/updated with
+<a id='L380' name='L380'></a>      read after writes fields.
+<a id='L381' name='L381'></a>
+<a id='L382' name='L382'></a>    * `:virtual` - When true, the field is not persisted to the database.
+<a id='L383' name='L383'></a>      Notice virtual fields <strong class='reserved'>do</strong> not support `:autogenerate` nor
+<a id='L384' name='L384'></a>      `:read_after_writes`.
+<a id='L385' name='L385'></a>
+<a id='L386' name='L386'></a>  """
+<a id='L387' name='L387'></a>  defmacro <a href='../R/473.html' title='Multiple referred from 296 places.'>field</a>(name, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a> \\ :string, opts \\ []) <strong class='reserved'>do</strong>
+<a id='L388' name='L388'></a>    quote <strong class='reserved'>do</strong>
+<a id='L389' name='L389'></a>      Ecto.Schema.<a href='../S/130.html#L987' title='Defined at 987 in deps/ecto/lib/ecto/schema.ex.'>__field__</a>(__MODULE__, unquote(name), unquote(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>), false, unquote(opts))
+<a id='L390' name='L390'></a>    end
+<a id='L391' name='L391'></a>  end
+<a id='L392' name='L392'></a>
+<a id='L393' name='L393'></a>  @doc """
+<a id='L394' name='L394'></a>  Generates `:inserted_at` and `:updated_at` timestamp fields.
+<a id='L395' name='L395'></a>
+<a id='L396' name='L396'></a>  When using `Ecto.Model`, the fields generated by this macro
+<a id='L397' name='L397'></a>  will automatically be set to the current time when inserting
+<a id='L398' name='L398'></a>  and updating values in a repository.
+<a id='L399' name='L399'></a>
+<a id='L400' name='L400'></a><em class='sharp'>  #</em># Options
+<a id='L401' name='L401'></a>
+<a id='L402' name='L402'></a>    * `:type` - the timestamps type, defaults to `Ecto.DateTime`.
+<a id='L403' name='L403'></a>    * `:usec` - boolean, sets whether microseconds are used in timestamps.
+<a id='L404' name='L404'></a>      Microseconds will be 0 <strong class='reserved'>if</strong> false. Defaults to false.
+<a id='L405' name='L405'></a>    * `:inserted_at` - the name of the column <strong class='reserved'>for</strong> insertion times or `false`
+<a id='L406' name='L406'></a>    * `:updated_at` - the name of the column <strong class='reserved'>for</strong> update times or `false`
+<a id='L407' name='L407'></a>
+<a id='L408' name='L408'></a>  All options can be pre-configured by setting `@timestamps_opts`.
+<a id='L409' name='L409'></a>  """
+<a id='L410' name='L410'></a>  defmacro <a href='../R/942.html' title='Multiple referred from 14 places.'>timestamps</a>(opts \\ []) <strong class='reserved'>do</strong>
+<a id='L411' name='L411'></a>    quote bind_quoted: binding <strong class='reserved'>do</strong>
+<a id='L412' name='L412'></a>      <a href='../D/1103.html' title='Multiple defined in 2 places.'>timestamps</a> =
+<a id='L413' name='L413'></a>        [inserted_at: :inserted_at, updated_at: :updated_at,
+<a id='L414' name='L414'></a>         type: Ecto.DateTime, usec: false]
+<a id='L415' name='L415'></a>        |&gt; Keyword.<a href='../D/758.html' title='Multiple defined in 4 places.'>merge</a>(@timestamps_opts)
+<a id='L416' name='L416'></a>        |&gt; Keyword.<a href='../D/758.html' title='Multiple defined in 4 places.'>merge</a>(opts)
+<a id='L417' name='L417'></a>
+<a id='L418' name='L418'></a>      <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a> = Keyword.fetch!(<a href='../D/1103.html' title='Multiple defined in 2 places.'>timestamps</a>, :type)
+<a id='L419' name='L419'></a>      autogen = <strong class='reserved'>if</strong> Keyword.fetch!(<a href='../D/1103.html' title='Multiple defined in 2 places.'>timestamps</a>, :usec), <strong class='reserved'>do</strong>: [:usec], <strong class='reserved'>else</strong>: []
+<a id='L420' name='L420'></a>
+<a id='L421' name='L421'></a>      <strong class='reserved'>if</strong> inserted_at = Keyword.fetch!(<a href='../D/1103.html' title='Multiple defined in 2 places.'>timestamps</a>, :inserted_at) <strong class='reserved'>do</strong>
+<a id='L422' name='L422'></a>        Ecto.Schema.<a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>(inserted_at, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, [])
+<a id='L423' name='L423'></a>        Module.put_attribute(__MODULE__, :ecto_autogenerate_insert, <em class='brace'>{</em>inserted_at, Ecto.DateTime, autogen<em class='brace'>}</em>)
+<a id='L424' name='L424'></a>      end
+<a id='L425' name='L425'></a>
+<a id='L426' name='L426'></a>      <strong class='reserved'>if</strong> updated_at = Keyword.fetch!(<a href='../D/1103.html' title='Multiple defined in 2 places.'>timestamps</a>, :updated_at) <strong class='reserved'>do</strong>
+<a id='L427' name='L427'></a>        Ecto.Schema.<a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>(updated_at, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, [])
+<a id='L428' name='L428'></a>        Module.put_attribute(__MODULE__, :ecto_autogenerate_insert, <em class='brace'>{</em>updated_at, Ecto.DateTime, autogen<em class='brace'>}</em>)
+<a id='L429' name='L429'></a>        Module.put_attribute(__MODULE__, :ecto_autogenerate_update, <em class='brace'>{</em>updated_at, Ecto.DateTime, autogen<em class='brace'>}</em>)
+<a id='L430' name='L430'></a>      end
+<a id='L431' name='L431'></a>    end
+<a id='L432' name='L432'></a>  end
+<a id='L433' name='L433'></a>
+<a id='L434' name='L434'></a>  @doc ~S"""
+<a id='L435' name='L435'></a>  Indicates a one-to-many association with another model.
+<a id='L436' name='L436'></a>
+<a id='L437' name='L437'></a>  The current model has zero or more records of the other model. The other
+<a id='L438' name='L438'></a>  model often has a `belongs_to` field with the reverse association.
+<a id='L439' name='L439'></a>
+<a id='L440' name='L440'></a><em class='sharp'>  #</em># Options
+<a id='L441' name='L441'></a>
+<a id='L442' name='L442'></a>    * `:foreign_key` - Sets the foreign key, this should map to a field on the
+<a id='L443' name='L443'></a>      other model, defaults to the underscored name of the current model
+<a id='L444' name='L444'></a>      suffixed by `_id`
+<a id='L445' name='L445'></a>
+<a id='L446' name='L446'></a>    * `:references` - Sets the key on the current model to be used <strong class='reserved'>for</strong> the
+<a id='L447' name='L447'></a>      association, defaults to the primary key on the model
+<a id='L448' name='L448'></a>
+<a id='L449' name='L449'></a>    * `:through` - If this association must be defined in terms of existing
+<a id='L450' name='L450'></a>      associations. Read below <strong class='reserved'>for</strong> more information
+<a id='L451' name='L451'></a>
+<a id='L452' name='L452'></a>    * `:on_delete` - The action taken on associations when parent model
+<a id='L453' name='L453'></a>      is deleted. May be `:nothing` (<strong class='reserved'>default</strong>), `:nilify_all` and `:delete_all`.
+<a id='L454' name='L454'></a>      Notice `:on_delete` may also be set in migrations when creating a
+<a id='L455' name='L455'></a>      reference. If supported, relying on the database via migrations
+<a id='L456' name='L456'></a>      is prefered
+<a id='L457' name='L457'></a>
+<a id='L458' name='L458'></a>    * `:on_replace` - The action taken on associations when the model is
+<a id='L459' name='L459'></a>      replaced   when casting or manipulating parent changeset. May be
+<a id='L460' name='L460'></a>      `:raise` (<strong class='reserved'>default</strong>), `:mark_as_invalid`, `:nilify`, or `:delete`.
+<a id='L461' name='L461'></a>      See `Ecto.Changeset`'s section on related models for more info.
+<a id='L462' name='L462'></a>
+<a id='L463' name='L463'></a>    * `:on_cast` - The <strong class='reserved'>default</strong> changeset function to call during casting
+<a id='L464' name='L464'></a>      of a nested association which can be overridden in `Ecto.Changeset.cast/4`.
+<a id='L465' name='L465'></a>      It's an atom representing the function name in the associated model's
+<a id='L466' name='L466'></a>      module which will receive the module and the parameters <strong class='reserved'>for</strong> casting
+<a id='L467' name='L467'></a>      (<strong class='reserved'>default</strong>: `:changeset`)
+<a id='L468' name='L468'></a>
+<a id='L469' name='L469'></a>    * `:defaults` - Default values to use when building the association
+<a id='L470' name='L470'></a>
+<a id='L471' name='L471'></a><em class='sharp'>  #</em># Examples
+<a id='L472' name='L472'></a>
+<a id='L473' name='L473'></a>      defmodule <a href='../R/57.html' title='Multiple referred from 397 places.'>Post</a> <strong class='reserved'>do</strong>
+<a id='L474' name='L474'></a>        use Ecto.Schema
+<a id='L475' name='L475'></a>        schema "posts" <strong class='reserved'>do</strong>
+<a id='L476' name='L476'></a>          has_many :comments, Comment
+<a id='L477' name='L477'></a>        end
+<a id='L478' name='L478'></a>      end
+<a id='L479' name='L479'></a>
+<a id='L480' name='L480'></a>      # Get all comments <strong class='reserved'>for</strong> a given post
+<a id='L481' name='L481'></a>      post = Repo.get(Post, 42)
+<a id='L482' name='L482'></a>      comments = Repo.all assoc(post, :comments)
+<a id='L483' name='L483'></a>
+<a id='L484' name='L484'></a>      # The comments can come preloaded on the post <strong class='reserved'>struct</strong>
+<a id='L485' name='L485'></a>      [post] = Repo.all(from(p in Post, where: p.id == 42, preload: :comments))
+<a id='L486' name='L486'></a>      post.comments #=&gt; [%Comment<em class='brace'>{</em>...<em class='brace'>}</em>, ...]
+<a id='L487' name='L487'></a>
+<a id='L488' name='L488'></a><em class='sharp'>  #</em># has_many/has_one :through
+<a id='L489' name='L489'></a>
+<a id='L490' name='L490'></a>  Ecto also supports defining associations in terms of other associations
+<a id='L491' name='L491'></a>  via the `:through` option. Let's see an example:
+<a id='L492' name='L492'></a>
+<a id='L493' name='L493'></a>      defmodule <a href='../R/57.html' title='Multiple referred from 397 places.'>Post</a> <strong class='reserved'>do</strong>
+<a id='L494' name='L494'></a>        use Ecto.Schema
+<a id='L495' name='L495'></a>
+<a id='L496' name='L496'></a>        schema "posts" <strong class='reserved'>do</strong>
+<a id='L497' name='L497'></a>          has_many :comments, Comment
+<a id='L498' name='L498'></a>          has_one :permalink, Permalink
+<a id='L499' name='L499'></a>
+<a id='L500' name='L500'></a>          # In the has_many :through example below, in the list
+<a id='L501' name='L501'></a><em class='sharp'>          #</em> `[:comments, :author]` the `:comments` refers to the
+<a id='L502' name='L502'></a><em class='sharp'>          #</em> `has_many :comments` in the Post model's own schema
+<a id='L503' name='L503'></a>          # and the `:author` refers to the `belongs_to :author`
+<a id='L504' name='L504'></a>          # of the Comment module's schema (the module below).
+<a id='L505' name='L505'></a><em class='sharp'>          #</em> (see the description below <strong class='reserved'>for</strong> more details)
+<a id='L506' name='L506'></a>          has_many :comments_authors, through: [:comments, :author]
+<a id='L507' name='L507'></a>
+<a id='L508' name='L508'></a>          # Specify the association with custom source
+<a id='L509' name='L509'></a>          has_many :tags, <em class='brace'>{</em>"posts_tags", Tag<em class='brace'>}</em>
+<a id='L510' name='L510'></a>        end
+<a id='L511' name='L511'></a>      end
+<a id='L512' name='L512'></a>
+<a id='L513' name='L513'></a>      defmodule <a href='../R/12.html' title='Multiple referred from 118 places.'>Comment</a> <strong class='reserved'>do</strong>
+<a id='L514' name='L514'></a>        use Ecto.Schema
+<a id='L515' name='L515'></a>
+<a id='L516' name='L516'></a>        schema "comments" <strong class='reserved'>do</strong>
+<a id='L517' name='L517'></a>          belongs_to :author, Author
+<a id='L518' name='L518'></a>          belongs_to :post, Post
+<a id='L519' name='L519'></a>          has_one :post_permalink, through: [:post, :permalink]
+<a id='L520' name='L520'></a>        end
+<a id='L521' name='L521'></a>      end
+<a id='L522' name='L522'></a>
+<a id='L523' name='L523'></a>  In the example above, we have defined a `has_many :through` association
+<a id='L524' name='L524'></a>  named `:comments_authors`. A `:through` association always expect a list
+<a id='L525' name='L525'></a>  and the first element of the list must be a previously defined association
+<a id='L526' name='L526'></a>  in the current module. For example, `:comments_authors` first points to
+<a id='L527' name='L527'></a>  `:comments` in the same module (Post), which then points to `:author` in
+<a id='L528' name='L528'></a>  the next model `Comment`.
+<a id='L529' name='L529'></a>
+<a id='L530' name='L530'></a>  This `:through` associations will <strong class='reserved'>return</strong> all authors <strong class='reserved'>for</strong> all comments
+<a id='L531' name='L531'></a>  that belongs to that post:
+<a id='L532' name='L532'></a>
+<a id='L533' name='L533'></a>      # Get all comments <strong class='reserved'>for</strong> a given post
+<a id='L534' name='L534'></a>      post = Repo.get(Post, 42)
+<a id='L535' name='L535'></a>      authors = Repo.all assoc(post, :comments_authors)
+<a id='L536' name='L536'></a>
+<a id='L537' name='L537'></a>  `:through` associations are read-only as they are useful to avoid repetition
+<a id='L538' name='L538'></a>  allowing the developer to easily retrieve data that is often seem together
+<a id='L539' name='L539'></a>  but stored across different tables.
+<a id='L540' name='L540'></a>
+<a id='L541' name='L541'></a>  `:through` associations can also be preloaded. In such cases, not only
+<a id='L542' name='L542'></a>  the `:through` association is preloaded but all intermediate steps are
+<a id='L543' name='L543'></a>  preloaded too:
+<a id='L544' name='L544'></a>
+<a id='L545' name='L545'></a>      [post] = Repo.all(from(p in Post, where: p.id == 42, preload: :comments_authors))
+<a id='L546' name='L546'></a>      post.comments_authors #=&gt; [%Author<em class='brace'>{</em>...<em class='brace'>}</em>, ...]
+<a id='L547' name='L547'></a>
+<a id='L548' name='L548'></a>      # The comments <strong class='reserved'>for</strong> each post will be preloaded too
+<a id='L549' name='L549'></a>      post.comments #=&gt; [%Comment<em class='brace'>{</em>...<em class='brace'>}</em>, ...]
+<a id='L550' name='L550'></a>
+<a id='L551' name='L551'></a>      # And the author <strong class='reserved'>for</strong> each comment too
+<a id='L552' name='L552'></a>      hd(post.comments).author #=&gt; %Author<em class='brace'>{</em>...<em class='brace'>}</em>
+<a id='L553' name='L553'></a>
+<a id='L554' name='L554'></a>  Finally, `:through` can be used with multiple associations (not only 2)
+<a id='L555' name='L555'></a>  and with associations of any kind, including `belongs_to` and others
+<a id='L556' name='L556'></a>  `:through` associations. When the `:through` association is expected to
+<a id='L557' name='L557'></a>  <strong class='reserved'>return</strong> one or no item, `has_one :through` should be used instead, as in
+<a id='L558' name='L558'></a>  the example at the beginning of this section:
+<a id='L559' name='L559'></a>
+<a id='L560' name='L560'></a>      # How we defined the association above
+<a id='L561' name='L561'></a>      has_one :post_permalink, through: [:post, :permalink]
+<a id='L562' name='L562'></a>
+<a id='L563' name='L563'></a>      # Get a preloaded comment
+<a id='L564' name='L564'></a>      [comment] = Repo.all(Comment) |&gt; Repo.preload(:post_permalink)
+<a id='L565' name='L565'></a>      comment.post_permalink #=&gt; %Permalink<em class='brace'>{</em>...<em class='brace'>}</em>
+<a id='L566' name='L566'></a>
+<a id='L567' name='L567'></a>  """
+<a id='L568' name='L568'></a>  defmacro <a href='../R/538.html' title='Multiple referred from 6 places.'>has_many</a>(name, queryable, opts \\ []) <strong class='reserved'>do</strong>
+<a id='L569' name='L569'></a>    quote <strong class='reserved'>do</strong>
+<a id='L570' name='L570'></a>      Ecto.Schema.<a href='../S/130.html#L1017' title='Defined at 1017 in deps/ecto/lib/ecto/schema.ex.'>__has_many__</a>(__MODULE__, unquote(name), unquote(queryable), unquote(opts))
+<a id='L571' name='L571'></a>    end
+<a id='L572' name='L572'></a>  end
+<a id='L573' name='L573'></a>
+<a id='L574' name='L574'></a>  @doc ~S"""
+<a id='L575' name='L575'></a>  Indicates a one-to-one association with another model.
+<a id='L576' name='L576'></a>
+<a id='L577' name='L577'></a>  The current model has zero or one records of the other model. The other
+<a id='L578' name='L578'></a>  model often has a `belongs_to` field with the reverse association.
+<a id='L579' name='L579'></a>
+<a id='L580' name='L580'></a><em class='sharp'>  #</em># Options
+<a id='L581' name='L581'></a>
+<a id='L582' name='L582'></a>    * `:foreign_key` - Sets the foreign key, this should map to a field on the
+<a id='L583' name='L583'></a>      other model, defaults to the underscored name of the current model
+<a id='L584' name='L584'></a>      suffixed by `_id`
+<a id='L585' name='L585'></a>
+<a id='L586' name='L586'></a>    * `:references`  - Sets the key on the current model to be used <strong class='reserved'>for</strong> the
+<a id='L587' name='L587'></a>      association, defaults to the primary key on the model
+<a id='L588' name='L588'></a>
+<a id='L589' name='L589'></a>    * `:through` - If this association must be defined in terms of existing
+<a id='L590' name='L590'></a>      associations. Read the section in `has_many/3` <strong class='reserved'>for</strong> more information
+<a id='L591' name='L591'></a>
+<a id='L592' name='L592'></a>    * `:on_delete` - The action taken on associations when parent model
+<a id='L593' name='L593'></a>      is deleted. May be `:nothing` (<strong class='reserved'>default</strong>), `:nilify_all` and `:delete_all`.
+<a id='L594' name='L594'></a>      Notice `:on_delete` may also be set in migrations when creating a
+<a id='L595' name='L595'></a>      reference. If supported, relying on the database via migrations
+<a id='L596' name='L596'></a>      is prefered
+<a id='L597' name='L597'></a>
+<a id='L598' name='L598'></a>    * `:on_replace` - The action taken on associations when the model is
+<a id='L599' name='L599'></a>      replaced   when casting or manipulating parent changeset. May be
+<a id='L600' name='L600'></a>      `:raise` (<strong class='reserved'>default</strong>), `:mark_as_invalid`, `:nilify`, or `:delete`.
+<a id='L601' name='L601'></a>      See `Ecto.Changeset`'s section on related models for more info.
+<a id='L602' name='L602'></a>
+<a id='L603' name='L603'></a>    * `:on_cast` - The <strong class='reserved'>default</strong> changeset function to call during casting
+<a id='L604' name='L604'></a>      of a nested association which can be overridden in `Ecto.Changeset.cast/4`.
+<a id='L605' name='L605'></a>      It's an atom representing the function name in the associated model's
+<a id='L606' name='L606'></a>      module which will receive the module and the parameters <strong class='reserved'>for</strong> casting
+<a id='L607' name='L607'></a>      (<strong class='reserved'>default</strong>: `:changeset`)
+<a id='L608' name='L608'></a>
+<a id='L609' name='L609'></a>    * `:defaults` - Default values to use when building the association
+<a id='L610' name='L610'></a>
+<a id='L611' name='L611'></a><em class='sharp'>  #</em># Examples
+<a id='L612' name='L612'></a>
+<a id='L613' name='L613'></a>      defmodule <a href='../R/57.html' title='Multiple referred from 397 places.'>Post</a> <strong class='reserved'>do</strong>
+<a id='L614' name='L614'></a>        use Ecto.Schema
+<a id='L615' name='L615'></a>
+<a id='L616' name='L616'></a>        schema "posts" <strong class='reserved'>do</strong>
+<a id='L617' name='L617'></a>          has_one :permalink, Permalink
+<a id='L618' name='L618'></a>
+<a id='L619' name='L619'></a>          # Specify the association with custom source
+<a id='L620' name='L620'></a>          has_one :category, <em class='brace'>{</em>"posts_categories", Category<em class='brace'>}</em>
+<a id='L621' name='L621'></a>        end
+<a id='L622' name='L622'></a>      end
+<a id='L623' name='L623'></a>
+<a id='L624' name='L624'></a>      # The permalink can come preloaded on the post <strong class='reserved'>struct</strong>
+<a id='L625' name='L625'></a>      [post] = Repo.all(from(p in Post, where: p.id == 42, preload: :permalink))
+<a id='L626' name='L626'></a>      post.permalink #=&gt; %Permalink<em class='brace'>{</em>...<em class='brace'>}</em>
+<a id='L627' name='L627'></a>
+<a id='L628' name='L628'></a>  """
+<a id='L629' name='L629'></a>  defmacro <a href='../R/539.html' title='Multiple referred from 2 places.'>has_one</a>(name, queryable, opts \\ []) <strong class='reserved'>do</strong>
+<a id='L630' name='L630'></a>    quote <strong class='reserved'>do</strong>
+<a id='L631' name='L631'></a>      Ecto.Schema.<a href='../S/130.html#L1035' title='Defined at 1035 in deps/ecto/lib/ecto/schema.ex.'>__has_one__</a>(__MODULE__, unquote(name), unquote(queryable), unquote(opts))
+<a id='L632' name='L632'></a>    end
+<a id='L633' name='L633'></a>  end
+<a id='L634' name='L634'></a>
+<a id='L635' name='L635'></a>  @doc ~S"""
+<a id='L636' name='L636'></a>  Indicates a one-to-one association with another model.
+<a id='L637' name='L637'></a>
+<a id='L638' name='L638'></a>  The current model belongs to zero or one records of the other model. The other
+<a id='L639' name='L639'></a>  model often has a `has_one` or a `has_many` field with the reverse association.
+<a id='L640' name='L640'></a>
+<a id='L641' name='L641'></a>  You should use `belongs_to` in the table that contains the foreign key. Imagine
+<a id='L642' name='L642'></a>  a company &lt;-&gt; manager relationship. If the company contains the `manager_id` in
+<a id='L643' name='L643'></a>  the underlying database table, we say the company belongs to manager.
+<a id='L644' name='L644'></a>
+<a id='L645' name='L645'></a>  In fact, when you invoke this macro, a field with the name of foreign key is
+<a id='L646' name='L646'></a>  automatically defined in the schema <strong class='reserved'>for</strong> you.
+<a id='L647' name='L647'></a>
+<a id='L648' name='L648'></a><em class='sharp'>  #</em># Options
+<a id='L649' name='L649'></a>
+<a id='L650' name='L650'></a>    * `:foreign_key` - Sets the foreign key field name, defaults to the name
+<a id='L651' name='L651'></a>      of the association suffixed by `_id`. For example, `belongs_to :company`
+<a id='L652' name='L652'></a>      will define foreign key of `:company_id`
+<a id='L653' name='L653'></a>
+<a id='L654' name='L654'></a>    * `:references` - Sets the key on the other model to be used <strong class='reserved'>for</strong> the
+<a id='L655' name='L655'></a>      association, defaults to: `:id`
+<a id='L656' name='L656'></a>
+<a id='L657' name='L657'></a>    * `:define_field` - When false, does not automatically define a `:foreign_key`
+<a id='L658' name='L658'></a>      field, implying the user is defining the field manually elsewhere
+<a id='L659' name='L659'></a>
+<a id='L660' name='L660'></a>    * `:type` - Sets the type of automatically defined `:foreign_key`.
+<a id='L661' name='L661'></a>      Defaults to: `:integer` and be set per schema via `@foreign_key_type`
+<a id='L662' name='L662'></a>
+<a id='L663' name='L663'></a>  All other options are forwarded to the underlying foreign key definition
+<a id='L664' name='L664'></a>  and therefore accept the same options as `field/3`.
+<a id='L665' name='L665'></a>
+<a id='L666' name='L666'></a><em class='sharp'>  #</em># Examples
+<a id='L667' name='L667'></a>
+<a id='L668' name='L668'></a>      defmodule <a href='../R/12.html' title='Multiple referred from 118 places.'>Comment</a> <strong class='reserved'>do</strong>
+<a id='L669' name='L669'></a>        use Ecto.Schema
+<a id='L670' name='L670'></a>
+<a id='L671' name='L671'></a>        schema "comments" <strong class='reserved'>do</strong>
+<a id='L672' name='L672'></a>          belongs_to :post, Post
+<a id='L673' name='L673'></a>        end
+<a id='L674' name='L674'></a>      end
+<a id='L675' name='L675'></a>
+<a id='L676' name='L676'></a>      # The post can come preloaded on the comment record
+<a id='L677' name='L677'></a>      [comment] = Repo.all(from(c in Comment, where: c.id == 42, preload: :post))
+<a id='L678' name='L678'></a>      comment.post #=&gt; %Post<em class='brace'>{</em>...<em class='brace'>}</em>
+<a id='L679' name='L679'></a>
+<a id='L680' name='L680'></a><em class='sharp'>  #</em># Polymorphic associations
+<a id='L681' name='L681'></a>
+<a id='L682' name='L682'></a>  One common use <strong class='reserved'>case</strong> <strong class='reserved'>for</strong> belongs to associations is to handle
+<a id='L683' name='L683'></a>  polymorphism. For example, imagine you have defined a Comment
+<a id='L684' name='L684'></a>  model and you wish to use it <strong class='reserved'>for</strong> commenting on both tasks and
+<a id='L685' name='L685'></a>  posts.
+<a id='L686' name='L686'></a>
+<a id='L687' name='L687'></a>  Some abstractions would force you to define some sort of
+<a id='L688' name='L688'></a>  polymorphic association with two fields in your database:
+<a id='L689' name='L689'></a>
+<a id='L690' name='L690'></a>      * commentable_type
+<a id='L691' name='L691'></a>      * commentable_id
+<a id='L692' name='L692'></a>
+<a id='L693' name='L693'></a>  The problem with this approach is that it breaks references in
+<a id='L694' name='L694'></a>  the database. You can't use foreign keys and it is very inneficient
+<a id='L695' name='L695'></a>  both in terms of query time and storage.
+<a id='L696' name='L696'></a>
+<a id='L697' name='L697'></a>  In Ecto, we have two ways to solve this issue. The simplest one
+<a id='L698' name='L698'></a>  is to define multiple fields in the Comment model, one <strong class='reserved'>for</strong> each
+<a id='L699' name='L699'></a>  association:
+<a id='L700' name='L700'></a>
+<a id='L701' name='L701'></a>      * task_id
+<a id='L702' name='L702'></a>      * post_id
+<a id='L703' name='L703'></a>
+<a id='L704' name='L704'></a>  Unless you have dozens of columns, this is simpler <strong class='reserved'>for</strong> the developer,
+<a id='L705' name='L705'></a>  more DB friendly and more efficient on all aspects.
+<a id='L706' name='L706'></a>
+<a id='L707' name='L707'></a>  Alternatively, because Ecto does not tie a model to a given table,
+<a id='L708' name='L708'></a>  we can use separate tables <strong class='reserved'>for</strong> each association. Let's start over
+<a id='L709' name='L709'></a>  and define a new Comment model:
+<a id='L710' name='L710'></a>
+<a id='L711' name='L711'></a>      defmodule <a href='../R/12.html' title='Multiple referred from 118 places.'>Comment</a> <strong class='reserved'>do</strong>
+<a id='L712' name='L712'></a>        use Ecto.Schema
+<a id='L713' name='L713'></a>
+<a id='L714' name='L714'></a>        schema "abstract table: comments" <strong class='reserved'>do</strong>
+<a id='L715' name='L715'></a>          # This will be used by associations on each "concrete" table
+<a id='L716' name='L716'></a>          field :assoc_id, :integer
+<a id='L717' name='L717'></a>        end
+<a id='L718' name='L718'></a>      end
+<a id='L719' name='L719'></a>
+<a id='L720' name='L720'></a>  Notice we have changed the table name to "abstract table: comments".
+<a id='L721' name='L721'></a>  You can choose whatever name you want, the point here is that this
+<a id='L722' name='L722'></a>  particular table will never exist.
+<a id='L723' name='L723'></a>
+<a id='L724' name='L724'></a>  Now in your Post and Task models:
+<a id='L725' name='L725'></a>
+<a id='L726' name='L726'></a>      defmodule <a href='../R/57.html' title='Multiple referred from 397 places.'>Post</a> <strong class='reserved'>do</strong>
+<a id='L727' name='L727'></a>        use Ecto.Schema
+<a id='L728' name='L728'></a>
+<a id='L729' name='L729'></a>        schema "posts" <strong class='reserved'>do</strong>
+<a id='L730' name='L730'></a>          has_many :comments, <em class='brace'>{</em>"posts_comments", Comment<em class='brace'>}</em>, foreign_key: :assoc_id
+<a id='L731' name='L731'></a>        end
+<a id='L732' name='L732'></a>      end
+<a id='L733' name='L733'></a>
+<a id='L734' name='L734'></a>      defmodule <a href='../R/84.html' title='Multiple referred from 10 places.'>Task</a> <strong class='reserved'>do</strong>
+<a id='L735' name='L735'></a>        use Ecto.Schema
+<a id='L736' name='L736'></a>
+<a id='L737' name='L737'></a>        schema "tasks" <strong class='reserved'>do</strong>
+<a id='L738' name='L738'></a>          has_many :comments, <em class='brace'>{</em>"tasks_comments", Comment<em class='brace'>}</em>, foreign_key: :assoc_id
+<a id='L739' name='L739'></a>        end
+<a id='L740' name='L740'></a>      end
+<a id='L741' name='L741'></a>
+<a id='L742' name='L742'></a>  Now each association uses its own specific table, "posts_comments"
+<a id='L743' name='L743'></a>  and "tasks_comments", which must be created on migrations. The
+<a id='L744' name='L744'></a>  advantage of this approach is that we never store unrelated data
+<a id='L745' name='L745'></a>  together, also ensuring we keep databases references fast and correct.
+<a id='L746' name='L746'></a>
+<a id='L747' name='L747'></a>  When using this technique, the only limitation is that you cannot
+<a id='L748' name='L748'></a>  build comments directly. For example, the command below
+<a id='L749' name='L749'></a>
+<a id='L750' name='L750'></a>      Repo.insert!(%Comment<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L751' name='L751'></a>
+<a id='L752' name='L752'></a>  will attempt to use the abstract table. Instead, one should
+<a id='L753' name='L753'></a>
+<a id='L754' name='L754'></a>      Repo.insert!(build_assoc(post, :comments))
+<a id='L755' name='L755'></a>
+<a id='L756' name='L756'></a>  where `build/2` is defined in `Ecto.Model`. You can also
+<a id='L757' name='L757'></a>  use `assoc/2` in both `Ecto.Model` and in the query syntax
+<a id='L758' name='L758'></a>  to easily retrieve associated comments to a given post or
+<a id='L759' name='L759'></a>  task:
+<a id='L760' name='L760'></a>
+<a id='L761' name='L761'></a>      # Fetch all comments associated to the given task
+<a id='L762' name='L762'></a>      Repo.all(assoc(task, :comments))
+<a id='L763' name='L763'></a>
+<a id='L764' name='L764'></a>  Finally, <strong class='reserved'>if</strong> <strong class='reserved'>for</strong> some reason you wish to query one of comments
+<a id='L765' name='L765'></a>  table directly, you can also specify the tuple source in
+<a id='L766' name='L766'></a>  the query syntax:
+<a id='L767' name='L767'></a>
+<a id='L768' name='L768'></a>      Repo.all from(c in <em class='brace'>{</em>"posts_comments", Comment<em class='brace'>}</em>), ...)
+<a id='L769' name='L769'></a>
+<a id='L770' name='L770'></a>  """
+<a id='L771' name='L771'></a>  defmacro <a href='../R/178.html' title='Multiple referred from 6 places.'>belongs_to</a>(name, queryable, opts \\ []) <strong class='reserved'>do</strong>
+<a id='L772' name='L772'></a>    quote <strong class='reserved'>do</strong>
+<a id='L773' name='L773'></a>      Ecto.Schema.<a href='../S/130.html#L1048' title='Defined at 1048 in deps/ecto/lib/ecto/schema.ex.'>__belongs_to__</a>(__MODULE__, unquote(name), unquote(queryable), unquote(opts))
+<a id='L774' name='L774'></a>    end
+<a id='L775' name='L775'></a>  end
+<a id='L776' name='L776'></a>
+<a id='L777' name='L777'></a><em class='sharp'>  #</em># Embeds
+<a id='L778' name='L778'></a>
+<a id='L779' name='L779'></a>  @doc ~S"""
+<a id='L780' name='L780'></a>  Indicates an embedding of one model.
+<a id='L781' name='L781'></a>
+<a id='L782' name='L782'></a>  The current model has zero or one records of the other model embedded
+<a id='L783' name='L783'></a>  inside of it. It uses a field similar to the `:map` type <strong class='reserved'>for</strong> storage,
+<a id='L784' name='L784'></a>  but allows embedded models to have all the things regular models can -
+<a id='L785' name='L785'></a>  callbacks, structured fields, etc. All typecasting operations are
+<a id='L786' name='L786'></a>  performed on an embedded model alongside the operations on the parent
+<a id='L787' name='L787'></a>  model.
+<a id='L788' name='L788'></a>
+<a id='L789' name='L789'></a>  You must declare your `embeds_one/3` field with type `:map` at the
+<a id='L790' name='L790'></a>  database level.
+<a id='L791' name='L791'></a>
+<a id='L792' name='L792'></a><em class='sharp'>  #</em># Options
+<a id='L793' name='L793'></a>
+<a id='L794' name='L794'></a>    * `:on_cast` - the <strong class='reserved'>default</strong> changeset function to call during casting,
+<a id='L795' name='L795'></a>      which can be overridden in `Ecto.Changeset.cast/4`. It's an atom representing
+<a id='L796' name='L796'></a>      the function name in the embedded model's module which will receive
+<a id='L797' name='L797'></a>      the module and the parameters <strong class='reserved'>for</strong> casting (<strong class='reserved'>default</strong>: `:changeset`).
+<a id='L798' name='L798'></a>
+<a id='L799' name='L799'></a>    * `:strategy` - the strategy <strong class='reserved'>for</strong> storing models in the database.
+<a id='L800' name='L800'></a>      Ecto supports only the `:replace` strategy out of the box which is the
+<a id='L801' name='L801'></a>      <strong class='reserved'>default</strong>. Read the strategy in `embeds_many/3` <strong class='reserved'>for</strong> more info.
+<a id='L802' name='L802'></a>
+<a id='L803' name='L803'></a>    * `:on_replace` - The action taken on associations when the model is
+<a id='L804' name='L804'></a>      replaced   when casting or manipulating parent changeset. May be
+<a id='L805' name='L805'></a>      `:raise` (<strong class='reserved'>default</strong>), `:mark_as_invalid`, or `:delete`.
+<a id='L806' name='L806'></a>      See `Ecto.Changeset`'s section on related models for more info.
+<a id='L807' name='L807'></a>
+<a id='L808' name='L808'></a><em class='sharp'>  #</em># Examples
+<a id='L809' name='L809'></a>
+<a id='L810' name='L810'></a>      defmodule <a href='../R/48.html' title='Multiple referred from 3 places.'>Order</a> <strong class='reserved'>do</strong>
+<a id='L811' name='L811'></a>        use Ecto.Schema
+<a id='L812' name='L812'></a>
+<a id='L813' name='L813'></a>        schema "orders" <strong class='reserved'>do</strong>
+<a id='L814' name='L814'></a>          embeds_one :item, Item
+<a id='L815' name='L815'></a>        end
+<a id='L816' name='L816'></a>      end
+<a id='L817' name='L817'></a>
+<a id='L818' name='L818'></a>      defmodule <a href='../R/32.html' title='Multiple referred from 2 places.'>Item</a> <strong class='reserved'>do</strong>
+<a id='L819' name='L819'></a>        use Ecto.Schema
+<a id='L820' name='L820'></a>
+<a id='L821' name='L821'></a>        # A required field <strong class='reserved'>for</strong> all embedded documents
+<a id='L822' name='L822'></a>        @primary_key <em class='brace'>{</em>:id, :binary_id, autogenerate: true<em class='brace'>}</em>
+<a id='L823' name='L823'></a>        schema "" <strong class='reserved'>do</strong>
+<a id='L824' name='L824'></a>          field :name
+<a id='L825' name='L825'></a>        end
+<a id='L826' name='L826'></a>      end
+<a id='L827' name='L827'></a>
+<a id='L828' name='L828'></a>      # The item is loaded with the order
+<a id='L829' name='L829'></a>      order = Repo.get!(Order, 42)
+<a id='L830' name='L830'></a>      order.item #=&gt; %Item<em class='brace'>{</em>...<em class='brace'>}</em>
+<a id='L831' name='L831'></a>
+<a id='L832' name='L832'></a>  Adding and removal of embeds can only be done via the `Ecto.Changeset`
+<a id='L833' name='L833'></a>  API so Ecto can properly track the embeded model life-cycle:
+<a id='L834' name='L834'></a>
+<a id='L835' name='L835'></a>      order = Repo.get!(Order, 42)
+<a id='L836' name='L836'></a>
+<a id='L837' name='L837'></a>      # Generate a changeset
+<a id='L838' name='L838'></a>      changeset = Ecto.Changeset.change(order)
+<a id='L839' name='L839'></a>
+<a id='L840' name='L840'></a>      # Change, put a new one or remove an item
+<a id='L841' name='L841'></a>      changeset = Ecto.Changeset.put_change(order, :item, nil)
+<a id='L842' name='L842'></a>
+<a id='L843' name='L843'></a>      # Update the order
+<a id='L844' name='L844'></a>      changeset = Repo.update!(changeset)
+<a id='L845' name='L845'></a>  """
+<a id='L846' name='L846'></a>  defmacro <a href='../S/66.html#L203' title='Referred from 203 in deps/ecto/integration_test/support/models.exs.'>embeds_one</a>(name, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, opts \\ []) <strong class='reserved'>do</strong>
+<a id='L847' name='L847'></a>    quote <strong class='reserved'>do</strong>
+<a id='L848' name='L848'></a>      Ecto.Schema.<a href='../S/130.html#L1062' title='Defined at 1062 in deps/ecto/lib/ecto/schema.ex.'>__embeds_one__</a>(__MODULE__, unquote(name), unquote(<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>), unquote(opts))
+<a id='L849' name='L849'></a>    end
+<a id='L850' name='L850'></a>  end
+<a id='L851' name='L851'></a>
+<a id='L852' name='L852'></a>  @doc ~S"""
+<a id='L853' name='L853'></a>  Indicates an embedding of many models.
+<a id='L854' name='L854'></a>
+<a id='L855' name='L855'></a>  The current model has zero or more records of the other model embedded
+<a id='L856' name='L856'></a>  inside of it, contained in a list. Embedded models have all the things
+<a id='L857' name='L857'></a>  regular models <strong class='reserved'>do</strong> - callbacks, structured fields, etc.
+<a id='L858' name='L858'></a>
+<a id='L859' name='L859'></a>  It is recommended to declare your `embeds_many/3` field with type
+<a id='L860' name='L860'></a>  `<em class='brace'>{</em>:array, :map<em class='brace'>}</em>` and <strong class='reserved'>default</strong> value of `[]` at the database level.
+<a id='L861' name='L861'></a>  In fact, Ecto will automatically translate `nil` values from the
+<a id='L862' name='L862'></a>  database into empty lists <strong class='reserved'>for</strong> embeds many (this behaviour is specific
+<a id='L863' name='L863'></a>  to `embeds_many/3` fields in order to mimic `has_many/3`).
+<a id='L864' name='L864'></a>
+<a id='L865' name='L865'></a><em class='sharp'>  #</em># Options
+<a id='L866' name='L866'></a>
+<a id='L867' name='L867'></a>    * `:on_cast` - the <strong class='reserved'>default</strong> changeset function to call during casting,
+<a id='L868' name='L868'></a>      which can be overridden in `Ecto.Changeset.cast/4`. It's an atom representing
+<a id='L869' name='L869'></a>      the function name in the embedded model's module which will receive
+<a id='L870' name='L870'></a>      the module and the parameters <strong class='reserved'>for</strong> casting (<strong class='reserved'>default</strong>: `:changeset`).
+<a id='L871' name='L871'></a>
+<a id='L872' name='L872'></a>    * `:strategy` - the strategy <strong class='reserved'>for</strong> storing models in the database.
+<a id='L873' name='L873'></a>      Ecto supports only the `:replace` strategy out of the box which is the
+<a id='L874' name='L874'></a>      <strong class='reserved'>default</strong>. Read strategy section below <strong class='reserved'>for</strong> more info.
+<a id='L875' name='L875'></a>
+<a id='L876' name='L876'></a>    * `:on_replace` - The action taken on associations when the model is
+<a id='L877' name='L877'></a>      replaced   when casting or manipulating parent changeset. May be
+<a id='L878' name='L878'></a>      `:raise` (<strong class='reserved'>default</strong>), `:mark_as_invalid`, or `:delete`.
+<a id='L879' name='L879'></a>      See `Ecto.Changeset`'s section on related models for more info.
+<a id='L880' name='L880'></a>
+<a id='L881' name='L881'></a><em class='sharp'>  #</em># Examples
+<a id='L882' name='L882'></a>
+<a id='L883' name='L883'></a>      defmodule <a href='../R/48.html' title='Multiple referred from 3 places.'>Order</a> <strong class='reserved'>do</strong>
+<a id='L884' name='L884'></a>        use Ecto.Schema
+<a id='L885' name='L885'></a>
+<a id='L886' name='L886'></a>        schema "orders" <strong class='reserved'>do</strong>
+<a id='L887' name='L887'></a>          embeds_many :items, Item
+<a id='L888' name='L888'></a>        end
+<a id='L889' name='L889'></a>      end
+<a id='L890' name='L890'></a>
+<a id='L891' name='L891'></a>      defmodule <a href='../R/32.html' title='Multiple referred from 2 places.'>Item</a> <strong class='reserved'>do</strong>
+<a id='L892' name='L892'></a>        use Ecto.Schema
+<a id='L893' name='L893'></a>
+<a id='L894' name='L894'></a>        # embedded_schema is a shorcut <strong class='reserved'>for</strong>:
+<a id='L895' name='L895'></a><em class='sharp'>        #</em>
+<a id='L896' name='L896'></a><em class='sharp'>        #</em>   @primary_key <em class='brace'>{</em>:id, :binary_id, autogenerate: true<em class='brace'>}</em>
+<a id='L897' name='L897'></a>        #   schema "embedded Item" <strong class='reserved'>do</strong>
+<a id='L898' name='L898'></a><em class='sharp'>        #</em>
+<a id='L899' name='L899'></a>        embedded_schema <strong class='reserved'>do</strong>
+<a id='L900' name='L900'></a>          field :name
+<a id='L901' name='L901'></a>        end
+<a id='L902' name='L902'></a>      end
+<a id='L903' name='L903'></a>
+<a id='L904' name='L904'></a>      # The items are loaded with the order
+<a id='L905' name='L905'></a>      order = Repo.get!(Order, 42)
+<a id='L906' name='L906'></a>      order.items #=&gt; [%Item<em class='brace'>{</em>...<em class='brace'>}</em>, ...]
+<a id='L907' name='L907'></a>
+<a id='L908' name='L908'></a>  Adding and removal of embeds can only be done via the `Ecto.Changeset`
+<a id='L909' name='L909'></a>  API so Ecto can properly track the embeded models life-cycle:
+<a id='L910' name='L910'></a>
+<a id='L911' name='L911'></a>      order = Repo.get!(Order, 42)
+<a id='L912' name='L912'></a>
+<a id='L913' name='L913'></a>      # Generate a changeset
+<a id='L914' name='L914'></a>      changeset = Ecto.Changeset.change(order)
+<a id='L915' name='L915'></a>
+<a id='L916' name='L916'></a>      # Change, put a new one or remove all items
+<a id='L917' name='L917'></a>      changeset = Ecto.Changeset.put_change(order, :items, [])
+<a id='L918' name='L918'></a>
+<a id='L919' name='L919'></a>      # Update the order
+<a id='L920' name='L920'></a>      changeset = Repo.update!(changeset)
+<a id='L921' name='L921'></a>
+<a id='L922' name='L922'></a><em class='sharp'>  #</em># Strategy
+<a id='L923' name='L923'></a>
+<a id='L924' name='L924'></a>  A strategy configures how modules should be inserted, updated and deleted
+<a id='L925' name='L925'></a>  from the database. Changing the strategy may affect how items are stored in
+<a id='L926' name='L926'></a>  the database, although embeds_many will always have them as a list in the
+<a id='L927' name='L927'></a>  model.
+<a id='L928' name='L928'></a>
+<a id='L929' name='L929'></a>  Ecto supports only the `:replace` strategy out of the box which is the
+<a id='L930' name='L930'></a>  <strong class='reserved'>default</strong>. This means all embeds in the model always fully replace the entries
+<a id='L931' name='L931'></a>  in the database.
+<a id='L932' name='L932'></a>
+<a id='L933' name='L933'></a>  For example, <strong class='reserved'>if</strong> you have a collection with a 100 items, the 100 items will
+<a id='L934' name='L934'></a>  be sent whenever any of them change. The approach is useful when you need the
+<a id='L935' name='L935'></a>  parent and embeds to always be consistent.
+<a id='L936' name='L936'></a>
+<a id='L937' name='L937'></a>  Other databases may support different strategies, like one that only changes
+<a id='L938' name='L938'></a>  the embeds that have effectively changed, also reducing the amount of data
+<a id='L939' name='L939'></a>  send to the database. This is specially common in NoSQL databases.
+<a id='L940' name='L940'></a>
+<a id='L941' name='L941'></a>  Please check your adapter documentation in <strong class='reserved'>case</strong> it supports other strategies.
+<a id='L942' name='L942'></a>  """
+<a id='L943' name='L943'></a>  defmacro <a href='../S/66.html#L174' title='Referred from 174 in deps/ecto/integration_test/support/models.exs.'>embeds_many</a>(name, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, opts \\ []) <strong class='reserved'>do</strong>
+<a id='L944' name='L944'></a>    quote <strong class='reserved'>do</strong>
+<a id='L945' name='L945'></a>      Ecto.Schema.<a href='../S/130.html#L1068' title='Defined at 1068 in deps/ecto/lib/ecto/schema.ex.'>__embeds_many__</a>(__MODULE__, unquote(name), unquote(<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>), unquote(opts))
+<a id='L946' name='L946'></a>    end
+<a id='L947' name='L947'></a>  end
+<a id='L948' name='L948'></a>
+<a id='L949' name='L949'></a><em class='sharp'>  #</em># Callbacks
+<a id='L950' name='L950'></a>
+<a id='L951' name='L951'></a>  @doc false
+<a id='L952' name='L952'></a>  def <a href='../R/107.html' title='Multiple referred from 2 places.'>__load__</a>(<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, <a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>, source, <a href='../S/47.html#L1060' title='Defined at 1060 in deps/decimal/lib/decimal.ex.'>context</a>, <a href='../S/190.html#L917' title='Defined at 917 in deps/postgrex/lib/postgrex/protocol.ex.'>data</a>, loader) <strong class='reserved'>do</strong>
+<a id='L953' name='L953'></a>    source = source || <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>.<a href='../D/220.html' title='Multiple defined in 18 places.'>__schema__</a>(:source)
+<a id='L954' name='L954'></a>    <strong class='reserved'>struct</strong> = <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>.__struct__()
+<a id='L955' name='L955'></a>    <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a> = <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>.<a href='../D/220.html' title='Multiple defined in 18 places.'>__schema__</a>(:types)
+<a id='L956' name='L956'></a>
+<a id='L957' name='L957'></a>    <a href='../S/55.html#L362' title='Defined at 362 in deps/ecto/integration_test/cases/preload.exs.'>loaded</a> = <a href='../D/492.html' title='Multiple defined in 2 places.'>do_load</a>(<strong class='reserved'>struct</strong>, <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, <a href='../S/190.html#L917' title='Defined at 917 in deps/postgrex/lib/postgrex/protocol.ex.'>data</a>, loader)
+<a id='L958' name='L958'></a>    <a href='../S/55.html#L362' title='Defined at 362 in deps/ecto/integration_test/cases/preload.exs.'>loaded</a> = Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(loaded, :__meta__,
+<a id='L959' name='L959'></a>                     %<a href='../S/130.html#L248' title='Defined at 248 in deps/ecto/lib/ecto/schema.ex.'>Metadata</a><em class='brace'>{</em>state: :loaded, source: <em class='brace'>{</em><a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>, source<em class='brace'>}</em>, <a href='../S/47.html#L1060' title='Defined at 1060 in deps/decimal/lib/decimal.ex.'>context</a>: context<em class='brace'>}</em>)
+<a id='L960' name='L960'></a>    Ecto.Model.Callbacks.<a href='../S/96.html#L252' title='Defined at 252 in deps/ecto/lib/ecto/model/callbacks.ex.'>__apply__</a>(<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, :after_load, <a href='../S/55.html#L362' title='Defined at 362 in deps/ecto/integration_test/cases/preload.exs.'>loaded</a>)
+<a id='L961' name='L961'></a>  end
+<a id='L962' name='L962'></a>
+<a id='L963' name='L963'></a>  defp <a href='../S/130.html#L957' title='Referred from 957 in deps/ecto/lib/ecto/schema.ex.'>do_load</a>(<strong class='reserved'>struct</strong>, <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, map, loader) when is_map(map) <strong class='reserved'>do</strong>
+<a id='L964' name='L964'></a>    Enum.<a href='../D/959.html' title='Multiple defined in 4 places.'>reduce</a>(<a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, <strong class='reserved'>struct</strong>, fn
+<a id='L965' name='L965'></a>      <em class='brace'>{</em><a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a><em class='brace'>}</em>, acc -&gt;
+<a id='L966' name='L966'></a>        <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a> = load!(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(map, Atom.<a href='../D/1119.html' title='Multiple defined in 14 places.'>to_string</a>(<a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>)), loader)
+<a id='L967' name='L967'></a>        Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(acc, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>)
+<a id='L968' name='L968'></a>    end)
+<a id='L969' name='L969'></a>  end
+<a id='L970' name='L970'></a>
+<a id='L971' name='L971'></a>  defp <a href='../S/130.html#L957' title='Referred from 957 in deps/ecto/lib/ecto/schema.ex.'>do_load</a>(<strong class='reserved'>struct</strong>, <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, list, loader) when is_list(list) <strong class='reserved'>do</strong>
+<a id='L972' name='L972'></a>    Enum.<a href='../D/959.html' title='Multiple defined in 4 places.'>reduce</a>(<a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, <em class='brace'>{</em><strong class='reserved'>struct</strong>, list<em class='brace'>}</em>, fn
+<a id='L973' name='L973'></a>      <em class='brace'>{</em><a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a><em class='brace'>}</em>, <em class='brace'>{</em>acc, [h|t]<em class='brace'>}</em> -&gt;
+<a id='L974' name='L974'></a>        <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a> = load!(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, h, loader)
+<a id='L975' name='L975'></a>        <em class='brace'>{</em>Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(acc, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>), t<em class='brace'>}</em>
+<a id='L976' name='L976'></a>    end) |&gt; elem(0)
+<a id='L977' name='L977'></a>  end
+<a id='L978' name='L978'></a>
+<a id='L979' name='L979'></a>  defp load!(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, loader) <strong class='reserved'>do</strong>
+<a id='L980' name='L980'></a>    <strong class='reserved'>case</strong> loader.(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) <strong class='reserved'>do</strong>
+<a id='L981' name='L981'></a>      <em class='brace'>{</em>:ok, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a><em class='brace'>}</em> -&gt; value
+<a id='L982' name='L982'></a>      :error -&gt; raise ArgumentError, "cannot load `#{inspect value}` as type #{inspect type}"
+<a id='L983' name='L983'></a>    end
+<a id='L984' name='L984'></a>  end
+<a id='L985' name='L985'></a>
+<a id='L986' name='L986'></a>  @doc false
+<a id='L987' name='L987'></a>  def <a href='../R/104.html' title='Multiple referred from 5 places.'>__field__</a>(mod, name, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, pk?, opts) <strong class='reserved'>do</strong>
+<a id='L988' name='L988'></a>    check_type!(name, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, opts[:virtual])
+<a id='L989' name='L989'></a>
+<a id='L990' name='L990'></a>    <strong class='reserved'>default</strong> = <a href='../D/439.html' title='Multiple defined in 2 places.'>default_for_type</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, opts)
+<a id='L991' name='L991'></a>    check_default!(name, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <strong class='reserved'>default</strong>)
+<a id='L992' name='L992'></a>
+<a id='L993' name='L993'></a>    Module.put_attribute(mod, :changeset_fields, <em class='brace'>{</em>name, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a><em class='brace'>}</em>)
+<a id='L994' name='L994'></a>    <a href='../S/130.html#L1215' title='Defined at 1215 in deps/ecto/lib/ecto/schema.ex.'>put_struct_field</a>(mod, name, <strong class='reserved'>default</strong>)
+<a id='L995' name='L995'></a>
+<a id='L996' name='L996'></a>    unless opts[:virtual] <strong class='reserved'>do</strong>
+<a id='L997' name='L997'></a>      <strong class='reserved'>if</strong> raw = opts[:read_after_writes] <strong class='reserved'>do</strong>
+<a id='L998' name='L998'></a>        Module.put_attribute(mod, :ecto_raw, name)
+<a id='L999' name='L999'></a>      end
+<a id='L1000' name='L1000'></a>
+<a id='L1001' name='L1001'></a>      <strong class='reserved'>if</strong> gen = opts[:autogenerate] <strong class='reserved'>do</strong>
+<a id='L1002' name='L1002'></a>        store_autogenerate!(mod, name, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, pk?)
+<a id='L1003' name='L1003'></a>      end
+<a id='L1004' name='L1004'></a>
+<a id='L1005' name='L1005'></a>      <strong class='reserved'>if</strong> raw &amp;&amp; gen <strong class='reserved'>do</strong>
+<a id='L1006' name='L1006'></a>        raise ArgumentError, "cannot mark the same field as autogenerate and read_after_writes"
+<a id='L1007' name='L1007'></a>      end
+<a id='L1008' name='L1008'></a>
+<a id='L1009' name='L1009'></a>      Module.put_attribute(mod, :ecto_fields, <em class='brace'>{</em>name, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a><em class='brace'>}</em>)
+<a id='L1010' name='L1010'></a>    end
+<a id='L1011' name='L1011'></a>  end
+<a id='L1012' name='L1012'></a>
+<a id='L1013' name='L1013'></a>  @valid_has_options [:foreign_key, :references, :through, :on_delete,
+<a id='L1014' name='L1014'></a>                      :defaults, :on_cast, :on_replace]
+<a id='L1015' name='L1015'></a>
+<a id='L1016' name='L1016'></a>  @doc false
+<a id='L1017' name='L1017'></a>  def <a href='../S/130.html#L570' title='Referred from 570 in deps/ecto/lib/ecto/schema.ex.'>__has_many__</a>(mod, name, queryable, opts) <strong class='reserved'>do</strong>
+<a id='L1018' name='L1018'></a>    check_options!(opts, @valid_has_options, "has_many/3")
+<a id='L1019' name='L1019'></a>
+<a id='L1020' name='L1020'></a>    <strong class='reserved'>if</strong> opts[:on_delete] == :fetch_and_delete <strong class='reserved'>do</strong>
+<a id='L1021' name='L1021'></a>      IO.puts :stderr, "warning: setting on_delete: :fetch_and_delete for associations " &lt;&gt;
+<a id='L1022' name='L1022'></a>                       "is deprecated as they rely on callbacks. Use :delete_all or :nilify_all"
+<a id='L1023' name='L1023'></a>    end
+<a id='L1024' name='L1024'></a>
+<a id='L1025' name='L1025'></a>    <strong class='reserved'>if</strong> is_list(queryable) and Keyword.has_key?(queryable, :through) <strong class='reserved'>do</strong>
+<a id='L1026' name='L1026'></a>      <a href='../S/130.html#L1196' title='Defined at 1196 in deps/ecto/lib/ecto/schema.ex.'>association</a>(mod, :many, name, Ecto.Association.HasThrough, queryable)
+<a id='L1027' name='L1027'></a>    <strong class='reserved'>else</strong>
+<a id='L1028' name='L1028'></a>      <strong class='reserved'>struct</strong> =
+<a id='L1029' name='L1029'></a>        <a href='../S/130.html#L1196' title='Defined at 1196 in deps/ecto/lib/ecto/schema.ex.'>association</a>(mod, :many, name, Ecto.Association.Has, [queryable: queryable] ++ opts)
+<a id='L1030' name='L1030'></a>      Module.put_attribute(mod, :changeset_fields, <em class='brace'>{</em>name, <em class='brace'>{</em>:assoc, <strong class='reserved'>struct</strong><em class='brace'>}</em><em class='brace'>}</em>)
+<a id='L1031' name='L1031'></a>    end
+<a id='L1032' name='L1032'></a>  end
+<a id='L1033' name='L1033'></a>
+<a id='L1034' name='L1034'></a>  @doc false
+<a id='L1035' name='L1035'></a>  def <a href='../S/130.html#L631' title='Referred from 631 in deps/ecto/lib/ecto/schema.ex.'>__has_one__</a>(mod, name, queryable, opts) <strong class='reserved'>do</strong>
+<a id='L1036' name='L1036'></a>    check_options!(opts, @valid_has_options, "has_one/3")
+<a id='L1037' name='L1037'></a>
+<a id='L1038' name='L1038'></a>    <strong class='reserved'>if</strong> is_list(queryable) and Keyword.has_key?(queryable, :through) <strong class='reserved'>do</strong>
+<a id='L1039' name='L1039'></a>      <a href='../S/130.html#L1196' title='Defined at 1196 in deps/ecto/lib/ecto/schema.ex.'>association</a>(mod, :one, name, Ecto.Association.HasThrough, queryable)
+<a id='L1040' name='L1040'></a>    <strong class='reserved'>else</strong>
+<a id='L1041' name='L1041'></a>      <strong class='reserved'>struct</strong> =
+<a id='L1042' name='L1042'></a>        <a href='../S/130.html#L1196' title='Defined at 1196 in deps/ecto/lib/ecto/schema.ex.'>association</a>(mod, :one, name, Ecto.Association.Has, [queryable: queryable] ++ opts)
+<a id='L1043' name='L1043'></a>      Module.put_attribute(mod, :changeset_fields, <em class='brace'>{</em>name, <em class='brace'>{</em>:assoc, <strong class='reserved'>struct</strong><em class='brace'>}</em><em class='brace'>}</em>)
+<a id='L1044' name='L1044'></a>    end
+<a id='L1045' name='L1045'></a>  end
+<a id='L1046' name='L1046'></a>
+<a id='L1047' name='L1047'></a>  @doc false
+<a id='L1048' name='L1048'></a>  def <a href='../S/130.html#L773' title='Referred from 773 in deps/ecto/lib/ecto/schema.ex.'>__belongs_to__</a>(mod, name, queryable, opts) <strong class='reserved'>do</strong>
+<a id='L1049' name='L1049'></a>    check_options!(opts, [:foreign_key, :references, :define_field, :type], "belongs_to/3")
+<a id='L1050' name='L1050'></a>
+<a id='L1051' name='L1051'></a>    opts = Keyword.put_new(opts, :foreign_key, :"#{name}_id")
+<a id='L1052' name='L1052'></a>    foreign_key_type = opts[:type] || Module.get_attribute(mod, :foreign_key_type)
+<a id='L1053' name='L1053'></a>
+<a id='L1054' name='L1054'></a>    <strong class='reserved'>if</strong> Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :define_field, true) <strong class='reserved'>do</strong>
+<a id='L1055' name='L1055'></a>      <a href='../S/130.html#L987' title='Defined at 987 in deps/ecto/lib/ecto/schema.ex.'>__field__</a>(mod, opts[:foreign_key], foreign_key_type, false, opts)
+<a id='L1056' name='L1056'></a>    end
+<a id='L1057' name='L1057'></a>
+<a id='L1058' name='L1058'></a>    <a href='../S/130.html#L1196' title='Defined at 1196 in deps/ecto/lib/ecto/schema.ex.'>association</a>(mod, :one, name, Ecto.Association.BelongsTo, [queryable: queryable] ++ opts)
+<a id='L1059' name='L1059'></a>  end
+<a id='L1060' name='L1060'></a>
+<a id='L1061' name='L1061'></a>  @doc false
+<a id='L1062' name='L1062'></a>  def <a href='../S/130.html#L848' title='Referred from 848 in deps/ecto/lib/ecto/schema.ex.'>__embeds_one__</a>(mod, name, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, opts) <strong class='reserved'>do</strong>
+<a id='L1063' name='L1063'></a>    check_options!(opts, [:on_cast, :strategy, :on_replace], "embeds_one/3")
+<a id='L1064' name='L1064'></a>    <a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>(mod, :one, name, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, opts)
+<a id='L1065' name='L1065'></a>  end
+<a id='L1066' name='L1066'></a>
+<a id='L1067' name='L1067'></a>  @doc false
+<a id='L1068' name='L1068'></a>  def <a href='../S/130.html#L945' title='Referred from 945 in deps/ecto/lib/ecto/schema.ex.'>__embeds_many__</a>(mod, name, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, opts) <strong class='reserved'>do</strong>
+<a id='L1069' name='L1069'></a>    check_options!(opts, [:on_cast, :strategy, :on_replace], "embeds_many/3")
+<a id='L1070' name='L1070'></a>    opts = Keyword.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(opts, :<strong class='reserved'>default</strong>, [])
+<a id='L1071' name='L1071'></a>    <a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>(mod, :many, name, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, opts)
+<a id='L1072' name='L1072'></a>  end
+<a id='L1073' name='L1073'></a>
+<a id='L1074' name='L1074'></a><em class='sharp'>  #</em># Quoted callbacks
+<a id='L1075' name='L1075'></a>
+<a id='L1076' name='L1076'></a>  @doc false
+<a id='L1077' name='L1077'></a>  def <a href='../R/99.html' title='Multiple referred from 5 places.'>__changeset__</a>(changeset_fields) <strong class='reserved'>do</strong>
+<a id='L1078' name='L1078'></a>    map = changeset_fields |&gt; Enum.into(%<em class='brace'>{</em><em class='brace'>}</em>) |&gt; Macro.<a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>()
+<a id='L1079' name='L1079'></a>    quote <strong class='reserved'>do</strong>
+<a id='L1080' name='L1080'></a>      def <a href='../R/99.html' title='Multiple referred from 5 places.'>__changeset__</a>, <strong class='reserved'>do</strong>: unquote(map)
+<a id='L1081' name='L1081'></a>    end
+<a id='L1082' name='L1082'></a>  end
+<a id='L1083' name='L1083'></a>
+<a id='L1084' name='L1084'></a>  @doc false
+<a id='L1085' name='L1085'></a>  def <a href='../S/130.html#L346' title='Referred from 346 in deps/ecto/lib/ecto/schema.ex.'>__defstruct__</a>(struct_fields) <strong class='reserved'>do</strong>
+<a id='L1086' name='L1086'></a>    quote <strong class='reserved'>do</strong>
+<a id='L1087' name='L1087'></a>      defstruct unquote(Macro.<a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(struct_fields))
+<a id='L1088' name='L1088'></a>    end
+<a id='L1089' name='L1089'></a>  end
+<a id='L1090' name='L1090'></a>
+<a id='L1091' name='L1091'></a>  @doc false
+<a id='L1092' name='L1092'></a>  def <a href='../R/113.html' title='Multiple referred from 50 places.'>__schema__</a>(source, <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, <a href='../D/903.html' title='Multiple defined in 2 places.'>primary_key</a>) <strong class='reserved'>do</strong>
+<a id='L1093' name='L1093'></a>    field_names = Enum.map(<a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, &amp;elem(&amp;1, 0))
+<a id='L1094' name='L1094'></a>
+<a id='L1095' name='L1095'></a>    # Hash is used by the query cache to specify
+<a id='L1096' name='L1096'></a>    # the underlying model structure did not change.
+<a id='L1097' name='L1097'></a>    # We don't include the source because the source
+<a id='L1098' name='L1098'></a>    # is already part of the query cache itself.
+<a id='L1099' name='L1099'></a>    hash = :erlang.phash2(<em class='brace'>{</em><a href='../D/903.html' title='Multiple defined in 2 places.'>primary_key</a>, <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a><em class='brace'>}</em>)
+<a id='L1100' name='L1100'></a>
+<a id='L1101' name='L1101'></a>    quote <strong class='reserved'>do</strong>
+<a id='L1102' name='L1102'></a>      def <a href='../R/113.html' title='Multiple referred from 50 places.'>__schema__</a>(:source),      <strong class='reserved'>do</strong>: unquote(Macro.<a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(source))
+<a id='L1103' name='L1103'></a>      def <a href='../R/113.html' title='Multiple referred from 50 places.'>__schema__</a>(:fields),      <strong class='reserved'>do</strong>: unquote(field_names)
+<a id='L1104' name='L1104'></a>      def <a href='../R/113.html' title='Multiple referred from 50 places.'>__schema__</a>(:<a href='../D/903.html' title='Multiple defined in 2 places.'>primary_key</a>), <strong class='reserved'>do</strong>: unquote(primary_key)
+<a id='L1105' name='L1105'></a>      def <a href='../R/113.html' title='Multiple referred from 50 places.'>__schema__</a>(:hash),        <strong class='reserved'>do</strong>: unquote(hash)
+<a id='L1106' name='L1106'></a>    end
+<a id='L1107' name='L1107'></a>  end
+<a id='L1108' name='L1108'></a>
+<a id='L1109' name='L1109'></a>  @doc false
+<a id='L1110' name='L1110'></a>  def <a href='../S/130.html#L349' title='Referred from 349 in deps/ecto/lib/ecto/schema.ex.'>__types__</a>(<a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>) <strong class='reserved'>do</strong>
+<a id='L1111' name='L1111'></a>    quoted =
+<a id='L1112' name='L1112'></a>      Enum.map(<a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, fn <em class='brace'>{</em>name, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a><em class='brace'>}</em> -&gt;
+<a id='L1113' name='L1113'></a>        quote <strong class='reserved'>do</strong>
+<a id='L1114' name='L1114'></a>          def <a href='../R/113.html' title='Multiple referred from 50 places.'>__schema__</a>(:type, unquote(name)) <strong class='reserved'>do</strong>
+<a id='L1115' name='L1115'></a>            unquote(Macro.<a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>))
+<a id='L1116' name='L1116'></a>          end
+<a id='L1117' name='L1117'></a>        end
+<a id='L1118' name='L1118'></a>      end)
+<a id='L1119' name='L1119'></a>
+<a id='L1120' name='L1120'></a>    <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a> = Macro.<a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(<a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>)
+<a id='L1121' name='L1121'></a>
+<a id='L1122' name='L1122'></a>    quote <strong class='reserved'>do</strong>
+<a id='L1123' name='L1123'></a>      def <a href='../R/113.html' title='Multiple referred from 50 places.'>__schema__</a>(:<a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>), <strong class='reserved'>do</strong>: unquote(types)
+<a id='L1124' name='L1124'></a>      unquote(quoted)
+<a id='L1125' name='L1125'></a>      def <a href='../R/113.html' title='Multiple referred from 50 places.'>__schema__</a>(:type, _), <strong class='reserved'>do</strong>: nil
+<a id='L1126' name='L1126'></a>    end
+<a id='L1127' name='L1127'></a>  end
+<a id='L1128' name='L1128'></a>
+<a id='L1129' name='L1129'></a>  @doc false
+<a id='L1130' name='L1130'></a>  def <a href='../S/130.html#L350' title='Referred from 350 in deps/ecto/lib/ecto/schema.ex.'>__assocs__</a>(<a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a>) <strong class='reserved'>do</strong>
+<a id='L1131' name='L1131'></a>    quoted =
+<a id='L1132' name='L1132'></a>      Enum.map(<a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a>, fn <em class='brace'>{</em>name, refl<em class='brace'>}</em> -&gt;
+<a id='L1133' name='L1133'></a>        quote <strong class='reserved'>do</strong>
+<a id='L1134' name='L1134'></a>          def <a href='../R/113.html' title='Multiple referred from 50 places.'>__schema__</a>(:association, unquote(name)) <strong class='reserved'>do</strong>
+<a id='L1135' name='L1135'></a>            unquote(Macro.<a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(refl))
+<a id='L1136' name='L1136'></a>          end
+<a id='L1137' name='L1137'></a>        end
+<a id='L1138' name='L1138'></a>      end)
+<a id='L1139' name='L1139'></a>
+<a id='L1140' name='L1140'></a>    assoc_names = Enum.map(<a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a>, &amp;elem(&amp;1, 0))
+<a id='L1141' name='L1141'></a>
+<a id='L1142' name='L1142'></a>    quote <strong class='reserved'>do</strong>
+<a id='L1143' name='L1143'></a>      def <a href='../R/113.html' title='Multiple referred from 50 places.'>__schema__</a>(:associations), <strong class='reserved'>do</strong>: unquote(assoc_names)
+<a id='L1144' name='L1144'></a>      unquote(quoted)
+<a id='L1145' name='L1145'></a>      def <a href='../R/113.html' title='Multiple referred from 50 places.'>__schema__</a>(:association, _), <strong class='reserved'>do</strong>: nil
+<a id='L1146' name='L1146'></a>    end
+<a id='L1147' name='L1147'></a>  end
+<a id='L1148' name='L1148'></a>
+<a id='L1149' name='L1149'></a>  @doc false
+<a id='L1150' name='L1150'></a>  def <a href='../S/130.html#L351' title='Referred from 351 in deps/ecto/lib/ecto/schema.ex.'>__embeds__</a>(embeds) <strong class='reserved'>do</strong>
+<a id='L1151' name='L1151'></a>    quoted =
+<a id='L1152' name='L1152'></a>      Enum.map(embeds, fn <em class='brace'>{</em>name, refl<em class='brace'>}</em> -&gt;
+<a id='L1153' name='L1153'></a>        quote <strong class='reserved'>do</strong>
+<a id='L1154' name='L1154'></a>          def <a href='../R/113.html' title='Multiple referred from 50 places.'>__schema__</a>(:embed, unquote(name)) <strong class='reserved'>do</strong>
+<a id='L1155' name='L1155'></a>            unquote(Macro.<a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(refl))
+<a id='L1156' name='L1156'></a>          end
+<a id='L1157' name='L1157'></a>        end
+<a id='L1158' name='L1158'></a>      end)
+<a id='L1159' name='L1159'></a>
+<a id='L1160' name='L1160'></a>    embed_names = Enum.map(embeds, &amp;elem(&amp;1, 0))
+<a id='L1161' name='L1161'></a>
+<a id='L1162' name='L1162'></a>    quote <strong class='reserved'>do</strong>
+<a id='L1163' name='L1163'></a>      def <a href='../R/113.html' title='Multiple referred from 50 places.'>__schema__</a>(:embeds), <strong class='reserved'>do</strong>: unquote(embed_names)
+<a id='L1164' name='L1164'></a>      unquote(quoted)
+<a id='L1165' name='L1165'></a>      def <a href='../R/113.html' title='Multiple referred from 50 places.'>__schema__</a>(:embed, _), <strong class='reserved'>do</strong>: nil
+<a id='L1166' name='L1166'></a>    end
+<a id='L1167' name='L1167'></a>  end
+<a id='L1168' name='L1168'></a>
+<a id='L1169' name='L1169'></a>  @doc false
+<a id='L1170' name='L1170'></a>  def <a href='../S/130.html#L352' title='Referred from 352 in deps/ecto/lib/ecto/schema.ex.'>__read_after_writes__</a>(<a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>) <strong class='reserved'>do</strong>
+<a id='L1171' name='L1171'></a>    quote <strong class='reserved'>do</strong>
+<a id='L1172' name='L1172'></a>      def <a href='../R/113.html' title='Multiple referred from 50 places.'>__schema__</a>(:read_after_writes), <strong class='reserved'>do</strong>: unquote(Enum.<a href='../D/991.html' title='Multiple defined in 5 places.'>reverse</a>(<a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>))
+<a id='L1173' name='L1173'></a>    end
+<a id='L1174' name='L1174'></a>  end
+<a id='L1175' name='L1175'></a>
+<a id='L1176' name='L1176'></a>  @doc false
+<a id='L1177' name='L1177'></a>  def <a href='../S/130.html#L353' title='Referred from 353 in deps/ecto/lib/ecto/schema.ex.'>__autogenerate__</a>(id, <a href='../D/691.html' title='Multiple defined in 17 places.'>insert</a>, <a href='../D/1171.html' title='Multiple defined in 15 places.'>update</a>) <strong class='reserved'>do</strong>
+<a id='L1178' name='L1178'></a>    quote <strong class='reserved'>do</strong>
+<a id='L1179' name='L1179'></a>      def <a href='../R/113.html' title='Multiple referred from 50 places.'>__schema__</a>(:autogenerate_id), <strong class='reserved'>do</strong>: unquote(id)
+<a id='L1180' name='L1180'></a>      def <a href='../R/113.html' title='Multiple referred from 50 places.'>__schema__</a>(:autogenerate, :<a href='../D/691.html' title='Multiple defined in 17 places.'>insert</a>), <strong class='reserved'>do</strong>: unquote(Macro.<a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(insert))
+<a id='L1181' name='L1181'></a>      def <a href='../R/113.html' title='Multiple referred from 50 places.'>__schema__</a>(:autogenerate, :<a href='../D/1171.html' title='Multiple defined in 15 places.'>update</a>), <strong class='reserved'>do</strong>: unquote(Macro.<a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(update))
+<a id='L1182' name='L1182'></a>    end
+<a id='L1183' name='L1183'></a>  end
+<a id='L1184' name='L1184'></a>
+<a id='L1185' name='L1185'></a>  @doc false
+<a id='L1186' name='L1186'></a>  def <a href='../S/72.html#L31' title='Referred from 31 in deps/ecto/lib/ecto/adapter.ex.'>__before_compile__</a>(env) <strong class='reserved'>do</strong>
+<a id='L1187' name='L1187'></a>    unless Module.get_attribute(env.module, :struct_fields) <strong class='reserved'>do</strong>
+<a id='L1188' name='L1188'></a>      raise "module #{inspect env.module} uses Ecto.Model (or Ecto.Schema) but it " &lt;&gt;
+<a id='L1189' name='L1189'></a>            "does not define a schema. Please cherry pick the functionality you want " &lt;&gt;
+<a id='L1190' name='L1190'></a>            "instead, for example, by importing Ecto.Query, Ecto.Model or others"
+<a id='L1191' name='L1191'></a>    end
+<a id='L1192' name='L1192'></a>  end
+<a id='L1193' name='L1193'></a>
+<a id='L1194' name='L1194'></a><em class='sharp'>  #</em># Private
+<a id='L1195' name='L1195'></a>
+<a id='L1196' name='L1196'></a>  defp <a href='../R/156.html' title='Multiple referred from 8 places.'>association</a>(mod, cardinality, name, association, opts) <strong class='reserved'>do</strong>
+<a id='L1197' name='L1197'></a>    not_loaded  = %Ecto.Association.NotLoaded<em class='brace'>{</em>__owner__: mod,
+<a id='L1198' name='L1198'></a>                    __field__: name, __cardinality__: cardinality<em class='brace'>}</em>
+<a id='L1199' name='L1199'></a>    <a href='../S/130.html#L1215' title='Defined at 1215 in deps/ecto/lib/ecto/schema.ex.'>put_struct_field</a>(mod, name, not_loaded)
+<a id='L1200' name='L1200'></a>    opts = [cardinality: cardinality] ++ opts
+<a id='L1201' name='L1201'></a>    <strong class='reserved'>struct</strong> = <a href='../S/130.html#L1196' title='Defined at 1196 in deps/ecto/lib/ecto/schema.ex.'>association</a>.<strong class='reserved'>struct</strong>(mod, name, opts)
+<a id='L1202' name='L1202'></a>    Module.put_attribute(mod, :ecto_assocs, <em class='brace'>{</em>name, <strong class='reserved'>struct</strong><em class='brace'>}</em>)
+<a id='L1203' name='L1203'></a>
+<a id='L1204' name='L1204'></a>    <strong class='reserved'>struct</strong>
+<a id='L1205' name='L1205'></a>  end
+<a id='L1206' name='L1206'></a>
+<a id='L1207' name='L1207'></a>  defp <a href='../R/391.html' title='Multiple referred from 36 places.'>embed</a>(mod, cardinality, name, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, opts) <strong class='reserved'>do</strong>
+<a id='L1208' name='L1208'></a>    opts   = [cardinality: cardinality, related: <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>] ++ opts
+<a id='L1209' name='L1209'></a>    <strong class='reserved'>struct</strong> = Ecto.Embedded.<strong class='reserved'>struct</strong>(mod, name, opts)
+<a id='L1210' name='L1210'></a>
+<a id='L1211' name='L1211'></a>    <a href='../S/130.html#L987' title='Defined at 987 in deps/ecto/lib/ecto/schema.ex.'>__field__</a>(mod, name, <em class='brace'>{</em>:embed, <strong class='reserved'>struct</strong><em class='brace'>}</em>, false, opts)
+<a id='L1212' name='L1212'></a>    Module.put_attribute(mod, :ecto_embeds, <em class='brace'>{</em>name, <strong class='reserved'>struct</strong><em class='brace'>}</em>)
+<a id='L1213' name='L1213'></a>  end
+<a id='L1214' name='L1214'></a>
+<a id='L1215' name='L1215'></a>  defp <a href='../R/773.html' title='Multiple referred from 2 places.'>put_struct_field</a>(mod, name, <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>) <strong class='reserved'>do</strong>
+<a id='L1216' name='L1216'></a>    <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a> = Module.get_attribute(mod, :struct_fields)
+<a id='L1217' name='L1217'></a>
+<a id='L1218' name='L1218'></a>    <strong class='reserved'>if</strong> List.keyfind(<a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, name, 0) <strong class='reserved'>do</strong>
+<a id='L1219' name='L1219'></a>      raise ArgumentError, "field/association #{inspect name} is already set on schema"
+<a id='L1220' name='L1220'></a>    end
+<a id='L1221' name='L1221'></a>
+<a id='L1222' name='L1222'></a>    Module.put_attribute(mod, :struct_fields, <em class='brace'>{</em>name, <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a><em class='brace'>}</em>)
+<a id='L1223' name='L1223'></a>  end
+<a id='L1224' name='L1224'></a>
+<a id='L1225' name='L1225'></a>  defp check_options!(opts, valid, fun_arity) <strong class='reserved'>do</strong>
+<a id='L1226' name='L1226'></a>    <strong class='reserved'>if</strong> opts[:on_cast] <strong class='reserved'>do</strong>
+<a id='L1227' name='L1227'></a>      IO.write :stderr, "warning: :on_cast option for #{fun_arity} is deprecated, " &lt;&gt;
+<a id='L1228' name='L1228'></a>                        "pass :with option to Ecto.Changeset.cast_embed/cast_assoc\n" &lt;&gt;
+<a id='L1229' name='L1229'></a>                        Exception.format_stacktrace
+<a id='L1230' name='L1230'></a>    end
+<a id='L1231' name='L1231'></a>
+<a id='L1232' name='L1232'></a>    <strong class='reserved'>case</strong> Enum.find(opts, fn <em class='brace'>{</em>k, _<em class='brace'>}</em> -&gt; not k in valid end) <strong class='reserved'>do</strong>
+<a id='L1233' name='L1233'></a>      <em class='brace'>{</em>k, _<em class='brace'>}</em> -&gt;
+<a id='L1234' name='L1234'></a>        raise ArgumentError, "invalid option #{inspect k} for #{fun_arity}"
+<a id='L1235' name='L1235'></a>      nil -&gt;
+<a id='L1236' name='L1236'></a>        :ok
+<a id='L1237' name='L1237'></a>    end
+<a id='L1238' name='L1238'></a>  end
+<a id='L1239' name='L1239'></a>
+<a id='L1240' name='L1240'></a>  defp check_type!(name, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, virtual?) <strong class='reserved'>do</strong>
+<a id='L1241' name='L1241'></a>    cond <strong class='reserved'>do</strong>
+<a id='L1242' name='L1242'></a>      <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a> == :any and not virtual? -&gt;
+<a id='L1243' name='L1243'></a>        raise ArgumentError, "only virtual fields can have type :any, " &lt;&gt;
+<a id='L1244' name='L1244'></a>                             "invalid type for field #{inspect name}"
+<a id='L1245' name='L1245'></a>      Ecto.Type.primitive?(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>) and not type in [:date, :time, :datetime] -&gt;
+<a id='L1246' name='L1246'></a>        true
+<a id='L1247' name='L1247'></a>      is_atom(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>) -&gt;
+<a id='L1248' name='L1248'></a>        <strong class='reserved'>if</strong> Code.ensure_compiled?(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>) and function_exported?(type, :type, 0) <strong class='reserved'>do</strong>
+<a id='L1249' name='L1249'></a>          <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>
+<a id='L1250' name='L1250'></a>        <strong class='reserved'>else</strong>
+<a id='L1251' name='L1251'></a>          <a href='../S/130.html#L1258' title='Defined at 1258 in deps/ecto/lib/ecto/schema.ex.'>raise_type_error</a>(name, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>)
+<a id='L1252' name='L1252'></a>        end
+<a id='L1253' name='L1253'></a>      true -&gt;
+<a id='L1254' name='L1254'></a>        raise ArgumentError, "invalid type #{inspect type} for field #{inspect name}"
+<a id='L1255' name='L1255'></a>    end
+<a id='L1256' name='L1256'></a>  end
+<a id='L1257' name='L1257'></a>
+<a id='L1258' name='L1258'></a>  defp <a href='../S/130.html#L1251' title='Referred from 1251 in deps/ecto/lib/ecto/schema.ex.'>raise_type_error</a>(name, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>) <strong class='reserved'>do</strong>
+<a id='L1259' name='L1259'></a>    raise ArgumentError, "invalid or unknown type #{inspect type} for field #{inspect name}" &lt;&gt;
+<a id='L1260' name='L1260'></a>                         <a href='../D/949.html' title='Multiple defined in 5 places.'>raise_type_error_hint</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>)
+<a id='L1261' name='L1261'></a>  end
+<a id='L1262' name='L1262'></a>
+<a id='L1263' name='L1263'></a>  defp <a href='../S/130.html#L1260' title='Referred from 1260 in deps/ecto/lib/ecto/schema.ex.'>raise_type_error_hint</a>(:datetime),
+<a id='L1264' name='L1264'></a>    <strong class='reserved'>do</strong>: ". Maybe you meant to use Ecto.DateTime?"
+<a id='L1265' name='L1265'></a>  defp <a href='../S/130.html#L1260' title='Referred from 1260 in deps/ecto/lib/ecto/schema.ex.'>raise_type_error_hint</a>(:date),
+<a id='L1266' name='L1266'></a>    <strong class='reserved'>do</strong>: ". Maybe you meant to use Ecto.Date?"
+<a id='L1267' name='L1267'></a>  defp <a href='../S/130.html#L1260' title='Referred from 1260 in deps/ecto/lib/ecto/schema.ex.'>raise_type_error_hint</a>(:time),
+<a id='L1268' name='L1268'></a>    <strong class='reserved'>do</strong>: ". Maybe you meant to use Ecto.Time?"
+<a id='L1269' name='L1269'></a>  defp <a href='../S/130.html#L1260' title='Referred from 1260 in deps/ecto/lib/ecto/schema.ex.'>raise_type_error_hint</a>(:uuid),
+<a id='L1270' name='L1270'></a>    <strong class='reserved'>do</strong>: ". Maybe you meant to use Ecto.UUID?"
+<a id='L1271' name='L1271'></a>  defp <a href='../S/130.html#L1260' title='Referred from 1260 in deps/ecto/lib/ecto/schema.ex.'>raise_type_error_hint</a>(_),
+<a id='L1272' name='L1272'></a>    <strong class='reserved'>do</strong>: ""
+<a id='L1273' name='L1273'></a>
+<a id='L1274' name='L1274'></a>  defp check_default!(_name, :binary_id, _default), <strong class='reserved'>do</strong>: :ok
+<a id='L1275' name='L1275'></a>  defp check_default!(_name, <em class='brace'>{</em>:embed, _<em class='brace'>}</em>, _default), <strong class='reserved'>do</strong>: :ok
+<a id='L1276' name='L1276'></a>  defp check_default!(name, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <strong class='reserved'>default</strong>) <strong class='reserved'>do</strong>
+<a id='L1277' name='L1277'></a>    <strong class='reserved'>case</strong> Ecto.Type.<a href='../D/512.html' title='Multiple defined in 28 places.'>dump</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <strong class='reserved'>default</strong>) <strong class='reserved'>do</strong>
+<a id='L1278' name='L1278'></a>      <em class='brace'>{</em>:ok, _<em class='brace'>}</em> -&gt;
+<a id='L1279' name='L1279'></a>        :ok
+<a id='L1280' name='L1280'></a>      :error -&gt;
+<a id='L1281' name='L1281'></a>        raise ArgumentError, "invalid default argument `#{inspect default}` for " &lt;&gt;
+<a id='L1282' name='L1282'></a>                             "field #{inspect name} of type #{inspect type}"
+<a id='L1283' name='L1283'></a>    end
+<a id='L1284' name='L1284'></a>  end
+<a id='L1285' name='L1285'></a>
+<a id='L1286' name='L1286'></a>  defp store_autogenerate!(mod, name, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, true) <strong class='reserved'>do</strong>
+<a id='L1287' name='L1287'></a>    <strong class='reserved'>if</strong> id = <a href='../D/282.html' title='Multiple defined in 3 places.'>autogenerate_id</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>) <strong class='reserved'>do</strong>
+<a id='L1288' name='L1288'></a>      <strong class='reserved'>if</strong> Module.get_attribute(mod, :ecto_autogenerate_id) <strong class='reserved'>do</strong>
+<a id='L1289' name='L1289'></a>        raise ArgumentError, "only one primary key with ID type may be marked as autogenerated"
+<a id='L1290' name='L1290'></a>      end
+<a id='L1291' name='L1291'></a>
+<a id='L1292' name='L1292'></a>      Module.put_attribute(mod, :ecto_autogenerate_id, <em class='brace'>{</em>name, id<em class='brace'>}</em>)
+<a id='L1293' name='L1293'></a>    <strong class='reserved'>else</strong>
+<a id='L1294' name='L1294'></a>      store_autogenerate!(mod, name, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, false)
+<a id='L1295' name='L1295'></a>    end
+<a id='L1296' name='L1296'></a>  end
+<a id='L1297' name='L1297'></a>
+<a id='L1298' name='L1298'></a>  defp store_autogenerate!(mod, name, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, false) <strong class='reserved'>do</strong>
+<a id='L1299' name='L1299'></a>    cond <strong class='reserved'>do</strong>
+<a id='L1300' name='L1300'></a>      _ = <a href='../D/282.html' title='Multiple defined in 3 places.'>autogenerate_id</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>) -&gt;
+<a id='L1301' name='L1301'></a>        raise ArgumentError, "only primary keys allow :autogenerate for type #{inspect type}, " &lt;&gt;
+<a id='L1302' name='L1302'></a>                             "field #{inspect name} is not a primary key"
+<a id='L1303' name='L1303'></a>
+<a id='L1304' name='L1304'></a>      Ecto.Type.primitive?(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>) -&gt;
+<a id='L1305' name='L1305'></a>        raise ArgumentError, "field #{inspect name} does not support :autogenerate because it uses a " &lt;&gt;
+<a id='L1306' name='L1306'></a>                             "primitive type #{inspect type}"
+<a id='L1307' name='L1307'></a>
+<a id='L1308' name='L1308'></a>      # Note the custom type has already been loaded in check_type!/3
+<a id='L1309' name='L1309'></a>      not function_exported?(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, :generate, 0) -&gt;
+<a id='L1310' name='L1310'></a>        raise ArgumentError, "field #{inspect name} does not support :autogenerate because it uses a " &lt;&gt;
+<a id='L1311' name='L1311'></a>                             "custom type #{inspect type} that does not define generate/0"
+<a id='L1312' name='L1312'></a>
+<a id='L1313' name='L1313'></a>      true -&gt;
+<a id='L1314' name='L1314'></a>        Module.put_attribute(mod, :ecto_autogenerate_insert, <em class='brace'>{</em>name, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, []<em class='brace'>}</em>)
+<a id='L1315' name='L1315'></a>    end
+<a id='L1316' name='L1316'></a>  end
+<a id='L1317' name='L1317'></a>
+<a id='L1318' name='L1318'></a>  defp <a href='../R/167.html' title='Multiple referred from 7 places.'>autogenerate_id</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>) <strong class='reserved'>do</strong>
+<a id='L1319' name='L1319'></a>    id = <strong class='reserved'>if</strong> Ecto.Type.primitive?(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>), <strong class='reserved'>do</strong>: type, <strong class='reserved'>else</strong>: type.type
+<a id='L1320' name='L1320'></a>    <strong class='reserved'>if</strong> id in [:id, :binary_id], <strong class='reserved'>do</strong>: id, <strong class='reserved'>else</strong>: nil
+<a id='L1321' name='L1321'></a>  end
+<a id='L1322' name='L1322'></a>
+<a id='L1323' name='L1323'></a>  defp <a href='../S/130.html#L990' title='Referred from 990 in deps/ecto/lib/ecto/schema.ex.'>default_for_type</a>(<em class='brace'>{</em>:array, _<em class='brace'>}</em>, opts) <strong class='reserved'>do</strong>
+<a id='L1324' name='L1324'></a>    Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :<strong class='reserved'>default</strong>, [])
+<a id='L1325' name='L1325'></a>  end
+<a id='L1326' name='L1326'></a>
+<a id='L1327' name='L1327'></a>  defp <a href='../S/130.html#L990' title='Referred from 990 in deps/ecto/lib/ecto/schema.ex.'>default_for_type</a>(_, opts) <strong class='reserved'>do</strong>
+<a id='L1328' name='L1328'></a>    Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :<strong class='reserved'>default</strong>)
+<a id='L1329' name='L1329'></a>  end
+<a id='L1330' name='L1330'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L57'>[^]</a><a href='#L1327'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

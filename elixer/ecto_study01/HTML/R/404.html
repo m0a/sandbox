@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>encode_msg</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/163.html#L11'>encode_msg</a>         11 deps/postgrex/lib/postgrex/extensions/array.ex     raise ArgumentError, Postgrex.Utils.encode_msg(type_info, value, "a list")</span>
+<span class='curline'><a href='../S/164.html#L12'>encode_msg</a>         12 deps/postgrex/lib/postgrex/extensions/bool.ex       Postgrex.Utils.encode_msg(type_info, value, "a boolean")</span>
+<span class='curline'><a href='../S/165.html#L16'>encode_msg</a>         16 deps/postgrex/lib/postgrex/extensions/date.ex       Postgrex.Utils.encode_msg(type_info, value, Postgrex.Date)</span>
+<span class='curline'><a href='../S/166.html#L15'>encode_msg</a>         15 deps/postgrex/lib/postgrex/extensions/float4.ex     raise ArgumentError, Postgrex.Utils.encode_msg(type_info, value, "a float")</span>
+<span class='curline'><a href='../S/167.html#L15'>encode_msg</a>         15 deps/postgrex/lib/postgrex/extensions/float8.ex     raise ArgumentError, Postgrex.Utils.encode_msg(type_info, value, "a float")</span>
+<span class='curline'><a href='../S/168.html#L9'>encode_msg</a>          9 deps/postgrex/lib/postgrex/extensions/hstore.ex     raise ArgumentError, Postgrex.Utils.encode_msg(type_info, value, "a map")</span>
+<span class='curline'><a href='../S/169.html#L12'>encode_msg</a>         12 deps/postgrex/lib/postgrex/extensions/int2.ex       Postgrex.Utils.encode_msg(type_info, value, @int2_range)</span>
+<span class='curline'><a href='../S/170.html#L12'>encode_msg</a>         12 deps/postgrex/lib/postgrex/extensions/int4.ex       Postgrex.Utils.encode_msg(type_info, value, @int4_range)</span>
+<span class='curline'><a href='../S/171.html#L12'>encode_msg</a>         12 deps/postgrex/lib/postgrex/extensions/int8.ex       Postgrex.Utils.encode_msg(type_info, value, @int8_range)</span>
+<span class='curline'><a href='../S/172.html#L12'>encode_msg</a>         12 deps/postgrex/lib/postgrex/extensions/interval.ex       Postgrex.Utils.encode_msg(type_info, value, Postgrex.Interval)</span>
+<span class='curline'><a href='../S/174.html#L9'>encode_msg</a>          9 deps/postgrex/lib/postgrex/extensions/macaddr.ex       Postgrex.Utils.encode_msg(type_info, value, Postgrex.MACADDR)</span>
+<span class='curline'><a href='../S/175.html#L13'>encode_msg</a>         13 deps/postgrex/lib/postgrex/extensions/network.ex       Postgrex.Utils.encode_msg(type_info, value, struct)</span>
+<span class='curline'><a href='../S/176.html#L15'>encode_msg</a>         15 deps/postgrex/lib/postgrex/extensions/numeric.ex       Postgrex.Utils.encode_msg(type_info, value, {"a number", Decimal})</span>
+<span class='curline'><a href='../S/177.html#L21'>encode_msg</a>         21 deps/postgrex/lib/postgrex/extensions/oid.ex       Postgrex.Utils.encode_msg(type_info, value, @oid_range)</span>
+<span class='curline'><a href='../S/178.html#L11'>encode_msg</a>         11 deps/postgrex/lib/postgrex/extensions/point.ex       Postgrex.Utils.encode_msg(type_info, value, Postgrex.Point)</span>
+<span class='curline'><a href='../S/179.html#L19'>encode_msg</a>         19 deps/postgrex/lib/postgrex/extensions/range.ex       Postgrex.Utils.encode_msg(type_info, value, Postgrex.Range)</span>
+<span class='curline'><a href='../S/180.html#L11'>encode_msg</a>         11 deps/postgrex/lib/postgrex/extensions/raw.ex     raise ArgumentError, Postgrex.Utils.encode_msg(type_info, value, "a binary")</span>
+<span class='curline'><a href='../S/181.html#L11'>encode_msg</a>         11 deps/postgrex/lib/postgrex/extensions/record.ex     raise ArgumentError, Postgrex.Utils.encode_msg(type_info, value, "a tuple")</span>
+<span class='curline'><a href='../S/182.html#L10'>encode_msg</a>         10 deps/postgrex/lib/postgrex/extensions/tid.ex       Postgrex.Utils.encode_msg(type_info, value, "a tuple of 2 integers")</span>
+<span class='curline'><a href='../S/183.html#L13'>encode_msg</a>         13 deps/postgrex/lib/postgrex/extensions/time.ex       Postgrex.Utils.encode_msg(type_info, value, Postgrex.Time)</span>
+<span class='curline'><a href='../S/184.html#L18'>encode_msg</a>         18 deps/postgrex/lib/postgrex/extensions/timestamp.ex       Postgrex.Utils.encode_msg(type_info, value, Postgrex.Timestamp)</span>
+<span class='curline'><a href='../S/185.html#L10'>encode_msg</a>         10 deps/postgrex/lib/postgrex/extensions/uuid.ex       Postgrex.Utils.encode_msg(type_info, value, "a binary of 16 bytes")</span>
+<span class='curline'><a href='../S/186.html#L22'>encode_msg</a>         22 deps/postgrex/lib/postgrex/extensions/void.ex       Postgrex.Utils.encode_msg(type_info, value, "the atom :void")</span>
+<span class='curline'><a href='../S/190.html#L1045'>encode_msg</a>       1045 deps/postgrex/lib/postgrex/protocol.ex     binaries = Enum.reduce(msgs, [], &amp;[&amp;2 | encode_msg(&amp;1)])</span>
+<span class='curline'><a href='../S/190.html#L1050'>encode_msg</a>       1050 deps/postgrex/lib/postgrex/protocol.ex     do_send(s, encode_msg(msg), buffer)</span>
+</pre>
+</body>
+</html>

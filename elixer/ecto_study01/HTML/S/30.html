@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/db_connection/lib/db_connection/ownership/pool_supervisor.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/219.html'>db_connection</a>/<a href='../files/220.html'>lib</a>/<a href='../files/221.html'>db_connection</a>/<a href='../files/222.html'>ownership</a>/pool_supervisor.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L7'>[^]</a><a href='#L13'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L7' title='Defined at 7.'>start_link</a></li>
+<li><a href='#L13' title='Defined at 13.'>start_pool</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule DBConnection.Ownership.<a href='../S/26.html#L80' title='Referred from 80 in deps/db_connection/lib/db_connection/ownership/manager.ex.'>PoolSupervisor</a> <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc false
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>  alias DBConnection.Ownership.Pool
+<a id='L5' name='L5'></a>  import Supervisor.Spec
+<a id='L6' name='L6'></a>
+<a id='L7' name='L7'></a>  def <a href='../R/900.html' title='Multiple referred from 71 places.'>start_link</a>() <strong class='reserved'>do</strong>
+<a id='L8' name='L8'></a>    <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a> = supervisor(<a href='../D/126.html' title='Multiple defined in 4 places.'>Pool</a>, [], [restart: :temporary])
+<a id='L9' name='L9'></a>    sup_opts = [strategy: :simple_one_for_one, name: __MODULE__]
+<a id='L10' name='L10'></a>    <a href='../D/170.html' title='Multiple defined in 3 places.'>Supervisor</a>.<a href='../D/1059.html' title='Multiple defined in 41 places.'>start_link</a>([<a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>], sup_opts)
+<a id='L11' name='L11'></a>  end
+<a id='L12' name='L12'></a>
+<a id='L13' name='L13'></a>  def <a href='../R/903.html' title='Multiple referred from 5 places.'>start_pool</a>(mod, opts) <strong class='reserved'>do</strong>
+<a id='L14' name='L14'></a>    <strong class='reserved'>case</strong> <a href='../D/170.html' title='Multiple defined in 3 places.'>Supervisor</a>.start_child(__MODULE__, [self(), mod, opts]) <strong class='reserved'>do</strong>
+<a id='L15' name='L15'></a>      <em class='brace'>{</em>:ok, pid<em class='brace'>}</em> -&gt;
+<a id='L16' name='L16'></a>        <em class='brace'>{</em>:ok, <a href='../D/126.html' title='Multiple defined in 4 places.'>Pool</a>.<a href='../S/29.html#L15' title='Defined at 15 in deps/db_connection/lib/db_connection/ownership/pool.ex.'>pool_pid</a>(pid), Pool.<a href='../S/29.html#L19' title='Defined at 19 in deps/db_connection/lib/db_connection/ownership/pool.ex.'>owner_sup_pid</a>(pid)<em class='brace'>}</em>
+<a id='L17' name='L17'></a>      other -&gt;
+<a id='L18' name='L18'></a>        other
+<a id='L19' name='L19'></a>    end
+<a id='L20' name='L20'></a>  end
+<a id='L21' name='L21'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L7'>[^]</a><a href='#L13'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

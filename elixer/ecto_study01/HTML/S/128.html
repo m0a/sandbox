@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/repo/supervisor.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/<a href='../files/247.html'>repo</a>/supervisor.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L9'>[^]</a><a href='#L104'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L9' title='Defined at 9.'>start_link</a></li>
+<li><a href='#L17' title='Defined at 17.'>config</a></li>
+<li><a href='#L31' title='Defined at 31.'>parse_config</a></li>
+<li><a href='#L49' title='Defined at 49.'>pool</a></li>
+<li><a href='#L57' title='Defined at 57.'>default_pool_name</a></li>
+<li><a href='#L73' title='Defined at 73.'>parse_url</a></li>
+<li><a href='#L75' title='Defined at 75.'>parse_url</a></li>
+<li><a href='#L79' title='Defined at 79.'>parse_url</a></li>
+<li><a href='#L104' title='Defined at 104.'>init</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Repo.<a href='../R/80.html' title='Multiple referred from 30 places.'>Supervisor</a> <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc false
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>  use <a href='../D/170.html' title='Multiple defined in 3 places.'>Supervisor</a>
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>  @doc """
+<a id='L7' name='L7'></a>  Starts the repo supervisor.
+<a id='L8' name='L8'></a>  """
+<a id='L9' name='L9'></a>  def <a href='../R/900.html' title='Multiple referred from 71 places.'>start_link</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, otp_app, adapter, opts) <strong class='reserved'>do</strong>
+<a id='L10' name='L10'></a>    name = opts[:name] || <a href='../S/82.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/application.ex.'>Application</a>.get_env(otp_app, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>)[:name] || repo
+<a id='L11' name='L11'></a>    <a href='../D/170.html' title='Multiple defined in 3 places.'>Supervisor</a>.<a href='../D/1059.html' title='Multiple defined in 41 places.'>start_link</a>(__MODULE__, <em class='brace'>{</em>name, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, otp_app, adapter, opts<em class='brace'>}</em>, [name: name])
+<a id='L12' name='L12'></a>  end
+<a id='L13' name='L13'></a>
+<a id='L14' name='L14'></a>  @doc """
+<a id='L15' name='L15'></a>  Retrieves and normalizes the configuration <strong class='reserved'>for</strong> `repo` in `otp_app`.
+<a id='L16' name='L16'></a>  """
+<a id='L17' name='L17'></a>  def <a href='../R/259.html' title='Multiple referred from 30 places.'>config</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, otp_app, custom) <strong class='reserved'>do</strong>
+<a id='L18' name='L18'></a>    <strong class='reserved'>if</strong> <a href='../D/382.html' title='Multiple defined in 3 places.'>config</a> = <a href='../S/82.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/application.ex.'>Application</a>.get_env(otp_app, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>) <strong class='reserved'>do</strong>
+<a id='L19' name='L19'></a>      <a href='../D/382.html' title='Multiple defined in 3 places.'>config</a> = Keyword.<a href='../D/758.html' title='Multiple defined in 4 places.'>merge</a>(config, custom)
+<a id='L20' name='L20'></a>      <em class='brace'>{</em>url, <a href='../D/382.html' title='Multiple defined in 3 places.'>config</a><em class='brace'>}</em> = Keyword.pop(config, :url)
+<a id='L21' name='L21'></a>      [otp_app: otp_app, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>: repo] ++ Keyword.<a href='../D/758.html' title='Multiple defined in 4 places.'>merge</a>(<a href='../D/382.html' title='Multiple defined in 3 places.'>config</a>, <a href='../D/869.html' title='Multiple defined in 3 places.'>parse_url</a>(url || ""))
+<a id='L22' name='L22'></a>    <strong class='reserved'>else</strong>
+<a id='L23' name='L23'></a>      raise ArgumentError,
+<a id='L24' name='L24'></a>        "configuration for #{inspect repo} not specified in #{inspect otp_app} environment"
+<a id='L25' name='L25'></a>    end
+<a id='L26' name='L26'></a>  end
+<a id='L27' name='L27'></a>
+<a id='L28' name='L28'></a>  @doc """
+<a id='L29' name='L29'></a>  Parses the OTP configuration <strong class='reserved'>for</strong> compile time.
+<a id='L30' name='L30'></a>  """
+<a id='L31' name='L31'></a>  def <a href='../S/129.html#L64' title='Referred from 64 in deps/ecto/lib/ecto/repo.ex.'>parse_config</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, opts) <strong class='reserved'>do</strong>
+<a id='L32' name='L32'></a>    otp_app = Keyword.fetch!(opts, :otp_app)
+<a id='L33' name='L33'></a>    <a href='../D/382.html' title='Multiple defined in 3 places.'>config</a>  = <a href='../S/82.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/application.ex.'>Application</a>.get_env(otp_app, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, [])
+<a id='L34' name='L34'></a>    adapter = opts[:adapter] || <a href='../D/382.html' title='Multiple defined in 3 places.'>config</a>[:adapter]
+<a id='L35' name='L35'></a>
+<a id='L36' name='L36'></a>    unless adapter <strong class='reserved'>do</strong>
+<a id='L37' name='L37'></a>      raise ArgumentError, "missing :adapter configuration in " &lt;&gt;
+<a id='L38' name='L38'></a>                           "config #{inspect otp_app}, #{inspect repo}"
+<a id='L39' name='L39'></a>    end
+<a id='L40' name='L40'></a>
+<a id='L41' name='L41'></a>    unless Code.ensure_loaded?(adapter) <strong class='reserved'>do</strong>
+<a id='L42' name='L42'></a>      raise ArgumentError, "adapter #{inspect adapter} was not compiled, " &lt;&gt;
+<a id='L43' name='L43'></a>                           "ensure it is correct and it is included as a project dependency"
+<a id='L44' name='L44'></a>    end
+<a id='L45' name='L45'></a>
+<a id='L46' name='L46'></a>    <em class='brace'>{</em>otp_app, adapter, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, <a href='../D/382.html' title='Multiple defined in 3 places.'>config</a>), config<em class='brace'>}</em>
+<a id='L47' name='L47'></a>  end
+<a id='L48' name='L48'></a>
+<a id='L49' name='L49'></a>  defp <a href='../R/726.html' title='Multiple referred from 171 places.'>pool</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, <a href='../D/382.html' title='Multiple defined in 3 places.'>config</a>) <strong class='reserved'>do</strong>
+<a id='L50' name='L50'></a>    <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>         = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(<a href='../D/382.html' title='Multiple defined in 3 places.'>config</a>, :pool, Ecto.Pools.Poolboy)
+<a id='L51' name='L51'></a>    name         = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(<a href='../D/382.html' title='Multiple defined in 3 places.'>config</a>, :pool_name, <a href='../S/128.html#L57' title='Defined at 57 in deps/ecto/lib/ecto/repo/supervisor.ex.'>default_pool_name</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, config))
+<a id='L52' name='L52'></a>    pool_timeout = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(<a href='../D/382.html' title='Multiple defined in 3 places.'>config</a>, :pool_timeout, 5_000)
+<a id='L53' name='L53'></a>    <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>      = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(<a href='../D/382.html' title='Multiple defined in 3 places.'>config</a>, :timeout, 15_000)
+<a id='L54' name='L54'></a>    <em class='brace'>{</em><a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, name, pool_timeout, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a><em class='brace'>}</em>
+<a id='L55' name='L55'></a>  end
+<a id='L56' name='L56'></a>
+<a id='L57' name='L57'></a>  defp <a href='../S/128.html#L51' title='Referred from 51 in deps/ecto/lib/ecto/repo/supervisor.ex.'>default_pool_name</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, <a href='../D/382.html' title='Multiple defined in 3 places.'>config</a>) <strong class='reserved'>do</strong>
+<a id='L58' name='L58'></a>    Module.concat(Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(<a href='../D/382.html' title='Multiple defined in 3 places.'>config</a>, :name, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>), <a href='../D/126.html' title='Multiple defined in 4 places.'>Pool</a>)
+<a id='L59' name='L59'></a>  end
+<a id='L60' name='L60'></a>
+<a id='L61' name='L61'></a>  @doc """
+<a id='L62' name='L62'></a>  Parses an Ecto URL allowed in configuration.
+<a id='L63' name='L63'></a>
+<a id='L64' name='L64'></a>  The format must be:
+<a id='L65' name='L65'></a>
+<a id='L66' name='L66'></a>      "ecto://username:password@hostname:port/database"
+<a id='L67' name='L67'></a>
+<a id='L68' name='L68'></a>  or
+<a id='L69' name='L69'></a>
+<a id='L70' name='L70'></a>      <em class='brace'>{</em>:system, "DATABASE_URL"<em class='brace'>}</em>
+<a id='L71' name='L71'></a>
+<a id='L72' name='L72'></a>  """
+<a id='L73' name='L73'></a>  def <a href='../R/720.html' title='Multiple referred from 2 places.'>parse_url</a>(""), <strong class='reserved'>do</strong>: []
+<a id='L74' name='L74'></a>
+<a id='L75' name='L75'></a>  def <a href='../R/720.html' title='Multiple referred from 2 places.'>parse_url</a>(<em class='brace'>{</em>:system, env<em class='brace'>}</em>) when is_binary(env) <strong class='reserved'>do</strong>
+<a id='L76' name='L76'></a>    <a href='../D/869.html' title='Multiple defined in 3 places.'>parse_url</a>(System.get_env(env) || "")
+<a id='L77' name='L77'></a>  end
+<a id='L78' name='L78'></a>
+<a id='L79' name='L79'></a>  def <a href='../R/720.html' title='Multiple referred from 2 places.'>parse_url</a>(url) when is_binary(url) <strong class='reserved'>do</strong>
+<a id='L80' name='L80'></a>    info = url |&gt; URI.<a href='../D/413.html' title='Multiple defined in 49 places.'>decode</a>() |&gt; URI.<a href='../D/856.html' title='Multiple defined in 25 places.'>parse</a>()
+<a id='L81' name='L81'></a>
+<a id='L82' name='L82'></a>    <strong class='reserved'>if</strong> <a href='../S/107.html#L100' title='Defined at 100 in deps/ecto/lib/ecto/query/api.ex.'>is_nil</a>(info.host) <strong class='reserved'>do</strong>
+<a id='L83' name='L83'></a>      raise Ecto.InvalidURLError, url: url, message: "host is not present"
+<a id='L84' name='L84'></a>    end
+<a id='L85' name='L85'></a>
+<a id='L86' name='L86'></a>    <strong class='reserved'>if</strong> <a href='../S/107.html#L100' title='Defined at 100 in deps/ecto/lib/ecto/query/api.ex.'>is_nil</a>(info.path) or not (info.path =~ ~r"^/([^/])+$") <strong class='reserved'>do</strong>
+<a id='L87' name='L87'></a>      raise Ecto.InvalidURLError, url: url, message: "path should be a database name"
+<a id='L88' name='L88'></a>    end
+<a id='L89' name='L89'></a>
+<a id='L90' name='L90'></a>    destructure [username, password], info.userinfo &amp;&amp; String.split(info.userinfo, ":")
+<a id='L91' name='L91'></a>    "/" &lt;&gt; database = info.path
+<a id='L92' name='L92'></a>
+<a id='L93' name='L93'></a>    opts = [username: username,
+<a id='L94' name='L94'></a>            password: password,
+<a id='L95' name='L95'></a>            database: database,
+<a id='L96' name='L96'></a>            hostname: info.host,
+<a id='L97' name='L97'></a>            port:     info.port]
+<a id='L98' name='L98'></a>
+<a id='L99' name='L99'></a>    Enum.reject(opts, fn <em class='brace'>{</em>_k, v<em class='brace'>}</em> -&gt; <a href='../S/107.html#L100' title='Defined at 100 in deps/ecto/lib/ecto/query/api.ex.'>is_nil</a>(v) end)
+<a id='L100' name='L100'></a>  end
+<a id='L101' name='L101'></a>
+<a id='L102' name='L102'></a><em class='sharp'>  #</em># Callbacks
+<a id='L103' name='L103'></a>
+<a id='L104' name='L104'></a>  def <a href='../R/550.html' title='Multiple referred from 12 places.'>init</a>(<em class='brace'>{</em>name, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, otp_app, adapter, opts<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L105' name='L105'></a>    opts = <a href='../D/382.html' title='Multiple defined in 3 places.'>config</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, otp_app, opts)
+<a id='L106' name='L106'></a>    <em class='brace'>{</em>default_pool, _, _, _<em class='brace'>}</em> = <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>.<a href='../D/215.html' title='Multiple defined in 2 places.'>__pool__</a>
+<a id='L107' name='L107'></a>
+<a id='L108' name='L108'></a>    opts =
+<a id='L109' name='L109'></a>      opts
+<a id='L110' name='L110'></a>      |&gt; Keyword.<a href='../D/444.html' title='Multiple defined in 10 places.'>delete</a>(:name)
+<a id='L111' name='L111'></a>      |&gt; Keyword.put_new(:pool, default_pool)
+<a id='L112' name='L112'></a>      |&gt; Keyword.put_new(:pool_name, Module.concat(name, <a href='../D/126.html' title='Multiple defined in 4 places.'>Pool</a>))
+<a id='L113' name='L113'></a>
+<a id='L114' name='L114'></a>    children = [
+<a id='L115' name='L115'></a>      supervisor(adapter, [<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, opts])
+<a id='L116' name='L116'></a>    ]
+<a id='L117' name='L117'></a>
+<a id='L118' name='L118'></a>    <strong class='reserved'>if</strong> Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :query_cache_owner, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a> == repo.<a href='../D/217.html' title='Multiple defined in 2 places.'>__query_cache__</a>) <strong class='reserved'>do</strong>
+<a id='L119' name='L119'></a>      :ets.<a href='../D/805.html' title='Multiple defined in 14 places.'>new</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>.<a href='../D/217.html' title='Multiple defined in 2 places.'>__query_cache__</a>, [:set, :public, :named_table, read_concurrency: true])
+<a id='L120' name='L120'></a>    end
+<a id='L121' name='L121'></a>
+<a id='L122' name='L122'></a>    supervise(children, strategy: :one_for_one)
+<a id='L123' name='L123'></a>  end
+<a id='L124' name='L124'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L9'>[^]</a><a href='#L104'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>order_by</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/52.html#L116'>order_by</a>          116 deps/ecto/integration_test/cases/joins.exs                             |&gt; order_by([a], a.name)</span>
+<span class='curline'><a href='../S/74.html#L98'>order_by</a>           98 deps/ecto/lib/ecto/adapters/mysql/connection.ex       order_by = order_by(query, sources)</span>
+<span class='curline'><a href='../S/74.html#L103'>order_by</a>          103 deps/ecto/lib/ecto/adapters/mysql/connection.ex       assemble([select, from, join, where, group_by, having, order_by, limit, offset, lock])</span>
+<span class='curline'><a href='../S/76.html#L115'>order_by</a>          115 deps/ecto/lib/ecto/adapters/postgres/connection.ex       order_by = order_by(query, distinct_exprs, sources)</span>
+<span class='curline'><a href='../S/76.html#L120'>order_by</a>          120 deps/ecto/lib/ecto/adapters/postgres/connection.ex       assemble([select, from, join, where, group_by, having, order_by, limit, offset, lock])</span>
+<span class='curline'><a href='../S/115.html#L87'>order_by</a>           87 deps/ecto/lib/ecto/query/builder/order_by.ex   def order_by!(order_by) do</span>
+<span class='curline'><a href='../S/115.html#L88'>order_by</a>           88 deps/ecto/lib/ecto/query/builder/order_by.ex     Enum.map List.wrap(order_by), fn</span>
+<span class='curline'><a href='../S/115.html#L94'>order_by</a>           94 deps/ecto/lib/ecto/query/builder/order_by.ex         Builder.error!("expected a list or keyword list of fields in `order_by`, got: `#{inspect order_by}`")</span>
+<span class='curline'><a href='../S/115.html#L113'>order_by</a>          113 deps/ecto/lib/ecto/query/builder/order_by.ex     order_by = quote do: %Ecto.Query.QueryExpr{</span>
+<span class='curline'><a href='../S/115.html#L118'>order_by</a>          118 deps/ecto/lib/ecto/query/builder/order_by.ex     Builder.apply_query(query, __MODULE__, [order_by], env)</span>
+</pre>
+</body>
+</html>

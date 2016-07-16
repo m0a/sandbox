@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/postgrex/lib/postgrex/extensions/macaddr.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/252.html'>postgrex</a>/<a href='../files/253.html'>lib</a>/<a href='../files/254.html'>postgrex</a>/<a href='../files/255.html'>extensions</a>/macaddr.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L5'>[^]</a><a href='#L12'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L5' title='Defined at 5.'>encode</a></li>
+<li><a href='#L7' title='Defined at 7.'>encode</a></li>
+<li><a href='#L12' title='Defined at 12.'>decode</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Postgrex.Extensions.MACADDR <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc false
+<a id='L3' name='L3'></a>  use Postgrex.BinaryExtension, [send: "macaddr_send"]
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a>  def <a href='../R/398.html' title='Multiple referred from 16 places.'>encode</a>(_, %Postgrex.MACADDR<em class='brace'>{</em>address: <em class='brace'>{</em>a, b, c, <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a>, e, f<em class='brace'>}</em><em class='brace'>}</em>, _, _),
+<a id='L6' name='L6'></a>    <strong class='reserved'>do</strong>: &lt;&lt;a, b, c, <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a>, e, f&gt;&gt;
+<a id='L7' name='L7'></a>  def <a href='../R/398.html' title='Multiple referred from 16 places.'>encode</a>(type_info, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, _, _) <strong class='reserved'>do</strong>
+<a id='L8' name='L8'></a>    raise ArgumentError,
+<a id='L9' name='L9'></a>      Postgrex.Utils.<a href='../D/532.html' title='Multiple defined in 2 places.'>encode_msg</a>(type_info, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, Postgrex.MACADDR)
+<a id='L10' name='L10'></a>  end
+<a id='L11' name='L11'></a>
+<a id='L12' name='L12'></a>  def <a href='../R/289.html' title='Multiple referred from 21 places.'>decode</a>(_, &lt;&lt;a::8, b::8, c::8, <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a>::8, e::8, f::8&gt;&gt;, _, _),
+<a id='L13' name='L13'></a>    <strong class='reserved'>do</strong>: %Postgrex.MACADDR<em class='brace'>{</em>address: <em class='brace'>{</em>a, b, c, <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a>, e, f<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L14' name='L14'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L5'>[^]</a><a href='#L12'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

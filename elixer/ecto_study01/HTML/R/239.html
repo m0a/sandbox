@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>collect_fields</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/121.html#L496'>collect_fields</a>    496 deps/ecto/lib/ecto/query/planner.ex     {fields, from?} = collect_fields(query, select.expr, false)</span>
+<span class='curline'><a href='../S/121.html#L509'>collect_fields</a>    509 deps/ecto/lib/ecto/query/planner.ex     {fields, from?} = collect_fields(query, select.expr, false)</span>
+<span class='curline'><a href='../S/121.html#L529'>collect_fields</a>    529 deps/ecto/lib/ecto/query/planner.ex     do: collect_fields(query, [left, right], from?)</span>
+<span class='curline'><a href='../S/121.html#L531'>collect_fields</a>    531 deps/ecto/lib/ecto/query/planner.ex     do: collect_fields(query, elems, from?)</span>
+<span class='curline'><a href='../S/121.html#L533'>collect_fields</a>    533 deps/ecto/lib/ecto/query/planner.ex     do: collect_fields(query, Enum.map(pairs, &amp;elem(&amp;1, 1)), from?)</span>
+<span class='curline'><a href='../S/121.html#L535'>collect_fields</a>    535 deps/ecto/lib/ecto/query/planner.ex     do: Enum.flat_map_reduce(list, from?, &amp;collect_fields(query, &amp;1, &amp;2))</span>
+</pre>
+</body>
+</html>

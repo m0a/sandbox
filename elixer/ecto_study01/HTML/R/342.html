@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>disconnect</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/17.html#L508'>disconnect</a>        508 deps/connection/lib/connection.ex         disconnect(info, mod_state, s)</span>
+<span class='curline'><a href='../S/17.html#L511'>disconnect</a>        511 deps/connection/lib/connection.ex         disconnect(info, mod_state, s)</span>
+<span class='curline'><a href='../S/17.html#L824'>disconnect</a>        824 deps/connection/lib/connection.ex         disconnect(info, mod_state, s)</span>
+<span class='curline'><a href='../S/44.html#L238'>disconnect</a>        238 deps/db_connection/lib/db_connection.ex   @callback disconnect(err :: Exception.t, state :: any) :: :ok</span>
+<span class='curline'><a href='../S/31.html#L135'>disconnect</a>        135 deps/db_connection/lib/db_connection/ownership.ex     Owner.disconnect(owner, exception, state, opts)</span>
+<span class='curline'><a href='../S/27.html#L64'>disconnect</a>         64 deps/db_connection/lib/db_connection/ownership/owner.ex     disconnect("client down", state)</span>
+<span class='curline'><a href='../S/27.html#L72'>disconnect</a>         72 deps/db_connection/lib/db_connection/ownership/owner.ex     disconnect("client timeout", state)</span>
+<span class='curline'><a href='../S/27.html#L208'>disconnect</a>        208 deps/db_connection/lib/db_connection/ownership/owner.ex     pool_mod.disconnect(pool_ref, error, conn_state, pool_opts)</span>
+<span class='curline'><a href='../S/27.html#L216'>disconnect</a>        216 deps/db_connection/lib/db_connection/ownership/owner.ex     pool_mod.disconnect(pool_ref, error, conn_state, pool_opts)</span>
+<span class='curline'><a href='../S/32.html#L48'>disconnect</a>         48 deps/db_connection/lib/db_connection/pool.ex   @callback disconnect(pool_ref :: any, err :: Exception.t, state :: any, opts :: Keyword.t) ::</span>
+<span class='curline'><a href='../S/34.html#L54'>disconnect</a>         54 deps/db_connection/lib/db_connection/poolboy.ex     DBConnection.Connection.disconnect(worker_ref, err, state, opts)</span>
+<span class='curline'><a href='../S/101.html#L51'>disconnect</a>         51 deps/ecto/lib/ecto/pools/poolboy/worker.ex       |&gt; disconnect()</span>
+<span class='curline'><a href='../S/101.html#L74'>disconnect</a>         74 deps/ecto/lib/ecto/pools/poolboy/worker.ex         |&gt; disconnect()</span>
+<span class='curline'><a href='../S/101.html#L121'>disconnect</a>        121 deps/ecto/lib/ecto/pools/poolboy/worker.ex       |&gt; disconnect()</span>
+<span class='curline'><a href='../S/101.html#L128'>disconnect</a>        128 deps/ecto/lib/ecto/pools/poolboy/worker.ex     {:noreply, disconnect(%{s | transaction: nil})}</span>
+<span class='curline'><a href='../S/101.html#L135'>disconnect</a>        135 deps/ecto/lib/ecto/pools/poolboy/worker.ex   def terminate(_reason, s), do: disconnect(s)</span>
+<span class='curline'><a href='../S/105.html#L85'>disconnect</a>         85 deps/ecto/lib/ecto/pools/sojourn_broker/worker.ex     |&gt; disconnect()</span>
+<span class='curline'><a href='../S/105.html#L127'>disconnect</a>        127 deps/ecto/lib/ecto/pools/sojourn_broker/worker.ex     |&gt; disconnect()</span>
+<span class='curline'><a href='../S/105.html#L152'>disconnect</a>        152 deps/ecto/lib/ecto/pools/sojourn_broker/worker.ex       |&gt; disconnect()</span>
+<span class='curline'><a href='../S/105.html#L164'>disconnect</a>        164 deps/ecto/lib/ecto/pools/sojourn_broker/worker.ex     conn &amp;&amp; disconnect(s)</span>
+<span class='curline'><a href='../S/190.html#L79'>disconnect</a>         79 deps/postgrex/lib/postgrex/protocol.ex     disconnect(err, s)</span>
+<span class='curline'><a href='../S/190.html#L83'>disconnect</a>         83 deps/postgrex/lib/postgrex/protocol.ex   @spec disconnect(Exception.t, state) :: :ok</span>
+<span class='curline'><a href='../S/190.html#L328'>disconnect</a>        328 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, %Postgrex.Error{message: "ssl not available"}, "")</span>
+<span class='curline'><a href='../S/190.html#L331'>disconnect</a>        331 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, err, "")</span>
+<span class='curline'><a href='../S/190.html#L341'>disconnect</a>        341 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, err, "")</span>
+<span class='curline'><a href='../S/190.html#L369'>disconnect</a>        369 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, Postgrex.Error.exception(postgres: fields), buffer)</span>
+<span class='curline'><a href='../S/190.html#L407'>disconnect</a>        407 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, Postgrex.Error.exception(postgres: fields), buffer)</span>
+<span class='curline'><a href='../S/190.html#L453'>disconnect</a>        453 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, Postgrex.Error.exception(postgres: fields), buffer)</span>
+<span class='curline'><a href='../S/190.html#L468'>disconnect</a>        468 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, Postgrex.Error.exception(postgres: fields), buffer)</span>
+<span class='curline'><a href='../S/190.html#L525'>disconnect</a>        525 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, Postgrex.Error.exception(postgres: fields), buffer)</span>
+<span class='curline'><a href='../S/190.html#L858'>disconnect</a>        858 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, err, buffer)</span>
+<span class='curline'><a href='../S/190.html#L920'>disconnect</a>        920 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, Postgrex.Error.exception(postgres: fields), buffer)</span>
+<span class='curline'><a href='../S/190.html#L986'>disconnect</a>        986 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, :tcp, "async_recv", :closed, :active_once)</span>
+<span class='curline'><a href='../S/190.html#L988'>disconnect</a>        988 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, :tcp, "async_recv", reason, :active_once)</span>
+<span class='curline'><a href='../S/190.html#L991'>disconnect</a>        991 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, :tcp, "async_recv", :timeout, :active_one)</span>
+<span class='curline'><a href='../S/190.html#L999'>disconnect</a>        999 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, :ssl, "async_recv", :closed, :active_once)</span>
+<span class='curline'><a href='../S/190.html#L1001'>disconnect</a>       1001 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, :ssl, "async_recv", reason, :active_once)</span>
+<span class='curline'><a href='../S/190.html#L1004'>disconnect</a>       1004 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, :ssl, "async_recv", :timeout, :active_once)</span>
+<span class='curline'><a href='../S/190.html#L1019'>disconnect</a>       1019 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, tag(mod), "recv", reason, buffer)</span>
+<span class='curline'><a href='../S/190.html#L1058'>disconnect</a>       1058 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, tag(mod), "send", reason, buffer)</span>
+<span class='curline'><a href='../S/190.html#L1109'>disconnect</a>       1109 deps/postgrex/lib/postgrex/protocol.ex     disconnect(s, err, buffer)</span>
+<span class='curline'><a href='../S/190.html#L1158'>disconnect</a>       1158 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, :tcp, "async recv", :closed, "")</span>
+<span class='curline'><a href='../S/190.html#L1160'>disconnect</a>       1160 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, :tcp, "async_recv", reason, "")</span>
+<span class='curline'><a href='../S/190.html#L1171'>disconnect</a>       1171 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, :ssl, "async recv", :closed, "")</span>
+<span class='curline'><a href='../S/190.html#L1173'>disconnect</a>       1173 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, :ssl, "async recv", reason, "")</span>
+<span class='curline'><a href='../S/190.html#L1197'>disconnect</a>       1197 deps/postgrex/lib/postgrex/protocol.ex         disconnect(s, tag(mod), "setopts", reason, buffer)</span>
+</pre>
+</body>
+</html>

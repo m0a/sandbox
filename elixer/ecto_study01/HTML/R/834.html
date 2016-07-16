@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>returning</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/72.html#L20'>returning</a>          20 deps/ecto/lib/ecto/adapter.ex   @type returning :: [atom]</span>
+<span class='curline'><a href='../S/72.html#L160'>returning</a>         160 deps/ecto/lib/ecto/adapter.ex   defcallback insert(repo, schema_meta, fields, autogenerate_id, returning, options) ::</span>
+<span class='curline'><a href='../S/72.html#L184'>returning</a>         184 deps/ecto/lib/ecto/adapter.ex   defcallback update(repo, schema_meta, fields, filters, autogenerate_id, returning, options) ::</span>
+<span class='curline'><a href='../S/75.html#L161'>returning</a>         161 deps/ecto/lib/ecto/adapters/mysql.ex   def insert(_repo, %{model: model}, _params, _autogen, [_|_] = returning, _opts) do</span>
+<span class='curline'><a href='../S/75.html#L163'>returning</a>         163 deps/ecto/lib/ecto/adapters/mysql.ex                          "The following fields in #{inspect model} are tagged as such: #{inspect returning}"</span>
+<span class='curline'><a href='../S/76.html#L144'>returning</a>         144 deps/ecto/lib/ecto/adapters/postgres/connection.ex     def insert(prefix, table, fields, returning) do</span>
+<span class='curline'><a href='../S/76.html#L153'>returning</a>         153 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "INSERT INTO #{quote_table(prefix, table)} " &lt;&gt; values &lt;&gt; returning(returning)</span>
+<span class='curline'><a href='../S/76.html#L156'>returning</a>         156 deps/ecto/lib/ecto/adapters/postgres/connection.ex     def update(prefix, table, fields, filters, returning) do</span>
+<span class='curline'><a href='../S/76.html#L167'>returning</a>         167 deps/ecto/lib/ecto/adapters/postgres/connection.ex         returning(returning)</span>
+<span class='curline'><a href='../S/76.html#L170'>returning</a>         170 deps/ecto/lib/ecto/adapters/postgres/connection.ex     def delete(prefix, table, filters, returning) do</span>
+<span class='curline'><a href='../S/76.html#L176'>returning</a>         176 deps/ecto/lib/ecto/adapters/postgres/connection.ex         Enum.join(filters, " AND ") &lt;&gt; returning(returning)</span>
+<span class='curline'><a href='../S/76.html#L514'>returning</a>         514 deps/ecto/lib/ecto/adapters/postgres/connection.ex       do: " RETURNING " &lt;&gt; Enum.map_join(returning, ", ", &amp;quote_name/1)</span>
+<span class='curline'><a href='../S/81.html#L74'>returning</a>          74 deps/ecto/lib/ecto/adapters/sql.ex       def insert(repo, model_meta, params, {key, :id, nil}, returning, opts) do</span>
+<span class='curline'><a href='../S/81.html#L75'>returning</a>          75 deps/ecto/lib/ecto/adapters/sql.ex         insert(repo, model_meta, params, nil, [key|returning], opts)</span>
+<span class='curline'><a href='../S/81.html#L79'>returning</a>          79 deps/ecto/lib/ecto/adapters/sql.ex       def insert(repo, model_meta, params, {key, :binary_id, nil}, returning, opts) do</span>
+<span class='curline'><a href='../S/81.html#L81'>returning</a>          81 deps/ecto/lib/ecto/adapters/sql.ex         case insert(repo, model_meta, req ++ params, nil, returning, opts) do</span>
+<span class='curline'><a href='../S/81.html#L88'>returning</a>          88 deps/ecto/lib/ecto/adapters/sql.ex       def insert(repo, %{source: {prefix, source}}, params, _autogenerate, returning, opts) do</span>
+<span class='curline'><a href='../S/81.html#L90'>returning</a>          90 deps/ecto/lib/ecto/adapters/sql.ex         sql = @conn.insert(prefix, source, fields, returning)</span>
+<span class='curline'><a href='../S/81.html#L91'>returning</a>          91 deps/ecto/lib/ecto/adapters/sql.ex         Ecto.Adapters.SQL.model(repo, @conn, sql, values, returning, opts)</span>
+<span class='curline'><a href='../S/81.html#L95'>returning</a>          95 deps/ecto/lib/ecto/adapters/sql.ex       def update(repo, %{source: {prefix, source}}, fields, filter, _autogenerate, returning, opts) do</span>
+<span class='curline'><a href='../S/81.html#L98'>returning</a>          98 deps/ecto/lib/ecto/adapters/sql.ex         sql = @conn.update(prefix, source, fields, filter, returning)</span>
+<span class='curline'><a href='../S/81.html#L99'>returning</a>          99 deps/ecto/lib/ecto/adapters/sql.ex         Ecto.Adapters.SQL.model(repo, @conn, sql, values1 ++ values2, returning, opts)</span>
+<span class='curline'><a href='../S/81.html#L486'>returning</a>         486 deps/ecto/lib/ecto/adapters/sql.ex   def model(repo, conn, sql, values, returning, opts) do</span>
+<span class='curline'><a href='../S/81.html#L491'>returning</a>         491 deps/ecto/lib/ecto/adapters/sql.ex         {:ok, Enum.zip(returning, values)}</span>
+<span class='curline'><a href='../S/79.html#L63'>returning</a>          63 deps/ecto/lib/ecto/adapters/sql/query.ex                      fields :: [atom], returning :: [atom]) :: String.t</span>
+<span class='curline'><a href='../S/79.html#L70'>returning</a>          70 deps/ecto/lib/ecto/adapters/sql/query.ex                      filters :: [atom], returning :: [atom]) :: String.t</span>
+<span class='curline'><a href='../S/79.html#L76'>returning</a>          76 deps/ecto/lib/ecto/adapters/sql/query.ex                      filters :: [atom], returning :: [atom]) :: String.t</span>
+</pre>
+</body>
+</html>

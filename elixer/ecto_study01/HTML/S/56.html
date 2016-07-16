@@ -1,0 +1,787 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/integration_test/cases/repo.exs</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/228.html'>integration_test</a>/<a href='../files/229.html'>cases</a>/repo.exs</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L342'>[^]</a><a href='#L407'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L342' title='Defined at 342.'>get</a></li>
+<li><a href='#L360' title='Defined at 360.'>get</a></li>
+<li><a href='#L368' title='Defined at 368.'>get_by</a></li>
+<li><a href='#L391' title='Defined at 391.'>one</a></li>
+<li><a href='#L407' title='Defined at 407.'>one</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>Code.require_file "../support/types.exs", __DIR__
+<a id='L2' name='L2'></a>
+<a id='L3' name='L3'></a>defmodule Ecto.Integration.RepoTest <strong class='reserved'>do</strong>
+<a id='L4' name='L4'></a>  use Ecto.Integration.Case
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>  alias Ecto.Integration.TestRepo
+<a id='L7' name='L7'></a>  import Ecto.Query
+<a id='L8' name='L8'></a>
+<a id='L9' name='L9'></a>  alias Ecto.Integration.Post
+<a id='L10' name='L10'></a>  alias Ecto.Integration.User
+<a id='L11' name='L11'></a>  alias Ecto.Integration.PostUsecTimestamps
+<a id='L12' name='L12'></a>  alias Ecto.Integration.Comment
+<a id='L13' name='L13'></a>  alias Ecto.Integration.Permalink
+<a id='L14' name='L14'></a>  alias Ecto.Integration.Custom
+<a id='L15' name='L15'></a>  alias Ecto.Integration.Barebone
+<a id='L16' name='L16'></a>
+<a id='L17' name='L17'></a>  test "returns already started for started repos" <strong class='reserved'>do</strong>
+<a id='L18' name='L18'></a>    assert <em class='brace'>{</em>:error, <em class='brace'>{</em>:already_started, _<em class='brace'>}</em><em class='brace'>}</em> = TestRepo.<a href='../D/1059.html' title='Multiple defined in 41 places.'>start_link</a>
+<a id='L19' name='L19'></a>  end
+<a id='L20' name='L20'></a>
+<a id='L21' name='L21'></a>  test "fetch empty" <strong class='reserved'>do</strong>
+<a id='L22' name='L22'></a>    assert [] == TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>)
+<a id='L23' name='L23'></a>    assert [] == TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>)
+<a id='L24' name='L24'></a>  end
+<a id='L25' name='L25'></a>
+<a id='L26' name='L26'></a>  test "fetch with in" <strong class='reserved'>do</strong>
+<a id='L27' name='L27'></a>    TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "hello"<em class='brace'>}</em>)
+<a id='L28' name='L28'></a>
+<a id='L29' name='L29'></a>    assert []  = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a> <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: p.title in []
+<a id='L30' name='L30'></a>    assert []  = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a> <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: p.title in ["1", "2", "3"]
+<a id='L31' name='L31'></a>    assert []  = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a> <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: p.title in ^[]
+<a id='L32' name='L32'></a>
+<a id='L33' name='L33'></a>    assert [_] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a> <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: not p.title in []
+<a id='L34' name='L34'></a>    assert [_] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a> <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: p.title in ["1", "hello", "3"]
+<a id='L35' name='L35'></a>    assert [_] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a> <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: p.title in ["1", ^"hello", "3"]
+<a id='L36' name='L36'></a>    assert [_] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a> <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: p.title in ^["1", "hello", "3"]
+<a id='L37' name='L37'></a>  end
+<a id='L38' name='L38'></a>
+<a id='L39' name='L39'></a>  test "fetch without model" <strong class='reserved'>do</strong>
+<a id='L40' name='L40'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "title1"<em class='brace'>}</em>)
+<a id='L41' name='L41'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "title2"<em class='brace'>}</em>)
+<a id='L42' name='L42'></a>
+<a id='L43' name='L43'></a>    assert ["title1", "title2"] =
+<a id='L44' name='L44'></a>      TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in "posts", order_by: p.title, select: p.title))
+<a id='L45' name='L45'></a>
+<a id='L46' name='L46'></a>    assert [_] =
+<a id='L47' name='L47'></a>      TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in "posts", where: p.title == "title1", select: p.id))
+<a id='L48' name='L48'></a>  end
+<a id='L49' name='L49'></a>
+<a id='L50' name='L50'></a>  test "insert, update and delete" <strong class='reserved'>do</strong>
+<a id='L51' name='L51'></a>    post = %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "create and delete single", text: "fetch empty"<em class='brace'>}</em>
+<a id='L52' name='L52'></a>    meta = post.__meta__
+<a id='L53' name='L53'></a>
+<a id='L54' name='L54'></a>    deleted_meta = put_in meta.<a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>, :deleted
+<a id='L55' name='L55'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em><em class='brace'>}</em> = to_be_deleted = TestRepo.insert!(post)
+<a id='L56' name='L56'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>__meta__: ^deleted_meta<em class='brace'>}</em> = TestRepo.delete!(to_be_deleted)
+<a id='L57' name='L57'></a>
+<a id='L58' name='L58'></a>    loaded_meta = put_in meta.<a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>, :loaded
+<a id='L59' name='L59'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>__meta__: ^loaded_meta<em class='brace'>}</em> = TestRepo.insert!(post)
+<a id='L60' name='L60'></a>
+<a id='L61' name='L61'></a>    post = TestRepo.<a href='../D/832.html' title='Multiple defined in 6 places.'>one</a>(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>)
+<a id='L62' name='L62'></a>    assert post.__meta__.<a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a> == :loaded
+<a id='L63' name='L63'></a>    assert post.inserted_at
+<a id='L64' name='L64'></a>  end
+<a id='L65' name='L65'></a>
+<a id='L66' name='L66'></a>  test "insert and update with changeset" <strong class='reserved'>do</strong>
+<a id='L67' name='L67'></a>    # On insert we merge the fields and changes
+<a id='L68' name='L68'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> = Ecto.Changeset.<a href='../D/331.html' title='Multiple defined in 58 places.'>cast</a>(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>text: "x", title: "wrong"<em class='brace'>}</em>,
+<a id='L69' name='L69'></a>                                    %<em class='brace'>{</em>"title" =&gt; "hello", "temp" =&gt; "unknown"<em class='brace'>}</em>, ~w(title temp), ~w())
+<a id='L70' name='L70'></a>
+<a id='L71' name='L71'></a>    post = TestRepo.insert!(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>)
+<a id='L72' name='L72'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>text: "x", title: "hello", temp: "unknown"<em class='brace'>}</em> = post
+<a id='L73' name='L73'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>text: "x", title: "hello", temp: "temp"<em class='brace'>}</em> = TestRepo.get!(Post, post.id)
+<a id='L74' name='L74'></a>
+<a id='L75' name='L75'></a>    # On update we merge only fields, direct model changes are discarded
+<a id='L76' name='L76'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> = Ecto.Changeset.<a href='../D/331.html' title='Multiple defined in 58 places.'>cast</a>(%<em class='brace'>{</em>post | text: "y"<em class='brace'>}</em>,
+<a id='L77' name='L77'></a>                                    %<em class='brace'>{</em>"title" =&gt; "world", "temp" =&gt; "unknown"<em class='brace'>}</em>, ~w(title temp), ~w())
+<a id='L78' name='L78'></a>
+<a id='L79' name='L79'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>text: "y", title: "world", temp: "unknown"<em class='brace'>}</em> = TestRepo.update!(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>)
+<a id='L80' name='L80'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>text: "x", title: "world", temp: "temp"<em class='brace'>}</em> = TestRepo.get!(Post, post.id)
+<a id='L81' name='L81'></a>  end
+<a id='L82' name='L82'></a>
+<a id='L83' name='L83'></a>  test "insert and update with empty changeset" <strong class='reserved'>do</strong>
+<a id='L84' name='L84'></a>    # On insert we merge the fields and changes
+<a id='L85' name='L85'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> = Ecto.Changeset.<a href='../D/331.html' title='Multiple defined in 58 places.'>cast</a>(%<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em><em class='brace'>}</em>, %<em class='brace'>{</em><em class='brace'>}</em>, ~w(), ~w())
+<a id='L86' name='L86'></a>    assert %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em><em class='brace'>}</em> = permalink = TestRepo.insert!(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>)
+<a id='L87' name='L87'></a>
+<a id='L88' name='L88'></a>    # Assert we can update the same value twice,
+<a id='L89' name='L89'></a>    # without changes, without triggering stale errors.
+<a id='L90' name='L90'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> = Ecto.Changeset.<a href='../D/331.html' title='Multiple defined in 58 places.'>cast</a>(permalink, %<em class='brace'>{</em><em class='brace'>}</em>, ~w(), ~w())
+<a id='L91' name='L91'></a>    assert TestRepo.update!(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>) == permalink
+<a id='L92' name='L92'></a>    assert TestRepo.update!(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>) == permalink
+<a id='L93' name='L93'></a>  end
+<a id='L94' name='L94'></a>
+<a id='L95' name='L95'></a>  test "insert with no primary key" <strong class='reserved'>do</strong>
+<a id='L96' name='L96'></a>    assert %<a href='../S/66.html#L146' title='Defined at 146 in deps/ecto/integration_test/support/models.exs.'>Barebone</a><em class='brace'>{</em>num: nil<em class='brace'>}</em> = TestRepo.insert!(%Barebone<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L97' name='L97'></a>    assert %<a href='../S/66.html#L146' title='Defined at 146 in deps/ecto/integration_test/support/models.exs.'>Barebone</a><em class='brace'>{</em>num: 13<em class='brace'>}</em> = TestRepo.insert!(%Barebone<em class='brace'>{</em>num: 13<em class='brace'>}</em>)
+<a id='L98' name='L98'></a>  end
+<a id='L99' name='L99'></a>
+<a id='L100' name='L100'></a>  @tag :read_after_writes
+<a id='L101' name='L101'></a>  test "insert and update with changeset read after writes" <strong class='reserved'>do</strong>
+<a id='L102' name='L102'></a>    defmodule <a href='../R/66.html' title='Multiple referred from 2 places.'>RAW</a> <strong class='reserved'>do</strong>
+<a id='L103' name='L103'></a>      use Ecto.Schema
+<a id='L104' name='L104'></a>
+<a id='L105' name='L105'></a>      <a href='../S/130.html#L310' title='Defined at 310 in deps/ecto/lib/ecto/schema.ex.'>schema</a> "posts" <strong class='reserved'>do</strong>
+<a id='L106' name='L106'></a>        <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :counter, :integer, read_after_writes: true
+<a id='L107' name='L107'></a>        <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :visits, :integer
+<a id='L108' name='L108'></a>      end
+<a id='L109' name='L109'></a>    end
+<a id='L110' name='L110'></a>
+<a id='L111' name='L111'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> = Ecto.Changeset.<a href='../D/331.html' title='Multiple defined in 58 places.'>cast</a>(<strong class='reserved'>struct</strong>(<a href='../S/56.html#L102' title='Defined at 102 in deps/ecto/integration_test/cases/repo.exs.'>RAW</a>, %<em class='brace'>{</em><em class='brace'>}</em>), %<em class='brace'>{</em><em class='brace'>}</em>, ~w(), ~w())
+<a id='L112' name='L112'></a>
+<a id='L113' name='L113'></a>    # There is no dirty tracking on insert, even with changesets,
+<a id='L114' name='L114'></a>    # so database defaults never actually kick in.
+<a id='L115' name='L115'></a>    assert %<em class='brace'>{</em>id: cid, counter: nil<em class='brace'>}</em> = raw = TestRepo.insert!(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>)
+<a id='L116' name='L116'></a>
+<a id='L117' name='L117'></a>    # Set the counter to 11, so we can read it soon
+<a id='L118' name='L118'></a>    TestRepo.<a href='../D/1173.html' title='Multiple defined in 8 places.'>update_all</a> <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(u in <a href='../S/56.html#L102' title='Defined at 102 in deps/ecto/integration_test/cases/repo.exs.'>RAW</a>, where: u.id == ^cid), set: [counter: 11]
+<a id='L119' name='L119'></a>
+<a id='L120' name='L120'></a>    # Now, a combination of dirty tracking with read_after_writes,
+<a id='L121' name='L121'></a>    # allow us to see the actual counter value.
+<a id='L122' name='L122'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> = Ecto.Changeset.<a href='../D/331.html' title='Multiple defined in 58 places.'>cast</a>(raw, %<em class='brace'>{</em>"visits" =&gt; "0"<em class='brace'>}</em>, ~w(visits), ~w())
+<a id='L123' name='L123'></a>    assert %<em class='brace'>{</em>id: ^cid, counter: 11, visits: 0<em class='brace'>}</em> = TestRepo.update!(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>)
+<a id='L124' name='L124'></a>  end
+<a id='L125' name='L125'></a>
+<a id='L126' name='L126'></a>  test "insert autogenerates for custom type" <strong class='reserved'>do</strong>
+<a id='L127' name='L127'></a>    post = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>uuid: nil<em class='brace'>}</em>)
+<a id='L128' name='L128'></a>    assert byte_size(post.uuid) == 36
+<a id='L129' name='L129'></a>    assert TestRepo.<a href='../D/636.html' title='Multiple defined in 4 places.'>get_by</a>(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, uuid: post.uuid) == post
+<a id='L130' name='L130'></a>  end
+<a id='L131' name='L131'></a>
+<a id='L132' name='L132'></a>  @tag :id_type
+<a id='L133' name='L133'></a>  test "insert autogenerates for custom id type" <strong class='reserved'>do</strong>
+<a id='L134' name='L134'></a>    defmodule <a href='../R/29.html' title='Multiple referred from 2 places.'>ID</a> <strong class='reserved'>do</strong>
+<a id='L135' name='L135'></a>      use Ecto.Schema
+<a id='L136' name='L136'></a>
+<a id='L137' name='L137'></a>      @primary_key <em class='brace'>{</em>:id, Elixir.Custom.Permalink, autogenerate: true<em class='brace'>}</em>
+<a id='L138' name='L138'></a>      <a href='../S/130.html#L310' title='Defined at 310 in deps/ecto/lib/ecto/schema.ex.'>schema</a> "posts" <strong class='reserved'>do</strong>
+<a id='L139' name='L139'></a>      end
+<a id='L140' name='L140'></a>    end
+<a id='L141' name='L141'></a>
+<a id='L142' name='L142'></a>    id = TestRepo.insert!(<strong class='reserved'>struct</strong>(<a href='../S/56.html#L134' title='Defined at 134 in deps/ecto/integration_test/cases/repo.exs.'>ID</a>, id: nil))
+<a id='L143' name='L143'></a>    assert id.id
+<a id='L144' name='L144'></a>    assert TestRepo.<a href='../D/636.html' title='Multiple defined in 4 places.'>get_by</a>(<a href='../S/56.html#L134' title='Defined at 134 in deps/ecto/integration_test/cases/repo.exs.'>ID</a>, id: "#{id.id}-hello") == id
+<a id='L145' name='L145'></a>  end
+<a id='L146' name='L146'></a>
+<a id='L147' name='L147'></a>  @tag :id_type
+<a id='L148' name='L148'></a>  @tag :assigns_id_type
+<a id='L149' name='L149'></a>  test "insert with user-assigned primary key" <strong class='reserved'>do</strong>
+<a id='L150' name='L150'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: 1<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>id: 1<em class='brace'>}</em>)
+<a id='L151' name='L151'></a>  end
+<a id='L152' name='L152'></a>
+<a id='L153' name='L153'></a>  @tag :id_type
+<a id='L154' name='L154'></a>  @tag :assigns_id_type
+<a id='L155' name='L155'></a>  test "insert and update with user-assigned primary key in changeset" <strong class='reserved'>do</strong>
+<a id='L156' name='L156'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> = Ecto.Changeset.<a href='../D/331.html' title='Multiple defined in 58 places.'>cast</a>(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: 11<em class='brace'>}</em>, %<em class='brace'>{</em>"id" =&gt; "13"<em class='brace'>}</em>, ~w(id), ~w())
+<a id='L157' name='L157'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: 13<em class='brace'>}</em> = post = TestRepo.insert!(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>)
+<a id='L158' name='L158'></a>
+<a id='L159' name='L159'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> = Ecto.Changeset.<a href='../D/331.html' title='Multiple defined in 58 places.'>cast</a>(post, %<em class='brace'>{</em>"id" =&gt; "15"<em class='brace'>}</em>, ~w(id), ~w())
+<a id='L160' name='L160'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: 15<em class='brace'>}</em> = TestRepo.update!(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>)
+<a id='L161' name='L161'></a>  end
+<a id='L162' name='L162'></a>
+<a id='L163' name='L163'></a>  test "insert autogenerates for binary id type" <strong class='reserved'>do</strong>
+<a id='L164' name='L164'></a>    custom = TestRepo.insert!(%<a href='../S/66.html#L129' title='Defined at 129 in deps/ecto/integration_test/support/models.exs.'>Custom</a><em class='brace'>{</em>bid: nil<em class='brace'>}</em>)
+<a id='L165' name='L165'></a>    assert custom.bid
+<a id='L166' name='L166'></a>    assert TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(<a href='../S/66.html#L129' title='Defined at 129 in deps/ecto/integration_test/support/models.exs.'>Custom</a>, custom.bid)
+<a id='L167' name='L167'></a>    assert TestRepo.delete!(custom)
+<a id='L168' name='L168'></a>    refute TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(<a href='../S/66.html#L129' title='Defined at 129 in deps/ecto/integration_test/support/models.exs.'>Custom</a>, custom.bid)
+<a id='L169' name='L169'></a>  end
+<a id='L170' name='L170'></a>
+<a id='L171' name='L171'></a>  @tag :uses_usec
+<a id='L172' name='L172'></a>  test "insert and fetch a model with timestamps with usec" <strong class='reserved'>do</strong>
+<a id='L173' name='L173'></a>    p1 = TestRepo.insert!(%<a href='../S/66.html#L55' title='Defined at 55 in deps/ecto/integration_test/support/models.exs.'>PostUsecTimestamps</a><em class='brace'>{</em>title: "hello"<em class='brace'>}</em>)
+<a id='L174' name='L174'></a>    assert [p1] == TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../S/66.html#L55' title='Defined at 55 in deps/ecto/integration_test/support/models.exs.'>PostUsecTimestamps</a>)
+<a id='L175' name='L175'></a>  end
+<a id='L176' name='L176'></a>
+<a id='L177' name='L177'></a>  test "optimistic locking in update/delete operations" <strong class='reserved'>do</strong>
+<a id='L178' name='L178'></a>    import Ecto.Changeset, only: [cast: 4, optimistic_lock: 2]
+<a id='L179' name='L179'></a>    base_post = TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L180' name='L180'></a>
+<a id='L181' name='L181'></a>    cs_ok =
+<a id='L182' name='L182'></a>      base_post
+<a id='L183' name='L183'></a>      |&gt; <a href='../D/331.html' title='Multiple defined in 58 places.'>cast</a>(%<em class='brace'>{</em>"text" =&gt; "foo.bar"<em class='brace'>}</em>, ~w(text), ~w())
+<a id='L184' name='L184'></a>      |&gt; <a href='../D/837.html' title='Multiple defined in 2 places.'>optimistic_lock</a>(:lock_version)
+<a id='L185' name='L185'></a>    TestRepo.update!(cs_ok)
+<a id='L186' name='L186'></a>
+<a id='L187' name='L187'></a>    cs_stale = <a href='../D/837.html' title='Multiple defined in 2 places.'>optimistic_lock</a>(base_post, :lock_version)
+<a id='L188' name='L188'></a>    assert_raise Ecto.StaleModelError, fn -&gt; TestRepo.update!(cs_stale) end
+<a id='L189' name='L189'></a>    assert_raise Ecto.StaleModelError, fn -&gt; TestRepo.delete!(cs_stale) end
+<a id='L190' name='L190'></a>  end
+<a id='L191' name='L191'></a>
+<a id='L192' name='L192'></a>  @tag :unique_constraint
+<a id='L193' name='L193'></a>  test "unique constraint" <strong class='reserved'>do</strong>
+<a id='L194' name='L194'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> = Ecto.Changeset.<a href='../D/342.html' title='Multiple defined in 18 places.'>change</a>(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em><em class='brace'>}</em>, uuid: Ecto.UUID.<a href='../S/133.html#L89' title='Defined at 89 in deps/ecto/lib/ecto/uuid.ex.'>generate</a>())
+<a id='L195' name='L195'></a>    <em class='brace'>{</em>:ok, _<em class='brace'>}</em>  = TestRepo.<a href='../D/691.html' title='Multiple defined in 17 places.'>insert</a>(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>)
+<a id='L196' name='L196'></a>
+<a id='L197' name='L197'></a>    <a href='../D/578.html' title='Multiple defined in 17 places.'>exception</a> =
+<a id='L198' name='L198'></a>      assert_raise Ecto.ConstraintError, ~r/constraint error when attempting to insert model/, fn -&gt;
+<a id='L199' name='L199'></a>        <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>
+<a id='L200' name='L200'></a>        |&gt; TestRepo.<a href='../D/691.html' title='Multiple defined in 17 places.'>insert</a>()
+<a id='L201' name='L201'></a>      end
+<a id='L202' name='L202'></a>
+<a id='L203' name='L203'></a>    assert <a href='../D/578.html' title='Multiple defined in 17 places.'>exception</a>.<a href='../D/768.html' title='Multiple defined in 3 places.'>message</a> =~ "unique: posts_uuid_index"
+<a id='L204' name='L204'></a>    assert <a href='../D/578.html' title='Multiple defined in 17 places.'>exception</a>.<a href='../D/768.html' title='Multiple defined in 3 places.'>message</a> =~ "The changeset has not defined any constraint."
+<a id='L205' name='L205'></a>
+<a id='L206' name='L206'></a>    <a href='../D/768.html' title='Multiple defined in 3 places.'>message</a> = ~r/constraint error when attempting to insert model/
+<a id='L207' name='L207'></a>    <a href='../D/578.html' title='Multiple defined in 17 places.'>exception</a> =
+<a id='L208' name='L208'></a>      assert_raise Ecto.ConstraintError, <a href='../D/768.html' title='Multiple defined in 3 places.'>message</a>, fn -&gt;
+<a id='L209' name='L209'></a>        <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>
+<a id='L210' name='L210'></a>        |&gt; Ecto.Changeset.<a href='../S/85.html#L1580' title='Defined at 1580 in deps/ecto/lib/ecto/changeset.ex.'>unique_constraint</a>(:uuid, name: :posts_email_changeset)
+<a id='L211' name='L211'></a>        |&gt; TestRepo.<a href='../D/691.html' title='Multiple defined in 17 places.'>insert</a>()
+<a id='L212' name='L212'></a>      end
+<a id='L213' name='L213'></a>
+<a id='L214' name='L214'></a>    assert <a href='../D/578.html' title='Multiple defined in 17 places.'>exception</a>.<a href='../D/768.html' title='Multiple defined in 3 places.'>message</a> =~ "unique: posts_email_changeset"
+<a id='L215' name='L215'></a>
+<a id='L216' name='L216'></a>    <em class='brace'>{</em>:error, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a><em class='brace'>}</em> =
+<a id='L217' name='L217'></a>      <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>
+<a id='L218' name='L218'></a>      |&gt; Ecto.Changeset.<a href='../S/85.html#L1580' title='Defined at 1580 in deps/ecto/lib/ecto/changeset.ex.'>unique_constraint</a>(:uuid)
+<a id='L219' name='L219'></a>      |&gt; TestRepo.<a href='../D/691.html' title='Multiple defined in 17 places.'>insert</a>()
+<a id='L220' name='L220'></a>    assert <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.errors == [uuid: "has already been taken"]
+<a id='L221' name='L221'></a>    assert <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>.__meta__.<a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a> == :built
+<a id='L222' name='L222'></a>  end
+<a id='L223' name='L223'></a>
+<a id='L224' name='L224'></a>  @tag :id_type
+<a id='L225' name='L225'></a>  @tag :unique_constraint
+<a id='L226' name='L226'></a>  test "unique constraint with binary_id" <strong class='reserved'>do</strong>
+<a id='L227' name='L227'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> = Ecto.Changeset.<a href='../D/342.html' title='Multiple defined in 18 places.'>change</a>(%<a href='../S/66.html#L129' title='Defined at 129 in deps/ecto/integration_test/support/models.exs.'>Custom</a><em class='brace'>{</em><em class='brace'>}</em>, uuid: Ecto.UUID.<a href='../S/133.html#L89' title='Defined at 89 in deps/ecto/lib/ecto/uuid.ex.'>generate</a>())
+<a id='L228' name='L228'></a>    <em class='brace'>{</em>:ok, _<em class='brace'>}</em>  = TestRepo.<a href='../D/691.html' title='Multiple defined in 17 places.'>insert</a>(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>)
+<a id='L229' name='L229'></a>
+<a id='L230' name='L230'></a>    <em class='brace'>{</em>:error, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a><em class='brace'>}</em> =
+<a id='L231' name='L231'></a>      <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>
+<a id='L232' name='L232'></a>      |&gt; Ecto.Changeset.<a href='../S/85.html#L1580' title='Defined at 1580 in deps/ecto/lib/ecto/changeset.ex.'>unique_constraint</a>(:uuid)
+<a id='L233' name='L233'></a>      |&gt; TestRepo.<a href='../D/691.html' title='Multiple defined in 17 places.'>insert</a>()
+<a id='L234' name='L234'></a>    assert <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.errors == [uuid: "has already been taken"]
+<a id='L235' name='L235'></a>    assert <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>.__meta__.<a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a> == :built
+<a id='L236' name='L236'></a>  end
+<a id='L237' name='L237'></a>
+<a id='L238' name='L238'></a>  @tag :foreign_key_constraint
+<a id='L239' name='L239'></a>  test "foreign key constraint" <strong class='reserved'>do</strong>
+<a id='L240' name='L240'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> = Ecto.Changeset.<a href='../D/342.html' title='Multiple defined in 18 places.'>change</a>(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>post_id: 0<em class='brace'>}</em>)
+<a id='L241' name='L241'></a>
+<a id='L242' name='L242'></a>    <a href='../D/578.html' title='Multiple defined in 17 places.'>exception</a> =
+<a id='L243' name='L243'></a>      assert_raise Ecto.ConstraintError, ~r/constraint error when attempting to insert model/, fn -&gt;
+<a id='L244' name='L244'></a>        <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>
+<a id='L245' name='L245'></a>        |&gt; TestRepo.<a href='../D/691.html' title='Multiple defined in 17 places.'>insert</a>()
+<a id='L246' name='L246'></a>      end
+<a id='L247' name='L247'></a>
+<a id='L248' name='L248'></a>    assert <a href='../D/578.html' title='Multiple defined in 17 places.'>exception</a>.<a href='../D/768.html' title='Multiple defined in 3 places.'>message</a> =~ "foreign_key: comments_post_id_fkey"
+<a id='L249' name='L249'></a>    assert <a href='../D/578.html' title='Multiple defined in 17 places.'>exception</a>.<a href='../D/768.html' title='Multiple defined in 3 places.'>message</a> =~ "The changeset has not defined any constraint."
+<a id='L250' name='L250'></a>
+<a id='L251' name='L251'></a>    <a href='../D/768.html' title='Multiple defined in 3 places.'>message</a> = ~r/constraint error when attempting to insert model/
+<a id='L252' name='L252'></a>    <a href='../D/578.html' title='Multiple defined in 17 places.'>exception</a> =
+<a id='L253' name='L253'></a>      assert_raise Ecto.ConstraintError, <a href='../D/768.html' title='Multiple defined in 3 places.'>message</a>, fn -&gt;
+<a id='L254' name='L254'></a>        <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>
+<a id='L255' name='L255'></a>        |&gt; Ecto.Changeset.<a href='../S/85.html#L1627' title='Defined at 1627 in deps/ecto/lib/ecto/changeset.ex.'>foreign_key_constraint</a>(:post_id, name: :comments_post_id_other)
+<a id='L256' name='L256'></a>        |&gt; TestRepo.<a href='../D/691.html' title='Multiple defined in 17 places.'>insert</a>()
+<a id='L257' name='L257'></a>      end
+<a id='L258' name='L258'></a>
+<a id='L259' name='L259'></a>    assert <a href='../D/578.html' title='Multiple defined in 17 places.'>exception</a>.<a href='../D/768.html' title='Multiple defined in 3 places.'>message</a> =~ "foreign_key: comments_post_id_other"
+<a id='L260' name='L260'></a>
+<a id='L261' name='L261'></a>    <em class='brace'>{</em>:error, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a><em class='brace'>}</em> =
+<a id='L262' name='L262'></a>      <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>
+<a id='L263' name='L263'></a>      |&gt; Ecto.Changeset.<a href='../S/85.html#L1627' title='Defined at 1627 in deps/ecto/lib/ecto/changeset.ex.'>foreign_key_constraint</a>(:post_id)
+<a id='L264' name='L264'></a>      |&gt; TestRepo.<a href='../D/691.html' title='Multiple defined in 17 places.'>insert</a>()
+<a id='L265' name='L265'></a>    assert <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.errors == [post_id: "does not exist"]
+<a id='L266' name='L266'></a>  end
+<a id='L267' name='L267'></a>
+<a id='L268' name='L268'></a> @tag :foreign_key_constraint
+<a id='L269' name='L269'></a>  test "assoc constraint" <strong class='reserved'>do</strong>
+<a id='L270' name='L270'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> = Ecto.Changeset.<a href='../D/342.html' title='Multiple defined in 18 places.'>change</a>(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>post_id: 0<em class='brace'>}</em>)
+<a id='L271' name='L271'></a>
+<a id='L272' name='L272'></a>    <a href='../D/578.html' title='Multiple defined in 17 places.'>exception</a> =
+<a id='L273' name='L273'></a>      assert_raise Ecto.ConstraintError, ~r/constraint error when attempting to insert model/, fn -&gt;
+<a id='L274' name='L274'></a>        <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>
+<a id='L275' name='L275'></a>        |&gt; TestRepo.<a href='../D/691.html' title='Multiple defined in 17 places.'>insert</a>()
+<a id='L276' name='L276'></a>      end
+<a id='L277' name='L277'></a>
+<a id='L278' name='L278'></a>    assert <a href='../D/578.html' title='Multiple defined in 17 places.'>exception</a>.<a href='../D/768.html' title='Multiple defined in 3 places.'>message</a> =~ "foreign_key: comments_post_id_fkey"
+<a id='L279' name='L279'></a>    assert <a href='../D/578.html' title='Multiple defined in 17 places.'>exception</a>.<a href='../D/768.html' title='Multiple defined in 3 places.'>message</a> =~ "The changeset has not defined any constraint."
+<a id='L280' name='L280'></a>
+<a id='L281' name='L281'></a>    <a href='../D/768.html' title='Multiple defined in 3 places.'>message</a> = ~r/constraint error when attempting to insert model/
+<a id='L282' name='L282'></a>    <a href='../D/578.html' title='Multiple defined in 17 places.'>exception</a> =
+<a id='L283' name='L283'></a>      assert_raise Ecto.ConstraintError, <a href='../D/768.html' title='Multiple defined in 3 places.'>message</a>, fn -&gt;
+<a id='L284' name='L284'></a>        <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>
+<a id='L285' name='L285'></a>        |&gt; Ecto.Changeset.<a href='../S/85.html#L1667' title='Defined at 1667 in deps/ecto/lib/ecto/changeset.ex.'>assoc_constraint</a>(:post, name: :comments_post_id_other)
+<a id='L286' name='L286'></a>        |&gt; TestRepo.<a href='../D/691.html' title='Multiple defined in 17 places.'>insert</a>()
+<a id='L287' name='L287'></a>      end
+<a id='L288' name='L288'></a>
+<a id='L289' name='L289'></a>    assert <a href='../D/578.html' title='Multiple defined in 17 places.'>exception</a>.<a href='../D/768.html' title='Multiple defined in 3 places.'>message</a> =~ "foreign_key: comments_post_id_other"
+<a id='L290' name='L290'></a>
+<a id='L291' name='L291'></a>    <em class='brace'>{</em>:error, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a><em class='brace'>}</em> =
+<a id='L292' name='L292'></a>      <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>
+<a id='L293' name='L293'></a>      |&gt; Ecto.Changeset.<a href='../S/85.html#L1667' title='Defined at 1667 in deps/ecto/lib/ecto/changeset.ex.'>assoc_constraint</a>(:post)
+<a id='L294' name='L294'></a>      |&gt; TestRepo.<a href='../D/691.html' title='Multiple defined in 17 places.'>insert</a>()
+<a id='L295' name='L295'></a>    assert <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.errors == [post: "does not exist"]
+<a id='L296' name='L296'></a>  end
+<a id='L297' name='L297'></a>
+<a id='L298' name='L298'></a>  @tag :foreign_key_constraint
+<a id='L299' name='L299'></a>  test "no assoc constraint error" <strong class='reserved'>do</strong>
+<a id='L300' name='L300'></a>    <a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a> = TestRepo.insert!(%<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L301' name='L301'></a>    TestRepo.insert!(%<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>user_id: <a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a>.id<em class='brace'>}</em>)
+<a id='L302' name='L302'></a>
+<a id='L303' name='L303'></a>    <a href='../D/578.html' title='Multiple defined in 17 places.'>exception</a> =
+<a id='L304' name='L304'></a>      assert_raise Ecto.ConstraintError, ~r/constraint error when attempting to delete model/, fn -&gt;
+<a id='L305' name='L305'></a>        TestRepo.delete!(<a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a>)
+<a id='L306' name='L306'></a>      end
+<a id='L307' name='L307'></a>
+<a id='L308' name='L308'></a>    assert <a href='../D/578.html' title='Multiple defined in 17 places.'>exception</a>.<a href='../D/768.html' title='Multiple defined in 3 places.'>message</a> =~ "foreign_key: permalinks_user_id_fkey"
+<a id='L309' name='L309'></a>    assert <a href='../D/578.html' title='Multiple defined in 17 places.'>exception</a>.<a href='../D/768.html' title='Multiple defined in 3 places.'>message</a> =~ "The changeset has not defined any constraint."
+<a id='L310' name='L310'></a>  end
+<a id='L311' name='L311'></a>
+<a id='L312' name='L312'></a>  @tag :foreign_key_constraint
+<a id='L313' name='L313'></a>  test "no assoc constraint with changeset mismatch" <strong class='reserved'>do</strong>
+<a id='L314' name='L314'></a>    <a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a> = TestRepo.insert!(%<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L315' name='L315'></a>    TestRepo.insert!(%<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>user_id: <a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a>.id<em class='brace'>}</em>)
+<a id='L316' name='L316'></a>
+<a id='L317' name='L317'></a>    <a href='../D/768.html' title='Multiple defined in 3 places.'>message</a> = ~r/constraint error when attempting to delete model/
+<a id='L318' name='L318'></a>    <a href='../D/578.html' title='Multiple defined in 17 places.'>exception</a> =
+<a id='L319' name='L319'></a>      assert_raise Ecto.ConstraintError, <a href='../D/768.html' title='Multiple defined in 3 places.'>message</a>, fn -&gt;
+<a id='L320' name='L320'></a>        <a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a>
+<a id='L321' name='L321'></a>        |&gt; Ecto.Changeset.<a href='../D/342.html' title='Multiple defined in 18 places.'>change</a>
+<a id='L322' name='L322'></a>        |&gt; Ecto.Changeset.<a href='../S/85.html#L1716' title='Defined at 1716 in deps/ecto/lib/ecto/changeset.ex.'>no_assoc_constraint</a>(:permalinks, name: :permalinks_user_id_pther)
+<a id='L323' name='L323'></a>        |&gt; TestRepo.<a href='../D/444.html' title='Multiple defined in 10 places.'>delete</a>()
+<a id='L324' name='L324'></a>      end
+<a id='L325' name='L325'></a>
+<a id='L326' name='L326'></a>    assert <a href='../D/578.html' title='Multiple defined in 17 places.'>exception</a>.<a href='../D/768.html' title='Multiple defined in 3 places.'>message</a> =~ "foreign_key: permalinks_user_id_pther"
+<a id='L327' name='L327'></a>  end
+<a id='L328' name='L328'></a>
+<a id='L329' name='L329'></a>  @tag :foreign_key_constraint
+<a id='L330' name='L330'></a>  test "no assoc constraint with changeset match" <strong class='reserved'>do</strong>
+<a id='L331' name='L331'></a>    <a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a> = TestRepo.insert!(%<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L332' name='L332'></a>    TestRepo.insert!(%<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>user_id: <a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a>.id<em class='brace'>}</em>)
+<a id='L333' name='L333'></a>
+<a id='L334' name='L334'></a>    <em class='brace'>{</em>:error, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a><em class='brace'>}</em> =
+<a id='L335' name='L335'></a>      <a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a>
+<a id='L336' name='L336'></a>      |&gt; Ecto.Changeset.<a href='../D/342.html' title='Multiple defined in 18 places.'>change</a>
+<a id='L337' name='L337'></a>      |&gt; Ecto.Changeset.<a href='../S/85.html#L1716' title='Defined at 1716 in deps/ecto/lib/ecto/changeset.ex.'>no_assoc_constraint</a>(:permalinks)
+<a id='L338' name='L338'></a>      |&gt; TestRepo.<a href='../D/444.html' title='Multiple defined in 10 places.'>delete</a>()
+<a id='L339' name='L339'></a>    assert <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.errors == [permalinks: "are still associated to this entry"]
+<a id='L340' name='L340'></a>  end
+<a id='L341' name='L341'></a>
+<a id='L342' name='L342'></a>  test "get(!)" <strong class='reserved'>do</strong>
+<a id='L343' name='L343'></a>    post1 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1", text: "hai"<em class='brace'>}</em>)
+<a id='L344' name='L344'></a>    post2 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "2", text: "hai"<em class='brace'>}</em>)
+<a id='L345' name='L345'></a>
+<a id='L346' name='L346'></a>    assert post1 == TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, post1.id)
+<a id='L347' name='L347'></a>    assert post2 == TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, <a href='../D/1119.html' title='Multiple defined in 14 places.'>to_string</a> post2.id) # With casting
+<a id='L348' name='L348'></a>
+<a id='L349' name='L349'></a>    assert post1 == TestRepo.get!(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, post1.id)
+<a id='L350' name='L350'></a>    assert post2 == TestRepo.get!(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, <a href='../D/1119.html' title='Multiple defined in 14 places.'>to_string</a> post2.id) # With casting
+<a id='L351' name='L351'></a>
+<a id='L352' name='L352'></a>    TestRepo.delete!(post1)
+<a id='L353' name='L353'></a>
+<a id='L354' name='L354'></a>    assert nil   == TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, post1.id)
+<a id='L355' name='L355'></a>    assert_raise Ecto.NoResultsError, fn -&gt;
+<a id='L356' name='L356'></a>      TestRepo.get!(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, post1.id)
+<a id='L357' name='L357'></a>    end
+<a id='L358' name='L358'></a>  end
+<a id='L359' name='L359'></a>
+<a id='L360' name='L360'></a>  test "get(!) with custom source" <strong class='reserved'>do</strong>
+<a id='L361' name='L361'></a>    custom = <a href='../D/46.html' title='Multiple defined in 2 places.'>Ecto</a>.<a href='../S/134.html#L542' title='Defined at 542 in deps/ecto/lib/ecto.ex.'>put_meta</a>(%<a href='../S/66.html#L129' title='Defined at 129 in deps/ecto/integration_test/support/models.exs.'>Custom</a><em class='brace'>{</em><em class='brace'>}</em>, source: "posts")
+<a id='L362' name='L362'></a>    custom = TestRepo.insert!(custom)
+<a id='L363' name='L363'></a>    bid    = custom.bid
+<a id='L364' name='L364'></a>    assert %<a href='../S/66.html#L129' title='Defined at 129 in deps/ecto/integration_test/support/models.exs.'>Custom</a><em class='brace'>{</em>bid: ^bid, __meta__: %<em class='brace'>{</em>source: <em class='brace'>{</em>nil, "posts"<em class='brace'>}</em><em class='brace'>}</em><em class='brace'>}</em> =
+<a id='L365' name='L365'></a>           TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(c in <em class='brace'>{</em>"posts", <a href='../S/66.html#L129' title='Defined at 129 in deps/ecto/integration_test/support/models.exs.'>Custom</a><em class='brace'>}</em>), bid)
+<a id='L366' name='L366'></a>  end
+<a id='L367' name='L367'></a>
+<a id='L368' name='L368'></a>  test "get_by(!)" <strong class='reserved'>do</strong>
+<a id='L369' name='L369'></a>    post1 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1", text: "hai"<em class='brace'>}</em>)
+<a id='L370' name='L370'></a>    post2 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "2", text: "hello"<em class='brace'>}</em>)
+<a id='L371' name='L371'></a>
+<a id='L372' name='L372'></a>    assert post1 == TestRepo.<a href='../D/636.html' title='Multiple defined in 4 places.'>get_by</a>(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, id: post1.id)
+<a id='L373' name='L373'></a>    assert post1 == TestRepo.<a href='../D/636.html' title='Multiple defined in 4 places.'>get_by</a>(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, text: post1.text)
+<a id='L374' name='L374'></a>    assert post1 == TestRepo.<a href='../D/636.html' title='Multiple defined in 4 places.'>get_by</a>(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, id: post1.id, text: post1.text)
+<a id='L375' name='L375'></a>    assert post2 == TestRepo.<a href='../D/636.html' title='Multiple defined in 4 places.'>get_by</a>(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, id: <a href='../D/1119.html' title='Multiple defined in 14 places.'>to_string</a>(post2.id)) # With casting
+<a id='L376' name='L376'></a>    assert nil   == TestRepo.<a href='../D/636.html' title='Multiple defined in 4 places.'>get_by</a>(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, text: "hey")
+<a id='L377' name='L377'></a>    assert nil   == TestRepo.<a href='../D/636.html' title='Multiple defined in 4 places.'>get_by</a>(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, id: post2.id, text: "hey")
+<a id='L378' name='L378'></a>
+<a id='L379' name='L379'></a>    assert post1 == TestRepo.get_by!(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, id: post1.id)
+<a id='L380' name='L380'></a>    assert post1 == TestRepo.get_by!(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, text: post1.text)
+<a id='L381' name='L381'></a>    assert post1 == TestRepo.get_by!(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, id: post1.id, text: post1.text)
+<a id='L382' name='L382'></a>    assert post2 == TestRepo.get_by!(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, id: <a href='../D/1119.html' title='Multiple defined in 14 places.'>to_string</a>(post2.id)) # With casting
+<a id='L383' name='L383'></a>
+<a id='L384' name='L384'></a>    assert post1 == TestRepo.get_by!(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, %<em class='brace'>{</em>id: post1.id<em class='brace'>}</em>)
+<a id='L385' name='L385'></a>
+<a id='L386' name='L386'></a>    assert_raise Ecto.NoResultsError, fn -&gt;
+<a id='L387' name='L387'></a>      TestRepo.get_by!(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, id: post2.id, text: "hey")
+<a id='L388' name='L388'></a>    end
+<a id='L389' name='L389'></a>  end
+<a id='L390' name='L390'></a>
+<a id='L391' name='L391'></a>  test "one(!)" <strong class='reserved'>do</strong>
+<a id='L392' name='L392'></a>    post1 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1", text: "hai"<em class='brace'>}</em>)
+<a id='L393' name='L393'></a>    post2 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "2", text: "hai"<em class='brace'>}</em>)
+<a id='L394' name='L394'></a>
+<a id='L395' name='L395'></a>    assert post1 == TestRepo.<a href='../D/832.html' title='Multiple defined in 6 places.'>one</a>(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: p.id == ^post1.id)
+<a id='L396' name='L396'></a>    assert post2 == TestRepo.<a href='../D/832.html' title='Multiple defined in 6 places.'>one</a>(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: p.id == ^<a href='../D/1119.html' title='Multiple defined in 14 places.'>to_string</a> post2.id) # With casting
+<a id='L397' name='L397'></a>    assert nil   == TestRepo.<a href='../D/832.html' title='Multiple defined in 6 places.'>one</a>(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: <a href='../S/107.html#L100' title='Defined at 100 in deps/ecto/lib/ecto/query/api.ex.'>is_nil</a>(p.id))
+<a id='L398' name='L398'></a>
+<a id='L399' name='L399'></a>    assert post1 == TestRepo.one!(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: p.id == ^post1.id)
+<a id='L400' name='L400'></a>    assert post2 == TestRepo.one!(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: p.id == ^<a href='../D/1119.html' title='Multiple defined in 14 places.'>to_string</a> post2.id) # With casting
+<a id='L401' name='L401'></a>
+<a id='L402' name='L402'></a>    assert_raise Ecto.NoResultsError, fn -&gt;
+<a id='L403' name='L403'></a>      TestRepo.one!(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: <a href='../S/107.html#L100' title='Defined at 100 in deps/ecto/lib/ecto/query/api.ex.'>is_nil</a>(p.id))
+<a id='L404' name='L404'></a>    end
+<a id='L405' name='L405'></a>  end
+<a id='L406' name='L406'></a>
+<a id='L407' name='L407'></a>  test "one(!) with multiple results" <strong class='reserved'>do</strong>
+<a id='L408' name='L408'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "hai"<em class='brace'>}</em>)
+<a id='L409' name='L409'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "hai"<em class='brace'>}</em>)
+<a id='L410' name='L410'></a>
+<a id='L411' name='L411'></a>    assert_raise Ecto.MultipleResultsError, fn -&gt;
+<a id='L412' name='L412'></a>      TestRepo.<a href='../D/832.html' title='Multiple defined in 6 places.'>one</a>(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: p.title == "hai")
+<a id='L413' name='L413'></a>    end
+<a id='L414' name='L414'></a>
+<a id='L415' name='L415'></a>    assert_raise Ecto.MultipleResultsError, fn -&gt;
+<a id='L416' name='L416'></a>      TestRepo.one!(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: p.title == "hai")
+<a id='L417' name='L417'></a>    end
+<a id='L418' name='L418'></a>  end
+<a id='L419' name='L419'></a>
+<a id='L420' name='L420'></a>  test "update all" <strong class='reserved'>do</strong>
+<a id='L421' name='L421'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: id1<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L422' name='L422'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: id2<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L423' name='L423'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: id3<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "3"<em class='brace'>}</em>)
+<a id='L424' name='L424'></a>
+<a id='L425' name='L425'></a>    assert <em class='brace'>{</em>3, nil<em class='brace'>}</em> = TestRepo.<a href='../D/1173.html' title='Multiple defined in 8 places.'>update_all</a>(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, set: [title: "x"])
+<a id='L426' name='L426'></a>
+<a id='L427' name='L427'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "x"<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Post, id1)
+<a id='L428' name='L428'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "x"<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Post, id2)
+<a id='L429' name='L429'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "x"<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Post, id3)
+<a id='L430' name='L430'></a>
+<a id='L431' name='L431'></a>    assert <em class='brace'>{</em>3, nil<em class='brace'>}</em> = TestRepo.<a href='../D/1173.html' title='Multiple defined in 8 places.'>update_all</a>("posts", set: [title: nil])
+<a id='L432' name='L432'></a>
+<a id='L433' name='L433'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: nil<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Post, id1)
+<a id='L434' name='L434'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: nil<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Post, id2)
+<a id='L435' name='L435'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: nil<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Post, id3)
+<a id='L436' name='L436'></a>  end
+<a id='L437' name='L437'></a>
+<a id='L438' name='L438'></a>  test "update all with filter" <strong class='reserved'>do</strong>
+<a id='L439' name='L439'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: id1<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L440' name='L440'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: id2<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L441' name='L441'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: id3<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "3"<em class='brace'>}</em>)
+<a id='L442' name='L442'></a>
+<a id='L443' name='L443'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: p.title == "1" or p.title == "2",
+<a id='L444' name='L444'></a>                            update: [set: [text: ^"y"]])
+<a id='L445' name='L445'></a>    assert <em class='brace'>{</em>2, nil<em class='brace'>}</em> = TestRepo.<a href='../D/1173.html' title='Multiple defined in 8 places.'>update_all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, set: [title: "x"])
+<a id='L446' name='L446'></a>
+<a id='L447' name='L447'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "x", text: "y"<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Post, id1)
+<a id='L448' name='L448'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "x", text: "y"<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Post, id2)
+<a id='L449' name='L449'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "3", text: nil<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Post, id3)
+<a id='L450' name='L450'></a>  end
+<a id='L451' name='L451'></a>
+<a id='L452' name='L452'></a>  test "update all no entries" <strong class='reserved'>do</strong>
+<a id='L453' name='L453'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: id1<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L454' name='L454'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: id2<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L455' name='L455'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: id3<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "3"<em class='brace'>}</em>)
+<a id='L456' name='L456'></a>
+<a id='L457' name='L457'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: p.title == "4")
+<a id='L458' name='L458'></a>    assert <em class='brace'>{</em>0, nil<em class='brace'>}</em> = TestRepo.<a href='../D/1173.html' title='Multiple defined in 8 places.'>update_all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, set: [title: "x"])
+<a id='L459' name='L459'></a>
+<a id='L460' name='L460'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Post, id1)
+<a id='L461' name='L461'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "2"<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Post, id2)
+<a id='L462' name='L462'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "3"<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Post, id3)
+<a id='L463' name='L463'></a>  end
+<a id='L464' name='L464'></a>
+<a id='L465' name='L465'></a>  test "update all increment syntax" <strong class='reserved'>do</strong>
+<a id='L466' name='L466'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: id1<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "1", visits: 0<em class='brace'>}</em>)
+<a id='L467' name='L467'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: id2<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "2", visits: 1<em class='brace'>}</em>)
+<a id='L468' name='L468'></a>
+<a id='L469' name='L469'></a>    # Positive
+<a id='L470' name='L470'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: not <a href='../S/107.html#L100' title='Defined at 100 in deps/ecto/lib/ecto/query/api.ex.'>is_nil</a>(p.id), update: [inc: [visits: 2]]
+<a id='L471' name='L471'></a>    assert <em class='brace'>{</em>2, nil<em class='brace'>}</em> = TestRepo.<a href='../D/1173.html' title='Multiple defined in 8 places.'>update_all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, [])
+<a id='L472' name='L472'></a>
+<a id='L473' name='L473'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>visits: 2<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Post, id1)
+<a id='L474' name='L474'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>visits: 3<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Post, id2)
+<a id='L475' name='L475'></a>
+<a id='L476' name='L476'></a>    # Negative
+<a id='L477' name='L477'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: not <a href='../S/107.html#L100' title='Defined at 100 in deps/ecto/lib/ecto/query/api.ex.'>is_nil</a>(p.id), update: [inc: [visits: -1]]
+<a id='L478' name='L478'></a>    assert <em class='brace'>{</em>2, nil<em class='brace'>}</em> = TestRepo.<a href='../D/1173.html' title='Multiple defined in 8 places.'>update_all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, [])
+<a id='L479' name='L479'></a>
+<a id='L480' name='L480'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>visits: 1<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Post, id1)
+<a id='L481' name='L481'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>visits: 2<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Post, id2)
+<a id='L482' name='L482'></a>  end
+<a id='L483' name='L483'></a>
+<a id='L484' name='L484'></a>  @tag :id_type
+<a id='L485' name='L485'></a>  test "update all with casting and dumping on id type field" <strong class='reserved'>do</strong>
+<a id='L486' name='L486'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: id1<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L487' name='L487'></a>    assert <em class='brace'>{</em>1, nil<em class='brace'>}</em> = TestRepo.<a href='../D/1173.html' title='Multiple defined in 8 places.'>update_all</a>(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, set: [counter: <a href='../D/1119.html' title='Multiple defined in 14 places.'>to_string</a>(id1)])
+<a id='L488' name='L488'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>counter: ^id1<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Post, id1)
+<a id='L489' name='L489'></a>  end
+<a id='L490' name='L490'></a>
+<a id='L491' name='L491'></a>  test "update all with casting and dumping" <strong class='reserved'>do</strong>
+<a id='L492' name='L492'></a>    text = "hai"
+<a id='L493' name='L493'></a>    date = Ecto.DateTime.<a href='../D/1185.html' title='Multiple defined in 5 places.'>utc</a>
+<a id='L494' name='L494'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: id1<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L495' name='L495'></a>
+<a id='L496' name='L496'></a>    assert <em class='brace'>{</em>1, nil<em class='brace'>}</em> = TestRepo.<a href='../D/1173.html' title='Multiple defined in 8 places.'>update_all</a>(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, set: [text: text, inserted_at: date])
+<a id='L497' name='L497'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>text: "hai", inserted_at: ^date<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Post, id1)
+<a id='L498' name='L498'></a>  end
+<a id='L499' name='L499'></a>
+<a id='L500' name='L500'></a>  test "delete all" <strong class='reserved'>do</strong>
+<a id='L501' name='L501'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "1", text: "hai"<em class='brace'>}</em>)
+<a id='L502' name='L502'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "2", text: "hai"<em class='brace'>}</em>)
+<a id='L503' name='L503'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "3", text: "hai"<em class='brace'>}</em>)
+<a id='L504' name='L504'></a>
+<a id='L505' name='L505'></a>    assert <em class='brace'>{</em>3, nil<em class='brace'>}</em> = TestRepo.<a href='../D/446.html' title='Multiple defined in 6 places.'>delete_all</a>(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>)
+<a id='L506' name='L506'></a>    assert [] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>)
+<a id='L507' name='L507'></a>  end
+<a id='L508' name='L508'></a>
+<a id='L509' name='L509'></a>  test "delete all with filter" <strong class='reserved'>do</strong>
+<a id='L510' name='L510'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "1", text: "hai"<em class='brace'>}</em>)
+<a id='L511' name='L511'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "2", text: "hai"<em class='brace'>}</em>)
+<a id='L512' name='L512'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "3", text: "hai"<em class='brace'>}</em>)
+<a id='L513' name='L513'></a>
+<a id='L514' name='L514'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: p.title == "1" or p.title == "2")
+<a id='L515' name='L515'></a>    assert <em class='brace'>{</em>2, nil<em class='brace'>}</em> = TestRepo.<a href='../D/446.html' title='Multiple defined in 6 places.'>delete_all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L516' name='L516'></a>    assert [%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em><em class='brace'>}</em>] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(Post)
+<a id='L517' name='L517'></a>  end
+<a id='L518' name='L518'></a>
+<a id='L519' name='L519'></a>  test "delete all no entries" <strong class='reserved'>do</strong>
+<a id='L520' name='L520'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: id1<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "1", text: "hai"<em class='brace'>}</em>)
+<a id='L521' name='L521'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: id2<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "2", text: "hai"<em class='brace'>}</em>)
+<a id='L522' name='L522'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: id3<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "3", text: "hai"<em class='brace'>}</em>)
+<a id='L523' name='L523'></a>
+<a id='L524' name='L524'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: p.title == "4")
+<a id='L525' name='L525'></a>    assert <em class='brace'>{</em>0, nil<em class='brace'>}</em> = TestRepo.<a href='../D/446.html' title='Multiple defined in 6 places.'>delete_all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L526' name='L526'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Post, id1)
+<a id='L527' name='L527'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "2"<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Post, id2)
+<a id='L528' name='L528'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "3"<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Post, id3)
+<a id='L529' name='L529'></a>  end
+<a id='L530' name='L530'></a>
+<a id='L531' name='L531'></a>  test "virtual field" <strong class='reserved'>do</strong>
+<a id='L532' name='L532'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: id<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "1", text: "hai"<em class='brace'>}</em>)
+<a id='L533' name='L533'></a>    assert TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, id).temp == "temp"
+<a id='L534' name='L534'></a>  end
+<a id='L535' name='L535'></a>
+<a id='L536' name='L536'></a><em class='sharp'>  #</em># Assocs
+<a id='L537' name='L537'></a>
+<a id='L538' name='L538'></a>  test "has_many assoc" <strong class='reserved'>do</strong>
+<a id='L539' name='L539'></a>    p1 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L540' name='L540'></a>    p2 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L541' name='L541'></a>
+<a id='L542' name='L542'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid1<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "1", post_id: p1.id<em class='brace'>}</em>)
+<a id='L543' name='L543'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid2<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "2", post_id: p1.id<em class='brace'>}</em>)
+<a id='L544' name='L544'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid3<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "3", post_id: p2.id<em class='brace'>}</em>)
+<a id='L545' name='L545'></a>
+<a id='L546' name='L546'></a>    [c1, c2] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a> <a href='../D/46.html' title='Multiple defined in 2 places.'>Ecto</a>.<a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(p1, :comments)
+<a id='L547' name='L547'></a>    assert c1.id == cid1
+<a id='L548' name='L548'></a>    assert c2.id == cid2
+<a id='L549' name='L549'></a>
+<a id='L550' name='L550'></a>    [c1, c2, c3] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a> <a href='../D/46.html' title='Multiple defined in 2 places.'>Ecto</a>.<a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>([p1, p2], :comments)
+<a id='L551' name='L551'></a>    assert c1.id == cid1
+<a id='L552' name='L552'></a>    assert c2.id == cid2
+<a id='L553' name='L553'></a>    assert c3.id == cid3
+<a id='L554' name='L554'></a>  end
+<a id='L555' name='L555'></a>
+<a id='L556' name='L556'></a>  test "has_one assoc" <strong class='reserved'>do</strong>
+<a id='L557' name='L557'></a>    p1 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L558' name='L558'></a>    p2 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L559' name='L559'></a>
+<a id='L560' name='L560'></a>    %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>id: lid1<em class='brace'>}</em> = TestRepo.insert!(%Permalink<em class='brace'>{</em>url: "1", post_id: p1.id<em class='brace'>}</em>)
+<a id='L561' name='L561'></a>    %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em><em class='brace'>}</em>         = TestRepo.insert!(%Permalink<em class='brace'>{</em>url: "2"<em class='brace'>}</em>)
+<a id='L562' name='L562'></a>    %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>id: lid3<em class='brace'>}</em> = TestRepo.insert!(%Permalink<em class='brace'>{</em>url: "3", post_id: p2.id<em class='brace'>}</em>)
+<a id='L563' name='L563'></a>
+<a id='L564' name='L564'></a>    [l1, l3] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a> <a href='../D/46.html' title='Multiple defined in 2 places.'>Ecto</a>.<a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>([p1, p2], :permalink)
+<a id='L565' name='L565'></a>    assert l1.id == lid1
+<a id='L566' name='L566'></a>    assert l3.id == lid3
+<a id='L567' name='L567'></a>  end
+<a id='L568' name='L568'></a>
+<a id='L569' name='L569'></a>  test "belongs_to assoc" <strong class='reserved'>do</strong>
+<a id='L570' name='L570'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid1<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L571' name='L571'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid2<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L572' name='L572'></a>
+<a id='L573' name='L573'></a>    l1 = TestRepo.insert!(%<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>url: "1", post_id: pid1<em class='brace'>}</em>)
+<a id='L574' name='L574'></a>    l2 = TestRepo.insert!(%<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>url: "2"<em class='brace'>}</em>)
+<a id='L575' name='L575'></a>    l3 = TestRepo.insert!(%<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>url: "3", post_id: pid2<em class='brace'>}</em>)
+<a id='L576' name='L576'></a>
+<a id='L577' name='L577'></a>    assert [p1, p2] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a> <a href='../D/46.html' title='Multiple defined in 2 places.'>Ecto</a>.<a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>([l1, l2, l3], :post)
+<a id='L578' name='L578'></a>    assert p1.id == pid1
+<a id='L579' name='L579'></a>    assert p2.id == pid2
+<a id='L580' name='L580'></a>  end
+<a id='L581' name='L581'></a>
+<a id='L582' name='L582'></a>  test "has_one nested assoc" <strong class='reserved'>do</strong>
+<a id='L583' name='L583'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> =
+<a id='L584' name='L584'></a>      %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>
+<a id='L585' name='L585'></a>      |&gt; Ecto.Changeset.<a href='../D/342.html' title='Multiple defined in 18 places.'>change</a>
+<a id='L586' name='L586'></a>      |&gt; Ecto.Changeset.<a href='../S/85.html#L913' title='Defined at 913 in deps/ecto/lib/ecto/changeset.ex.'>put_assoc</a>(:permalink, %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>url: "1"<em class='brace'>}</em>)
+<a id='L587' name='L587'></a>    p1 = TestRepo.insert!(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>)
+<a id='L588' name='L588'></a>    assert p1.permalink.id
+<a id='L589' name='L589'></a>    assert p1.permalink.post_id == p1.id
+<a id='L590' name='L590'></a>    assert p1.permalink.url == "1"
+<a id='L591' name='L591'></a>    p1 = TestRepo.get!(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, preload: [:permalink]), p1.id)
+<a id='L592' name='L592'></a>    assert p1.permalink.url == "1"
+<a id='L593' name='L593'></a>
+<a id='L594' name='L594'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> =
+<a id='L595' name='L595'></a>      p1
+<a id='L596' name='L596'></a>      |&gt; Ecto.Changeset.<a href='../D/342.html' title='Multiple defined in 18 places.'>change</a>
+<a id='L597' name='L597'></a>      |&gt; Ecto.Changeset.<a href='../S/85.html#L913' title='Defined at 913 in deps/ecto/lib/ecto/changeset.ex.'>put_assoc</a>(:permalink, %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>url: "2"<em class='brace'>}</em>)
+<a id='L598' name='L598'></a>    p1 = TestRepo.update!(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>)
+<a id='L599' name='L599'></a>    assert p1.permalink.id
+<a id='L600' name='L600'></a>    assert p1.permalink.post_id == p1.id
+<a id='L601' name='L601'></a>    assert p1.permalink.url == "2"
+<a id='L602' name='L602'></a>    p1 = TestRepo.get!(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, preload: [:permalink]), p1.id)
+<a id='L603' name='L603'></a>    assert p1.permalink.url == "2"
+<a id='L604' name='L604'></a>
+<a id='L605' name='L605'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> =
+<a id='L606' name='L606'></a>      p1
+<a id='L607' name='L607'></a>      |&gt; Ecto.Changeset.<a href='../D/342.html' title='Multiple defined in 18 places.'>change</a>
+<a id='L608' name='L608'></a>      |&gt; Ecto.Changeset.<a href='../S/85.html#L913' title='Defined at 913 in deps/ecto/lib/ecto/changeset.ex.'>put_assoc</a>(:permalink, nil)
+<a id='L609' name='L609'></a>    p1 = TestRepo.update!(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>)
+<a id='L610' name='L610'></a>    refute p1.permalink
+<a id='L611' name='L611'></a>    p1 = TestRepo.get!(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, preload: [:permalink]), p1.id)
+<a id='L612' name='L612'></a>    refute p1.permalink
+<a id='L613' name='L613'></a>
+<a id='L614' name='L614'></a>    assert [0] == TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a>, select: <a href='../D/394.html' title='Multiple defined in 2 places.'>count</a>(p.id)))
+<a id='L615' name='L615'></a>  end
+<a id='L616' name='L616'></a>
+<a id='L617' name='L617'></a>  test "has_many nested assoc" <strong class='reserved'>do</strong>
+<a id='L618' name='L618'></a>    c1 = %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "1"<em class='brace'>}</em>
+<a id='L619' name='L619'></a>    c2 = %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "2"<em class='brace'>}</em>
+<a id='L620' name='L620'></a>
+<a id='L621' name='L621'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> =
+<a id='L622' name='L622'></a>      %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>
+<a id='L623' name='L623'></a>      |&gt; Ecto.Changeset.<a href='../D/342.html' title='Multiple defined in 18 places.'>change</a>
+<a id='L624' name='L624'></a>      |&gt; Ecto.Changeset.<a href='../S/85.html#L913' title='Defined at 913 in deps/ecto/lib/ecto/changeset.ex.'>put_assoc</a>(:comments, [c1])
+<a id='L625' name='L625'></a>    p1 = TestRepo.insert!(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>)
+<a id='L626' name='L626'></a>    [c1] = p1.comments
+<a id='L627' name='L627'></a>    assert c1.id
+<a id='L628' name='L628'></a>    assert c1.post_id == p1.id
+<a id='L629' name='L629'></a>    p1 = TestRepo.get!(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, preload: [:comments]), p1.id)
+<a id='L630' name='L630'></a>    [c1] = p1.comments
+<a id='L631' name='L631'></a>    assert c1.text == "1"
+<a id='L632' name='L632'></a>
+<a id='L633' name='L633'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> =
+<a id='L634' name='L634'></a>      p1
+<a id='L635' name='L635'></a>      |&gt; Ecto.Changeset.<a href='../D/342.html' title='Multiple defined in 18 places.'>change</a>
+<a id='L636' name='L636'></a>      |&gt; Ecto.Changeset.<a href='../S/85.html#L913' title='Defined at 913 in deps/ecto/lib/ecto/changeset.ex.'>put_assoc</a>(:comments, [c1, c2])
+<a id='L637' name='L637'></a>    p1 = TestRepo.update!(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>)
+<a id='L638' name='L638'></a>    [_c1, c2] = p1.comments |&gt; Enum.sort_by(&amp;(&amp;1.id))
+<a id='L639' name='L639'></a>    assert c2.id
+<a id='L640' name='L640'></a>    assert c2.post_id == p1.id
+<a id='L641' name='L641'></a>    p1 = TestRepo.get!(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, preload: [:comments]), p1.id)
+<a id='L642' name='L642'></a>    [c1, c2] = p1.comments |&gt; Enum.sort_by(&amp;(&amp;1.id))
+<a id='L643' name='L643'></a>    assert c1.text == "1"
+<a id='L644' name='L644'></a>    assert c2.text == "2"
+<a id='L645' name='L645'></a>
+<a id='L646' name='L646'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> =
+<a id='L647' name='L647'></a>      p1
+<a id='L648' name='L648'></a>      |&gt; Ecto.Changeset.<a href='../D/342.html' title='Multiple defined in 18 places.'>change</a>
+<a id='L649' name='L649'></a>      |&gt; Ecto.Changeset.<a href='../S/85.html#L913' title='Defined at 913 in deps/ecto/lib/ecto/changeset.ex.'>put_assoc</a>(:comments, [])
+<a id='L650' name='L650'></a>    p1 = TestRepo.update!(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>)
+<a id='L651' name='L651'></a>    assert p1.comments == []
+<a id='L652' name='L652'></a>    p1 = TestRepo.get!(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, preload: [:comments]), p1.id)
+<a id='L653' name='L653'></a>    assert p1.comments == []
+<a id='L654' name='L654'></a>
+<a id='L655' name='L655'></a>    assert [0] == TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(c in <a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a>, select: <a href='../D/394.html' title='Multiple defined in 2 places.'>count</a>(c.id)))
+<a id='L656' name='L656'></a>  end
+<a id='L657' name='L657'></a>
+<a id='L658' name='L658'></a>  @tag :unique_constraint
+<a id='L659' name='L659'></a>  test "has_many assoc with constraints" <strong class='reserved'>do</strong>
+<a id='L660' name='L660'></a>    author = TestRepo.insert!(%<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>name: "john doe"<em class='brace'>}</em>)
+<a id='L661' name='L661'></a>    p1 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "hello", author_id: author.id<em class='brace'>}</em>)
+<a id='L662' name='L662'></a>    TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "world", author_id: author.id<em class='brace'>}</em>)
+<a id='L663' name='L663'></a>
+<a id='L664' name='L664'></a>    # Asserts that `unique_constraint` <strong class='reserved'>for</strong> `uuid` exists
+<a id='L665' name='L665'></a>    assert_raise Ecto.ConstraintError, fn -&gt;
+<a id='L666' name='L666'></a>      TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "another", author_id: author.id, uuid: p1.uuid<em class='brace'>}</em>)
+<a id='L667' name='L667'></a>    end
+<a id='L668' name='L668'></a>
+<a id='L669' name='L669'></a>    author = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a> author, [:posts]
+<a id='L670' name='L670'></a>    posts_params = Enum.map author.posts, fn %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>uuid: u<em class='brace'>}</em> -&gt;
+<a id='L671' name='L671'></a>      %<em class='brace'>{</em>"uuid": u, "title": "fresh"<em class='brace'>}</em>
+<a id='L672' name='L672'></a>    end
+<a id='L673' name='L673'></a>
+<a id='L674' name='L674'></a>    # This will only work <strong class='reserved'>if</strong> we delete before performing inserts
+<a id='L675' name='L675'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> =
+<a id='L676' name='L676'></a>      author
+<a id='L677' name='L677'></a>      |&gt; Ecto.Changeset.<a href='../D/331.html' title='Multiple defined in 58 places.'>cast</a>(%<em class='brace'>{</em>"posts" =&gt; posts_params<em class='brace'>}</em>, ~w())
+<a id='L678' name='L678'></a>      |&gt; Ecto.Changeset.<a href='../S/85.html#L535' title='Defined at 535 in deps/ecto/lib/ecto/changeset.ex.'>cast_assoc</a>(:posts)
+<a id='L679' name='L679'></a>    author = TestRepo.update! <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>
+<a id='L680' name='L680'></a>    assert Enum.map(author.posts, &amp;(&amp;1.title)) == ["fresh", "fresh"]
+<a id='L681' name='L681'></a>  end
+<a id='L682' name='L682'></a>
+<a id='L683' name='L683'></a>  @tag :transaction
+<a id='L684' name='L684'></a>  test "rollbacks failed nested assocs" <strong class='reserved'>do</strong>
+<a id='L685' name='L685'></a>    permalink_changeset = %<em class='brace'>{</em>Ecto.Changeset.<a href='../D/342.html' title='Multiple defined in 18 places.'>change</a>(%<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>url: "1"<em class='brace'>}</em>) | valid?: false<em class='brace'>}</em>
+<a id='L686' name='L686'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> =
+<a id='L687' name='L687'></a>      %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>
+<a id='L688' name='L688'></a>      |&gt; Ecto.Changeset.<a href='../D/342.html' title='Multiple defined in 18 places.'>change</a>
+<a id='L689' name='L689'></a>      |&gt; Ecto.Changeset.<a href='../S/85.html#L913' title='Defined at 913 in deps/ecto/lib/ecto/changeset.ex.'>put_assoc</a>(:permalink, permalink_changeset)
+<a id='L690' name='L690'></a>    assert <em class='brace'>{</em>:error, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a><em class='brace'>}</em> = TestRepo.<a href='../D/691.html' title='Multiple defined in 17 places.'>insert</a>(changeset)
+<a id='L691' name='L691'></a>    assert <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>.__struct__ == <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>
+<a id='L692' name='L692'></a>    refute <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.valid?
+<a id='L693' name='L693'></a>    assert [0] == TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, select: <a href='../D/394.html' title='Multiple defined in 2 places.'>count</a>(p.id)))
+<a id='L694' name='L694'></a>    assert [0] == TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a>, select: <a href='../D/394.html' title='Multiple defined in 2 places.'>count</a>(p.id)))
+<a id='L695' name='L695'></a>  end
+<a id='L696' name='L696'></a>
+<a id='L697' name='L697'></a><em class='sharp'>  #</em># Dependent
+<a id='L698' name='L698'></a>
+<a id='L699' name='L699'></a>  test "has_many assoc on delete deletes all" <strong class='reserved'>do</strong>
+<a id='L700' name='L700'></a>    post = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L701' name='L701'></a>    TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>post_id: post.id<em class='brace'>}</em>)
+<a id='L702' name='L702'></a>    TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>post_id: post.id<em class='brace'>}</em>)
+<a id='L703' name='L703'></a>    TestRepo.delete!(post)
+<a id='L704' name='L704'></a>
+<a id='L705' name='L705'></a>    assert TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a>) == []
+<a id='L706' name='L706'></a>    refute Process.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a>)
+<a id='L707' name='L707'></a>  end
+<a id='L708' name='L708'></a>
+<a id='L709' name='L709'></a>  test "has_many assoc on delete nilifies all" <strong class='reserved'>do</strong>
+<a id='L710' name='L710'></a>    <a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a> = TestRepo.insert!(%<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L711' name='L711'></a>    TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>author_id: <a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a>.id<em class='brace'>}</em>)
+<a id='L712' name='L712'></a>    TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>author_id: <a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a>.id<em class='brace'>}</em>)
+<a id='L713' name='L713'></a>    TestRepo.delete!(<a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a>)
+<a id='L714' name='L714'></a>
+<a id='L715' name='L715'></a>    author_ids = <a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a> |&gt; TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>() |&gt; Enum.map(fn(<a href='../D/373.html' title='Multiple defined in 2 places.'>comment</a>) -&gt; comment.author_id end)
+<a id='L716' name='L716'></a>
+<a id='L717' name='L717'></a>    assert author_ids == [nil, nil]
+<a id='L718' name='L718'></a>    refute Process.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a>)
+<a id='L719' name='L719'></a>  end
+<a id='L720' name='L720'></a>
+<a id='L721' name='L721'></a>  test "has_many assoc on delete does nothing" <strong class='reserved'>do</strong>
+<a id='L722' name='L722'></a>    <a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a> = TestRepo.insert!(%<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L723' name='L723'></a>    TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>author_id: <a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a>.id<em class='brace'>}</em>)
+<a id='L724' name='L724'></a>
+<a id='L725' name='L725'></a>    TestRepo.delete!(<a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a>)
+<a id='L726' name='L726'></a>    assert Enum.<a href='../D/394.html' title='Multiple defined in 2 places.'>count</a>(TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>)) == 1
+<a id='L727' name='L727'></a>  end
+<a id='L728' name='L728'></a>
+<a id='L729' name='L729'></a>  test "count distinct" <strong class='reserved'>do</strong>
+<a id='L730' name='L730'></a>    TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L731' name='L731'></a>    TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L732' name='L732'></a>    TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L733' name='L733'></a>
+<a id='L734' name='L734'></a>    assert [3] == <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a> |&gt; <a href='../D/1031.html' title='Multiple defined in 4 places.'>select</a>([p], <a href='../D/394.html' title='Multiple defined in 2 places.'>count</a>(p.title)) |&gt; TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>
+<a id='L735' name='L735'></a>    assert [2] == <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a> |&gt; <a href='../D/1031.html' title='Multiple defined in 4 places.'>select</a>([p], <a href='../D/394.html' title='Multiple defined in 2 places.'>count</a>(p.title, :distinct)) |&gt; TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>
+<a id='L736' name='L736'></a>  end
+<a id='L737' name='L737'></a>
+<a id='L738' name='L738'></a>  test "keyword where" <strong class='reserved'>do</strong>
+<a id='L739' name='L739'></a>    post1 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>text: "x", title: "hello"  <em class='brace'>}</em>)
+<a id='L740' name='L740'></a>    post2 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>text: "y", title: "goodbye"<em class='brace'>}</em>)
+<a id='L741' name='L741'></a>
+<a id='L742' name='L742'></a>    assert [post1, post2] == <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a> |&gt; <a href='../D/1205.html' title='Multiple defined in 4 places.'>where</a>([], []) |&gt; TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>
+<a id='L743' name='L743'></a>    assert [post1]        == <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a> |&gt; <a href='../D/1205.html' title='Multiple defined in 4 places.'>where</a>([], [title: "hello"]) |&gt; TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>
+<a id='L744' name='L744'></a>    assert [post1]        == <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a> |&gt; <a href='../D/1205.html' title='Multiple defined in 4 places.'>where</a>([], [title: "hello", id: ^post1.id]) |&gt; TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>
+<a id='L745' name='L745'></a>
+<a id='L746' name='L746'></a>    params0 = []
+<a id='L747' name='L747'></a>    params1 = [title: "hello"]
+<a id='L748' name='L748'></a>    params2 = [title: "hello", id: post1.id]
+<a id='L749' name='L749'></a>    assert [post1, post2]  == (<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: ^params0) |&gt; TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>
+<a id='L750' name='L750'></a>    assert [post1]         == (<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: ^params1) |&gt; TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>
+<a id='L751' name='L751'></a>    assert [post1]         == (<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: ^params2) |&gt; TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>
+<a id='L752' name='L752'></a>
+<a id='L753' name='L753'></a>    post3 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>text: "y", title: "goodbye", uuid: nil<em class='brace'>}</em>)
+<a id='L754' name='L754'></a>    params3 = [title: "goodbye", uuid: post3.uuid]
+<a id='L755' name='L755'></a>    assert [post3]         == (<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: ^params3) |&gt; TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>
+<a id='L756' name='L756'></a>  end
+<a id='L757' name='L757'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L342'>[^]</a><a href='#L407'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

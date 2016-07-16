@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>handle_call</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/17.html#L56'>handle_call</a>        56 deps/connection/lib/connection.ex def handle_call(_, _, %{sock: nil} = s) do</span>
+<span class='curline'><a href='../S/17.html#L60'>handle_call</a>        60 deps/connection/lib/connection.ex def handle_call({:send, data}, _, %{sock: sock} = s) do</span>
+<span class='curline'><a href='../S/17.html#L68'>handle_call</a>        68 deps/connection/lib/connection.ex def handle_call({:recv, bytes, timeout}, _, %{sock: sock} = s) do</span>
+<span class='curline'><a href='../S/17.html#L78'>handle_call</a>        78 deps/connection/lib/connection.ex def handle_call(:close, from, s) do</span>
+<span class='curline'><a href='../S/17.html#L240'>handle_call</a>       240 deps/connection/lib/connection.ex defcallback handle_call(any, {pid, any}, any) ::</span>
+<span class='curline'><a href='../S/17.html#L304'>handle_call</a>       304 deps/connection/lib/connection.ex def handle_call(msg, _from, state) do</span>
+<span class='curline'><a href='../S/17.html#L487'>handle_call</a>       487 deps/connection/lib/connection.ex def handle_call(request, from, %{mod: mod, mod_state: mod_state} = s) do</span>
+<span class='curline'><a href='../S/23.html#L164'>handle_call</a>       164 deps/db_connection/lib/db_connection/connection.ex def handle_call({:checkout, ref, queue?, timeout}, {pid, _} = from, s) do</span>
+<span class='curline'><a href='../S/23.html#L184'>handle_call</a>       184 deps/db_connection/lib/db_connection/connection.ex def handle_call({:stop, ref, _, _} = stop, from, %{client: {ref, _}} = s) do</span>
+<span class='curline'><a href='../S/23.html#L188'>handle_call</a>       188 deps/db_connection/lib/db_connection/connection.ex def handle_call({:stop, _, _, _}, _, s) do</span>
+<span class='curline'><a href='../S/26.html#L86'>handle_call</a>        86 deps/db_connection/lib/db_connection/ownership/manager.ex def handle_call({:mode, {:shared, pid}}, _from, %{mode: {:shared, current}} = state) do</span>
+<span class='curline'><a href='../S/26.html#L96'>handle_call</a>        96 deps/db_connection/lib/db_connection/ownership/manager.ex def handle_call({:mode, {:shared, pid}}, _from, state) do</span>
+<span class='curline'><a href='../S/26.html#L99'>handle_call</a>        99 deps/db_connection/lib/db_connection/ownership/manager.ex def handle_call({:mode, mode}, _from, state) do</span>
+<span class='curline'><a href='../S/26.html#L103'>handle_call</a>       103 deps/db_connection/lib/db_connection/ownership/manager.ex def handle_call({:lookup, opts}, {caller, _},</span>
+<span class='curline'><a href='../S/26.html#L122'>handle_call</a>       122 deps/db_connection/lib/db_connection/ownership/manager.ex def handle_call(:checkin, {caller, _}, state) do</span>
+<span class='curline'><a href='../S/26.html#L134'>handle_call</a>       134 deps/db_connection/lib/db_connection/ownership/manager.ex def handle_call({:allow, caller, allow}, _from, %{checkouts: checkouts} = state) do</span>
+<span class='curline'><a href='../S/26.html#L149'>handle_call</a>       149 deps/db_connection/lib/db_connection/ownership/manager.ex def handle_call({:checkout, opts}, {caller, _}, %{checkouts: checkouts} = state) do</span>
+<span class='curline'><a href='../S/27.html#L79'>handle_call</a>        79 deps/db_connection/lib/db_connection/ownership/owner.ex def handle_call(:init, from, state) do</span>
+<span class='curline'><a href='../S/27.html#L100'>handle_call</a>       100 deps/db_connection/lib/db_connection/ownership/owner.ex def handle_call({:checkout, ref, queue?, timeout}, from, %{queue: queue} = state) do</span>
+<span class='curline'><a href='../S/74.html#L171'>handle_call</a>       171 deps/ecto/lib/ecto/adapters/mysql/connection.ex defp handle_call(unquote(op), 2), do: {:binary_op, unquote(str)}</span>
+<span class='curline'><a href='../S/74.html#L174'>handle_call</a>       174 deps/ecto/lib/ecto/adapters/mysql/connection.ex defp handle_call(fun, _arity), do: {:fun, Atom.to_string(fun)}</span>
+<span class='curline'><a href='../S/76.html#L189'>handle_call</a>       189 deps/ecto/lib/ecto/adapters/postgres/connection.ex defp handle_call(unquote(op), 2), do: {:binary_op, unquote(str)}</span>
+<span class='curline'><a href='../S/76.html#L192'>handle_call</a>       192 deps/ecto/lib/ecto/adapters/postgres/connection.ex defp handle_call(fun, _arity), do: {:fun, Atom.to_string(fun)}</span>
+<span class='curline'><a href='../S/80.html#L98'>handle_call</a>        98 deps/ecto/lib/ecto/adapters/sql/sandbox.ex def handle_call(req, from, %{conn: nil} = s) do</span>
+<span class='curline'><a href='../S/80.html#L111'>handle_call</a>       111 deps/ecto/lib/ecto/adapters/sql/sandbox.ex def handle_call({:checkout, ref, fun}, {pid, _}, %{ref: nil} = s) do</span>
+<span class='curline'><a href='../S/80.html#L116'>handle_call</a>       116 deps/ecto/lib/ecto/adapters/sql/sandbox.ex def handle_call({:checkout, ref, fun}, {pid, _} = from, %{queue: q} = s) do</span>
+<span class='curline'><a href='../S/80.html#L123'>handle_call</a>       123 deps/ecto/lib/ecto/adapters/sql/sandbox.ex def handle_call({:break, ref}, from, %{mode: :raw, ref: ref} = s) do</span>
+<span class='curline'><a href='../S/80.html#L131'>handle_call</a>       131 deps/ecto/lib/ecto/adapters/sql/sandbox.ex def handle_call({:break, ref}, from, %{mode: :sandbox, ref: ref} = s) do</span>
+<span class='curline'><a href='../S/80.html#L139'>handle_call</a>       139 deps/ecto/lib/ecto/adapters/sql/sandbox.ex def handle_call({:query, query, log, opts}, _, %{ref: nil} = s) do</span>
+<span class='curline'><a href='../S/80.html#L144'>handle_call</a>       144 deps/ecto/lib/ecto/adapters/sql/sandbox.ex def handle_call({:query, query, log, opts}, from, %{queue: q} = s) do</span>
+<span class='curline'><a href='../S/80.html#L150'>handle_call</a>       150 deps/ecto/lib/ecto/adapters/sql/sandbox.ex def handle_call(:mode, _, %{mode: mode} = s) do</span>
+<span class='curline'><a href='../S/101.html#L48'>handle_call</a>        48 deps/ecto/lib/ecto/pools/poolboy/worker.ex def handle_call(:break, _from, s) do</span>
+<span class='curline'><a href='../S/101.html#L57'>handle_call</a>        57 deps/ecto/lib/ecto/pools/poolboy/worker.ex def handle_call(request, from, %{conn: nil, params: params, module: module} = s) do</span>
+<span class='curline'><a href='../S/101.html#L66'>handle_call</a>        66 deps/ecto/lib/ecto/pools/poolboy/worker.ex def handle_call({:checkout, _} = checkout, from, %{transaction: {client, _}} = s) do</span>
+<span class='curline'><a href='../S/101.html#L81'>handle_call</a>        81 deps/ecto/lib/ecto/pools/poolboy/worker.ex def handle_call({:checkout, :run}, _, %{transaction: nil} = s) do</span>
+<span class='curline'><a href='../S/101.html#L87'>handle_call</a>        87 deps/ecto/lib/ecto/pools/poolboy/worker.ex def handle_call({:checkout, :transaction}, from, %{transaction: nil} = s) do</span>
+<span class='curline'><a href='../S/105.html#L66'>handle_call</a>        66 deps/ecto/lib/ecto/pools/sojourn_broker/worker.ex def handle_call({:mod_conn, ref}, _, %{ref: ref, conn: nil} = s) do</span>
+<span class='curline'><a href='../S/105.html#L69'>handle_call</a>        69 deps/ecto/lib/ecto/pools/sojourn_broker/worker.ex def handle_call({:mod_conn, ref}, _, %{ref: ref} = s) do</span>
+<span class='curline'><a href='../S/149.html#L180'>handle_call</a>       180 deps/poolboy/src/poolboy.erl handle_call({checkout, CRef, Block}, {FromPid, _} = From, State) -&gt;</span>
+<span class='curline'><a href='../S/149.html#L203'>handle_call</a>       203 deps/poolboy/src/poolboy.erl handle_call(status, _From, State) -&gt;</span>
+<span class='curline'><a href='../S/149.html#L209'>handle_call</a>       209 deps/poolboy/src/poolboy.erl handle_call(get_avail_workers, _From, State) -&gt;</span>
+<span class='curline'><a href='../S/149.html#L212'>handle_call</a>       212 deps/poolboy/src/poolboy.erl handle_call(get_all_workers, _From, State) -&gt;</span>
+<span class='curline'><a href='../S/149.html#L216'>handle_call</a>       216 deps/poolboy/src/poolboy.erl handle_call(get_all_monitors, _From, State) -&gt;</span>
+<span class='curline'><a href='../S/149.html#L220'>handle_call</a>       220 deps/poolboy/src/poolboy.erl handle_call(stop, _From, State) -&gt;</span>
+<span class='curline'><a href='../S/149.html#L222'>handle_call</a>       222 deps/poolboy/src/poolboy.erl handle_call(_Msg, _From, State) -&gt;</span>
+<span class='curline'><a href='../S/188.html#L101'>handle_call</a>       101 deps/postgrex/lib/postgrex/notifications.ex def handle_call({:listen, channel}, {pid, _} = from, s) do</span>
+<span class='curline'><a href='../S/188.html#L116'>handle_call</a>       116 deps/postgrex/lib/postgrex/notifications.ex def handle_call({:unlisten, ref}, from, s) do</span>
+<span class='curline'><a href='../S/189.html#L57'>handle_call</a>        57 deps/postgrex/lib/postgrex/parameters.ex def handle_call({:insert, parameters}, {pid, _}, state) do</span>
+<span class='curline'><a href='../S/194.html#L44'>handle_call</a>        44 deps/postgrex/lib/postgrex/type_server.ex def handle_call({:fetch, key}, {pid, _} = from, {tables, conns}) do</span>
+<span class='curline'><a href='../S/194.html#L64'>handle_call</a>        64 deps/postgrex/lib/postgrex/type_server.ex def handle_call({:unlock, ref}, _from, {tables, conns}) do</span>
+</pre>
+</body>
+</html>

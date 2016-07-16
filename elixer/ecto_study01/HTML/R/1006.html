@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>update_all</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/52.html#L24'>update_all</a>         24 deps/ecto/integration_test/cases/joins.exs     assert {1, nil} = TestRepo.update_all(query, set: [text: "hoo"])</span>
+<span class='curline'><a href='../S/56.html#L118'>update_all</a>        118 deps/ecto/integration_test/cases/repo.exs     TestRepo.update_all from(u in RAW, where: u.id == ^cid), set: [counter: 11]</span>
+<span class='curline'><a href='../S/56.html#L425'>update_all</a>        425 deps/ecto/integration_test/cases/repo.exs     assert {3, nil} = TestRepo.update_all(Post, set: [title: "x"])</span>
+<span class='curline'><a href='../S/56.html#L431'>update_all</a>        431 deps/ecto/integration_test/cases/repo.exs     assert {3, nil} = TestRepo.update_all("posts", set: [title: nil])</span>
+<span class='curline'><a href='../S/56.html#L445'>update_all</a>        445 deps/ecto/integration_test/cases/repo.exs     assert {2, nil} = TestRepo.update_all(query, set: [title: "x"])</span>
+<span class='curline'><a href='../S/56.html#L458'>update_all</a>        458 deps/ecto/integration_test/cases/repo.exs     assert {0, nil} = TestRepo.update_all(query, set: [title: "x"])</span>
+<span class='curline'><a href='../S/56.html#L471'>update_all</a>        471 deps/ecto/integration_test/cases/repo.exs     assert {2, nil} = TestRepo.update_all(query, [])</span>
+<span class='curline'><a href='../S/56.html#L478'>update_all</a>        478 deps/ecto/integration_test/cases/repo.exs     assert {2, nil} = TestRepo.update_all(query, [])</span>
+<span class='curline'><a href='../S/56.html#L487'>update_all</a>        487 deps/ecto/integration_test/cases/repo.exs     assert {1, nil} = TestRepo.update_all(Post, set: [counter: to_string(id1)])</span>
+<span class='curline'><a href='../S/56.html#L496'>update_all</a>        496 deps/ecto/integration_test/cases/repo.exs     assert {1, nil} = TestRepo.update_all(Post, set: [text: text, inserted_at: date])</span>
+<span class='curline'><a href='../S/57.html#L120'>update_all</a>        120 deps/ecto/integration_test/cases/type.exs     {1, _} = TestRepo.update_all(Tag, push: [ints: 0])</span>
+<span class='curline'><a href='../S/57.html#L123'>update_all</a>        123 deps/ecto/integration_test/cases/type.exs     {1, _} = TestRepo.update_all(Tag, pull: [ints: 2])</span>
+<span class='curline'><a href='../S/57.html#L157'>update_all</a>        157 deps/ecto/integration_test/cases/type.exs     TestRepo.update_all(query, set: [meta: %{world: "hello"}])</span>
+<span class='curline'><a href='../S/58.html#L32'>update_all</a>         32 deps/ecto/integration_test/sql/escape.exs     TestRepo.update_all(Post, set: [title: "'"])</span>
+<span class='curline'><a href='../S/58.html#L38'>update_all</a>         38 deps/ecto/integration_test/sql/escape.exs     TestRepo.update_all(query, set: [title: "''"])</span>
+<span class='curline'><a href='../S/81.html#L64'>update_all</a>         64 deps/ecto/lib/ecto/adapters/sql.ex       def prepare(:update_all, query), do: {:cache, @conn.update_all(query)}</span>
+<span class='curline'><a href='../S/129.html#L124'>update_all</a>        124 deps/ecto/lib/ecto/repo.ex         Ecto.Repo.Queryable.update_all(__MODULE__, @adapter, queryable, updates, opts)</span>
+<span class='curline'><a href='../S/126.html#L66'>update_all</a>         66 deps/ecto/lib/ecto/repo/queryable.ex     update_all(repo, adapter, queryable, opts)</span>
+<span class='curline'><a href='../S/126.html#L71'>update_all</a>         71 deps/ecto/lib/ecto/repo/queryable.ex     update_all(repo, adapter, query, opts)</span>
+<span class='curline'><a href='../S/127.html#L410'>update_all</a>        410 deps/ecto/lib/ecto/repo/schema.ex           repo.update_all query, set: [{related_key, nil}]</span>
+</pre>
+</body>
+</html>

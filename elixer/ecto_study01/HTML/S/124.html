@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/repo/assoc.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/<a href='../files/247.html'>repo</a>/assoc.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L11'>[^]</a><a href='#L96'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L11' title='Defined at 11.'>query</a></li>
+<li><a href='#L13' title='Defined at 13.'>query</a></li>
+<li><a href='#L14' title='Defined at 14.'>query</a></li>
+<li><a href='#L16' title='Defined at 16.'>query</a></li>
+<li><a href='#L37' title='Defined at 37.'>merge</a></li>
+<li><a href='#L71' title='Defined at 71.'>load_assocs</a></li>
+<li><a href='#L88' title='Defined at 88.'>create_refls</a></li>
+<li><a href='#L96' title='Defined at 96.'>create_accs</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Repo.Assoc <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  # The module invoked by repomodules
+<a id='L3' name='L3'></a>  # for association related functionality.
+<a id='L4' name='L4'></a>  @moduledoc false
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>  @doc """
+<a id='L7' name='L7'></a>  Transforms a result set based on query assocs, loading
+<a id='L8' name='L8'></a>  the associations onto their parent model.
+<a id='L9' name='L9'></a>  """
+<a id='L10' name='L10'></a>  @spec <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>([Ecto.Schema.t], list, tuple) :: [Ecto.Schema.t]
+<a id='L11' name='L11'></a>  def <a href='../R/778.html' title='Multiple referred from 883 places.'>query</a>(rows, <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a>, sources)
+<a id='L12' name='L12'></a>
+<a id='L13' name='L13'></a>  def <a href='../R/778.html' title='Multiple referred from 883 places.'>query</a>([], _assocs, _sources), <strong class='reserved'>do</strong>: []
+<a id='L14' name='L14'></a>  def <a href='../R/778.html' title='Multiple referred from 883 places.'>query</a>(rows, [], _sources), <strong class='reserved'>do</strong>: rows
+<a id='L15' name='L15'></a>
+<a id='L16' name='L16'></a>  def <a href='../R/778.html' title='Multiple referred from 883 places.'>query</a>(rows, <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a>, sources) <strong class='reserved'>do</strong>
+<a id='L17' name='L17'></a>    # Pre-create rose tree of reflections and accumulator
+<a id='L18' name='L18'></a>    # dicts in the same structure as the fields tree
+<a id='L19' name='L19'></a>    refls = <a href='../S/124.html#L88' title='Defined at 88 in deps/ecto/lib/ecto/repo/assoc.ex.'>create_refls</a>(0, <a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a>, sources)
+<a id='L20' name='L20'></a>    accs  = <a href='../S/124.html#L96' title='Defined at 96 in deps/ecto/lib/ecto/repo/assoc.ex.'>create_accs</a>(<a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a>)
+<a id='L21' name='L21'></a>
+<a id='L22' name='L22'></a>    # Replace the dict in the accumulator by a list
+<a id='L23' name='L23'></a>    # We use it as a flag to store the substructs
+<a id='L24' name='L24'></a>    accs = put_elem(accs, 1, [])
+<a id='L25' name='L25'></a>
+<a id='L26' name='L26'></a>    # Populate tree of dicts of associated entities from the result set
+<a id='L27' name='L27'></a>    <em class='brace'>{</em>_keys, rows, sub_dicts<em class='brace'>}</em> = Enum.<a href='../D/959.html' title='Multiple defined in 4 places.'>reduce</a>(rows, accs, fn row, acc -&gt;
+<a id='L28' name='L28'></a>      <a href='../D/758.html' title='Multiple defined in 4 places.'>merge</a>(row, acc, 0) |&gt; elem(0)
+<a id='L29' name='L29'></a>    end)
+<a id='L30' name='L30'></a>
+<a id='L31' name='L31'></a>    # Retrieve and load the assocs from cached dictionaries recursively
+<a id='L32' name='L32'></a>    <strong class='reserved'>for</strong> <em class='brace'>{</em>item, sub_structs<em class='brace'>}</em> &lt;- Enum.<a href='../D/991.html' title='Multiple defined in 5 places.'>reverse</a>(rows) <strong class='reserved'>do</strong>
+<a id='L33' name='L33'></a>      [<a href='../S/124.html#L71' title='Defined at 71 in deps/ecto/lib/ecto/repo/assoc.ex.'>load_assocs</a>(item, sub_dicts, refls)|sub_structs]
+<a id='L34' name='L34'></a>    end
+<a id='L35' name='L35'></a>  end
+<a id='L36' name='L36'></a>
+<a id='L37' name='L37'></a>  defp <a href='../R/619.html' title='Multiple referred from 12 places.'>merge</a>([<strong class='reserved'>struct</strong>|sub_structs], <em class='brace'>{</em>keys, dict, sub_dicts<em class='brace'>}</em>, <a href='../S/83.html#L371' title='Defined at 371 in deps/ecto/lib/ecto/association.ex.'>parent_key</a>) <strong class='reserved'>do</strong>
+<a id='L38' name='L38'></a>    child_key =
+<a id='L39' name='L39'></a>      <strong class='reserved'>if</strong> <strong class='reserved'>struct</strong> <strong class='reserved'>do</strong>
+<a id='L40' name='L40'></a>        [<em class='brace'>{</em>_, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a><em class='brace'>}</em>] = <a href='../D/46.html' title='Multiple defined in 2 places.'>Ecto</a>.primary_key!(<strong class='reserved'>struct</strong>)
+<a id='L41' name='L41'></a>        <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a> || raise Ecto.NoPrimaryKeyValueError, <strong class='reserved'>struct</strong>: <strong class='reserved'>struct</strong>
+<a id='L42' name='L42'></a>      end
+<a id='L43' name='L43'></a>
+<a id='L44' name='L44'></a>    # Traverse sub_structs adding one by one to the tree.
+<a id='L45' name='L45'></a>    # Note we need to traverse even <strong class='reserved'>if</strong> we don't have a child_key
+<a id='L46' name='L46'></a>    # due to nested associations.
+<a id='L47' name='L47'></a>    <em class='brace'>{</em>sub_dicts, sub_structs<em class='brace'>}</em> =
+<a id='L48' name='L48'></a>      Enum.map_reduce sub_dicts, sub_structs, &amp;<a href='../D/758.html' title='Multiple defined in 4 places.'>merge</a>(&amp;2, &amp;1, child_key)
+<a id='L49' name='L49'></a>
+<a id='L50' name='L50'></a>    # Now <strong class='reserved'>if</strong> we have a <strong class='reserved'>struct</strong> and its parent key, we store the current
+<a id='L51' name='L51'></a>    # data unless we have already processed it.
+<a id='L52' name='L52'></a>    cache = <em class='brace'>{</em><a href='../S/83.html#L371' title='Defined at 371 in deps/ecto/lib/ecto/association.ex.'>parent_key</a>, child_key<em class='brace'>}</em>
+<a id='L53' name='L53'></a>
+<a id='L54' name='L54'></a>    <strong class='reserved'>if</strong> <strong class='reserved'>struct</strong> &amp;&amp; <a href='../S/83.html#L371' title='Defined at 371 in deps/ecto/lib/ecto/association.ex.'>parent_key</a> &amp;&amp; not HashSet.member?(keys, cache) <strong class='reserved'>do</strong>
+<a id='L55' name='L55'></a>      keys = HashSet.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(keys, cache)
+<a id='L56' name='L56'></a>      item = <em class='brace'>{</em>child_key, <strong class='reserved'>struct</strong><em class='brace'>}</em>
+<a id='L57' name='L57'></a>
+<a id='L58' name='L58'></a>      # If we have a list, we are at the root,
+<a id='L59' name='L59'></a>      # so we also store the sub structs
+<a id='L60' name='L60'></a>      dict =
+<a id='L61' name='L61'></a>        <strong class='reserved'>if</strong> is_list(dict) <strong class='reserved'>do</strong>
+<a id='L62' name='L62'></a>          [<em class='brace'>{</em>item, sub_structs<em class='brace'>}</em>|dict]
+<a id='L63' name='L63'></a>        <strong class='reserved'>else</strong>
+<a id='L64' name='L64'></a>          HashDict.<a href='../D/1171.html' title='Multiple defined in 15 places.'>update</a>(dict, <a href='../S/83.html#L371' title='Defined at 371 in deps/ecto/lib/ecto/association.ex.'>parent_key</a>, [item], &amp;[item|&amp;1])
+<a id='L65' name='L65'></a>        end
+<a id='L66' name='L66'></a>    end
+<a id='L67' name='L67'></a>
+<a id='L68' name='L68'></a>    <em class='brace'>{</em><em class='brace'>{</em>keys, dict, sub_dicts<em class='brace'>}</em>, sub_structs<em class='brace'>}</em>
+<a id='L69' name='L69'></a>  end
+<a id='L70' name='L70'></a>
+<a id='L71' name='L71'></a>  defp <a href='../R/593.html' title='Multiple referred from 2 places.'>load_assocs</a>(<em class='brace'>{</em>child_key, <strong class='reserved'>struct</strong><em class='brace'>}</em>, sub_dicts, refls) <strong class='reserved'>do</strong>
+<a id='L72' name='L72'></a>    Enum.<a href='../D/959.html' title='Multiple defined in 4 places.'>reduce</a> :lists.zip(sub_dicts, refls), <strong class='reserved'>struct</strong>, fn
+<a id='L73' name='L73'></a>      <em class='brace'>{</em><em class='brace'>{</em>_keys, dict, sub_dicts<em class='brace'>}</em>, <em class='brace'>{</em>refl, refls<em class='brace'>}</em><em class='brace'>}</em>, acc -&gt;
+<a id='L74' name='L74'></a>        <a href='../S/55.html#L362' title='Defined at 362 in deps/ecto/integration_test/cases/preload.exs.'>loaded</a> =
+<a id='L75' name='L75'></a>          dict
+<a id='L76' name='L76'></a>          |&gt; HashDict.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(child_key, [])
+<a id='L77' name='L77'></a>          |&gt; Enum.<a href='../D/991.html' title='Multiple defined in 5 places.'>reverse</a>()
+<a id='L78' name='L78'></a>          |&gt; Enum.map(&amp;<a href='../S/124.html#L71' title='Defined at 71 in deps/ecto/lib/ecto/repo/assoc.ex.'>load_assocs</a>(&amp;1, sub_dicts, refls))
+<a id='L79' name='L79'></a>
+<a id='L80' name='L80'></a>        <strong class='reserved'>if</strong> refl.cardinality == :one <strong class='reserved'>do</strong>
+<a id='L81' name='L81'></a>          <a href='../S/55.html#L362' title='Defined at 362 in deps/ecto/integration_test/cases/preload.exs.'>loaded</a> = List.first(loaded)
+<a id='L82' name='L82'></a>        end
+<a id='L83' name='L83'></a>
+<a id='L84' name='L84'></a>        Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(acc, refl.<a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, <a href='../S/55.html#L362' title='Defined at 362 in deps/ecto/integration_test/cases/preload.exs.'>loaded</a>)
+<a id='L85' name='L85'></a>    end
+<a id='L86' name='L86'></a>  end
+<a id='L87' name='L87'></a>
+<a id='L88' name='L88'></a>  defp <a href='../R/281.html' title='Multiple referred from 2 places.'>create_refls</a>(idx, <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, sources) <strong class='reserved'>do</strong>
+<a id='L89' name='L89'></a>    Enum.map(<a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, fn <em class='brace'>{</em><a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, <em class='brace'>{</em>child_idx, child_fields<em class='brace'>}</em><em class='brace'>}</em> -&gt;
+<a id='L90' name='L90'></a>      <em class='brace'>{</em>_source, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a><em class='brace'>}</em> = elem(sources, idx)
+<a id='L91' name='L91'></a>      <em class='brace'>{</em><a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>.<a href='../D/220.html' title='Multiple defined in 18 places.'>__schema__</a>(:association, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>),
+<a id='L92' name='L92'></a>       <a href='../S/124.html#L88' title='Defined at 88 in deps/ecto/lib/ecto/repo/assoc.ex.'>create_refls</a>(child_idx, child_fields, sources)<em class='brace'>}</em>
+<a id='L93' name='L93'></a>    end)
+<a id='L94' name='L94'></a>  end
+<a id='L95' name='L95'></a>
+<a id='L96' name='L96'></a>  defp <a href='../R/276.html' title='Multiple referred from 2 places.'>create_accs</a>(<a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>) <strong class='reserved'>do</strong>
+<a id='L97' name='L97'></a>    acc = Enum.map(<a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, fn <em class='brace'>{</em>_field, <em class='brace'>{</em>_child_idx, child_fields<em class='brace'>}</em><em class='brace'>}</em> -&gt;
+<a id='L98' name='L98'></a>      <a href='../S/124.html#L96' title='Defined at 96 in deps/ecto/lib/ecto/repo/assoc.ex.'>create_accs</a>(child_fields)
+<a id='L99' name='L99'></a>    end)
+<a id='L100' name='L100'></a>
+<a id='L101' name='L101'></a>    <em class='brace'>{</em>HashSet.<a href='../D/805.html' title='Multiple defined in 14 places.'>new</a>, HashDict.new, acc<em class='brace'>}</em>
+<a id='L102' name='L102'></a>  end
+<a id='L103' name='L103'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L11'>[^]</a><a href='#L96'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>prepare</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/44.html#L475'>prepare</a>           475 deps/db_connection/lib/db_connection.ex def prepare(conn, query, opts \\ []) do</span>
+<span class='curline'><a href='../S/72.html#L123'>prepare</a>           123 deps/ecto/lib/ecto/adapter.ex defcallback prepare(:all | :update_all | :delete_all, query :: Ecto.Query.t) ::</span>
+<span class='curline'><a href='../S/81.html#L63'>prepare</a>            63 deps/ecto/lib/ecto/adapters/sql.ex def prepare(:all, query), do: {:cache, @conn.all(query)}</span>
+<span class='curline'><a href='../S/81.html#L64'>prepare</a>            64 deps/ecto/lib/ecto/adapters/sql.ex def prepare(:update_all, query), do: {:cache, @conn.update_all(query)}</span>
+<span class='curline'><a href='../S/81.html#L65'>prepare</a>            65 deps/ecto/lib/ecto/adapters/sql.ex def prepare(:delete_all, query), do: {:cache, @conn.delete_all(query)}</span>
+<span class='curline'><a href='../S/88.html#L48'>prepare</a>            48 deps/ecto/lib/ecto/embedded.ex def prepare(changeset, [], _adapter, _repo_action), do: changeset</span>
+<span class='curline'><a href='../S/88.html#L50'>prepare</a>            50 deps/ecto/lib/ecto/embedded.ex def prepare(changeset, embeds, adapter, repo_action) do</span>
+<span class='curline'><a href='../S/121.html#L117'>prepare</a>           117 deps/ecto/lib/ecto/query/planner.ex def prepare(query, operation, adapter) do</span>
+<span class='curline'><a href='../S/197.html#L152'>prepare</a>           152 deps/postgrex/lib/postgrex.ex def prepare(conn, name, statement, opts \\ []) do</span>
+</pre>
+</body>
+</html>

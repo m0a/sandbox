@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>apply_changes</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/85.html#L1024'>apply_changes</a>    1024 deps/ecto/lib/ecto/changeset.ex def apply_changes(%Changeset{changes: changes, model: model}) when changes == %{} do</span>
+<span class='curline'><a href='../S/85.html#L1028'>apply_changes</a>    1028 deps/ecto/lib/ecto/changeset.ex def apply_changes(%Changeset{changes: changes, model: model, types: types}) do</span>
+<span class='curline'><a href='../S/84.html#L118'>apply_changes</a>     118 deps/ecto/lib/ecto/changeset/relation.ex def apply_changes(%{cardinality: :one}, nil) do</span>
+<span class='curline'><a href='../S/84.html#L122'>apply_changes</a>     122 deps/ecto/lib/ecto/changeset/relation.ex def apply_changes(%{cardinality: :one}, changeset) do</span>
+<span class='curline'><a href='../S/84.html#L126'>apply_changes</a>     126 deps/ecto/lib/ecto/changeset/relation.ex def apply_changes(%{cardinality: :many}, changesets) do</span>
+<span class='curline'><a href='../S/84.html#L132'>apply_changes</a>     132 deps/ecto/lib/ecto/changeset/relation.ex defp apply_changes(%Changeset{action: :delete}), do: nil</span>
+<span class='curline'><a href='../S/84.html#L133'>apply_changes</a>     133 deps/ecto/lib/ecto/changeset/relation.ex defp apply_changes(changeset), do: Changeset.apply_changes(changeset)</span>
+<span class='curline'><a href='../S/88.html#L210'>apply_changes</a>     210 deps/ecto/lib/ecto/embedded.ex defp apply_changes(%{action: :delete}), do: nil</span>
+<span class='curline'><a href='../S/88.html#L211'>apply_changes</a>     211 deps/ecto/lib/ecto/embedded.ex defp apply_changes(changeset) do</span>
+</pre>
+</body>
+</html>

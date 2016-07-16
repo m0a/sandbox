@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>joins</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/74.html#L216'>joins</a>             216 deps/ecto/lib/ecto/adapters/mysql/connection.ex     defp join(%Query{joins: joins} = query, sources) do</span>
+<span class='curline'><a href='../S/74.html#L217'>joins</a>             217 deps/ecto/lib/ecto/adapters/mysql/connection.ex       Enum.map_join(joins, " ", fn</span>
+<span class='curline'><a href='../S/76.html#L139'>joins</a>             139 deps/ecto/lib/ecto/adapters/postgres/connection.ex       where = delete_all_where(query.joins, query, sources)</span>
+<span class='curline'><a href='../S/76.html#L218'>joins</a>             218 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp using(%Query{joins: joins} = query, sources) do</span>
+<span class='curline'><a href='../S/76.html#L219'>joins</a>             219 deps/ecto/lib/ecto/adapters/postgres/connection.ex       Enum.map_join(joins, " ", fn</span>
+<span class='curline'><a href='../S/76.html#L260'>joins</a>             260 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp update_join(%Query{joins: joins} = query, sources) do</span>
+<span class='curline'><a href='../S/76.html#L262'>joins</a>             262 deps/ecto/lib/ecto/adapters/postgres/connection.ex         "FROM " &lt;&gt; Enum.map_join(joins, ", ", fn</span>
+<span class='curline'><a href='../S/76.html#L272'>joins</a>             272 deps/ecto/lib/ecto/adapters/postgres/connection.ex         for %JoinExpr{on: %QueryExpr{expr: value} = expr} &lt;- joins,</span>
+<span class='curline'><a href='../S/76.html#L280'>joins</a>             280 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp join(%Query{joins: joins} = query, sources) do</span>
+<span class='curline'><a href='../S/76.html#L281'>joins</a>             281 deps/ecto/lib/ecto/adapters/postgres/connection.ex       Enum.map_join(joins, " ", fn</span>
+<span class='curline'><a href='../S/83.html#L482'>joins</a>             482 deps/ecto/lib/ecto/association.ex     position = length(query.joins) + 1</span>
+<span class='curline'><a href='../S/83.html#L495'>joins</a>             495 deps/ecto/lib/ecto/association.ex       %{query | joins: query.joins ++ [join]}</span>
+<span class='curline'><a href='../S/83.html#L501'>joins</a>             501 deps/ecto/lib/ecto/association.ex     {joins, [assoc]} = Enum.split(query.joins, -1)</span>
+<span class='curline'><a href='../S/83.html#L505'>joins</a>             505 deps/ecto/lib/ecto/association.ex     mapping  = Map.put(%{}, length(joins) + 1, 0)</span>
+<span class='curline'><a href='../S/83.html#L508'>joins</a>             508 deps/ecto/lib/ecto/association.ex     %{query | wheres: [assoc_on|query.wheres], joins: joins,</span>
+<span class='curline'><a href='../S/119.html#L555'>joins</a>             555 deps/ecto/lib/ecto/query/builder.ex   def count_binds(%Query{from: from, joins: joins}) do</span>
+<span class='curline'><a href='../S/119.html#L557'>joins</a>             557 deps/ecto/lib/ecto/query/builder.ex     count + length(joins)</span>
+<span class='curline'><a href='../S/112.html#L142'>joins</a>             142 deps/ecto/lib/ecto/query/builder/join.ex            %{query | joins: query.joins ++ [unquote(join)]}</span>
+<span class='curline'><a href='../S/112.html#L151'>joins</a>             151 deps/ecto/lib/ecto/query/builder/join.ex     %{query | joins: query.joins ++ [expr]}</span>
+<span class='curline'><a href='../S/120.html#L36'>joins</a>              36 deps/ecto/lib/ecto/query/inspect.ex     joins     = joins(query.joins, names)</span>
+<span class='curline'><a href='../S/120.html#L52'>joins</a>              52 deps/ecto/lib/ecto/query/inspect.ex     Enum.concat [from, joins, wheres, group_bys, havings, order_bys,</span>
+<span class='curline'><a href='../S/120.html#L66'>joins</a>              66 deps/ecto/lib/ecto/query/inspect.ex     joins</span>
+<span class='curline'><a href='../S/120.html#L179'>joins</a>             179 deps/ecto/lib/ecto/query/inspect.ex     from_sources(query.from) ++ join_sources(query.joins)</span>
+<span class='curline'><a href='../S/120.html#L185'>joins</a>             185 deps/ecto/lib/ecto/query/inspect.ex   defp join_sources(joins) do</span>
+<span class='curline'><a href='../S/120.html#L186'>joins</a>             186 deps/ecto/lib/ecto/query/inspect.ex     Enum.map(joins, fn</span>
+<span class='curline'><a href='../S/121.html#L277'>joins</a>             277 deps/ecto/lib/ecto/query/planner.ex     {joins, sources, tail_sources} = prepare_joins(query, [from], length(query.joins))</span>
+<span class='curline'><a href='../S/121.html#L279'>joins</a>             279 deps/ecto/lib/ecto/query/planner.ex               joins: joins |&gt; Enum.reverse}</span>
+<span class='curline'><a href='../S/121.html#L283'>joins</a>             283 deps/ecto/lib/ecto/query/planner.ex     prepare_joins(query.joins, query, [], sources, [], 1, offset)</span>
+<span class='curline'><a href='../S/121.html#L287'>joins</a>             287 deps/ecto/lib/ecto/query/planner.ex                      query, joins, sources, tail_sources, counter, offset) do</span>
+<span class='curline'><a href='../S/121.html#L319'>joins</a>             319 deps/ecto/lib/ecto/query/planner.ex     last_ix = length(child.joins)</span>
+<span class='curline'><a href='../S/121.html#L334'>joins</a>             334 deps/ecto/lib/ecto/query/planner.ex     prepare_joins(t, query, child_joins ++ joins, [current_source|sources],</span>
+<span class='curline'><a href='../S/121.html#L339'>joins</a>             339 deps/ecto/lib/ecto/query/planner.ex                      query, joins, sources, tail_sources, counter, offset) when is_atom(model) and model != nil do</span>
+<span class='curline'><a href='../S/121.html#L342'>joins</a>             342 deps/ecto/lib/ecto/query/planner.ex     prepare_joins(t, query, [join|joins], [source|sources], tail_sources, counter + 1, offset)</span>
+<span class='curline'><a href='../S/121.html#L346'>joins</a>             346 deps/ecto/lib/ecto/query/planner.ex                      query, joins, sources, tail_sources, counter, offset) do</span>
+<span class='curline'><a href='../S/121.html#L348'>joins</a>             348 deps/ecto/lib/ecto/query/planner.ex     prepare_joins(t, query, [join|joins], [source|sources], tail_sources, counter + 1, offset)</span>
+<span class='curline'><a href='../S/121.html#L351'>joins</a>             351 deps/ecto/lib/ecto/query/planner.ex   defp prepare_joins([], _query, joins, sources, tail_sources, _counter, _offset) do</span>
+<span class='curline'><a href='../S/121.html#L352'>joins</a>             352 deps/ecto/lib/ecto/query/planner.ex     {joins, sources, tail_sources}</span>
+<span class='curline'><a href='../S/121.html#L580'>joins</a>             580 deps/ecto/lib/ecto/query/planner.ex     Enum.find(query.joins, &amp; &amp;1.ix == ix)</span>
+<span class='curline'><a href='../S/121.html#L601'>joins</a>             601 deps/ecto/lib/ecto/query/planner.ex     {joins, acc} = fun.(:join, original, original.joins, acc)</span>
+<span class='curline'><a href='../S/121.html#L602'>joins</a>             602 deps/ecto/lib/ecto/query/planner.ex     query = %{query | joins: joins}</span>
+</pre>
+</body>
+</html>

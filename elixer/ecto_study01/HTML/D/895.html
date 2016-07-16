@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>prepare_each</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/88.html#L76'>prepare_each</a>       76 deps/ecto/lib/ecto/embedded.ex defp prepare_each(%{cardinality: :one}, nil, _adapter, _action) do</span>
+<span class='curline'><a href='../S/88.html#L80'>prepare_each</a>       80 deps/ecto/lib/ecto/embedded.ex defp prepare_each(%{cardinality: :one} = embed, changeset, adapter, action) do</span>
+<span class='curline'><a href='../S/88.html#L85'>prepare_each</a>       85 deps/ecto/lib/ecto/embedded.ex defp prepare_each(%{cardinality: :many} = embed, changesets, adapter, action) do</span>
+<span class='curline'><a href='../S/88.html#L92'>prepare_each</a>       92 deps/ecto/lib/ecto/embedded.ex defp prepare_each(%Changeset{valid?: false}, %{related: model}, _adapter) do</span>
+<span class='curline'><a href='../S/88.html#L97'>prepare_each</a>       97 deps/ecto/lib/ecto/embedded.ex defp prepare_each(%Changeset{action: :update, changes: changes} = changeset,</span>
+<span class='curline'><a href='../S/88.html#L102'>prepare_each</a>      102 deps/ecto/lib/ecto/embedded.ex defp prepare_each(%Changeset{model: %{__struct__: model}, action: action} = changeset,</span>
+<span class='curline'><a href='../S/88.html#L111'>prepare_each</a>      111 deps/ecto/lib/ecto/embedded.ex defp prepare_each(%Changeset{model: model}, %{related: expected}, _adapter) do</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>primary_key</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/134.html#L410'>primary_key</a>       410 deps/ecto/lib/ecto.ex   @spec primary_key(Ecto.Schema.t) :: Keyword.t</span>
+<span class='curline'><a href='../S/134.html#L425'>primary_key</a>       425 deps/ecto/lib/ecto.ex     case primary_key(struct) do</span>
+<span class='curline'><a href='../S/83.html#L247'>primary_key</a>       247 deps/ecto/lib/ecto/association.ex         primary_key = Module.get_attribute(module, :primary_key) -&gt;</span>
+<span class='curline'><a href='../S/83.html#L248'>primary_key</a>       248 deps/ecto/lib/ecto/association.ex           elem(primary_key, 0)</span>
+<span class='curline'><a href='../S/83.html#L570'>primary_key</a>       570 deps/ecto/lib/ecto/association.ex         primary_key = Module.get_attribute(module, :primary_key) -&gt;</span>
+<span class='curline'><a href='../S/83.html#L571'>primary_key</a>       571 deps/ecto/lib/ecto/association.ex           case elem(primary_key, 0) do</span>
+<span class='curline'><a href='../S/88.html#L137'>primary_key</a>       137 deps/ecto/lib/ecto/embedded.ex     for {_, nil} &lt;- Ecto.primary_key(changeset.model) do</span>
+<span class='curline'><a href='../S/94.html#L225'>primary_key</a>       225 deps/ecto/lib/ecto/migration.ex       if table.primary_key do</span>
+<span class='curline'><a href='../S/94.html#L298'>primary_key</a>       298 deps/ecto/lib/ecto/migration.ex       if table.primary_key do</span>
+<span class='curline'><a href='../S/98.html#L42'>primary_key</a>        42 deps/ecto/lib/ecto/model.ex     Ecto.primary_key(struct)</span>
+<span class='curline'><a href='../S/126.html#L187'>primary_key</a>       187 deps/ecto/lib/ecto/repo/queryable.ex     primary_key = primary_key_field!(model)</span>
+<span class='curline'><a href='../S/126.html#L188'>primary_key</a>       188 deps/ecto/lib/ecto/repo/queryable.ex     Ecto.Query.from(x in query, where: field(x, ^primary_key) == ^id)</span>
+<span class='curline'><a href='../S/130.html#L1092'>primary_key</a>      1092 deps/ecto/lib/ecto/schema.ex   def __schema__(source, fields, primary_key) do</span>
+<span class='curline'><a href='../S/130.html#L1099'>primary_key</a>      1099 deps/ecto/lib/ecto/schema.ex     hash = :erlang.phash2({primary_key, fields})</span>
+<span class='curline'><a href='../S/130.html#L1104'>primary_key</a>      1104 deps/ecto/lib/ecto/schema.ex       def __schema__(:primary_key), do: unquote(primary_key)</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>field</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/51.html#L228'>field</a>             228 deps/ecto/integration_test/cases/interval.exs     field = :inserted_at</span>
+<span class='curline'><a href='../S/51.html#L234'>field</a>             234 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, where: field(p, ^field) &gt; datetime_add(^inserted_at, ^-3, ^"week"))</span>
+<span class='curline'><a href='../S/51.html#L236'>field</a>             236 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, where: field(p, ^field) &gt; datetime_add(^inserted_at, -5, ^"day"))</span>
+<span class='curline'><a href='../S/56.html#L106'>field</a>             106 deps/ecto/integration_test/cases/repo.exs         field :counter, :integer, read_after_writes: true</span>
+<span class='curline'><a href='../S/56.html#L107'>field</a>             107 deps/ecto/integration_test/cases/repo.exs         field :visits, :integer</span>
+<span class='curline'><a href='../S/59.html#L13'>field</a>              13 deps/ecto/integration_test/sql/lock.exs       field :count, :integer</span>
+<span class='curline'><a href='../S/63.html#L23'>field</a>              23 deps/ecto/integration_test/sql/transaction.exs       field :text, :string</span>
+<span class='curline'><a href='../S/66.html#L30'>field</a>              30 deps/ecto/integration_test/support/models.exs     field :counter, :id # Same as integer</span>
+<span class='curline'><a href='../S/66.html#L31'>field</a>              31 deps/ecto/integration_test/support/models.exs     field :title, :string</span>
+<span class='curline'><a href='../S/66.html#L32'>field</a>              32 deps/ecto/integration_test/support/models.exs     field :text, :binary</span>
+<span class='curline'><a href='../S/66.html#L33'>field</a>              33 deps/ecto/integration_test/support/models.exs     field :temp, :string, default: "temp", virtual: true</span>
+<span class='curline'><a href='../S/66.html#L34'>field</a>              34 deps/ecto/integration_test/support/models.exs     field :public, :boolean, default: true</span>
+<span class='curline'><a href='../S/66.html#L35'>field</a>              35 deps/ecto/integration_test/support/models.exs     field :cost, :decimal</span>
+<span class='curline'><a href='../S/66.html#L36'>field</a>              36 deps/ecto/integration_test/support/models.exs     field :visits, :integer</span>
+<span class='curline'><a href='../S/66.html#L37'>field</a>              37 deps/ecto/integration_test/support/models.exs     field :intensity, :float</span>
+<span class='curline'><a href='../S/66.html#L38'>field</a>              38 deps/ecto/integration_test/support/models.exs     field :bid, :binary_id</span>
+<span class='curline'><a href='../S/66.html#L39'>field</a>              39 deps/ecto/integration_test/support/models.exs     field :uuid, Ecto.UUID, autogenerate: true</span>
+<span class='curline'><a href='../S/66.html#L40'>field</a>              40 deps/ecto/integration_test/support/models.exs     field :meta, :map</span>
+<span class='curline'><a href='../S/66.html#L41'>field</a>              41 deps/ecto/integration_test/support/models.exs     field :posted, Ecto.Date</span>
+<span class='curline'><a href='../S/66.html#L65'>field</a>              65 deps/ecto/integration_test/support/models.exs     field :title, :string</span>
+<span class='curline'><a href='../S/66.html#L82'>field</a>              82 deps/ecto/integration_test/support/models.exs     field :text, :string</span>
+<span class='curline'><a href='../S/66.html#L83'>field</a>              83 deps/ecto/integration_test/support/models.exs     field :lock_version, :integer, default: 1</span>
+<span class='curline'><a href='../S/66.html#L101'>field</a>             101 deps/ecto/integration_test/support/models.exs     field :url, :string</span>
+<span class='curline'><a href='../S/66.html#L120'>field</a>             120 deps/ecto/integration_test/support/models.exs     field :name, :string</span>
+<span class='curline'><a href='../S/66.html#L142'>field</a>             142 deps/ecto/integration_test/support/models.exs     field :uuid, Ecto.UUID</span>
+<span class='curline'><a href='../S/66.html#L157'>field</a>             157 deps/ecto/integration_test/support/models.exs     field :num, :integer</span>
+<span class='curline'><a href='../S/66.html#L172'>field</a>             172 deps/ecto/integration_test/support/models.exs     field :ints, {:array, :integer}</span>
+<span class='curline'><a href='../S/66.html#L173'>field</a>             173 deps/ecto/integration_test/support/models.exs     field :uuids, {:array, Ecto.UUID}</span>
+<span class='curline'><a href='../S/66.html#L188'>field</a>             188 deps/ecto/integration_test/support/models.exs     field :price, :integer</span>
+<span class='curline'><a href='../S/66.html#L189'>field</a>             189 deps/ecto/integration_test/support/models.exs     field :valid_at, Ecto.Date</span>
+<span class='curline'><a href='../S/134.html#L412'>field</a>             412 deps/ecto/lib/ecto.ex     Enum.map module.__schema__(:primary_key), fn(field) -&gt;</span>
+<span class='curline'><a href='../S/134.html#L413'>field</a>             413 deps/ecto/lib/ecto.ex       {field, Map.fetch!(struct, field)}</span>
+<span class='curline'><a href='../S/72.html#L22'>field</a>              22 deps/ecto/lib/ecto/adapter.ex   @type preprocess :: (field :: Macro.t, value :: term, context :: term -&gt; term)</span>
+<span class='curline'><a href='../S/72.html#L23'>field</a>              23 deps/ecto/lib/ecto/adapter.ex   @type autogenerate_id :: {field :: atom, type :: :id | :binary_id, value :: term} | nil</span>
+<span class='curline'><a href='../S/69.html#L27'>field</a>              27 deps/ecto/lib/ecto/adapter/migration.ex     {:add, field :: atom, type :: Ecto.Type.t | Reference.t, Keyword.t} |</span>
+<span class='curline'><a href='../S/69.html#L28'>field</a>              28 deps/ecto/lib/ecto/adapter/migration.ex     {:modify, field :: atom, type :: Ecto.Type.t | Reference.t, Keyword.t} |</span>
+<span class='curline'><a href='../S/69.html#L29'>field</a>              29 deps/ecto/lib/ecto/adapter/migration.ex     {:remove, field :: atom}</span>
+<span class='curline'><a href='../S/74.html#L140'>field</a>             140 deps/ecto/lib/ecto/adapters/mysql/connection.ex       filters = Enum.map filters, fn field  -&gt;</span>
+<span class='curline'><a href='../S/74.html#L141'>field</a>             141 deps/ecto/lib/ecto/adapters/mysql/connection.ex         "#{quote_name(field)} = ?"</span>
+<span class='curline'><a href='../S/74.html#L144'>field</a>             144 deps/ecto/lib/ecto/adapters/mysql/connection.ex       fields = Enum.map fields, fn field -&gt;</span>
+<span class='curline'><a href='../S/74.html#L145'>field</a>             145 deps/ecto/lib/ecto/adapters/mysql/connection.ex         "#{quote_name(field)} = ?"</span>
+<span class='curline'><a href='../S/74.html#L153'>field</a>             153 deps/ecto/lib/ecto/adapters/mysql/connection.ex       filters = Enum.map filters, fn field -&gt;</span>
+<span class='curline'><a href='../S/74.html#L154'>field</a>             154 deps/ecto/lib/ecto/adapters/mysql/connection.ex         "#{quote_name(field)} = ?"</span>
+<span class='curline'><a href='../S/74.html#L299'>field</a>             299 deps/ecto/lib/ecto/adapters/mysql/connection.ex     defp expr({{:., _, [{:&amp;, _, [idx]}, field]}, _, []}, sources, _query)</span>
+<span class='curline'><a href='../S/74.html#L300'>field</a>             300 deps/ecto/lib/ecto/adapters/mysql/connection.ex         when is_atom(field) do</span>
+<span class='curline'><a href='../S/74.html#L302'>field</a>             302 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "#{name}.#{quote_name(field)}"</span>
+<span class='curline'><a href='../S/76.html#L157'>field</a>             157 deps/ecto/lib/ecto/adapters/postgres/connection.ex       {fields, count} = Enum.map_reduce fields, 1, fn field, acc -&gt;</span>
+<span class='curline'><a href='../S/76.html#L158'>field</a>             158 deps/ecto/lib/ecto/adapters/postgres/connection.ex         {"#{quote_name(field)} = $#{acc}", acc + 1}</span>
+<span class='curline'><a href='../S/76.html#L161'>field</a>             161 deps/ecto/lib/ecto/adapters/postgres/connection.ex       {filters, _count} = Enum.map_reduce filters, count, fn field, acc -&gt;</span>
+<span class='curline'><a href='../S/76.html#L162'>field</a>             162 deps/ecto/lib/ecto/adapters/postgres/connection.ex         {"#{quote_name(field)} = $#{acc}", acc + 1}</span>
+<span class='curline'><a href='../S/76.html#L171'>field</a>             171 deps/ecto/lib/ecto/adapters/postgres/connection.ex       {filters, _} = Enum.map_reduce filters, 1, fn field, acc -&gt;</span>
+<span class='curline'><a href='../S/76.html#L172'>field</a>             172 deps/ecto/lib/ecto/adapters/postgres/connection.ex         {"#{quote_name(field)} = $#{acc}", acc + 1}</span>
+<span class='curline'><a href='../S/76.html#L372'>field</a>             372 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp expr({{:., _, [{:&amp;, _, [idx]}, field]}, _, []}, sources, _query) when is_atom(field) do</span>
+<span class='curline'><a href='../S/76.html#L374'>field</a>             374 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "#{name}.#{quote_name(field)}"</span>
+<span class='curline'><a href='../S/81.html#L504'>field</a>             504 deps/ecto/lib/ecto/adapters/sql.ex       {:&amp;, _, [idx]} = field -&gt;</span>
+<span class='curline'><a href='../S/81.html#L506'>field</a>             506 deps/ecto/lib/ecto/adapters/sql.ex         {field, length(model.__schema__(:fields))}</span>
+<span class='curline'><a href='../S/81.html#L507'>field</a>             507 deps/ecto/lib/ecto/adapters/sql.ex       field -&gt;</span>
+<span class='curline'><a href='../S/81.html#L508'>field</a>             508 deps/ecto/lib/ecto/adapters/sql.ex         {field, 0}</span>
+<span class='curline'><a href='../S/81.html#L514'>field</a>             514 deps/ecto/lib/ecto/adapters/sql.ex       {field, 0}, [h|t] -&gt;</span>
+<span class='curline'><a href='../S/81.html#L515'>field</a>             515 deps/ecto/lib/ecto/adapters/sql.ex         {preprocess.(field, h, nil), t}</span>
+<span class='curline'><a href='../S/81.html#L516'>field</a>             516 deps/ecto/lib/ecto/adapters/sql.ex       {field, count}, acc -&gt;</span>
+<span class='curline'><a href='../S/81.html#L519'>field</a>             519 deps/ecto/lib/ecto/adapters/sql.ex           {val, rest} -&gt; {preprocess.(field, val, nil), rest}</span>
+<span class='curline'><a href='../S/83.html#L48'>field</a>              48 deps/ecto/lib/ecto/association.ex   defcallback struct(module, field :: atom, opts :: Keyword.t) :: t</span>
+<span class='curline'><a href='../S/83.html#L310'>field</a>             310 deps/ecto/lib/ecto/association.ex       on: field(q, ^refl.related_key) == field(o, ^refl.owner_key)</span>
+<span class='curline'><a href='../S/83.html#L321'>field</a>             321 deps/ecto/lib/ecto/association.ex       where: field(x, ^refl.related_key) in ^values</span>
+<span class='curline'><a href='../S/83.html#L379'>field</a>             379 deps/ecto/lib/ecto/association.ex   defp maybe_replace_one!(%{cardinality: :one, field: field} = assoc,</span>
+<span class='curline'><a href='../S/83.html#L381'>field</a>             381 deps/ecto/lib/ecto/association.ex     case Map.get(parent, field) do</span>
+<span class='curline'><a href='../S/83.html#L533'>field</a>             533 deps/ecto/lib/ecto/association.ex         {val, {composite, {ix, field}}} when is_integer(ix) -&gt;</span>
+<span class='curline'><a href='../S/83.html#L534'>field</a>             534 deps/ecto/lib/ecto/association.ex           {val, {composite, {Map.get(mapping, ix, ix), field}}}</span>
+<span class='curline'><a href='../S/83.html#L535'>field</a>             535 deps/ecto/lib/ecto/association.ex         {val, {ix, field}} when is_integer(ix) -&gt;</span>
+<span class='curline'><a href='../S/83.html#L536'>field</a>             536 deps/ecto/lib/ecto/association.ex           {val, {Map.get(mapping, ix, ix), field}}</span>
+<span class='curline'><a href='../S/83.html#L615'>field</a>             615 deps/ecto/lib/ecto/association.ex       on: field(q, ^refl.related_key) == field(o, ^refl.owner_key)</span>
+<span class='curline'><a href='../S/83.html#L626'>field</a>             626 deps/ecto/lib/ecto/association.ex       where: field(x, ^refl.related_key) in ^values</span>
+<span class='curline'><a href='../S/85.html#L1092'>field</a>            1092 deps/ecto/lib/ecto/changeset.ex   def validate_change(changeset, field, validator) when is_atom(field) do</span>
+<span class='curline'><a href='../S/85.html#L1095'>field</a>            1095 deps/ecto/lib/ecto/changeset.ex     value = Map.get(changes, field)</span>
+<span class='curline'><a href='../S/85.html#L1096'>field</a>            1096 deps/ecto/lib/ecto/changeset.ex     new   = if is_nil(value), do: [], else: validator.(field, value)</span>
+<span class='curline'><a href='../S/85.html#L1123'>field</a>            1123 deps/ecto/lib/ecto/changeset.ex   def validate_change(%{validations: validations} = changeset, field, metadata, validator) do</span>
+<span class='curline'><a href='../S/85.html#L1124'>field</a>            1124 deps/ecto/lib/ecto/changeset.ex     changeset = %{changeset | validations: [{field, metadata}|validations]}</span>
+<span class='curline'><a href='../S/85.html#L1125'>field</a>            1125 deps/ecto/lib/ecto/changeset.ex     validate_change(changeset, field, validator)</span>
+<span class='curline'><a href='../S/85.html#L1143'>field</a>            1143 deps/ecto/lib/ecto/changeset.ex   def validate_format(changeset, field, format, opts \\ []) do</span>
+<span class='curline'><a href='../S/85.html#L1144'>field</a>            1144 deps/ecto/lib/ecto/changeset.ex     validate_change changeset, field, {:format, format}, fn _, value -&gt;</span>
+<span class='curline'><a href='../S/85.html#L1145'>field</a>            1145 deps/ecto/lib/ecto/changeset.ex       if value =~ format, do: [], else: [{field, message(opts, "has invalid format")}]</span>
+<span class='curline'><a href='../S/85.html#L1163'>field</a>            1163 deps/ecto/lib/ecto/changeset.ex   def validate_inclusion(changeset, field, data, opts \\ []) do</span>
+<span class='curline'><a href='../S/85.html#L1164'>field</a>            1164 deps/ecto/lib/ecto/changeset.ex     validate_change changeset, field, {:inclusion, data}, fn _, value -&gt;</span>
+<span class='curline'><a href='../S/85.html#L1165'>field</a>            1165 deps/ecto/lib/ecto/changeset.ex       if value in data, do: [], else: [{field, message(opts, "is invalid")}]</span>
+<span class='curline'><a href='../S/85.html#L1184'>field</a>            1184 deps/ecto/lib/ecto/changeset.ex   def validate_subset(changeset, field, data, opts \\ []) do</span>
+<span class='curline'><a href='../S/85.html#L1185'>field</a>            1185 deps/ecto/lib/ecto/changeset.ex     validate_change changeset, field, {:subset, data}, fn _, value -&gt;</span>
+<span class='curline'><a href='../S/85.html#L1187'>field</a>            1187 deps/ecto/lib/ecto/changeset.ex         true -&gt; [{field, message(opts, "has an invalid entry")}]</span>
+<span class='curline'><a href='../S/85.html#L1206'>field</a>            1206 deps/ecto/lib/ecto/changeset.ex   def validate_exclusion(changeset, field, data, opts \\ []) do</span>
+<span class='curline'><a href='../S/85.html#L1207'>field</a>            1207 deps/ecto/lib/ecto/changeset.ex     validate_change changeset, field, {:exclusion, data}, fn _, value -&gt;</span>
+<span class='curline'><a href='../S/85.html#L1208'>field</a>            1208 deps/ecto/lib/ecto/changeset.ex       if value in data, do: [{field, message(opts, "is reserved")}], else: []</span>
+<span class='curline'><a href='../S/85.html#L1240'>field</a>            1240 deps/ecto/lib/ecto/changeset.ex   def validate_length(changeset, field, opts) when is_list(opts) do</span>
+<span class='curline'><a href='../S/85.html#L1241'>field</a>            1241 deps/ecto/lib/ecto/changeset.ex     validate_change changeset, field, {:length, opts}, fn</span>
+<span class='curline'><a href='../S/85.html#L1254'>field</a>            1254 deps/ecto/lib/ecto/changeset.ex         if error, do: [{field, error}], else: []</span>
+<span class='curline'><a href='../S/85.html#L1301'>field</a>            1301 deps/ecto/lib/ecto/changeset.ex   def validate_number(changeset, field, opts) do</span>
+<span class='curline'><a href='../S/85.html#L1302'>field</a>            1302 deps/ecto/lib/ecto/changeset.ex     validate_change changeset, field, {:number, opts}, fn</span>
+<span class='curline'><a href='../S/85.html#L1303'>field</a>            1303 deps/ecto/lib/ecto/changeset.ex       field, value -&gt;</span>
+<span class='curline'><a href='../S/85.html#L1308'>field</a>            1308 deps/ecto/lib/ecto/changeset.ex               validate_number(field, value, message || default_message,</span>
+<span class='curline'><a href='../S/85.html#L1317'>field</a>            1317 deps/ecto/lib/ecto/changeset.ex   defp validate_number(field, %Decimal{} = value, message, spec_key, _spec_function, target_value) do</span>
+<span class='curline'><a href='../S/85.html#L1321'>field</a>            1321 deps/ecto/lib/ecto/changeset.ex       false -&gt; [{field, {message, count: target_value}}]</span>
+<span class='curline'><a href='../S/85.html#L1325'>field</a>            1325 deps/ecto/lib/ecto/changeset.ex   defp validate_number(field, value, message, _spec_key, spec_function, target_value) do</span>
+<span class='curline'><a href='../S/85.html#L1328'>field</a>            1328 deps/ecto/lib/ecto/changeset.ex       false -&gt; [{field, {message, count: target_value}}]</span>
+<span class='curline'><a href='../S/85.html#L1378'>field</a>            1378 deps/ecto/lib/ecto/changeset.ex   def validate_confirmation(changeset, field, opts \\ []) do</span>
+<span class='curline'><a href='../S/85.html#L1379'>field</a>            1379 deps/ecto/lib/ecto/changeset.ex     validate_change changeset, field, {:confirmation, opts}, fn _, _ -&gt;</span>
+<span class='curline'><a href='../S/85.html#L1380'>field</a>            1380 deps/ecto/lib/ecto/changeset.ex       param = Atom.to_string(field)</span>
+<span class='curline'><a href='../S/85.html#L1482'>field</a>            1482 deps/ecto/lib/ecto/changeset.ex   def optimistic_lock(model_or_changeset, field, incrementer \\ &amp;(&amp;1 + 1)) do</span>
+<span class='curline'><a href='../S/85.html#L1484'>field</a>            1484 deps/ecto/lib/ecto/changeset.ex     current = Map.fetch!(changeset.model, field)</span>
+<span class='curline'><a href='../S/85.html#L1485'>field</a>            1485 deps/ecto/lib/ecto/changeset.ex     update_in(changeset.filters, &amp;Map.put(&amp;1, field, current))</span>
+<span class='curline'><a href='../S/85.html#L1486'>field</a>            1486 deps/ecto/lib/ecto/changeset.ex     |&gt; force_change(field, incrementer.(current))</span>
+<span class='curline'><a href='../S/85.html#L1580'>field</a>            1580 deps/ecto/lib/ecto/changeset.ex   def unique_constraint(changeset, field, opts \\ []) do</span>
+<span class='curline'><a href='../S/85.html#L1581'>field</a>            1581 deps/ecto/lib/ecto/changeset.ex     constraint = opts[:name] || "#{get_source(changeset)}_#{field}_index"</span>
+<span class='curline'><a href='../S/85.html#L1583'>field</a>            1583 deps/ecto/lib/ecto/changeset.ex     add_constraint(changeset, :unique, to_string(constraint), field, message)</span>
+<span class='curline'><a href='../S/85.html#L1627'>field</a>            1627 deps/ecto/lib/ecto/changeset.ex   def foreign_key_constraint(changeset, field, opts \\ []) do</span>
+<span class='curline'><a href='../S/85.html#L1628'>field</a>            1628 deps/ecto/lib/ecto/changeset.ex     constraint = opts[:name] || "#{get_source(changeset)}_#{field}_fkey"</span>
+<span class='curline'><a href='../S/85.html#L1630'>field</a>            1630 deps/ecto/lib/ecto/changeset.ex     add_constraint(changeset, :foreign_key, to_string(constraint), field, message)</span>
+<span class='curline'><a href='../S/85.html#L1747'>field</a>            1747 deps/ecto/lib/ecto/changeset.ex   def exclude_constraint(changeset, field, opts \\ []) do</span>
+<span class='curline'><a href='../S/85.html#L1748'>field</a>            1748 deps/ecto/lib/ecto/changeset.ex     constraint = opts[:name] || "#{get_source(changeset)}_#{field}_exclusion"</span>
+<span class='curline'><a href='../S/85.html#L1750'>field</a>            1750 deps/ecto/lib/ecto/changeset.ex     add_constraint(changeset, :exclude, to_string(constraint), field, message)</span>
+<span class='curline'><a href='../S/85.html#L1756'>field</a>            1756 deps/ecto/lib/ecto/changeset.ex   defp add_constraint(changeset, type, constraint, field, message)</span>
+<span class='curline'><a href='../S/85.html#L1757'>field</a>            1757 deps/ecto/lib/ecto/changeset.ex        when is_binary(constraint) and is_atom(field) and is_binary(message) do</span>
+<span class='curline'><a href='../S/85.html#L1759'>field</a>            1759 deps/ecto/lib/ecto/changeset.ex                                          field: field, message: message}|&amp;1]</span>
+<span class='curline'><a href='../S/85.html#L1812'>field</a>            1812 deps/ecto/lib/ecto/changeset.ex       {field, {tag, %{cardinality: :many}}}, acc when tag in @relations -&gt;</span>
+<span class='curline'><a href='../S/85.html#L1813'>field</a>            1813 deps/ecto/lib/ecto/changeset.ex         if changesets = Map.get(changes, field) do</span>
+<span class='curline'><a href='../S/85.html#L1814'>field</a>            1814 deps/ecto/lib/ecto/changeset.ex           Map.put(acc, field, Enum.map(changesets, &amp;traverse_errors(&amp;1, msg_func)))</span>
+<span class='curline'><a href='../S/85.html#L1818'>field</a>            1818 deps/ecto/lib/ecto/changeset.ex       {field, {tag, %{cardinality: :one}}}, acc when tag in @relations -&gt;</span>
+<span class='curline'><a href='../S/85.html#L1819'>field</a>            1819 deps/ecto/lib/ecto/changeset.ex         if changeset = Map.get(changes, field) do</span>
+<span class='curline'><a href='../S/85.html#L1820'>field</a>            1820 deps/ecto/lib/ecto/changeset.ex           Map.put(acc, field, traverse_errors(changeset, msg_func))</span>
+<span class='curline'><a href='../S/84.html#L61'>field</a>              61 deps/ecto/lib/ecto/changeset/relation.ex       Enum.reduce(related, {model, changes, true}, fn {field, changeset}, acc -&gt;</span>
+<span class='curline'><a href='../S/84.html#L62'>field</a>              62 deps/ecto/lib/ecto/changeset/relation.ex         case Map.get(types, field) do</span>
+<span class='curline'><a href='../S/84.html#L64'>field</a>              64 deps/ecto/lib/ecto/changeset/relation.ex             on_repo_action(related, field, changeset, adapter, repo, action, opts, acc)</span>
+<span class='curline'><a href='../S/84.html#L67'>field</a>              67 deps/ecto/lib/ecto/changeset/relation.ex               "cannot #{action} `#{field}` in #{inspect model.__struct__}. Only embedded models, " &lt;&gt;</span>
+<span class='curline'><a href='../S/84.html#L79'>field</a>              79 deps/ecto/lib/ecto/changeset/relation.ex   defp on_repo_action(%{cardinality: :one}, field, nil,</span>
+<span class='curline'><a href='../S/84.html#L81'>field</a>              81 deps/ecto/lib/ecto/changeset/relation.ex     {Map.put(parent, field, nil), Map.put(changes, field, nil), valid?}</span>
+<span class='curline'><a href='../S/84.html#L84'>field</a>              84 deps/ecto/lib/ecto/changeset/relation.ex   defp on_repo_action(%{cardinality: :one} = meta, field, changeset,</span>
+<span class='curline'><a href='../S/84.html#L88'>field</a>              88 deps/ecto/lib/ecto/changeset/relation.ex         {Map.put(parent, field, model), Map.put(changes, field, changeset), valid?}</span>
+<span class='curline'><a href='../S/84.html#L90'>field</a>              90 deps/ecto/lib/ecto/changeset/relation.ex         {parent, Map.put(changes, field, changeset), false}</span>
+<span class='curline'><a href='../S/84.html#L94'>field</a>              94 deps/ecto/lib/ecto/changeset/relation.ex   defp on_repo_action(%{cardinality: :many} = meta, field, changesets,</span>
+<span class='curline'><a href='../S/84.html#L109'>field</a>             109 deps/ecto/lib/ecto/changeset/relation.ex       {Map.put(parent, field, Enum.reverse(models)), Map.put(changes, field, changesets), valid?}</span>
+<span class='curline'><a href='../S/84.html#L111'>field</a>             111 deps/ecto/lib/ecto/changeset/relation.ex       {parent, Map.put(changes, field, changesets), false}</span>
+<span class='curline'><a href='../S/84.html#L144'>field</a>             144 deps/ecto/lib/ecto/changeset/relation.ex   def load!(model, %NotLoaded{__field__: field}) do</span>
+<span class='curline'><a href='../S/84.html#L145'>field</a>             145 deps/ecto/lib/ecto/changeset/relation.ex     raise ArgumentError, "attempting to cast or change association `#{field}` " &lt;&gt;</span>
+<span class='curline'><a href='../S/84.html#L224'>field</a>             224 deps/ecto/lib/ecto/changeset/relation.ex       Enum.reduce(embeds ++ assocs, Map.take(struct, fields), fn field, acc -&gt;</span>
+<span class='curline'><a href='../S/84.html#L225'>field</a>             225 deps/ecto/lib/ecto/changeset/relation.ex         case Map.fetch(types, field) do</span>
+<span class='curline'><a href='../S/84.html#L227'>field</a>             227 deps/ecto/lib/ecto/changeset/relation.ex             value = load!(struct, Map.get(struct, field))</span>
+<span class='curline'><a href='../S/84.html#L230'>field</a>             230 deps/ecto/lib/ecto/changeset/relation.ex               {:ok, change, _, false} -&gt; Map.put(acc, field, change)</span>
+<span class='curline'><a href='../S/88.html#L68'>field</a>              68 deps/ecto/lib/ecto/embedded.ex     Enum.reduce(embeds, changeset, fn field, acc -&gt;</span>
+<span class='curline'><a href='../S/88.html#L69'>field</a>              69 deps/ecto/lib/ecto/embedded.ex       {:embed, embed} = Map.get(types, field)</span>
+<span class='curline'><a href='../S/88.html#L70'>field</a>              70 deps/ecto/lib/ecto/embedded.ex       Changeset.put_embed(acc, field, Ecto.Changeset.Relation.empty(embed))</span>
+<span class='curline'><a href='../S/88.html#L180'>field</a>             180 deps/ecto/lib/ecto/embedded.ex   def on_repo_action(%{field: field, related: model} = embed,</span>
+<span class='curline'><a href='../S/88.html#L183'>field</a>             183 deps/ecto/lib/ecto/embedded.ex     maybe_replace_one!(embed, changeset.action, Map.get(parent, field))</span>
+<span class='curline'><a href='../S/89.html#L66'>field</a>              66 deps/ecto/lib/ecto/exceptions.ex     field = Keyword.fetch!(opts, :field)</span>
+<span class='curline'><a href='../S/89.html#L70'>field</a>              70 deps/ecto/lib/ecto/exceptions.ex     %__MODULE__{model: model, field: field, value: value, type: type, message: msg}</span>
+<span class='curline'><a href='../S/92.html#L10'>field</a>              10 deps/ecto/lib/ecto/migration/schema_migration.ex     field :version, :integer</span>
+<span class='curline'><a href='../S/97.html#L16'>field</a>              16 deps/ecto/lib/ecto/model/optimistic_lock.ex   defmacro optimistic_lock(field) do</span>
+<span class='curline'><a href='../S/97.html#L21'>field</a>              21 deps/ecto/lib/ecto/model/optimistic_lock.ex     quote bind_quoted: [field: field] do</span>
+<span class='curline'><a href='../S/97.html#L22'>field</a>              22 deps/ecto/lib/ecto/model/optimistic_lock.ex       before_update Ecto.Changeset, :optimistic_lock, [field]</span>
+<span class='curline'><a href='../S/97.html#L23'>field</a>              23 deps/ecto/lib/ecto/model/optimistic_lock.ex       before_delete Ecto.Changeset, :optimistic_lock, [field]</span>
+<span class='curline'><a href='../S/122.html#L217'>field</a>             217 deps/ecto/lib/ecto/query.ex   def exclude(%Ecto.Query{} = query, field), do: do_exclude(query, field)</span>
+<span class='curline'><a href='../S/122.html#L218'>field</a>             218 deps/ecto/lib/ecto/query.ex   def exclude(query, field), do: do_exclude(Ecto.Queryable.to_query(query), field)</span>
+<span class='curline'><a href='../S/119.html#L32'>field</a>              32 deps/ecto/lib/ecto/query/builder.ex   def escape({{:., _, [{var, _, context}, field]}, _, []}, _type, params, vars, _env)</span>
+<span class='curline'><a href='../S/119.html#L33'>field</a>              33 deps/ecto/lib/ecto/query/builder.ex       when is_atom(var) and is_atom(context) and is_atom(field) do</span>
+<span class='curline'><a href='../S/119.html#L34'>field</a>              34 deps/ecto/lib/ecto/query/builder.ex     {escape_field(var, field, vars), params}</span>
+<span class='curline'><a href='../S/119.html#L38'>field</a>              38 deps/ecto/lib/ecto/query/builder.ex   def escape({:field, _, [{var, _, context}, field]}, _type, params, vars, _env)</span>
+<span class='curline'><a href='../S/119.html#L40'>field</a>              40 deps/ecto/lib/ecto/query/builder.ex     {escape_field(var, field, vars), params}</span>
+<span class='curline'><a href='../S/119.html#L249'>field</a>             249 deps/ecto/lib/ecto/query/builder.ex   defp escape_field(var, field, vars) do</span>
+<span class='curline'><a href='../S/119.html#L251'>field</a>             251 deps/ecto/lib/ecto/query/builder.ex     field = quoted_field!(field)</span>
+<span class='curline'><a href='../S/119.html#L252'>field</a>             252 deps/ecto/lib/ecto/query/builder.ex     dot   = {:{}, [], [:., [], [var, field]]}</span>
+<span class='curline'><a href='../S/119.html#L315'>field</a>             315 deps/ecto/lib/ecto/query/builder.ex   defp validate_type!({{:., _, [{var, _, context}, field]}, _, []}, vars)</span>
+<span class='curline'><a href='../S/119.html#L316'>field</a>             316 deps/ecto/lib/ecto/query/builder.ex     when is_atom(var) and is_atom(context) and is_atom(field),</span>
+<span class='curline'><a href='../S/119.html#L317'>field</a>             317 deps/ecto/lib/ecto/query/builder.ex     do: {{find_var!(var, vars), field}, escape_field(var, field, vars)}</span>
+<span class='curline'><a href='../S/119.html#L318'>field</a>             318 deps/ecto/lib/ecto/query/builder.ex   defp validate_type!({:field, _, [{var, _, context}, field]}, vars)</span>
+<span class='curline'><a href='../S/119.html#L319'>field</a>             319 deps/ecto/lib/ecto/query/builder.ex     when is_atom(var) and is_atom(context) and is_atom(field),</span>
+<span class='curline'><a href='../S/119.html#L320'>field</a>             320 deps/ecto/lib/ecto/query/builder.ex     do: {{find_var!(var, vars), field}, escape_field(var, field, vars)}</span>
+<span class='curline'><a href='../S/119.html#L471'>field</a>             471 deps/ecto/lib/ecto/query/builder.ex   def quoted_type({{:., _, [{var, _, context}, field]}, _, []}, vars)</span>
+<span class='curline'><a href='../S/119.html#L472'>field</a>             472 deps/ecto/lib/ecto/query/builder.ex     when is_atom(var) and is_atom(context) and is_atom(field),</span>
+<span class='curline'><a href='../S/119.html#L473'>field</a>             473 deps/ecto/lib/ecto/query/builder.ex     do: {find_var!(var, vars), field}</span>
+<span class='curline'><a href='../S/119.html#L475'>field</a>             475 deps/ecto/lib/ecto/query/builder.ex   def quoted_type({:field, _, [{var, _, context}, field]}, vars)</span>
+<span class='curline'><a href='../S/119.html#L476'>field</a>             476 deps/ecto/lib/ecto/query/builder.ex     when is_atom(var) and is_atom(context) and is_atom(field),</span>
+<span class='curline'><a href='../S/119.html#L477'>field</a>             477 deps/ecto/lib/ecto/query/builder.ex     do: {find_var!(var, vars), field}</span>
+<span class='curline'><a href='../S/109.html#L70'>field</a>              70 deps/ecto/lib/ecto/query/builder/filter.ex         {field, nil}, _acc -&gt;</span>
+<span class='curline'><a href='../S/109.html#L71'>field</a>              71 deps/ecto/lib/ecto/query/builder/filter.ex           Builder.error! "nil given for #{inspect field}, comparison with nil is forbidden as it always evaluates to false. " &lt;&gt;</span>
+<span class='curline'><a href='../S/109.html#L73'>field</a>              73 deps/ecto/lib/ecto/query/builder/filter.ex         {field, value}, acc when is_atom(field) -&gt;</span>
+<span class='curline'><a href='../S/109.html#L74'>field</a>              74 deps/ecto/lib/ecto/query/builder/filter.ex           {value, params} = Builder.escape(value, {0, field}, acc, vars, env)</span>
+<span class='curline'><a href='../S/109.html#L75'>field</a>              75 deps/ecto/lib/ecto/query/builder/filter.ex           {{:{}, [], [:==, [], [to_escaped_field(field), value]]}, params}</span>
+<span class='curline'><a href='../S/109.html#L106'>field</a>             106 deps/ecto/lib/ecto/query/builder/filter.ex   defp runtime!([{field, nil}|_], _counter, _exprs, _params, _kind, _original) when is_atom(field) do</span>
+<span class='curline'><a href='../S/109.html#L107'>field</a>             107 deps/ecto/lib/ecto/query/builder/filter.ex     raise ArgumentError, "nil given for #{inspect field}, comparison with nil is forbidden as it always evaluates to false. " &lt;&gt;</span>
+<span class='curline'><a href='../S/109.html#L111'>field</a>             111 deps/ecto/lib/ecto/query/builder/filter.ex   defp runtime!([{field, value}|t], counter, exprs, params, kind, original) when is_atom(field) do</span>
+<span class='curline'><a href='../S/109.html#L113'>field</a>             113 deps/ecto/lib/ecto/query/builder/filter.ex              [{:==, [], [to_field(field), {:^, [], [counter]}]}|exprs],</span>
+<span class='curline'><a href='../S/109.html#L114'>field</a>             114 deps/ecto/lib/ecto/query/builder/filter.ex              [{value, {0, field}}|params],</span>
+<span class='curline'><a href='../S/109.html#L126'>field</a>             126 deps/ecto/lib/ecto/query/builder/filter.ex   defp to_escaped_field(field), do: Macro.escape to_field(field)</span>
+<span class='curline'><a href='../S/109.html#L127'>field</a>             127 deps/ecto/lib/ecto/query/builder/filter.ex   defp to_field(field), do: {{:., [], [{:&amp;, [], [0]}, field]}, [], []}</span>
+<span class='curline'><a href='../S/112.html#L65'>field</a>              65 deps/ecto/lib/ecto/query/builder/join.ex   def escape({:assoc, _, [{var, _, context}, field]}, vars, _env)</span>
+<span class='curline'><a href='../S/112.html#L68'>field</a>              68 deps/ecto/lib/ecto/query/builder/join.ex     field = Builder.quoted_field!(field)</span>
+<span class='curline'><a href='../S/112.html#L69'>field</a>              69 deps/ecto/lib/ecto/query/builder/join.ex     {:_, nil, {var, field}, %{}}</span>
+<span class='curline'><a href='../S/115.html#L39'>field</a>              39 deps/ecto/lib/ecto/query/builder/order_by.ex   defp do_escape({dir, field}, params, _vars, _env) when is_atom(field) do</span>
+<span class='curline'><a href='../S/115.html#L40'>field</a>              40 deps/ecto/lib/ecto/query/builder/order_by.ex     {{quoted_dir!(dir), Macro.escape(to_field(field))}, params}</span>
+<span class='curline'><a href='../S/115.html#L43'>field</a>              43 deps/ecto/lib/ecto/query/builder/order_by.ex   defp do_escape(field, params, _vars, _env) when is_atom(field) do</span>
+<span class='curline'><a href='../S/115.html#L44'>field</a>              44 deps/ecto/lib/ecto/query/builder/order_by.ex     {{:asc, Macro.escape(to_field(field))}, params}</span>
+<span class='curline'><a href='../S/115.html#L79'>field</a>              79 deps/ecto/lib/ecto/query/builder/order_by.ex   def field!(field) when is_atom(field),</span>
+<span class='curline'><a href='../S/115.html#L80'>field</a>              80 deps/ecto/lib/ecto/query/builder/order_by.ex     do: to_field(field)</span>
+<span class='curline'><a href='../S/115.html#L89'>field</a>              89 deps/ecto/lib/ecto/query/builder/order_by.ex       {dir, field} when dir in [:asc, :desc] and is_atom(field) -&gt;</span>
+<span class='curline'><a href='../S/115.html#L90'>field</a>              90 deps/ecto/lib/ecto/query/builder/order_by.ex         {dir, to_field(field)}</span>
+<span class='curline'><a href='../S/115.html#L91'>field</a>              91 deps/ecto/lib/ecto/query/builder/order_by.ex       field when is_atom(field) -&gt;</span>
+<span class='curline'><a href='../S/115.html#L92'>field</a>              92 deps/ecto/lib/ecto/query/builder/order_by.ex         {:asc, to_field(field)}</span>
+<span class='curline'><a href='../S/115.html#L98'>field</a>              98 deps/ecto/lib/ecto/query/builder/order_by.ex   defp to_field(field), do: {{:., [], [{:&amp;, [], [0]}, field]}, [], []}</span>
+<span class='curline'><a href='../S/120.html#L94'>field</a>              94 deps/ecto/lib/ecto/query/inspect.ex       {field, {idx, []}} -&gt;</span>
+<span class='curline'><a href='../S/120.html#L95'>field</a>              95 deps/ecto/lib/ecto/query/inspect.ex         {field, {:&amp;, [], [idx]}}</span>
+<span class='curline'><a href='../S/120.html#L96'>field</a>              96 deps/ecto/lib/ecto/query/inspect.ex       {field, {idx, children}} -&gt;</span>
+<span class='curline'><a href='../S/120.html#L97'>field</a>              97 deps/ecto/lib/ecto/query/inspect.ex         {field, {{:&amp;, [], [idx]}, assocs(children)}}</span>
+<span class='curline'><a href='../S/121.html#L21'>field</a>              21 deps/ecto/lib/ecto/query/planner.ex     for {field, value} &lt;- kw do</span>
+<span class='curline'><a href='../S/121.html#L22'>field</a>              22 deps/ecto/lib/ecto/query/planner.ex       type = Map.get(types, field)</span>
+<span class='curline'><a href='../S/121.html#L26'>field</a>              26 deps/ecto/lib/ecto/query/planner.ex           message: "field `#{inspect model}.#{field}` in `#{kind}` does not exist in the model source"</span>
+<span class='curline'><a href='../S/121.html#L31'>field</a>              31 deps/ecto/lib/ecto/query/planner.ex           {field, value}</span>
+<span class='curline'><a href='../S/121.html#L34'>field</a>              34 deps/ecto/lib/ecto/query/planner.ex             message: "value `#{inspect value}` for `#{inspect model}.#{field}` " &lt;&gt;</span>
+<span class='curline'><a href='../S/121.html#L214'>field</a>             214 deps/ecto/lib/ecto/query/planner.ex     {model, field, type} = type_for_param!(kind, query, expr, type)</span>
+<span class='curline'><a href='../S/121.html#L229'>field</a>             229 deps/ecto/lib/ecto/query/planner.ex         raise Ecto.CastError, model: model, field: field, value: v, type: type,</span>
+<span class='curline'><a href='../S/121.html#L231'>field</a>             231 deps/ecto/lib/ecto/query/planner.ex                                        "\nError when casting value to `#{inspect model}.#{field}`"</span>
+<span class='curline'><a href='../S/121.html#L455'>field</a>             455 deps/ecto/lib/ecto/query/planner.ex       {{:., _, [{:&amp;, _, [source]}, field]} = dot, meta, []}, acc -&gt;</span>
+<span class='curline'><a href='../S/121.html#L456'>field</a>             456 deps/ecto/lib/ecto/query/planner.ex         type = type!(kind, query, expr, source, field)</span>
+<span class='curline'><a href='../S/121.html#L625'>field</a>             625 deps/ecto/lib/ecto/query/planner.ex   defp type!(kind, query, expr, source, field) when is_integer(source) do</span>
+<span class='curline'><a href='../S/121.html#L627'>field</a>             627 deps/ecto/lib/ecto/query/planner.ex       {_, model} -&gt; type!(kind, query, expr, model, field)</span>
+<span class='curline'><a href='../S/121.html#L632'>field</a>             632 deps/ecto/lib/ecto/query/planner.ex   defp type!(kind, query, expr, model, field) when is_atom(model) do</span>
+<span class='curline'><a href='../S/121.html#L633'>field</a>             633 deps/ecto/lib/ecto/query/planner.ex     if type = model.__schema__(:type, field) do</span>
+<span class='curline'><a href='../S/121.html#L636'>field</a>             636 deps/ecto/lib/ecto/query/planner.ex       error! query, expr, "field `#{inspect model}.#{field}` in `#{kind}` " &lt;&gt;</span>
+<span class='curline'><a href='../S/121.html#L641'>field</a>             641 deps/ecto/lib/ecto/query/planner.ex   defp type_for_param!(kind, query, expr, {composite, {ix, field}}) when is_integer(ix) do</span>
+<span class='curline'><a href='../S/121.html#L643'>field</a>             643 deps/ecto/lib/ecto/query/planner.ex     {model, field, {composite, type!(kind, query, expr, model, field)}}</span>
+<span class='curline'><a href='../S/121.html#L646'>field</a>             646 deps/ecto/lib/ecto/query/planner.ex   defp type_for_param!(kind, query, expr, {ix, field}) when is_integer(ix) do</span>
+<span class='curline'><a href='../S/121.html#L648'>field</a>             648 deps/ecto/lib/ecto/query/planner.ex     {model, field, type!(kind, query, expr, model, field)}</span>
+<span class='curline'><a href='../S/124.html#L84'>field</a>              84 deps/ecto/lib/ecto/repo/assoc.ex         Map.put(acc, refl.field, loaded)</span>
+<span class='curline'><a href='../S/124.html#L89'>field</a>              89 deps/ecto/lib/ecto/repo/assoc.ex     Enum.map(fields, fn {field, {child_idx, child_fields}} -&gt;</span>
+<span class='curline'><a href='../S/124.html#L91'>field</a>              91 deps/ecto/lib/ecto/repo/assoc.ex       {model.__schema__(:association, field),</span>
+<span class='curline'><a href='../S/125.html#L72'>field</a>              72 deps/ecto/lib/ecto/repo/preloader.ex           loaded?(acc, assoc.field) -&gt;</span>
+<span class='curline'><a href='../S/125.html#L113'>field</a>             113 deps/ecto/lib/ecto/repo/preloader.ex     field = assoc.field</span>
+<span class='curline'><a href='../S/125.html#L118'>field</a>             118 deps/ecto/lib/ecto/repo/preloader.ex       not loaded?(struct, field),</span>
+<span class='curline'><a href='../S/125.html#L123'>field</a>             123 deps/ecto/lib/ecto/repo/preloader.ex   defp loaded?(struct, field) do</span>
+<span class='curline'><a href='../S/125.html#L124'>field</a>             124 deps/ecto/lib/ecto/repo/preloader.ex     case Map.get(struct, field) do</span>
+<span class='curline'><a href='../S/125.html#L171'>field</a>             171 deps/ecto/lib/ecto/repo/preloader.ex     Map.put(struct, assoc.field, loaded)</span>
+<span class='curline'><a href='../S/125.html#L182'>field</a>             182 deps/ecto/lib/ecto/repo/preloader.ex     Map.put(struct, assoc.field, loaded)</span>
+<span class='curline'><a href='../S/126.html#L188'>field</a>             188 deps/ecto/lib/ecto/repo/queryable.ex     Ecto.Query.from(x in query, where: field(x, ^primary_key) == ^id)</span>
+<span class='curline'><a href='../S/126.html#L208'>field</a>             208 deps/ecto/lib/ecto/repo/queryable.ex       [field] -&gt; field</span>
+<span class='curline'><a href='../S/127.html#L315'>field</a>             315 deps/ecto/lib/ecto/repo/schema.ex         %{field: field, message: message} -&gt;</span>
+<span class='curline'><a href='../S/127.html#L316'>field</a>             316 deps/ecto/lib/ecto/repo/schema.ex           Ecto.Changeset.add_error(acc, field, message)</span>
+<span class='curline'><a href='../S/127.html#L356'>field</a>             356 deps/ecto/lib/ecto/repo/schema.ex       Enum.reduce embeds, Map.take(struct, fields), fn field, acc -&gt;</span>
+<span class='curline'><a href='../S/127.html#L357'>field</a>             357 deps/ecto/lib/ecto/repo/schema.ex         {:embed, embed} = Map.fetch!(types, field)</span>
+<span class='curline'><a href='../S/127.html#L358'>field</a>             358 deps/ecto/lib/ecto/repo/schema.ex         Map.put(acc, field, Ecto.Changeset.Relation.empty(embed))</span>
+<span class='curline'><a href='../S/127.html#L365'>field</a>             365 deps/ecto/lib/ecto/repo/schema.ex     Enum.each relation, fn field -&gt;</span>
+<span class='curline'><a href='../S/127.html#L366'>field</a>             366 deps/ecto/lib/ecto/repo/schema.ex       case Map.get(types, field) do</span>
+<span class='curline'><a href='../S/127.html#L368'>field</a>             368 deps/ecto/lib/ecto/repo/schema.ex           value = Map.get(struct, field)</span>
+<span class='curline'><a href='../S/127.html#L372'>field</a>             372 deps/ecto/lib/ecto/repo/schema.ex               "set for #{kind} named `#{field}`. #{String.capitalize kind}s can only be " &lt;&gt;</span>
+<span class='curline'><a href='../S/127.html#L403'>field</a>             403 deps/ecto/lib/ecto/repo/schema.ex         %{on_delete: :fetch_and_delete, field: field} -&gt;</span>
+<span class='curline'><a href='../S/127.html#L404'>field</a>             404 deps/ecto/lib/ecto/repo/schema.ex           assocs = repo.all Ecto.assoc(model, field)</span>
+<span class='curline'><a href='../S/127.html#L406'>field</a>             406 deps/ecto/lib/ecto/repo/schema.ex         %{on_delete: :delete_all, field: field} -&gt;</span>
+<span class='curline'><a href='../S/127.html#L407'>field</a>             407 deps/ecto/lib/ecto/repo/schema.ex           repo.delete_all Ecto.assoc(model, field)</span>
+<span class='curline'><a href='../S/127.html#L408'>field</a>             408 deps/ecto/lib/ecto/repo/schema.ex         %{on_delete: :nilify_all, related_key: related_key, field: field} -&gt;</span>
+<span class='curline'><a href='../S/127.html#L409'>field</a>             409 deps/ecto/lib/ecto/repo/schema.ex           query = Ecto.assoc(model, field)</span>
+<span class='curline'><a href='../S/130.html#L422'>field</a>             422 deps/ecto/lib/ecto/schema.ex         Ecto.Schema.field(inserted_at, type, [])</span>
+<span class='curline'><a href='../S/130.html#L427'>field</a>             427 deps/ecto/lib/ecto/schema.ex         Ecto.Schema.field(updated_at, type, [])</span>
+<span class='curline'><a href='../S/130.html#L965'>field</a>             965 deps/ecto/lib/ecto/schema.ex       {field, type}, acc -&gt;</span>
+<span class='curline'><a href='../S/130.html#L966'>field</a>             966 deps/ecto/lib/ecto/schema.ex         value = load!(type, Map.get(map, Atom.to_string(field)), loader)</span>
+<span class='curline'><a href='../S/130.html#L967'>field</a>             967 deps/ecto/lib/ecto/schema.ex         Map.put(acc, field, value)</span>
+<span class='curline'><a href='../S/130.html#L973'>field</a>             973 deps/ecto/lib/ecto/schema.ex       {field, type}, {acc, [h|t]} -&gt;</span>
+<span class='curline'><a href='../S/130.html#L975'>field</a>             975 deps/ecto/lib/ecto/schema.ex         {Map.put(acc, field, value), t}</span>
+<span class='curline'><a href='../S/132.html#L355'>field</a>             355 deps/ecto/lib/ecto/type.ex   defp dump_embed(%{cardinality: :one, related: model, field: field} = embed,</span>
+<span class='curline'><a href='../S/132.html#L358'>field</a>             358 deps/ecto/lib/ecto/type.ex     {:ok, dump_embed(field, model, value, model.__schema__(:types), fun)}</span>
+<span class='curline'><a href='../S/132.html#L361'>field</a>             361 deps/ecto/lib/ecto/type.ex   defp dump_embed(%{cardinality: :many, related: model, field: field} = embed,</span>
+<span class='curline'><a href='../S/132.html#L366'>field</a>             366 deps/ecto/lib/ecto/type.ex               model = dump_embed(field, model, changeset, types, fun),</span>
+<span class='curline'><a href='../S/132.html#L381'>field</a>             381 deps/ecto/lib/ecto/type.ex     Enum.reduce(types, %{}, fn {field, type}, acc -&gt;</span>
+<span class='curline'><a href='../S/132.html#L383'>field</a>             383 deps/ecto/lib/ecto/type.ex         case Map.fetch(changes, field) do</span>
+<span class='curline'><a href='../S/132.html#L385'>field</a>             385 deps/ecto/lib/ecto/type.ex           :error        -&gt; Map.get(struct, field)</span>
+<span class='curline'><a href='../S/132.html#L389'>field</a>             389 deps/ecto/lib/ecto/type.ex         {:ok, value} -&gt; Map.put(acc, field, value)</span>
+<span class='curline'><a href='../S/132.html#L395'>field</a>             395 deps/ecto/lib/ecto/type.ex   defp dump_embed(field, _model, value, _types, _fun) do</span>
+<span class='curline'><a href='../S/132.html#L396'>field</a>             396 deps/ecto/lib/ecto/type.ex     raise ArgumentError, "cannot dump embed `#{field}`, invalid value: #{inspect value}"</span>
+<span class='curline'><a href='../S/132.html#L448'>field</a>             448 deps/ecto/lib/ecto/type.ex   defp load_embed(%{cardinality: :one, related: model, field: field} = embed,</span>
+<span class='curline'><a href='../S/132.html#L451'>field</a>             451 deps/ecto/lib/ecto/type.ex     {:ok, load_embed(field, model, value, fun)}</span>
+<span class='curline'><a href='../S/132.html#L456'>field</a>             456 deps/ecto/lib/ecto/type.ex   defp load_embed(%{cardinality: :many, related: model, field: field} = embed,</span>
+<span class='curline'><a href='../S/132.html#L459'>field</a>             459 deps/ecto/lib/ecto/type.ex     {:ok, Enum.map(value, &amp;load_embed(field, model, &amp;1, fun))}</span>
+<span class='curline'><a href='../S/132.html#L470'>field</a>             470 deps/ecto/lib/ecto/type.ex   defp load_embed(field, _model, value, _fun) do</span>
+<span class='curline'><a href='../S/132.html#L471'>field</a>             471 deps/ecto/lib/ecto/type.ex     raise ArgumentError, "cannot load embed `#{field}`, invalid value: #{inspect value}"</span>
+<span class='curline'><a href='../S/132.html#L657'>field</a>             657 deps/ecto/lib/ecto/type.ex   defp assert_replace_strategy!(%{strategy: strategy, field: field}) do</span>
+<span class='curline'><a href='../S/132.html#L658'>field</a>             658 deps/ecto/lib/ecto/type.ex     raise ArgumentError, "could not load/dump embed `#{field}` because the current adapter " &lt;&gt;</span>
+<span class='curline'><a href='../S/187.html#L270'>field</a>             270 deps/postgrex/lib/postgrex/messages.ex   defp decode_fields(&lt;&lt;field :: int8, rest :: binary&gt;&gt;) do</span>
+<span class='curline'><a href='../S/187.html#L271'>field</a>             271 deps/postgrex/lib/postgrex/messages.ex     type = decode_field_type(field)</span>
+<span class='curline'><a href='../S/187.html#L285'>field</a>             285 deps/postgrex/lib/postgrex/messages.ex     {field, rest} = decode_row_field(rest)</span>
+<span class='curline'><a href='../S/187.html#L286'>field</a>             286 deps/postgrex/lib/postgrex/messages.ex     [field | decode_row_fields(rest, count-1)]</span>
+<span class='curline'><a href='../S/187.html#L294'>field</a>             294 deps/postgrex/lib/postgrex/messages.ex     field = row_field(name: name, table_oid: table_oid, column: column, type_oid: type_oid,</span>
+<span class='curline'><a href='../S/187.html#L296'>field</a>             296 deps/postgrex/lib/postgrex/messages.ex     {field, rest}</span>
+<span class='curline'><a href='../S/187.html#L303'>field</a>             303 deps/postgrex/lib/postgrex/messages.ex   Enum.each(@error_fields, fn {field, char} -&gt;</span>
+<span class='curline'><a href='../S/187.html#L304'>field</a>             304 deps/postgrex/lib/postgrex/messages.ex     def decode_field_type(unquote(char)), do: unquote(field)</span>
+<span class='curline'><a href='../S/195.html#L136'>field</a>             136 deps/postgrex/lib/postgrex/types.ex   defp match_type({field, value}, type_info) do</span>
+<span class='curline'><a href='../S/195.html#L137'>field</a>             137 deps/postgrex/lib/postgrex/types.ex     case Map.fetch(type_info, field) do</span>
+<span class='curline'><a href='../S/201.html#L23'>field</a>              23 lib/ecto_study01.ex     field :username, :string</span>
+<span class='curline'><a href='../S/201.html#L24'>field</a>              24 lib/ecto_study01.ex     field :encrypted_password, :string</span>
+<span class='curline'><a href='../S/201.html#L25'>field</a>              25 lib/ecto_study01.ex     field :email, :string</span>
+<span class='curline'><a href='../S/201.html#L26'>field</a>              26 lib/ecto_study01.ex     field :confirmed, :boolean, default: false</span>
+<span class='curline'><a href='../S/201.html#L27'>field</a>              27 lib/ecto_study01.ex     field :password, :string, virtual: true</span>
+<span class='curline'><a href='../S/201.html#L28'>field</a>              28 lib/ecto_study01.ex     field :password_confirmation, :string, virtual: true</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>expr</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/74.html#L180'>expr</a>              180 deps/ecto/lib/ecto/adapters/mysql/connection.ex         Enum.map_join(fields, ", ", &amp;expr(&amp;1, sources, query))</span>
+<span class='curline'><a href='../S/74.html#L196'>expr</a>              196 deps/ecto/lib/ecto/adapters/mysql/connection.ex       for(%{expr: expr} &lt;- updates,</span>
+<span class='curline'><a href='../S/74.html#L197'>expr</a>              197 deps/ecto/lib/ecto/adapters/mysql/connection.ex           {op, kw} &lt;- expr,</span>
+<span class='curline'><a href='../S/74.html#L203'>expr</a>              203 deps/ecto/lib/ecto/adapters/mysql/connection.ex       quote_name(key) &lt;&gt; " = " &lt;&gt; expr(value, sources, query)</span>
+<span class='curline'><a href='../S/74.html#L208'>expr</a>              208 deps/ecto/lib/ecto/adapters/mysql/connection.ex       quoted &lt;&gt; " = " &lt;&gt; quoted &lt;&gt; " + " &lt;&gt; expr(value, sources, query)</span>
+<span class='curline'><a href='../S/74.html#L218'>expr</a>              218 deps/ecto/lib/ecto/adapters/mysql/connection.ex         %JoinExpr{on: %QueryExpr{expr: expr}, qual: qual, ix: ix, source: source} -&gt;</span>
+<span class='curline'><a href='../S/74.html#L221'>expr</a>              221 deps/ecto/lib/ecto/adapters/mysql/connection.ex           join = join || "(" &lt;&gt; expr(source, sources, query) &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/74.html#L222'>expr</a>              222 deps/ecto/lib/ecto/adapters/mysql/connection.ex           "#{qual} JOIN " &lt;&gt; join &lt;&gt; " AS #{name} ON " &lt;&gt; expr(expr, sources, query)</span>
+<span class='curline'><a href='../S/74.html#L242'>expr</a>              242 deps/ecto/lib/ecto/adapters/mysql/connection.ex           %QueryExpr{expr: expr} -&gt;</span>
+<span class='curline'><a href='../S/74.html#L243'>expr</a>              243 deps/ecto/lib/ecto/adapters/mysql/connection.ex             Enum.map_join(expr, ", ", &amp;expr(&amp;1, sources, query))</span>
+<span class='curline'><a href='../S/74.html#L255'>expr</a>              255 deps/ecto/lib/ecto/adapters/mysql/connection.ex           %QueryExpr{expr: expr} -&gt;</span>
+<span class='curline'><a href='../S/74.html#L256'>expr</a>              256 deps/ecto/lib/ecto/adapters/mysql/connection.ex             Enum.map_join(expr, ", ", &amp;order_by_expr(&amp;1, sources, query))</span>
+<span class='curline'><a href='../S/74.html#L265'>expr</a>              265 deps/ecto/lib/ecto/adapters/mysql/connection.ex     defp order_by_expr({dir, expr}, sources, query) do</span>
+<span class='curline'><a href='../S/74.html#L266'>expr</a>              266 deps/ecto/lib/ecto/adapters/mysql/connection.ex       str = expr(expr, sources, query)</span>
+<span class='curline'><a href='../S/74.html#L274'>expr</a>              274 deps/ecto/lib/ecto/adapters/mysql/connection.ex     defp limit(%Query{limit: %QueryExpr{expr: expr}} = query, sources) do</span>
+<span class='curline'><a href='../S/74.html#L275'>expr</a>              275 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "LIMIT " &lt;&gt; expr(expr, sources, query)</span>
+<span class='curline'><a href='../S/74.html#L279'>expr</a>              279 deps/ecto/lib/ecto/adapters/mysql/connection.ex     defp offset(%Query{offset: %QueryExpr{expr: expr}} = query, sources) do</span>
+<span class='curline'><a href='../S/74.html#L280'>expr</a>              280 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "OFFSET " &lt;&gt; expr(expr, sources, query)</span>
+<span class='curline'><a href='../S/74.html#L290'>expr</a>              290 deps/ecto/lib/ecto/adapters/mysql/connection.ex           %QueryExpr{expr: expr} -&gt;</span>
+<span class='curline'><a href='../S/74.html#L291'>expr</a>              291 deps/ecto/lib/ecto/adapters/mysql/connection.ex             "(" &lt;&gt; expr(expr, sources, query) &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/74.html#L322'>expr</a>              322 deps/ecto/lib/ecto/adapters/mysql/connection.ex       args = Enum.map_join right, ",", &amp;expr(&amp;1, sources, query)</span>
+<span class='curline'><a href='../S/74.html#L323'>expr</a>              323 deps/ecto/lib/ecto/adapters/mysql/connection.ex       expr(left, sources, query) &lt;&gt; " IN (" &lt;&gt; args &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/74.html#L328'>expr</a>              328 deps/ecto/lib/ecto/adapters/mysql/connection.ex       expr(left, sources, query) &lt;&gt; " IN (" &lt;&gt; args &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/74.html#L332'>expr</a>              332 deps/ecto/lib/ecto/adapters/mysql/connection.ex       expr(left, sources, query) &lt;&gt; " = ANY(" &lt;&gt; expr(right, sources, query) &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/74.html#L336'>expr</a>              336 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "#{expr(arg, sources, query)} IS NULL"</span>
+<span class='curline'><a href='../S/74.html#L340'>expr</a>              340 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "NOT (" &lt;&gt; expr(expr, sources, query) &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/74.html#L350'>expr</a>              350 deps/ecto/lib/ecto/adapters/mysql/connection.ex         {:expr, expr} -&gt; expr(expr, sources, query)</span>
+<span class='curline'><a href='../S/74.html#L355'>expr</a>              355 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "CAST(date_add(" &lt;&gt; expr(datetime, sources, query) &lt;&gt; ", "</span>
+<span class='curline'><a href='../S/74.html#L360'>expr</a>              360 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "CAST(date_add(" &lt;&gt; expr(date, sources, query) &lt;&gt; ", "</span>
+<span class='curline'><a href='../S/74.html#L379'>expr</a>              379 deps/ecto/lib/ecto/adapters/mysql/connection.ex           "#{fun}(" &lt;&gt; modifier &lt;&gt; Enum.map_join(args, ", ", &amp;expr(&amp;1, sources, query)) &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/74.html#L399'>expr</a>              399 deps/ecto/lib/ecto/adapters/mysql/connection.ex       expr(other, sources, query)</span>
+<span class='curline'><a href='../S/74.html#L403'>expr</a>              403 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "CAST(#{expr(other, sources, query)} AS " &lt;&gt; ecto_to_db(type, query) &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/74.html#L420'>expr</a>              420 deps/ecto/lib/ecto/adapters/mysql/connection.ex       expr = String.Chars.Float.to_string(literal)</span>
+<span class='curline'><a href='../S/74.html#L421'>expr</a>              421 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "(0 + #{expr})"</span>
+<span class='curline'><a href='../S/74.html#L425'>expr</a>              425 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "INTERVAL (" &lt;&gt; expr(count, sources, query) &lt;&gt; " * 1000) microsecond"</span>
+<span class='curline'><a href='../S/74.html#L429'>expr</a>              429 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "INTERVAL " &lt;&gt; expr(count, sources, query) &lt;&gt; " " &lt;&gt; interval</span>
+<span class='curline'><a href='../S/74.html#L432'>expr</a>              432 deps/ecto/lib/ecto/adapters/mysql/connection.ex     defp op_to_binary({op, _, [_, _]} = expr, sources, query) when op in @binary_ops do</span>
+<span class='curline'><a href='../S/74.html#L433'>expr</a>              433 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "(" &lt;&gt; expr(expr, sources, query) &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/74.html#L436'>expr</a>              436 deps/ecto/lib/ecto/adapters/mysql/connection.ex     defp op_to_binary(expr, sources, query) do</span>
+<span class='curline'><a href='../S/74.html#L437'>expr</a>              437 deps/ecto/lib/ecto/adapters/mysql/connection.ex       expr(expr, sources, query)</span>
+<span class='curline'><a href='../S/74.html#L589'>expr</a>              589 deps/ecto/lib/ecto/adapters/mysql/connection.ex     defp default_expr({:ok, {:fragment, expr}}),</span>
+<span class='curline'><a href='../S/74.html#L590'>expr</a>              590 deps/ecto/lib/ecto/adapters/mysql/connection.ex       do: "DEFAULT #{expr}"</span>
+<span class='curline'><a href='../S/76.html#L198'>expr</a>              198 deps/ecto/lib/ecto/adapters/postgres/connection.ex         Enum.map_join(fields, ", ", &amp;expr(&amp;1, sources, query))</span>
+<span class='curline'><a href='../S/76.html#L203'>expr</a>              203 deps/ecto/lib/ecto/adapters/postgres/connection.ex       Enum.map_join(exprs, ", ", &amp;expr(&amp;1, sources, query))</span>
+<span class='curline'><a href='../S/76.html#L220'>expr</a>              220 deps/ecto/lib/ecto/adapters/postgres/connection.ex         %JoinExpr{qual: :inner, on: %QueryExpr{expr: expr}, ix: ix} -&gt;</span>
+<span class='curline'><a href='../S/76.html#L222'>expr</a>              222 deps/ecto/lib/ecto/adapters/postgres/connection.ex           where = expr(expr, sources, query)</span>
+<span class='curline'><a href='../S/76.html#L230'>expr</a>              230 deps/ecto/lib/ecto/adapters/postgres/connection.ex       for(%{expr: expr} &lt;- updates,</span>
+<span class='curline'><a href='../S/76.html#L231'>expr</a>              231 deps/ecto/lib/ecto/adapters/postgres/connection.ex           {op, kw} &lt;- expr,</span>
+<span class='curline'><a href='../S/76.html#L237'>expr</a>              237 deps/ecto/lib/ecto/adapters/postgres/connection.ex       quote_name(key) &lt;&gt; " = " &lt;&gt; expr(value, sources, query)</span>
+<span class='curline'><a href='../S/76.html#L242'>expr</a>              242 deps/ecto/lib/ecto/adapters/postgres/connection.ex       quoted &lt;&gt; " = " &lt;&gt; quoted &lt;&gt; " + " &lt;&gt; expr(value, sources, query)</span>
+<span class='curline'><a href='../S/76.html#L247'>expr</a>              247 deps/ecto/lib/ecto/adapters/postgres/connection.ex       quoted &lt;&gt; " = array_append(" &lt;&gt; quoted &lt;&gt; ", " &lt;&gt; expr(value, sources, query) &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/76.html#L252'>expr</a>              252 deps/ecto/lib/ecto/adapters/postgres/connection.ex       quoted &lt;&gt; " = array_remove(" &lt;&gt; quoted &lt;&gt; ", " &lt;&gt; expr(value, sources, query) &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/76.html#L265'>expr</a>              265 deps/ecto/lib/ecto/adapters/postgres/connection.ex             join = join || "(" &lt;&gt; expr(source, sources, query) &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/76.html#L272'>expr</a>              272 deps/ecto/lib/ecto/adapters/postgres/connection.ex         for %JoinExpr{on: %QueryExpr{expr: value} = expr} &lt;- joins,</span>
+<span class='curline'><a href='../S/76.html#L274'>expr</a>              274 deps/ecto/lib/ecto/adapters/postgres/connection.ex             do: expr</span>
+<span class='curline'><a href='../S/76.html#L282'>expr</a>              282 deps/ecto/lib/ecto/adapters/postgres/connection.ex         %JoinExpr{on: %QueryExpr{expr: expr}, qual: qual, ix: ix, source: source} -&gt;</span>
+<span class='curline'><a href='../S/76.html#L285'>expr</a>              285 deps/ecto/lib/ecto/adapters/postgres/connection.ex           join = join || "(" &lt;&gt; expr(source, sources, query) &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/76.html#L286'>expr</a>              286 deps/ecto/lib/ecto/adapters/postgres/connection.ex           "#{qual} JOIN " &lt;&gt; join &lt;&gt; " AS " &lt;&gt; name &lt;&gt; " ON " &lt;&gt; expr(expr, sources, query)</span>
+<span class='curline'><a href='../S/76.html#L311'>expr</a>              311 deps/ecto/lib/ecto/adapters/postgres/connection.ex           %QueryExpr{expr: expr} -&gt;</span>
+<span class='curline'><a href='../S/76.html#L312'>expr</a>              312 deps/ecto/lib/ecto/adapters/postgres/connection.ex             Enum.map_join(expr, ", ", &amp;expr(&amp;1, sources, query))</span>
+<span class='curline'><a href='../S/76.html#L324'>expr</a>              324 deps/ecto/lib/ecto/adapters/postgres/connection.ex           %QueryExpr{expr: expr} -&gt;</span>
+<span class='curline'><a href='../S/76.html#L325'>expr</a>              325 deps/ecto/lib/ecto/adapters/postgres/connection.ex             Enum.map_join(expr, ", ", &amp;order_by_expr(&amp;1, sources, query))</span>
+<span class='curline'><a href='../S/76.html#L338'>expr</a>              338 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp order_by_expr({dir, expr}, sources, query) do</span>
+<span class='curline'><a href='../S/76.html#L339'>expr</a>              339 deps/ecto/lib/ecto/adapters/postgres/connection.ex       str = expr(expr, sources, query)</span>
+<span class='curline'><a href='../S/76.html#L347'>expr</a>              347 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp limit(%Query{limit: %QueryExpr{expr: expr}} = query, sources) do</span>
+<span class='curline'><a href='../S/76.html#L348'>expr</a>              348 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "LIMIT " &lt;&gt; expr(expr, sources, query)</span>
+<span class='curline'><a href='../S/76.html#L352'>expr</a>              352 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp offset(%Query{offset: %QueryExpr{expr: expr}} = query, sources) do</span>
+<span class='curline'><a href='../S/76.html#L353'>expr</a>              353 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "OFFSET " &lt;&gt; expr(expr, sources, query)</span>
+<span class='curline'><a href='../S/76.html#L363'>expr</a>              363 deps/ecto/lib/ecto/adapters/postgres/connection.ex           %QueryExpr{expr: expr} -&gt;</span>
+<span class='curline'><a href='../S/76.html#L364'>expr</a>              364 deps/ecto/lib/ecto/adapters/postgres/connection.ex             "(" &lt;&gt; expr(expr, sources, query) &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/76.html#L394'>expr</a>              394 deps/ecto/lib/ecto/adapters/postgres/connection.ex       args = Enum.map_join right, ",", &amp;expr(&amp;1, sources, query)</span>
+<span class='curline'><a href='../S/76.html#L395'>expr</a>              395 deps/ecto/lib/ecto/adapters/postgres/connection.ex       expr(left, sources, query) &lt;&gt; " IN (" &lt;&gt; args &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/76.html#L400'>expr</a>              400 deps/ecto/lib/ecto/adapters/postgres/connection.ex       expr(left, sources, query) &lt;&gt; " IN (" &lt;&gt; args &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/76.html#L404'>expr</a>              404 deps/ecto/lib/ecto/adapters/postgres/connection.ex       expr(left, sources, query) &lt;&gt; " = ANY(" &lt;&gt; expr(right, sources, query) &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/76.html#L408'>expr</a>              408 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "#{expr(arg, sources, query)} IS NULL"</span>
+<span class='curline'><a href='../S/76.html#L412'>expr</a>              412 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "NOT (" &lt;&gt; expr(expr, sources, query) &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/76.html#L422'>expr</a>              422 deps/ecto/lib/ecto/adapters/postgres/connection.ex         {:expr, expr} -&gt; expr(expr, sources, query)</span>
+<span class='curline'><a href='../S/76.html#L427'>expr</a>              427 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "(" &lt;&gt; expr(datetime, sources, query) &lt;&gt; "::timestamp + "</span>
+<span class='curline'><a href='../S/76.html#L432'>expr</a>              432 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "(" &lt;&gt; expr(date, sources, query) &lt;&gt; "::date + "</span>
+<span class='curline'><a href='../S/76.html#L451'>expr</a>              451 deps/ecto/lib/ecto/adapters/postgres/connection.ex           "#{fun}(" &lt;&gt; modifier &lt;&gt; Enum.map_join(args, ", ", &amp;expr(&amp;1, sources, query)) &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/76.html#L456'>expr</a>              456 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "ARRAY[" &lt;&gt; Enum.map_join(list, ",", &amp;expr(&amp;1, sources, query)) &lt;&gt; "]"</span>
+<span class='curline'><a href='../S/76.html#L470'>expr</a>              470 deps/ecto/lib/ecto/adapters/postgres/connection.ex       expr(other, sources, query) &lt;&gt; "::" &lt;&gt; ecto_to_db(type)</span>
+<span class='curline'><a href='../S/76.html#L499'>expr</a>              499 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "(" &lt;&gt; expr(count, sources, query) &lt;&gt; "::numeric * "</span>
+<span class='curline'><a href='../S/76.html#L503'>expr</a>              503 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp op_to_binary({op, _, [_, _]} = expr, sources, query) when op in @binary_ops do</span>
+<span class='curline'><a href='../S/76.html#L504'>expr</a>              504 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "(" &lt;&gt; expr(expr, sources, query) &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/76.html#L507'>expr</a>              507 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp op_to_binary(expr, sources, query) do</span>
+<span class='curline'><a href='../S/76.html#L508'>expr</a>              508 deps/ecto/lib/ecto/adapters/postgres/connection.ex       expr(expr, sources, query)</span>
+<span class='curline'><a href='../S/76.html#L688'>expr</a>              688 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp default_expr({:ok, {:fragment, expr}}, _type),</span>
+<span class='curline'><a href='../S/76.html#L689'>expr</a>              689 deps/ecto/lib/ecto/adapters/postgres/connection.ex       do: "DEFAULT #{expr}"</span>
+<span class='curline'><a href='../S/76.html#L690'>expr</a>              690 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp default_expr({:ok, expr}, type),</span>
+<span class='curline'><a href='../S/76.html#L691'>expr</a>              691 deps/ecto/lib/ecto/adapters/postgres/connection.ex       do: raise(ArgumentError, "unknown default `#{inspect expr}` for type `#{inspect type}`. " &lt;&gt;</span>
+<span class='curline'><a href='../S/83.html#L522'>expr</a>              522 deps/ecto/lib/ecto/association.ex   defp rewrite_expr(%{expr: expr, params: params} = part, mapping) do</span>
+<span class='curline'><a href='../S/83.html#L523'>expr</a>              523 deps/ecto/lib/ecto/association.ex     expr =</span>
+<span class='curline'><a href='../S/83.html#L524'>expr</a>              524 deps/ecto/lib/ecto/association.ex       Macro.prewalk expr, fn</span>
+<span class='curline'><a href='../S/83.html#L541'>expr</a>              541 deps/ecto/lib/ecto/association.ex     %{part | expr: expr, params: params}</span>
+<span class='curline'><a href='../S/94.html#L550'>expr</a>              550 deps/ecto/lib/ecto/migration.ex   def fragment(expr) when is_binary(expr) do</span>
+<span class='curline'><a href='../S/94.html#L551'>expr</a>              551 deps/ecto/lib/ecto/migration.ex     {:fragment, expr}</span>
+<span class='curline'><a href='../S/122.html#L279'>expr</a>              279 deps/ecto/lib/ecto/query.ex   defmacro from(expr, kw \\ []) do</span>
+<span class='curline'><a href='../S/122.html#L284'>expr</a>              284 deps/ecto/lib/ecto/query.ex     {quoted, binds, count_bind} = From.build(expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L293'>expr</a>              293 deps/ecto/lib/ecto/query.ex   defp from([{type, expr}|t], env, count_bind, quoted, binds) when type in @binds do</span>
+<span class='curline'><a href='../S/122.html#L299'>expr</a>              299 deps/ecto/lib/ecto/query.ex           Ecto.Query.unquote(type)(unquote(quoted), unquote(binds), unquote(expr))</span>
+<span class='curline'><a href='../S/122.html#L304'>expr</a>              304 deps/ecto/lib/ecto/query.ex           Ecto.Query.unquote(type)(query, unquote(binds), unquote(expr))</span>
+<span class='curline'><a href='../S/122.html#L311'>expr</a>              311 deps/ecto/lib/ecto/query.ex   defp from([{type, expr}|t], env, count_bind, quoted, binds) when type in @no_binds do</span>
+<span class='curline'><a href='../S/122.html#L314'>expr</a>              314 deps/ecto/lib/ecto/query.ex         Ecto.Query.unquote(type)(unquote(quoted), unquote(expr))</span>
+<span class='curline'><a href='../S/122.html#L320'>expr</a>              320 deps/ecto/lib/ecto/query.ex   defp from([{join, expr}|t], env, count_bind, quoted, binds) when join in @joins do</span>
+<span class='curline'><a href='../S/122.html#L331'>expr</a>              331 deps/ecto/lib/ecto/query.ex     {quoted, binds, count_bind} = Join.build(quoted, qual, binds, expr, on, count_bind, env)</span>
+<span class='curline'><a href='../S/122.html#L347'>expr</a>              347 deps/ecto/lib/ecto/query.ex   defp collect_on([{:on, expr}|t], nil),</span>
+<span class='curline'><a href='../S/122.html#L348'>expr</a>              348 deps/ecto/lib/ecto/query.ex     do: collect_on(t, expr)</span>
+<span class='curline'><a href='../S/122.html#L349'>expr</a>              349 deps/ecto/lib/ecto/query.ex   defp collect_on([{:on, expr}|t], acc),</span>
+<span class='curline'><a href='../S/122.html#L350'>expr</a>              350 deps/ecto/lib/ecto/query.ex     do: collect_on(t, {:and, [], [acc, expr]})</span>
+<span class='curline'><a href='../S/122.html#L397'>expr</a>              397 deps/ecto/lib/ecto/query.ex   defmacro join(query, qual, binding \\ [], expr, on \\ nil) do</span>
+<span class='curline'><a href='../S/122.html#L398'>expr</a>              398 deps/ecto/lib/ecto/query.ex     Join.build(query, qual, binding, expr, on, nil, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L432'>expr</a>              432 deps/ecto/lib/ecto/query.ex   defmacro select(query, binding \\ [], expr) do</span>
+<span class='curline'><a href='../S/122.html#L433'>expr</a>              433 deps/ecto/lib/ecto/query.ex     Select.build(query, binding, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L468'>expr</a>              468 deps/ecto/lib/ecto/query.ex   defmacro distinct(query, binding \\ [], expr) do</span>
+<span class='curline'><a href='../S/122.html#L469'>expr</a>              469 deps/ecto/lib/ecto/query.ex     Distinct.build(query, binding, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L500'>expr</a>              500 deps/ecto/lib/ecto/query.ex   defmacro where(query, binding \\ [], expr) do</span>
+<span class='curline'><a href='../S/122.html#L501'>expr</a>              501 deps/ecto/lib/ecto/query.ex     Filter.build(:where, query, binding, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L538'>expr</a>              538 deps/ecto/lib/ecto/query.ex   defmacro order_by(query, binding \\ [], expr)  do</span>
+<span class='curline'><a href='../S/122.html#L539'>expr</a>              539 deps/ecto/lib/ecto/query.ex     OrderBy.build(query, binding, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L559'>expr</a>              559 deps/ecto/lib/ecto/query.ex   defmacro limit(query, binding \\ [], expr) do</span>
+<span class='curline'><a href='../S/122.html#L560'>expr</a>              560 deps/ecto/lib/ecto/query.ex     LimitOffset.build(:limit, query, binding, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L581'>expr</a>              581 deps/ecto/lib/ecto/query.ex   defmacro offset(query, binding \\ [], expr) do</span>
+<span class='curline'><a href='../S/122.html#L582'>expr</a>              582 deps/ecto/lib/ecto/query.ex     LimitOffset.build(:offset, query, binding, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L609'>expr</a>              609 deps/ecto/lib/ecto/query.ex   defmacro lock(query, expr) do</span>
+<span class='curline'><a href='../S/122.html#L610'>expr</a>              610 deps/ecto/lib/ecto/query.ex     Lock.build(query, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L649'>expr</a>              649 deps/ecto/lib/ecto/query.ex   defmacro update(query, binding \\ [], expr) do</span>
+<span class='curline'><a href='../S/122.html#L650'>expr</a>              650 deps/ecto/lib/ecto/query.ex     Update.build(query, binding, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L679'>expr</a>              679 deps/ecto/lib/ecto/query.ex   defmacro group_by(query, binding \\ [], expr) do</span>
+<span class='curline'><a href='../S/122.html#L680'>expr</a>              680 deps/ecto/lib/ecto/query.ex     GroupBy.build(query, binding, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L707'>expr</a>              707 deps/ecto/lib/ecto/query.ex   defmacro having(query, binding \\ [], expr) do</span>
+<span class='curline'><a href='../S/122.html#L708'>expr</a>              708 deps/ecto/lib/ecto/query.ex     Filter.build(:having, query, binding, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/122.html#L788'>expr</a>              788 deps/ecto/lib/ecto/query.ex   defmacro preload(query, bindings \\ [], expr) do</span>
+<span class='curline'><a href='../S/122.html#L789'>expr</a>              789 deps/ecto/lib/ecto/query.ex     Preload.build(query, bindings, expr, __CALLER__)</span>
+<span class='curline'><a href='../S/119.html#L29'>expr</a>               29 deps/ecto/lib/ecto/query/builder.ex   def escape(expr, type, params, vars, env)</span>
+<span class='curline'><a href='../S/119.html#L47'>expr</a>               47 deps/ecto/lib/ecto/query/builder.ex     expr   = {:{}, [], [:^, [], [index]]}</span>
+<span class='curline'><a href='../S/119.html#L48'>expr</a>               48 deps/ecto/lib/ecto/query/builder.ex     {expr, params}</span>
+<span class='curline'><a href='../S/119.html#L57'>expr</a>               57 deps/ecto/lib/ecto/query/builder.ex     expr = {:{}, [], [:type, [], [{:{}, [], [:^, [], [index]]}, escaped]]}</span>
+<span class='curline'><a href='../S/119.html#L58'>expr</a>               58 deps/ecto/lib/ecto/query/builder.ex     {expr, params}</span>
+<span class='curline'><a href='../S/119.html#L69'>expr</a>               69 deps/ecto/lib/ecto/query/builder.ex     expr = quote do</span>
+<span class='curline'><a href='../S/119.html#L72'>expr</a>               72 deps/ecto/lib/ecto/query/builder.ex     {{:{}, [], [:fragment, [], [expr]]}, params}</span>
+<span class='curline'><a href='../S/119.html#L92'>expr</a>               92 deps/ecto/lib/ecto/query/builder.ex   def escape({:datetime_add, _, [datetime, count, interval]} = expr, type, params, vars, env) do</span>
+<span class='curline'><a href='../S/119.html#L93'>expr</a>               93 deps/ecto/lib/ecto/query/builder.ex     assert_type!(expr, type, :datetime)</span>
+<span class='curline'><a href='../S/119.html#L99'>expr</a>               99 deps/ecto/lib/ecto/query/builder.ex   def escape({:date_add, _, [date, count, interval]} = expr, type, params, vars, env) do</span>
+<span class='curline'><a href='../S/119.html#L100'>expr</a>              100 deps/ecto/lib/ecto/query/builder.ex     assert_type!(expr, type, :date)</span>
+<span class='curline'><a href='../S/119.html#L119'>expr</a>              119 deps/ecto/lib/ecto/query/builder.ex   def escape({:&lt;&lt;&gt;&gt;, _, args} = expr, type, params, vars, _env) do</span>
+<span class='curline'><a href='../S/119.html#L126'>expr</a>              126 deps/ecto/lib/ecto/query/builder.ex       error! "`#{Macro.to_string(expr)}` is not a valid query expression. " &lt;&gt;</span>
+<span class='curline'><a href='../S/119.html#L131'>expr</a>              131 deps/ecto/lib/ecto/query/builder.ex     {literal(expr, type, vars), params}</span>
+<span class='curline'><a href='../S/119.html#L146'>expr</a>              146 deps/ecto/lib/ecto/query/builder.ex   def escape({comp_op, _, [left, right]} = expr, type, params, vars, env) when comp_op in ~w(== != &lt; &gt; &lt;= &gt;=)a do</span>
+<span class='curline'><a href='../S/119.html#L147'>expr</a>              147 deps/ecto/lib/ecto/query/builder.ex     assert_type!(expr, type, :boolean)</span>
+<span class='curline'><a href='../S/119.html#L163'>expr</a>              163 deps/ecto/lib/ecto/query/builder.ex   def escape({:in, _, [left, right]} = expr, type, params, vars, env)</span>
+<span class='curline'><a href='../S/119.html#L166'>expr</a>              166 deps/ecto/lib/ecto/query/builder.ex     assert_type!(expr, type, :boolean)</span>
+<span class='curline'><a href='../S/119.html#L176'>expr</a>              176 deps/ecto/lib/ecto/query/builder.ex   def escape({:in, _, [left, {:^, _, _} = right]} = expr, type, params, vars, env) do</span>
+<span class='curline'><a href='../S/119.html#L177'>expr</a>              177 deps/ecto/lib/ecto/query/builder.ex     assert_type!(expr, type, :boolean)</span>
+<span class='curline'><a href='../S/119.html#L188'>expr</a>              188 deps/ecto/lib/ecto/query/builder.ex   def escape({:in, _, [left, right]} = expr, type, params, vars, env) do</span>
+<span class='curline'><a href='../S/119.html#L189'>expr</a>              189 deps/ecto/lib/ecto/query/builder.ex     assert_type!(expr, type, :boolean)</span>
+<span class='curline'><a href='../S/119.html#L201'>expr</a>              201 deps/ecto/lib/ecto/query/builder.ex   def escape({name, _, args} = expr, type, params, vars, env) when is_atom(name) and is_list(args) do</span>
+<span class='curline'><a href='../S/119.html#L204'>expr</a>              204 deps/ecto/lib/ecto/query/builder.ex         assert_type!(expr, type, out_type)</span>
+<span class='curline'><a href='../S/119.html#L205'>expr</a>              205 deps/ecto/lib/ecto/query/builder.ex         escape_call(expr, in_type, params, vars, env)</span>
+<span class='curline'><a href='../S/119.html#L207'>expr</a>              207 deps/ecto/lib/ecto/query/builder.ex         try_expansion(expr, type, params, vars, env)</span>
+<span class='curline'><a href='../S/119.html#L239'>expr</a>              239 deps/ecto/lib/ecto/query/builder.ex     expr = {:{}, [], [name, [], [arg, :distinct]]}</span>
+<span class='curline'><a href='../S/119.html#L240'>expr</a>              240 deps/ecto/lib/ecto/query/builder.ex     {expr, params}</span>
+<span class='curline'><a href='../S/119.html#L245'>expr</a>              245 deps/ecto/lib/ecto/query/builder.ex     expr = {:{}, [], [name, [], args]}</span>
+<span class='curline'><a href='../S/119.html#L246'>expr</a>              246 deps/ecto/lib/ecto/query/builder.ex     {expr, params}</span>
+<span class='curline'><a href='../S/119.html#L273'>expr</a>              273 deps/ecto/lib/ecto/query/builder.ex   defp escape_fragment({key, expr}, type, params, vars, env) when is_atom(key) do</span>
+<span class='curline'><a href='../S/119.html#L274'>expr</a>              274 deps/ecto/lib/ecto/query/builder.ex     {escaped, params} = escape(expr, type, params, vars, env)</span>
+<span class='curline'><a href='../S/119.html#L300'>expr</a>              300 deps/ecto/lib/ecto/query/builder.ex   defp assert_type!(expr, type, actual) do</span>
+<span class='curline'><a href='../S/119.html#L304'>expr</a>              304 deps/ecto/lib/ecto/query/builder.ex       error! "expression `#{Macro.to_string(expr)}` does not type check. " &lt;&gt;</span>
+<span class='curline'><a href='../S/119.html#L404'>expr</a>              404 deps/ecto/lib/ecto/query/builder.ex   defp try_expansion(expr, type, params, vars, env) do</span>
+<span class='curline'><a href='../S/119.html#L405'>expr</a>              405 deps/ecto/lib/ecto/query/builder.ex     case Macro.expand(expr, env) do</span>
+<span class='curline'><a href='../S/119.html#L406'>expr</a>              406 deps/ecto/lib/ecto/query/builder.ex       ^expr -&gt;</span>
+<span class='curline'><a href='../S/119.html#L408'>expr</a>              408 deps/ecto/lib/ecto/query/builder.ex         `#{Macro.to_string(expr)}` is not a valid query expression.</span>
+<span class='curline'><a href='../S/119.html#L432'>expr</a>              432 deps/ecto/lib/ecto/query/builder.ex   def quoted_field!({:^, _, [expr]}),</span>
+<span class='curline'><a href='../S/119.html#L433'>expr</a>              433 deps/ecto/lib/ecto/query/builder.ex     do: quote(do: Ecto.Query.Builder.field!(unquote(expr)))</span>
+<span class='curline'><a href='../S/119.html#L451'>expr</a>              451 deps/ecto/lib/ecto/query/builder.ex   def quoted_interval!({:^, _, [expr]}),</span>
+<span class='curline'><a href='../S/119.html#L452'>expr</a>              452 deps/ecto/lib/ecto/query/builder.ex     do: quote(do: Ecto.Query.Builder.interval!(unquote(expr)))</span>
+<span class='curline'><a href='../S/108.html#L19'>expr</a>               19 deps/ecto/lib/ecto/query/builder/distinct.ex   def escape(expr, _vars, _env) when is_boolean(expr) do</span>
+<span class='curline'><a href='../S/108.html#L20'>expr</a>               20 deps/ecto/lib/ecto/query/builder/distinct.ex     {expr, %{}}</span>
+<span class='curline'><a href='../S/108.html#L23'>expr</a>               23 deps/ecto/lib/ecto/query/builder/distinct.ex   def escape(expr, vars, env) do</span>
+<span class='curline'><a href='../S/108.html#L24'>expr</a>               24 deps/ecto/lib/ecto/query/builder/distinct.ex     expr</span>
+<span class='curline'><a href='../S/108.html#L29'>expr</a>               29 deps/ecto/lib/ecto/query/builder/distinct.ex   defp escape(expr, params, vars, env) do</span>
+<span class='curline'><a href='../S/108.html#L30'>expr</a>               30 deps/ecto/lib/ecto/query/builder/distinct.ex     Builder.escape(expr, :any, params, vars, env)</span>
+<span class='curline'><a href='../S/108.html#L41'>expr</a>               41 deps/ecto/lib/ecto/query/builder/distinct.ex   def build(query, binding, expr, env) do</span>
+<span class='curline'><a href='../S/108.html#L43'>expr</a>               43 deps/ecto/lib/ecto/query/builder/distinct.ex     {expr, params} = escape(expr, binding, env)</span>
+<span class='curline'><a href='../S/108.html#L47'>expr</a>               47 deps/ecto/lib/ecto/query/builder/distinct.ex                            expr: unquote(expr),</span>
+<span class='curline'><a href='../S/109.html#L15'>expr</a>               15 deps/ecto/lib/ecto/query/builder/filter.ex     expr =</span>
+<span class='curline'><a href='../S/109.html#L17'>expr</a>               17 deps/ecto/lib/ecto/query/builder/filter.ex         {expr, params} = Ecto.Query.Builder.Filter.runtime!(unquote(kind), unquote(var))</span>
+<span class='curline'><a href='../S/109.html#L18'>expr</a>               18 deps/ecto/lib/ecto/query/builder/filter.ex         %Ecto.Query.QueryExpr{expr: expr, params: params,</span>
+<span class='curline'><a href='../S/109.html#L21'>expr</a>               21 deps/ecto/lib/ecto/query/builder/filter.ex     Builder.apply_query(query, __MODULE__, [kind, expr], env)</span>
+<span class='curline'><a href='../S/109.html#L24'>expr</a>               24 deps/ecto/lib/ecto/query/builder/filter.ex   def build(kind, query, binding, expr, env) do</span>
+<span class='curline'><a href='../S/109.html#L26'>expr</a>               26 deps/ecto/lib/ecto/query/builder/filter.ex     {expr, params} = escape(kind, expr, binding, env)</span>
+<span class='curline'><a href='../S/109.html#L29'>expr</a>               29 deps/ecto/lib/ecto/query/builder/filter.ex     expr = quote do: %Ecto.Query.QueryExpr{</span>
+<span class='curline'><a href='../S/109.html#L30'>expr</a>               30 deps/ecto/lib/ecto/query/builder/filter.ex                         expr: unquote(expr),</span>
+<span class='curline'><a href='../S/109.html#L34'>expr</a>               34 deps/ecto/lib/ecto/query/builder/filter.ex     Builder.apply_query(query, __MODULE__, [kind, expr], env)</span>
+<span class='curline'><a href='../S/109.html#L45'>expr</a>               45 deps/ecto/lib/ecto/query/builder/filter.ex   def apply(query, :where, expr) do</span>
+<span class='curline'><a href='../S/109.html#L47'>expr</a>               47 deps/ecto/lib/ecto/query/builder/filter.ex     %{query | wheres: query.wheres ++ [expr]}</span>
+<span class='curline'><a href='../S/109.html#L50'>expr</a>               50 deps/ecto/lib/ecto/query/builder/filter.ex   def apply(query, :having, expr) do</span>
+<span class='curline'><a href='../S/109.html#L52'>expr</a>               52 deps/ecto/lib/ecto/query/builder/filter.ex     %{query | havings: query.havings ++ [expr]}</span>
+<span class='curline'><a href='../S/109.html#L67'>expr</a>               67 deps/ecto/lib/ecto/query/builder/filter.ex   def escape(kind, expr, vars, env) when is_list(expr) do</span>
+<span class='curline'><a href='../S/109.html#L69'>expr</a>               69 deps/ecto/lib/ecto/query/builder/filter.ex       Enum.map_reduce(expr, %{}, fn</span>
+<span class='curline'><a href='../S/109.html#L78'>expr</a>               78 deps/ecto/lib/ecto/query/builder/filter.ex                          "got: `#{Macro.to_string expr}`. If you would like to " &lt;&gt;</span>
+<span class='curline'><a href='../S/109.html#L82'>expr</a>               82 deps/ecto/lib/ecto/query/builder/filter.ex     expr = Enum.reduce parts, &amp;{:{}, [], [:and, [], [&amp;2, &amp;1]]}</span>
+<span class='curline'><a href='../S/109.html#L83'>expr</a>               83 deps/ecto/lib/ecto/query/builder/filter.ex     {expr, params}</span>
+<span class='curline'><a href='../S/109.html#L86'>expr</a>               86 deps/ecto/lib/ecto/query/builder/filter.ex   def escape(_kind, expr, vars, env) do</span>
+<span class='curline'><a href='../S/109.html#L87'>expr</a>               87 deps/ecto/lib/ecto/query/builder/filter.ex     Builder.escape(expr, :boolean, %{}, vars, env)</span>
+<span class='curline'><a href='../S/110.html#L37'>expr</a>               37 deps/ecto/lib/ecto/query/builder/from.ex   def escape({:in, _, [var, expr]}) do</span>
+<span class='curline'><a href='../S/110.html#L38'>expr</a>               38 deps/ecto/lib/ecto/query/builder/from.ex     {Builder.escape_binding(List.wrap(var)), expr}</span>
+<span class='curline'><a href='../S/110.html#L41'>expr</a>               41 deps/ecto/lib/ecto/query/builder/from.ex   def escape(expr) do</span>
+<span class='curline'><a href='../S/110.html#L42'>expr</a>               42 deps/ecto/lib/ecto/query/builder/from.ex     {[], expr}</span>
+<span class='curline'><a href='../S/110.html#L53'>expr</a>               53 deps/ecto/lib/ecto/query/builder/from.ex   def build(expr, env) do</span>
+<span class='curline'><a href='../S/110.html#L54'>expr</a>               54 deps/ecto/lib/ecto/query/builder/from.ex     {binds, expr} = escape(expr)</span>
+<span class='curline'><a href='../S/110.html#L57'>expr</a>               57 deps/ecto/lib/ecto/query/builder/from.ex       case Macro.expand(expr, env) do</span>
+<span class='curline'><a href='../S/111.html#L17'>expr</a>               17 deps/ecto/lib/ecto/query/builder/group_by.ex   def escape(expr, vars, env) do</span>
+<span class='curline'><a href='../S/111.html#L18'>expr</a>               18 deps/ecto/lib/ecto/query/builder/group_by.ex     expr</span>
+<span class='curline'><a href='../S/111.html#L31'>expr</a>               31 deps/ecto/lib/ecto/query/builder/group_by.ex   def build(query, binding, expr, env) do</span>
+<span class='curline'><a href='../S/111.html#L33'>expr</a>               33 deps/ecto/lib/ecto/query/builder/group_by.ex     {expr, params} = escape(expr, binding, env)</span>
+<span class='curline'><a href='../S/111.html#L37'>expr</a>               37 deps/ecto/lib/ecto/query/builder/group_by.ex                            expr: unquote(expr),</span>
+<span class='curline'><a href='../S/111.html#L48'>expr</a>               48 deps/ecto/lib/ecto/query/builder/group_by.ex   def apply(query, expr) do</span>
+<span class='curline'><a href='../S/111.html#L50'>expr</a>               50 deps/ecto/lib/ecto/query/builder/group_by.ex     %{query | group_bys: query.group_bys ++ [expr]}</span>
+<span class='curline'><a href='../S/112.html#L38'>expr</a>               38 deps/ecto/lib/ecto/query/builder/join.ex   def escape({:in, _, [{var, _, context}, expr]}, vars, env)</span>
+<span class='curline'><a href='../S/112.html#L40'>expr</a>               40 deps/ecto/lib/ecto/query/builder/join.ex     {_, expr, assoc, params} = escape(expr, vars, env)</span>
+<span class='curline'><a href='../S/112.html#L41'>expr</a>               41 deps/ecto/lib/ecto/query/builder/join.ex     {var, expr, assoc, params}</span>
+<span class='curline'><a href='../S/112.html#L44'>expr</a>               44 deps/ecto/lib/ecto/query/builder/join.ex   def escape({:fragment, _, [_|_]} = expr, vars, env) do</span>
+<span class='curline'><a href='../S/112.html#L45'>expr</a>               45 deps/ecto/lib/ecto/query/builder/join.ex     {expr, params} = Builder.escape(expr, :any, %{}, vars, env)</span>
+<span class='curline'><a href='../S/112.html#L46'>expr</a>               46 deps/ecto/lib/ecto/query/builder/join.ex     {:_, expr, nil, params}</span>
+<span class='curline'><a href='../S/112.html#L72'>expr</a>               72 deps/ecto/lib/ecto/query/builder/join.ex   def escape({:^, _, [expr]}, _vars, _env) do</span>
+<span class='curline'><a href='../S/112.html#L73'>expr</a>               73 deps/ecto/lib/ecto/query/builder/join.ex     {:_, quote(do: Ecto.Query.Builder.Join.join!(unquote(expr))), nil, %{}}</span>
+<span class='curline'><a href='../S/112.html#L83'>expr</a>               83 deps/ecto/lib/ecto/query/builder/join.ex   def join!(expr) when is_atom(expr),</span>
+<span class='curline'><a href='../S/112.html#L84'>expr</a>               84 deps/ecto/lib/ecto/query/builder/join.ex     do: {nil, expr}</span>
+<span class='curline'><a href='../S/112.html#L85'>expr</a>               85 deps/ecto/lib/ecto/query/builder/join.ex   def join!(expr) when is_binary(expr),</span>
+<span class='curline'><a href='../S/112.html#L86'>expr</a>               86 deps/ecto/lib/ecto/query/builder/join.ex     do: {expr, nil}</span>
+<span class='curline'><a href='../S/112.html#L89'>expr</a>               89 deps/ecto/lib/ecto/query/builder/join.ex   def join!(expr),</span>
+<span class='curline'><a href='../S/112.html#L90'>expr</a>               90 deps/ecto/lib/ecto/query/builder/join.ex     do: Builder.error!("expected join to be a string, atom or {string, atom}, got: `#{inspect expr}`")</span>
+<span class='curline'><a href='../S/112.html#L101'>expr</a>              101 deps/ecto/lib/ecto/query/builder/join.ex   def build(query, qual, binding, expr, on, count_bind, env) do</span>
+<span class='curline'><a href='../S/112.html#L103'>expr</a>              103 deps/ecto/lib/ecto/query/builder/join.ex     {join_bind, join_expr, join_assoc, join_params} = escape(expr, binding, env)</span>
+<span class='curline'><a href='../S/112.html#L149'>expr</a>              149 deps/ecto/lib/ecto/query/builder/join.ex   def apply(query, expr) do</span>
+<span class='curline'><a href='../S/112.html#L151'>expr</a>              151 deps/ecto/lib/ecto/query/builder/join.ex     %{query | joins: query.joins ++ [expr]}</span>
+<span class='curline'><a href='../S/113.html#L14'>expr</a>               14 deps/ecto/lib/ecto/query/builder/limit_offset.ex   def build(type, query, binding, expr, env) do</span>
+<span class='curline'><a href='../S/113.html#L16'>expr</a>               16 deps/ecto/lib/ecto/query/builder/limit_offset.ex     {expr, params} = Builder.escape(expr, :integer, %{}, binding, env)</span>
+<span class='curline'><a href='../S/113.html#L19'>expr</a>               19 deps/ecto/lib/ecto/query/builder/limit_offset.ex     if contains_variable?(expr) do</span>
+<span class='curline'><a href='../S/113.html#L24'>expr</a>               24 deps/ecto/lib/ecto/query/builder/limit_offset.ex                         expr: unquote(expr),</span>
+<span class='curline'><a href='../S/113.html#L47'>expr</a>               47 deps/ecto/lib/ecto/query/builder/limit_offset.ex   def apply(query, :limit, expr) do</span>
+<span class='curline'><a href='../S/113.html#L49'>expr</a>               49 deps/ecto/lib/ecto/query/builder/limit_offset.ex     %{query | limit: expr}</span>
+<span class='curline'><a href='../S/113.html#L52'>expr</a>               52 deps/ecto/lib/ecto/query/builder/limit_offset.ex   def apply(query, :offset, expr) do</span>
+<span class='curline'><a href='../S/113.html#L54'>expr</a>               54 deps/ecto/lib/ecto/query/builder/limit_offset.ex     %{query | offset: expr}</span>
+<span class='curline'><a href='../S/114.html#L29'>expr</a>               29 deps/ecto/lib/ecto/query/builder/lock.ex   def build(query, expr, env) do</span>
+<span class='curline'><a href='../S/114.html#L30'>expr</a>               30 deps/ecto/lib/ecto/query/builder/lock.ex     Builder.apply_query(query, __MODULE__, [escape(expr)], env)</span>
+<span class='curline'><a href='../S/115.html#L22'>expr</a>               22 deps/ecto/lib/ecto/query/builder/order_by.ex   def escape({:^, _, [expr]}, _vars, _env) do</span>
+<span class='curline'><a href='../S/115.html#L23'>expr</a>               23 deps/ecto/lib/ecto/query/builder/order_by.ex     {quote(do: Ecto.Query.Builder.OrderBy.order_by!(unquote(expr))), %{}}</span>
+<span class='curline'><a href='../S/115.html#L26'>expr</a>               26 deps/ecto/lib/ecto/query/builder/order_by.ex   def escape(expr, vars, env) do</span>
+<span class='curline'><a href='../S/115.html#L27'>expr</a>               27 deps/ecto/lib/ecto/query/builder/order_by.ex     List.wrap(expr)</span>
+<span class='curline'><a href='../S/115.html#L31'>expr</a>               31 deps/ecto/lib/ecto/query/builder/order_by.ex   defp do_escape({dir, {:^, _, [expr]}}, params, _vars, _env) do</span>
+<span class='curline'><a href='../S/115.html#L32'>expr</a>               32 deps/ecto/lib/ecto/query/builder/order_by.ex     {{quoted_dir!(dir), quote(do: Ecto.Query.Builder.OrderBy.field!(unquote(expr)))}, params}</span>
+<span class='curline'><a href='../S/115.html#L35'>expr</a>               35 deps/ecto/lib/ecto/query/builder/order_by.ex   defp do_escape({:^, _, [expr]}, params, _vars, _env) do</span>
+<span class='curline'><a href='../S/115.html#L36'>expr</a>               36 deps/ecto/lib/ecto/query/builder/order_by.ex     {{:asc, quote(do: Ecto.Query.Builder.OrderBy.field!(unquote(expr)))}, params}</span>
+<span class='curline'><a href='../S/115.html#L47'>expr</a>               47 deps/ecto/lib/ecto/query/builder/order_by.ex   defp do_escape({dir, expr}, params, vars, env) do</span>
+<span class='curline'><a href='../S/115.html#L48'>expr</a>               48 deps/ecto/lib/ecto/query/builder/order_by.ex     {ast, params} = Builder.escape(expr, :any, params, vars, env)</span>
+<span class='curline'><a href='../S/115.html#L52'>expr</a>               52 deps/ecto/lib/ecto/query/builder/order_by.ex   defp do_escape(expr, params, vars, env) do</span>
+<span class='curline'><a href='../S/115.html#L53'>expr</a>               53 deps/ecto/lib/ecto/query/builder/order_by.ex     {ast, params} = Builder.escape(expr, :any, params, vars, env)</span>
+<span class='curline'><a href='../S/115.html#L61'>expr</a>               61 deps/ecto/lib/ecto/query/builder/order_by.ex   def quoted_dir!({:^, _, [expr]}),</span>
+<span class='curline'><a href='../S/115.html#L62'>expr</a>               62 deps/ecto/lib/ecto/query/builder/order_by.ex     do: quote(do: Ecto.Query.Builder.OrderBy.dir!(unquote(expr)))</span>
+<span class='curline'><a href='../S/115.html#L108'>expr</a>              108 deps/ecto/lib/ecto/query/builder/order_by.ex   def build(query, binding, expr, env) do</span>
+<span class='curline'><a href='../S/115.html#L110'>expr</a>              110 deps/ecto/lib/ecto/query/builder/order_by.ex     {expr, params} = escape(expr, binding, env)</span>
+<span class='curline'><a href='../S/115.html#L114'>expr</a>              114 deps/ecto/lib/ecto/query/builder/order_by.ex                            expr: unquote(expr),</span>
+<span class='curline'><a href='../S/115.html#L125'>expr</a>              125 deps/ecto/lib/ecto/query/builder/order_by.ex   def apply(query, expr) do</span>
+<span class='curline'><a href='../S/115.html#L127'>expr</a>              127 deps/ecto/lib/ecto/query/builder/order_by.ex     %{query | order_bys: query.order_bys ++ [expr]}</span>
+<span class='curline'><a href='../S/116.html#L59'>expr</a>               59 deps/ecto/lib/ecto/query/builder/preload.ex   defp escape({:^, _, [inner]} = expr, mode, preloads, assocs, _vars) do</span>
+<span class='curline'><a href='../S/116.html#L60'>expr</a>               60 deps/ecto/lib/ecto/query/builder/preload.ex     assert_preload!(mode, expr)</span>
+<span class='curline'><a href='../S/116.html#L71'>expr</a>               71 deps/ecto/lib/ecto/query/builder/preload.ex   defp escape_each({key, {:^, _, [inner]}} = expr, mode, {preloads, assocs}, _vars) do</span>
+<span class='curline'><a href='../S/116.html#L72'>expr</a>               72 deps/ecto/lib/ecto/query/builder/preload.ex     assert_preload!(mode, expr)</span>
+<span class='curline'><a href='../S/116.html#L108'>expr</a>              108 deps/ecto/lib/ecto/query/builder/preload.ex   defp escape_key({:^, _, [expr]}) do</span>
+<span class='curline'><a href='../S/116.html#L109'>expr</a>              109 deps/ecto/lib/ecto/query/builder/preload.ex     quote(do: Ecto.Query.Builder.Preload.key!(unquote(expr)))</span>
+<span class='curline'><a href='../S/116.html#L143'>expr</a>              143 deps/ecto/lib/ecto/query/builder/preload.ex   def build(query, binding, expr, env) do</span>
+<span class='curline'><a href='../S/116.html#L145'>expr</a>              145 deps/ecto/lib/ecto/query/builder/preload.ex     {preloads, assocs} = escape(expr, binding)</span>
+<span class='curline'><a href='../S/117.html#L40'>expr</a>               40 deps/ecto/lib/ecto/query/builder/select.ex     expr = {:{}, [], [:{}, [], list]}</span>
+<span class='curline'><a href='../S/117.html#L41'>expr</a>               41 deps/ecto/lib/ecto/query/builder/select.ex     {expr, params}</span>
+<span class='curline'><a href='../S/117.html#L50'>expr</a>               50 deps/ecto/lib/ecto/query/builder/select.ex       {expr, params} = escape(v, acc, vars, env)</span>
+<span class='curline'><a href='../S/117.html#L51'>expr</a>               51 deps/ecto/lib/ecto/query/builder/select.ex       {{k, expr}, params}</span>
+<span class='curline'><a href='../S/117.html#L54'>expr</a>               54 deps/ecto/lib/ecto/query/builder/select.ex     expr = {:{}, [], [:%{}, [], pairs]}</span>
+<span class='curline'><a href='../S/117.html#L55'>expr</a>               55 deps/ecto/lib/ecto/query/builder/select.ex     {expr, params}</span>
+<span class='curline'><a href='../S/117.html#L66'>expr</a>               66 deps/ecto/lib/ecto/query/builder/select.ex     expr = Builder.escape_var(var, vars)</span>
+<span class='curline'><a href='../S/117.html#L67'>expr</a>               67 deps/ecto/lib/ecto/query/builder/select.ex     {expr, params}</span>
+<span class='curline'><a href='../S/117.html#L82'>expr</a>               82 deps/ecto/lib/ecto/query/builder/select.ex   def build(query, binding, expr, env) do</span>
+<span class='curline'><a href='../S/117.html#L84'>expr</a>               84 deps/ecto/lib/ecto/query/builder/select.ex     {expr, params} = escape(expr, binding, env)</span>
+<span class='curline'><a href='../S/117.html#L88'>expr</a>               88 deps/ecto/lib/ecto/query/builder/select.ex                          expr: unquote(expr),</span>
+<span class='curline'><a href='../S/118.html#L27'>expr</a>               27 deps/ecto/lib/ecto/query/builder/update.ex   def escape(expr, vars, env) when is_list(expr) do</span>
+<span class='curline'><a href='../S/118.html#L28'>expr</a>               28 deps/ecto/lib/ecto/query/builder/update.ex     escape_op(expr, [], [], %{}, vars, env)</span>
+<span class='curline'><a href='../S/118.html#L35'>expr</a>               35 deps/ecto/lib/ecto/query/builder/update.ex   def escape(expr, _vars, _env) do</span>
+<span class='curline'><a href='../S/118.html#L36'>expr</a>               36 deps/ecto/lib/ecto/query/builder/update.ex     compile_error!(expr)</span>
+<span class='curline'><a href='../S/118.html#L54'>expr</a>               54 deps/ecto/lib/ecto/query/builder/update.ex   defp escape_op(expr, _compile, _runtime, _params, _vars, _env) do</span>
+<span class='curline'><a href='../S/118.html#L55'>expr</a>               55 deps/ecto/lib/ecto/query/builder/update.ex     compile_error!(expr)</span>
+<span class='curline'><a href='../S/118.html#L69'>expr</a>               69 deps/ecto/lib/ecto/query/builder/update.ex   defp compile_error!(expr) do</span>
+<span class='curline'><a href='../S/118.html#L70'>expr</a>               70 deps/ecto/lib/ecto/query/builder/update.ex     Builder.error! "malformed update `#{Macro.to_string(expr)}` in query expression, " &lt;&gt;</span>
+<span class='curline'><a href='../S/118.html#L82'>expr</a>               82 deps/ecto/lib/ecto/query/builder/update.ex   def build(query, binding, expr, env) do</span>
+<span class='curline'><a href='../S/118.html#L84'>expr</a>               84 deps/ecto/lib/ecto/query/builder/update.ex     {compile, runtime, params} = escape(expr, binding, env)</span>
+<span class='curline'><a href='../S/120.html#L68'>expr</a>               68 deps/ecto/lib/ecto/query/inspect.ex     |&gt; Enum.flat_map(fn {expr, ix} -&gt; join(expr, elem(names, expr.ix || ix + 1), names) end)</span>
+<span class='curline'><a href='../S/120.html#L78'>expr</a>               78 deps/ecto/lib/ecto/query/inspect.ex     [{join_qual(qual), string}, on: expr(on, names)]</span>
+<span class='curline'><a href='../S/120.html#L82'>expr</a>               82 deps/ecto/lib/ecto/query/inspect.ex     string = "#{name} in #{expr(source, names, params)}"</span>
+<span class='curline'><a href='../S/120.html#L83'>expr</a>               83 deps/ecto/lib/ecto/query/inspect.ex     [{join_qual(qual), string}, on: expr(on, names)]</span>
+<span class='curline'><a href='../S/120.html#L90'>expr</a>               90 deps/ecto/lib/ecto/query/inspect.ex   defp assocs(assocs, names), do: [preload: expr(assocs(assocs), names, %{})]</span>
+<span class='curline'><a href='../S/120.html#L102'>expr</a>              102 deps/ecto/lib/ecto/query/inspect.ex     Enum.map exprs, &amp;{key, expr(&amp;1, names)}</span>
+<span class='curline'><a href='../S/120.html#L106'>expr</a>              106 deps/ecto/lib/ecto/query/inspect.ex   defp kw_expr(key, expr, names),  do: [{key, expr(expr, names)}]</span>
+<span class='curline'><a href='../S/120.html#L112'>expr</a>              112 deps/ecto/lib/ecto/query/inspect.ex     expr(expr, names, params)</span>
+<span class='curline'><a href='../S/120.html#L116'>expr</a>              116 deps/ecto/lib/ecto/query/inspect.ex     Macro.to_string(expr, &amp;expr_to_string(&amp;1, &amp;2, names, params))</span>
+<span class='curline'><a href='../S/120.html#L158'>expr</a>              158 deps/ecto/lib/ecto/query/inspect.ex     {:type, [], [value, tag]} |&gt; expr(names, params)</span>
+<span class='curline'><a href='../S/120.html#L166'>expr</a>              166 deps/ecto/lib/ecto/query/inspect.ex     unmerge_fragments(t, frag &lt;&gt; s &lt;&gt; "?", [expr(v, names, params)|args], names, params)</span>
+<span class='curline'><a href='../S/121.html#L136'>expr</a>              136 deps/ecto/lib/ecto/query/planner.ex   defp merge_cache(kind, query, expr, {cache, params}, adapter)</span>
+<span class='curline'><a href='../S/121.html#L138'>expr</a>              138 deps/ecto/lib/ecto/query/planner.ex     if expr do</span>
+<span class='curline'><a href='../S/121.html#L139'>expr</a>              139 deps/ecto/lib/ecto/query/planner.ex       {params, cacheable?} = cast_and_merge_params(kind, query, expr, params, adapter)</span>
+<span class='curline'><a href='../S/121.html#L140'>expr</a>              140 deps/ecto/lib/ecto/query/planner.ex       {merge_cache({kind, expr.expr}, cache, cacheable?), params}</span>
+<span class='curline'><a href='../S/121.html#L149'>expr</a>              149 deps/ecto/lib/ecto/query/planner.ex       Enum.map_reduce exprs, {params, true}, fn expr, {params, cacheable?} -&gt;</span>
+<span class='curline'><a href='../S/121.html#L150'>expr</a>              150 deps/ecto/lib/ecto/query/planner.ex         {params, current_cacheable?} = cast_and_merge_params(kind, query, expr, params, adapter)</span>
+<span class='curline'><a href='../S/121.html#L151'>expr</a>              151 deps/ecto/lib/ecto/query/planner.ex         {expr.expr, {params, cacheable? and current_cacheable?}}</span>
+<span class='curline'><a href='../S/121.html#L166'>expr</a>              166 deps/ecto/lib/ecto/query/planner.ex           {{qual, source_cache(source), on.expr},</span>
+<span class='curline'><a href='../S/121.html#L176'>expr</a>              176 deps/ecto/lib/ecto/query/planner.ex   defp cast_and_merge_params(kind, query, expr, params, adapter) do</span>
+<span class='curline'><a href='../S/121.html#L177'>expr</a>              177 deps/ecto/lib/ecto/query/planner.ex     Enum.reduce expr.params, {params, true}, fn</span>
+<span class='curline'><a href='../S/121.html#L179'>expr</a>              179 deps/ecto/lib/ecto/query/planner.ex         {unfold_in(cast_param(kind, query, expr, v, {:array, type}, adapter), acc), false}</span>
+<span class='curline'><a href='../S/121.html#L181'>expr</a>              181 deps/ecto/lib/ecto/query/planner.ex         {[cast_param(kind, query, expr, v, type, adapter)|acc], cacheable?}</span>
+<span class='curline'><a href='../S/121.html#L213'>expr</a>              213 deps/ecto/lib/ecto/query/planner.ex   defp cast_param(kind, query, expr, v, type, adapter) do</span>
+<span class='curline'><a href='../S/121.html#L214'>expr</a>              214 deps/ecto/lib/ecto/query/planner.ex     {model, field, type} = type_for_param!(kind, query, expr, type)</span>
+<span class='curline'><a href='../S/121.html#L222'>expr</a>              222 deps/ecto/lib/ecto/query/planner.ex             :error   -&gt; error! query, expr, "cannot dump cast value `#{inspect v}` to type #{inspect type}"</span>
+<span class='curline'><a href='../S/121.html#L225'>expr</a>              225 deps/ecto/lib/ecto/query/planner.ex           error! query, expr, error</span>
+<span class='curline'><a href='../S/121.html#L356'>expr</a>              356 deps/ecto/lib/ecto/query/planner.ex     on = update_in on.expr, fn expr -&gt;</span>
+<span class='curline'><a href='../S/121.html#L357'>expr</a>              357 deps/ecto/lib/ecto/query/planner.ex       Macro.prewalk expr, fn</span>
+<span class='curline'><a href='../S/121.html#L411'>expr</a>              411 deps/ecto/lib/ecto/query/planner.ex   defp validate_and_increment(kind, query, expr, counter, adapter)</span>
+<span class='curline'><a href='../S/121.html#L413'>expr</a>              413 deps/ecto/lib/ecto/query/planner.ex     if expr do</span>
+<span class='curline'><a href='../S/121.html#L414'>expr</a>              414 deps/ecto/lib/ecto/query/planner.ex       validate_and_increment_each(kind, query, expr, counter, adapter)</span>
+<span class='curline'><a href='../S/121.html#L426'>expr</a>              426 deps/ecto/lib/ecto/query/planner.ex         expr, {list, acc} -&gt;</span>
+<span class='curline'><a href='../S/121.html#L427'>expr</a>              427 deps/ecto/lib/ecto/query/planner.ex           {expr, acc} = validate_and_increment_each(kind, query, expr, acc, adapter)</span>
+<span class='curline'><a href='../S/121.html#L428'>expr</a>              428 deps/ecto/lib/ecto/query/planner.ex           {[expr|list], acc}</span>
+<span class='curline'><a href='../S/121.html#L441'>expr</a>              441 deps/ecto/lib/ecto/query/planner.ex   defp validate_and_increment_each(kind, query, expr, counter, adapter) do</span>
+<span class='curline'><a href='../S/121.html#L442'>expr</a>              442 deps/ecto/lib/ecto/query/planner.ex     {inner, acc} = validate_and_increment_each(kind, query, expr, expr.expr, counter, adapter)</span>
+<span class='curline'><a href='../S/121.html#L443'>expr</a>              443 deps/ecto/lib/ecto/query/planner.ex     {%{expr | expr: inner, params: nil}, acc}</span>
+<span class='curline'><a href='../S/121.html#L446'>expr</a>              446 deps/ecto/lib/ecto/query/planner.ex   defp validate_and_increment_each(kind, query, expr, ast, counter, adapter) do</span>
+<span class='curline'><a href='../S/121.html#L449'>expr</a>              449 deps/ecto/lib/ecto/query/planner.ex         {right, acc} = validate_in(meta, expr, param, acc)</span>
+<span class='curline'><a href='../S/121.html#L456'>expr</a>              456 deps/ecto/lib/ecto/query/planner.ex         type = type!(kind, query, expr, source, field)</span>
+<span class='curline'><a href='../S/121.html#L460'>expr</a>              460 deps/ecto/lib/ecto/query/planner.ex         {_, t} = Enum.fetch!(expr.params, ix)</span>
+<span class='curline'><a href='../S/121.html#L461'>expr</a>              461 deps/ecto/lib/ecto/query/planner.ex         {_, _, type} = type_for_param!(kind, query, expr, t)</span>
+<span class='curline'><a href='../S/121.html#L466'>expr</a>              466 deps/ecto/lib/ecto/query/planner.ex         {cast_param(kind, query, expr, v, type, adapter), acc}</span>
+<span class='curline'><a href='../S/121.html#L473'>expr</a>              473 deps/ecto/lib/ecto/query/planner.ex   defp validate_in(meta, expr, param, acc) do</span>
+<span class='curline'><a href='../S/121.html#L474'>expr</a>              474 deps/ecto/lib/ecto/query/planner.ex     {v, _t} = Enum.fetch!(expr.params, param)</span>
+<span class='curline'><a href='../S/121.html#L496'>expr</a>              496 deps/ecto/lib/ecto/query/planner.ex     {fields, from?} = collect_fields(query, select.expr, false)</span>
+<span class='curline'><a href='../S/121.html#L509'>expr</a>              509 deps/ecto/lib/ecto/query/planner.ex     {fields, from?} = collect_fields(query, select.expr, false)</span>
+<span class='curline'><a href='../S/121.html#L520'>expr</a>              520 deps/ecto/lib/ecto/query/planner.ex   defp collect_fields(_query, {:&amp;, _, [ix]} = expr, from?) do</span>
+<span class='curline'><a href='../S/121.html#L524'>expr</a>              524 deps/ecto/lib/ecto/query/planner.ex       {[expr], from?}</span>
+<span class='curline'><a href='../S/121.html#L536'>expr</a>              536 deps/ecto/lib/ecto/query/planner.ex   defp collect_fields(_query, expr, from?),</span>
+<span class='curline'><a href='../S/121.html#L537'>expr</a>              537 deps/ecto/lib/ecto/query/planner.ex     do: {[expr], from?}</span>
+<span class='curline'><a href='../S/121.html#L625'>expr</a>              625 deps/ecto/lib/ecto/query/planner.ex   defp type!(kind, query, expr, source, field) when is_integer(source) do</span>
+<span class='curline'><a href='../S/121.html#L627'>expr</a>              627 deps/ecto/lib/ecto/query/planner.ex       {_, model} -&gt; type!(kind, query, expr, model, field)</span>
+<span class='curline'><a href='../S/121.html#L632'>expr</a>              632 deps/ecto/lib/ecto/query/planner.ex   defp type!(kind, query, expr, model, field) when is_atom(model) do</span>
+<span class='curline'><a href='../S/121.html#L636'>expr</a>              636 deps/ecto/lib/ecto/query/planner.ex       error! query, expr, "field `#{inspect model}.#{field}` in `#{kind}` " &lt;&gt;</span>
+<span class='curline'><a href='../S/121.html#L641'>expr</a>              641 deps/ecto/lib/ecto/query/planner.ex   defp type_for_param!(kind, query, expr, {composite, {ix, field}}) when is_integer(ix) do</span>
+<span class='curline'><a href='../S/121.html#L643'>expr</a>              643 deps/ecto/lib/ecto/query/planner.ex     {model, field, {composite, type!(kind, query, expr, model, field)}}</span>
+<span class='curline'><a href='../S/121.html#L646'>expr</a>              646 deps/ecto/lib/ecto/query/planner.ex   defp type_for_param!(kind, query, expr, {ix, field}) when is_integer(ix) do</span>
+<span class='curline'><a href='../S/121.html#L648'>expr</a>              648 deps/ecto/lib/ecto/query/planner.ex     {model, field, type!(kind, query, expr, model, field)}</span>
+<span class='curline'><a href='../S/121.html#L658'>expr</a>              658 deps/ecto/lib/ecto/query/planner.ex         Enum.reduce(update.expr, acc, fn {_op, kw}, acc -&gt;</span>
+<span class='curline'><a href='../S/121.html#L699'>expr</a>              699 deps/ecto/lib/ecto/query/planner.ex   defp error!(query, expr, message) do</span>
+<span class='curline'><a href='../S/121.html#L700'>expr</a>              700 deps/ecto/lib/ecto/query/planner.ex     raise Ecto.QueryError, message: message, query: query, file: expr.file, line: expr.line</span>
+<span class='curline'><a href='../S/126.html#L136'>expr</a>              136 deps/ecto/lib/ecto/repo/queryable.ex   defp postprocess(%{expr: expr, fields: fields}) do</span>
+<span class='curline'><a href='../S/126.html#L142'>expr</a>              142 deps/ecto/lib/ecto/repo/queryable.ex     &amp;postprocess(&amp;1, expr, from?)</span>
+<span class='curline'><a href='../S/126.html#L145'>expr</a>              145 deps/ecto/lib/ecto/repo/queryable.ex   defp postprocess(row, expr, true),</span>
+<span class='curline'><a href='../S/126.html#L146'>expr</a>              146 deps/ecto/lib/ecto/repo/queryable.ex     do: transform_row(expr, hd(row), tl(row)) |&gt; elem(0)</span>
+<span class='curline'><a href='../S/126.html#L147'>expr</a>              147 deps/ecto/lib/ecto/repo/queryable.ex   defp postprocess(row, expr, false),</span>
+<span class='curline'><a href='../S/126.html#L148'>expr</a>              148 deps/ecto/lib/ecto/repo/queryable.ex     do: transform_row(expr, nil, row) |&gt; elem(0)</span>
+</pre>
+</body>
+</html>

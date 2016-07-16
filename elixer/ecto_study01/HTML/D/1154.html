@@ -1,0 +1,17 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>unextract</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/125.html#L27'>unextract</a>          27 deps/ecto/lib/ecto/repo/preloader.ex defp unextract(structs, [[nil|_]=h2|t2], fun), do: [fun.(h2)|unextract(structs, t2, fun)]</span>
+<span class='curline'><a href='../S/125.html#L28'>unextract</a>          28 deps/ecto/lib/ecto/repo/preloader.ex defp unextract([h1|structs], [[_|t1]|t2], fun), do: [fun.([h1|t1])|unextract(structs, t2, fun)]</span>
+<span class='curline'><a href='../S/125.html#L29'>unextract</a>          29 deps/ecto/lib/ecto/repo/preloader.ex defp unextract([], [], _fun), do: []</span>
+</pre>
+</body>
+</html>

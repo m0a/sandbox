@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>get!</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/56.html#L73'>get!</a>               73 deps/ecto/integration_test/cases/repo.exs     assert %Post{text: "x", title: "hello", temp: "temp"} = TestRepo.get!(Post, post.id)</span>
+<span class='curline'><a href='../S/56.html#L80'>get!</a>               80 deps/ecto/integration_test/cases/repo.exs     assert %Post{text: "x", title: "world", temp: "temp"} = TestRepo.get!(Post, post.id)</span>
+<span class='curline'><a href='../S/56.html#L349'>get!</a>              349 deps/ecto/integration_test/cases/repo.exs     assert post1 == TestRepo.get!(Post, post1.id)</span>
+<span class='curline'><a href='../S/56.html#L350'>get!</a>              350 deps/ecto/integration_test/cases/repo.exs     assert post2 == TestRepo.get!(Post, to_string post2.id) # With casting</span>
+<span class='curline'><a href='../S/56.html#L356'>get!</a>              356 deps/ecto/integration_test/cases/repo.exs       TestRepo.get!(Post, post1.id)</span>
+<span class='curline'><a href='../S/56.html#L591'>get!</a>              591 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.get!(from(p in Post, preload: [:permalink]), p1.id)</span>
+<span class='curline'><a href='../S/56.html#L602'>get!</a>              602 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.get!(from(p in Post, preload: [:permalink]), p1.id)</span>
+<span class='curline'><a href='../S/56.html#L611'>get!</a>              611 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.get!(from(p in Post, preload: [:permalink]), p1.id)</span>
+<span class='curline'><a href='../S/56.html#L629'>get!</a>              629 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.get!(from(p in Post, preload: [:comments]), p1.id)</span>
+<span class='curline'><a href='../S/56.html#L641'>get!</a>              641 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.get!(from(p in Post, preload: [:comments]), p1.id)</span>
+<span class='curline'><a href='../S/56.html#L652'>get!</a>              652 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.get!(from(p in Post, preload: [:comments]), p1.id)</span>
+<span class='curline'><a href='../S/57.html#L117'>get!</a>              117 deps/ecto/integration_test/cases/type.exs     assert TestRepo.get!(Tag, tag.id).ints == [3, 2, 1]</span>
+<span class='curline'><a href='../S/57.html#L121'>get!</a>              121 deps/ecto/integration_test/cases/type.exs     assert TestRepo.get!(Tag, tag.id).ints == [3, 2, 1, 0]</span>
+<span class='curline'><a href='../S/57.html#L124'>get!</a>              124 deps/ecto/integration_test/cases/type.exs     assert TestRepo.get!(Tag, tag.id).ints == [3, 1, 0]</span>
+<span class='curline'><a href='../S/57.html#L151'>get!</a>              151 deps/ecto/integration_test/cases/type.exs     assert TestRepo.get!(Post, post.id).meta == %{"world" =&gt; "hello"}</span>
+<span class='curline'><a href='../S/57.html#L154'>get!</a>              154 deps/ecto/integration_test/cases/type.exs     assert TestRepo.get!(Post, post.id).meta == %{"hello" =&gt; "world"}</span>
+<span class='curline'><a href='../S/57.html#L158'>get!</a>              158 deps/ecto/integration_test/cases/type.exs     assert TestRepo.get!(Post, post.id).meta == %{"world" =&gt; "hello"}</span>
+<span class='curline'><a href='../S/57.html#L169'>get!</a>              169 deps/ecto/integration_test/cases/type.exs     dbitem = TestRepo.get!(Order, order.id).item</span>
+<span class='curline'><a href='../S/57.html#L190'>get!</a>              190 deps/ecto/integration_test/cases/type.exs     [dbitem] = TestRepo.get!(Tag, tag.id).items</span>
+<span class='curline'><a href='../S/129.html#L104'>get!</a>              104 deps/ecto/lib/ecto/repo.ex         Ecto.Repo.Queryable.get!(__MODULE__, @adapter, queryable, id, opts)</span>
+</pre>
+</body>
+</html>

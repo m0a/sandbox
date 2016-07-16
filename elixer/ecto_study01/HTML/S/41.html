@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/db_connection/lib/db_connection/sojourn.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/219.html'>db_connection</a>/<a href='../files/220.html'>lib</a>/<a href='../files/221.html'>db_connection</a>/sojourn.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L29'>[^]</a><a href='#L70'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L29' title='Defined at 29.'>start_link</a></li>
+<li><a href='#L34' title='Defined at 34.'>child_spec</a></li>
+<li><a href='#L39' title='Defined at 39.'>checkout</a></li>
+<li><a href='#L49' title='Defined at 49.'>checkin</a></li>
+<li><a href='#L52' title='Defined at 52.'>disconnect</a></li>
+<li><a href='#L55' title='Defined at 55.'>stop</a></li>
+<li><a href='#L59' title='Defined at 59.'>broker_args</a></li>
+<li><a href='#L70' title='Defined at 70.'>ask</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule DBConnection.Sojourn <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc """
+<a id='L3' name='L3'></a>  A `DBConnection.Pool` using sbroker.
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a><em class='sharp'>  #</em>## Options
+<a id='L6' name='L6'></a>
+<a id='L7' name='L7'></a>    * `:pool_size` - The number of connections (<strong class='reserved'>default</strong>: `10`)
+<a id='L8' name='L8'></a>    * `:broker` - The sbroker callback module (see `:sbroker`,
+<a id='L9' name='L9'></a>    <strong class='reserved'>default</strong>: `DBConnection.Sojourn.Timeout`)
+<a id='L10' name='L10'></a>    * `:broker_start_opts` - Start options <strong class='reserved'>for</strong> the broker (see
+<a id='L11' name='L11'></a>    `:sbroker`, <strong class='reserved'>default</strong>: `[]`)
+<a id='L12' name='L12'></a>    * `:max_restarts` - the maximum amount of connection restarts allowed in a
+<a id='L13' name='L13'></a>    time frame (<strong class='reserved'>default</strong> `3`)
+<a id='L14' name='L14'></a>    * `:max_seconds` - the time frame in which `:max_restarts` applies (<strong class='reserved'>default</strong>
+<a id='L15' name='L15'></a>    `5`)
+<a id='L16' name='L16'></a>    * `:shutdown` - the shutdown strategy <strong class='reserved'>for</strong> connections (<strong class='reserved'>default</strong> `5_000`)
+<a id='L17' name='L17'></a>
+<a id='L18' name='L18'></a>  All options are passed as the argument to the sbroker callback module.
+<a id='L19' name='L19'></a>  """
+<a id='L20' name='L20'></a>
+<a id='L21' name='L21'></a>  @behaviour DBConnection.Pool
+<a id='L22' name='L22'></a>
+<a id='L23' name='L23'></a>  @broker    DBConnection.Sojourn.Timeout
+<a id='L24' name='L24'></a>  @time_unit :micro_seconds
+<a id='L25' name='L25'></a>
+<a id='L26' name='L26'></a>  import Supervisor.Spec
+<a id='L27' name='L27'></a>
+<a id='L28' name='L28'></a>  @doc false
+<a id='L29' name='L29'></a>  def <a href='../R/900.html' title='Multiple referred from 71 places.'>start_link</a>(mod, opts) <strong class='reserved'>do</strong>
+<a id='L30' name='L30'></a>    <a href='../D/244.html' title='Multiple defined in 16 places.'>apply</a>(:sbroker, :start_link, <a href='../S/41.html#L59' title='Defined at 59 in deps/db_connection/lib/db_connection/sojourn.ex.'>broker_args</a>(mod, opts))
+<a id='L31' name='L31'></a>  end
+<a id='L32' name='L32'></a>
+<a id='L33' name='L33'></a>  @doc false
+<a id='L34' name='L34'></a>  def <a href='../R/230.html' title='Multiple referred from 15 places.'>child_spec</a>(mod, opts, child_opts \\ []) <strong class='reserved'>do</strong>
+<a id='L35' name='L35'></a>    worker(:sbroker, <a href='../S/41.html#L59' title='Defined at 59 in deps/db_connection/lib/db_connection/sojourn.ex.'>broker_args</a>(mod, opts), child_opts)
+<a id='L36' name='L36'></a>  end
+<a id='L37' name='L37'></a>
+<a id='L38' name='L38'></a>  @doc false
+<a id='L39' name='L39'></a>  def <a href='../R/229.html' title='Multiple referred from 37 places.'>checkout</a>(broker, opts) <strong class='reserved'>do</strong>
+<a id='L40' name='L40'></a>    <strong class='reserved'>case</strong> <a href='../D/249.html' title='Multiple defined in 3 places.'>ask</a>(broker, opts) <strong class='reserved'>do</strong>
+<a id='L41' name='L41'></a>      <em class='brace'>{</em>:go, ref, <em class='brace'>{</em>pid, mod, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>, _, _<em class='brace'>}</em> -&gt;
+<a id='L42' name='L42'></a>        <em class='brace'>{</em>:ok, <em class='brace'>{</em>pid, ref<em class='brace'>}</em>, mod, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L43' name='L43'></a>      <em class='brace'>{</em><a href='../S/94.html#L316' title='Defined at 316 in deps/ecto/lib/ecto/migration.ex.'>drop</a>, _<em class='brace'>}</em> when drop in [:drop, :retry] -&gt;
+<a id='L44' name='L44'></a>        <em class='brace'>{</em>:error, DBConnection.Error.<a href='../D/578.html' title='Multiple defined in 17 places.'>exception</a>("connection not available")<em class='brace'>}</em>
+<a id='L45' name='L45'></a>    end
+<a id='L46' name='L46'></a>  end
+<a id='L47' name='L47'></a>
+<a id='L48' name='L48'></a>  @doc false
+<a id='L49' name='L49'></a>  defdelegate <a href='../R/228.html' title='Multiple referred from 28 places.'>checkin</a>(ref, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>, opts), to: DBConnection.Connection
+<a id='L50' name='L50'></a>
+<a id='L51' name='L51'></a>  @doc false
+<a id='L52' name='L52'></a>  defdelegate <a href='../R/342.html' title='Multiple referred from 46 places.'>disconnect</a>(ref, err, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>, opts), to: DBConnection.Connection
+<a id='L53' name='L53'></a>
+<a id='L54' name='L54'></a>  @doc false
+<a id='L55' name='L55'></a>  defdelegate <a href='../R/910.html' title='Multiple referred from 39 places.'>stop</a>(ref, <a href='../D/954.html' title='Multiple defined in 3 places.'>reason</a>, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>, opts), to: DBConnection.Connection
+<a id='L56' name='L56'></a>
+<a id='L57' name='L57'></a><em class='sharp'>  #</em># Helpers
+<a id='L58' name='L58'></a>
+<a id='L59' name='L59'></a>  defp <a href='../R/194.html' title='Multiple referred from 2 places.'>broker_args</a>(mod, opts) <strong class='reserved'>do</strong>
+<a id='L60' name='L60'></a>    broker     = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :broker, @broker)
+<a id='L61' name='L61'></a>    <a href='../D/1060.html' title='Multiple defined in 2 places.'>start_opts</a> = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :broker_start_opt, [time_unit: @time_unit])
+<a id='L62' name='L62'></a>    args       = [__MODULE__.<a href='../S/36.html#L1' title='Defined at 1 in deps/db_connection/lib/db_connection/sojourn/broker.ex.'>Broker</a>, <em class='brace'>{</em>broker, mod, opts<em class='brace'>}</em>, <a href='../D/1060.html' title='Multiple defined in 2 places.'>start_opts</a>]
+<a id='L63' name='L63'></a>    <strong class='reserved'>case</strong> Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :name) <strong class='reserved'>do</strong>
+<a id='L64' name='L64'></a>      nil                     -&gt; args
+<a id='L65' name='L65'></a>      name when is_atom(name) -&gt; [<em class='brace'>{</em>:local, name<em class='brace'>}</em> | args]
+<a id='L66' name='L66'></a>      name                    -&gt; [name | args]
+<a id='L67' name='L67'></a>    end
+<a id='L68' name='L68'></a>  end
+<a id='L69' name='L69'></a>
+<a id='L70' name='L70'></a>  defp <a href='../R/136.html' title='Multiple referred from 8 places.'>ask</a>(broker, opts) <strong class='reserved'>do</strong>
+<a id='L71' name='L71'></a>    <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a> = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :timeout, 5_000)
+<a id='L72' name='L72'></a>    info = <em class='brace'>{</em>self(), <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a><em class='brace'>}</em>
+<a id='L73' name='L73'></a>    <strong class='reserved'>case</strong> Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :queue, true) <strong class='reserved'>do</strong>
+<a id='L74' name='L74'></a>      true  -&gt; :sbroker.<a href='../D/249.html' title='Multiple defined in 3 places.'>ask</a>(broker, info)
+<a id='L75' name='L75'></a>      false -&gt; :sbroker.nb_ask(broker, info)
+<a id='L76' name='L76'></a>    end
+<a id='L77' name='L77'></a>  end
+<a id='L78' name='L78'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L29'>[^]</a><a href='#L70'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

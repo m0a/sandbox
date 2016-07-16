@@ -1,0 +1,444 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/integration_test/cases/preload.exs</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/228.html'>integration_test</a>/<a href='../files/229.html'>cases</a>/preload.exs</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L415'>[^]</a>[v][top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L415' title='Defined at 415.'>sort_by_id</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Integration.PreloadTest <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  use Ecto.Integration.Case
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>  alias Ecto.Integration.TestRepo
+<a id='L5' name='L5'></a>  import Ecto.Query
+<a id='L6' name='L6'></a>
+<a id='L7' name='L7'></a>  alias Ecto.Integration.Post
+<a id='L8' name='L8'></a>  alias Ecto.Integration.Comment
+<a id='L9' name='L9'></a>  alias Ecto.Integration.Permalink
+<a id='L10' name='L10'></a>  alias Ecto.Integration.User
+<a id='L11' name='L11'></a>  alias Ecto.Integration.Custom
+<a id='L12' name='L12'></a>
+<a id='L13' name='L13'></a>  test "preload empty" <strong class='reserved'>do</strong>
+<a id='L14' name='L14'></a>    assert TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>([], :anything_goes) == []
+<a id='L15' name='L15'></a>  end
+<a id='L16' name='L16'></a>
+<a id='L17' name='L17'></a>  test "preload has_many" <strong class='reserved'>do</strong>
+<a id='L18' name='L18'></a>    p1 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L19' name='L19'></a>    p2 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L20' name='L20'></a>    p3 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "3"<em class='brace'>}</em>)
+<a id='L21' name='L21'></a>
+<a id='L22' name='L22'></a>    # We use the same text to expose bugs in preload sorting
+<a id='L23' name='L23'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid1<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "1", post_id: p1.id<em class='brace'>}</em>)
+<a id='L24' name='L24'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid3<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "2", post_id: p2.id<em class='brace'>}</em>)
+<a id='L25' name='L25'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid2<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "2", post_id: p1.id<em class='brace'>}</em>)
+<a id='L26' name='L26'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid4<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "3", post_id: p2.id<em class='brace'>}</em>)
+<a id='L27' name='L27'></a>
+<a id='L28' name='L28'></a>    assert %Ecto.Association.NotLoaded<em class='brace'>{</em><em class='brace'>}</em> = p1.comments
+<a id='L29' name='L29'></a>
+<a id='L30' name='L30'></a>    assert [p3, p1, p2] = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>([p3, p1, p2], :comments)
+<a id='L31' name='L31'></a>    assert [%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: ^cid1<em class='brace'>}</em>, %Comment<em class='brace'>{</em>id: ^cid2<em class='brace'>}</em>] = p1.comments |&gt; <a href='../S/55.html#L415' title='Defined at 415 in deps/ecto/integration_test/cases/preload.exs.'>sort_by_id</a>
+<a id='L32' name='L32'></a>    assert [%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: ^cid3<em class='brace'>}</em>, %Comment<em class='brace'>{</em>id: ^cid4<em class='brace'>}</em>] = p2.comments |&gt; <a href='../S/55.html#L415' title='Defined at 415 in deps/ecto/integration_test/cases/preload.exs.'>sort_by_id</a>
+<a id='L33' name='L33'></a>    assert [] = p3.comments
+<a id='L34' name='L34'></a>  end
+<a id='L35' name='L35'></a>
+<a id='L36' name='L36'></a>  test "preload has_one" <strong class='reserved'>do</strong>
+<a id='L37' name='L37'></a>    p1 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L38' name='L38'></a>    p2 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L39' name='L39'></a>    p3 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "3"<em class='brace'>}</em>)
+<a id='L40' name='L40'></a>
+<a id='L41' name='L41'></a>    %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>id: pid1<em class='brace'>}</em> = TestRepo.insert!(%Permalink<em class='brace'>{</em>url: "1", post_id: p1.id<em class='brace'>}</em>)
+<a id='L42' name='L42'></a>    %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em><em class='brace'>}</em>         = TestRepo.insert!(%Permalink<em class='brace'>{</em>url: "2", post_id: nil<em class='brace'>}</em>)
+<a id='L43' name='L43'></a>    %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>id: pid3<em class='brace'>}</em> = TestRepo.insert!(%Permalink<em class='brace'>{</em>url: "3", post_id: p3.id<em class='brace'>}</em>)
+<a id='L44' name='L44'></a>
+<a id='L45' name='L45'></a>    assert %Ecto.Association.NotLoaded<em class='brace'>{</em><em class='brace'>}</em> = p1.permalink
+<a id='L46' name='L46'></a>    assert %Ecto.Association.NotLoaded<em class='brace'>{</em><em class='brace'>}</em> = p2.permalink
+<a id='L47' name='L47'></a>
+<a id='L48' name='L48'></a>    assert [p3, p1, p2] = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>([p3, p1, p2], :permalink)
+<a id='L49' name='L49'></a>    assert %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>id: ^pid1<em class='brace'>}</em> = p1.permalink
+<a id='L50' name='L50'></a>    refute p2.permalink
+<a id='L51' name='L51'></a>    assert %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>id: ^pid3<em class='brace'>}</em> = p3.permalink
+<a id='L52' name='L52'></a>  end
+<a id='L53' name='L53'></a>
+<a id='L54' name='L54'></a>  test "preload belongs_to" <strong class='reserved'>do</strong>
+<a id='L55' name='L55'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid1<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L56' name='L56'></a>    TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L57' name='L57'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid3<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "3"<em class='brace'>}</em>)
+<a id='L58' name='L58'></a>
+<a id='L59' name='L59'></a>    pl1 = TestRepo.insert!(%<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>url: "1", post_id: pid1<em class='brace'>}</em>)
+<a id='L60' name='L60'></a>    pl2 = TestRepo.insert!(%<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>url: "2", post_id: nil<em class='brace'>}</em>)
+<a id='L61' name='L61'></a>    pl3 = TestRepo.insert!(%<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>url: "3", post_id: pid3<em class='brace'>}</em>)
+<a id='L62' name='L62'></a>
+<a id='L63' name='L63'></a>    assert %Ecto.Association.NotLoaded<em class='brace'>{</em><em class='brace'>}</em> = pl1.post
+<a id='L64' name='L64'></a>
+<a id='L65' name='L65'></a>    assert [ple3, ple1, ple2] = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>([pl3, pl1, pl2],
+<a id='L66' name='L66'></a>                                                 post: <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, where: false))
+<a id='L67' name='L67'></a>    refute ple1.post
+<a id='L68' name='L68'></a>    refute ple2.post
+<a id='L69' name='L69'></a>    refute ple3.post
+<a id='L70' name='L70'></a>
+<a id='L71' name='L71'></a>    assert [pl3, pl1, pl2] = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>([pl3, pl1, pl2], :post)
+<a id='L72' name='L72'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: ^pid1<em class='brace'>}</em> = pl1.post
+<a id='L73' name='L73'></a>    refute pl2.post
+<a id='L74' name='L74'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: ^pid3<em class='brace'>}</em> = pl3.post
+<a id='L75' name='L75'></a>  end
+<a id='L76' name='L76'></a>
+<a id='L77' name='L77'></a>  test "preload with query" <strong class='reserved'>do</strong>
+<a id='L78' name='L78'></a>    p1 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L79' name='L79'></a>    p2 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L80' name='L80'></a>    p3 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "3"<em class='brace'>}</em>)
+<a id='L81' name='L81'></a>
+<a id='L82' name='L82'></a>    # We use the same text to expose bugs in preload sorting
+<a id='L83' name='L83'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid1<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "1", post_id: p1.id<em class='brace'>}</em>)
+<a id='L84' name='L84'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid3<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "2", post_id: p2.id<em class='brace'>}</em>)
+<a id='L85' name='L85'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid2<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "2", post_id: p1.id<em class='brace'>}</em>)
+<a id='L86' name='L86'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid4<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "3", post_id: p2.id<em class='brace'>}</em>)
+<a id='L87' name='L87'></a>
+<a id='L88' name='L88'></a>    assert %Ecto.Association.NotLoaded<em class='brace'>{</em><em class='brace'>}</em> = p1.comments
+<a id='L89' name='L89'></a>
+<a id='L90' name='L90'></a>    # With custom query
+<a id='L91' name='L91'></a>    assert [pe3, pe1, pe2] = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>([p3, p1, p2],
+<a id='L92' name='L92'></a>                                              comments: <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(c in <a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a>, where: false))
+<a id='L93' name='L93'></a>    assert [] = pe1.comments
+<a id='L94' name='L94'></a>    assert [] = pe2.comments
+<a id='L95' name='L95'></a>    assert [] = pe3.comments
+<a id='L96' name='L96'></a>
+<a id='L97' name='L97'></a>    # With custom ordered query
+<a id='L98' name='L98'></a>    assert [pe3, pe1, pe2] = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>([p3, p1, p2],
+<a id='L99' name='L99'></a>                                              comments: <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(c in <a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a>, order_by: [desc: c.text]))
+<a id='L100' name='L100'></a>    assert [%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: ^cid2<em class='brace'>}</em>, %Comment<em class='brace'>{</em>id: ^cid1<em class='brace'>}</em>] = pe1.comments
+<a id='L101' name='L101'></a>    assert [%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: ^cid4<em class='brace'>}</em>, %Comment<em class='brace'>{</em>id: ^cid3<em class='brace'>}</em>] = pe2.comments
+<a id='L102' name='L102'></a>    assert [] = pe3.comments
+<a id='L103' name='L103'></a>
+<a id='L104' name='L104'></a>    # With custom ordered query with preload
+<a id='L105' name='L105'></a>    assert [pe3, pe1, pe2] = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>([p3, p1, p2],
+<a id='L106' name='L106'></a>                                              comments: <em class='brace'>{</em><a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(c in <a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a>, order_by: [desc: c.text]), :post<em class='brace'>}</em>)
+<a id='L107' name='L107'></a>    assert [%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: ^cid2<em class='brace'>}</em> = c2, %Comment<em class='brace'>{</em>id: ^cid1<em class='brace'>}</em> = c1] = pe1.comments
+<a id='L108' name='L108'></a>    assert [%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: ^cid4<em class='brace'>}</em> = c4, %Comment<em class='brace'>{</em>id: ^cid3<em class='brace'>}</em> = c3] = pe2.comments
+<a id='L109' name='L109'></a>    assert [] = pe3.comments
+<a id='L110' name='L110'></a>
+<a id='L111' name='L111'></a>    assert c1.post.title == "1"
+<a id='L112' name='L112'></a>    assert c2.post.title == "1"
+<a id='L113' name='L113'></a>    assert c3.post.title == "2"
+<a id='L114' name='L114'></a>    assert c4.post.title == "2"
+<a id='L115' name='L115'></a>  end
+<a id='L116' name='L116'></a>
+<a id='L117' name='L117'></a>  test "preload has_many through" <strong class='reserved'>do</strong>
+<a id='L118' name='L118'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid1<em class='brace'>}</em> = p1 = TestRepo.insert!(%Post<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L119' name='L119'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid2<em class='brace'>}</em> = p2 = TestRepo.insert!(%Post<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L120' name='L120'></a>
+<a id='L121' name='L121'></a>    %<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>id: uid1<em class='brace'>}</em> = TestRepo.insert!(%User<em class='brace'>{</em>name: "foo"<em class='brace'>}</em>)
+<a id='L122' name='L122'></a>    %<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>id: uid2<em class='brace'>}</em> = TestRepo.insert!(%User<em class='brace'>{</em>name: "bar"<em class='brace'>}</em>)
+<a id='L123' name='L123'></a>
+<a id='L124' name='L124'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1, author_id: uid1<em class='brace'>}</em>)
+<a id='L125' name='L125'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1, author_id: uid1<em class='brace'>}</em>)
+<a id='L126' name='L126'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1, author_id: uid2<em class='brace'>}</em>)
+<a id='L127' name='L127'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid2, author_id: uid2<em class='brace'>}</em>)
+<a id='L128' name='L128'></a>
+<a id='L129' name='L129'></a><em class='sharp'>    #</em># Single preload
+<a id='L130' name='L130'></a>    p1 = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>(p1, :comments_authors)
+<a id='L131' name='L131'></a>
+<a id='L132' name='L132'></a>    # Through was preloaded
+<a id='L133' name='L133'></a>    [u1, u2] = p1.comments_authors |&gt; <a href='../S/55.html#L415' title='Defined at 415 in deps/ecto/integration_test/cases/preload.exs.'>sort_by_id</a>
+<a id='L134' name='L134'></a>    assert u1.id == uid1
+<a id='L135' name='L135'></a>    assert u2.id == uid2
+<a id='L136' name='L136'></a>
+<a id='L137' name='L137'></a>    # But we also preloaded everything along the way
+<a id='L138' name='L138'></a>    assert [c1, c2, c3] = p1.comments |&gt; <a href='../S/55.html#L415' title='Defined at 415 in deps/ecto/integration_test/cases/preload.exs.'>sort_by_id</a>
+<a id='L139' name='L139'></a>    assert c1.author.id == uid1
+<a id='L140' name='L140'></a>    assert c2.author.id == uid1
+<a id='L141' name='L141'></a>    assert c3.author.id == uid2
+<a id='L142' name='L142'></a>
+<a id='L143' name='L143'></a><em class='sharp'>    #</em># Multiple preloads
+<a id='L144' name='L144'></a>    [p1, p2] = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>([p1, p2], :comments_authors)
+<a id='L145' name='L145'></a>
+<a id='L146' name='L146'></a>    # Through was preloaded
+<a id='L147' name='L147'></a>    [u1, u2] = p1.comments_authors |&gt; <a href='../S/55.html#L415' title='Defined at 415 in deps/ecto/integration_test/cases/preload.exs.'>sort_by_id</a>
+<a id='L148' name='L148'></a>    assert u1.id == uid1
+<a id='L149' name='L149'></a>    assert u2.id == uid2
+<a id='L150' name='L150'></a>
+<a id='L151' name='L151'></a>    [u2] = p2.comments_authors
+<a id='L152' name='L152'></a>    assert u2.id == uid2
+<a id='L153' name='L153'></a>
+<a id='L154' name='L154'></a>    # But we also preloaded everything along the way
+<a id='L155' name='L155'></a>    assert [c1, c2, c3] = p1.comments |&gt; <a href='../S/55.html#L415' title='Defined at 415 in deps/ecto/integration_test/cases/preload.exs.'>sort_by_id</a>
+<a id='L156' name='L156'></a>    assert c1.author.id == uid1
+<a id='L157' name='L157'></a>    assert c2.author.id == uid1
+<a id='L158' name='L158'></a>    assert c3.author.id == uid2
+<a id='L159' name='L159'></a>
+<a id='L160' name='L160'></a>    assert [c4] = p2.comments
+<a id='L161' name='L161'></a>    assert c4.author.id == uid2
+<a id='L162' name='L162'></a>  end
+<a id='L163' name='L163'></a>
+<a id='L164' name='L164'></a>  test "preload through with query" <strong class='reserved'>do</strong>
+<a id='L165' name='L165'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid1<em class='brace'>}</em> = p1 = TestRepo.insert!(%Post<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L166' name='L166'></a>
+<a id='L167' name='L167'></a>    %<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>id: uid1<em class='brace'>}</em> = TestRepo.insert!(%User<em class='brace'>{</em>name: "foo"<em class='brace'>}</em>)
+<a id='L168' name='L168'></a>    %<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>id: uid2<em class='brace'>}</em> = TestRepo.insert!(%User<em class='brace'>{</em>name: "bar"<em class='brace'>}</em>)
+<a id='L169' name='L169'></a>
+<a id='L170' name='L170'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1, author_id: uid1<em class='brace'>}</em>)
+<a id='L171' name='L171'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1, author_id: uid1<em class='brace'>}</em>)
+<a id='L172' name='L172'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1, author_id: uid2<em class='brace'>}</em>)
+<a id='L173' name='L173'></a>
+<a id='L174' name='L174'></a>    p1 = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>(p1, comments_authors: <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(u in <a href='../D/193.html' title='Multiple defined in 5 places.'>User</a>, where: u.name == "foo"))
+<a id='L175' name='L175'></a>    [%<em class='brace'>{</em>id: ^uid1<em class='brace'>}</em>] = p1.comments_authors |&gt; <a href='../S/55.html#L415' title='Defined at 415 in deps/ecto/integration_test/cases/preload.exs.'>sort_by_id</a>
+<a id='L176' name='L176'></a>  end
+<a id='L177' name='L177'></a>
+<a id='L178' name='L178'></a>  test "preload has_one through" <strong class='reserved'>do</strong>
+<a id='L179' name='L179'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid1<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L180' name='L180'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid2<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L181' name='L181'></a>
+<a id='L182' name='L182'></a>    %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>id: lid1<em class='brace'>}</em> = TestRepo.insert!(%Permalink<em class='brace'>{</em>post_id: pid1<em class='brace'>}</em>)
+<a id='L183' name='L183'></a>    %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>id: lid2<em class='brace'>}</em> = TestRepo.insert!(%Permalink<em class='brace'>{</em>post_id: pid2<em class='brace'>}</em>)
+<a id='L184' name='L184'></a>
+<a id='L185' name='L185'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = c1 = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1<em class='brace'>}</em>)
+<a id='L186' name='L186'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = c2 = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1<em class='brace'>}</em>)
+<a id='L187' name='L187'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = c3 = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid2<em class='brace'>}</em>)
+<a id='L188' name='L188'></a>
+<a id='L189' name='L189'></a>    [c1, c2, c3] = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>([c1, c2, c3], :post_permalink)
+<a id='L190' name='L190'></a>
+<a id='L191' name='L191'></a>    # Through was preloaded
+<a id='L192' name='L192'></a>    assert c1.post.id == pid1
+<a id='L193' name='L193'></a>    assert c1.post.permalink.id == lid1
+<a id='L194' name='L194'></a>    assert c1.post_permalink.id == lid1
+<a id='L195' name='L195'></a>
+<a id='L196' name='L196'></a>    assert c2.post.id == pid1
+<a id='L197' name='L197'></a>    assert c2.post.permalink.id == lid1
+<a id='L198' name='L198'></a>    assert c2.post_permalink.id == lid1
+<a id='L199' name='L199'></a>
+<a id='L200' name='L200'></a>    assert c3.post.id == pid2
+<a id='L201' name='L201'></a>    assert c3.post.permalink.id == lid2
+<a id='L202' name='L202'></a>    assert c3.post_permalink.id == lid2
+<a id='L203' name='L203'></a>  end
+<a id='L204' name='L204'></a>
+<a id='L205' name='L205'></a>  test "preload has_many through-through" <strong class='reserved'>do</strong>
+<a id='L206' name='L206'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid1<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L207' name='L207'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid2<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L208' name='L208'></a>
+<a id='L209' name='L209'></a>    %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em><em class='brace'>}</em> = l1 = TestRepo.insert!(%Permalink<em class='brace'>{</em>post_id: pid1<em class='brace'>}</em>)
+<a id='L210' name='L210'></a>    %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em><em class='brace'>}</em> = l2 = TestRepo.insert!(%Permalink<em class='brace'>{</em>post_id: pid2<em class='brace'>}</em>)
+<a id='L211' name='L211'></a>
+<a id='L212' name='L212'></a>    %<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>id: uid1<em class='brace'>}</em> = TestRepo.insert!(%User<em class='brace'>{</em>name: "foo"<em class='brace'>}</em>)
+<a id='L213' name='L213'></a>    %<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>id: uid2<em class='brace'>}</em> = TestRepo.insert!(%User<em class='brace'>{</em>name: "bar"<em class='brace'>}</em>)
+<a id='L214' name='L214'></a>
+<a id='L215' name='L215'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1, author_id: uid1<em class='brace'>}</em>)
+<a id='L216' name='L216'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1, author_id: uid1<em class='brace'>}</em>)
+<a id='L217' name='L217'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1, author_id: uid2<em class='brace'>}</em>)
+<a id='L218' name='L218'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid2, author_id: uid2<em class='brace'>}</em>)
+<a id='L219' name='L219'></a>
+<a id='L220' name='L220'></a>    # With custom query
+<a id='L221' name='L221'></a>    [le1, le2] = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>([l1, l2],
+<a id='L222' name='L222'></a>                                  post_comments_authors: <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(u in <a href='../D/193.html' title='Multiple defined in 5 places.'>User</a>, where: u.name == "foo"))
+<a id='L223' name='L223'></a>    assert [u1] = le1.post_comments_authors
+<a id='L224' name='L224'></a>    assert u1.id == uid1
+<a id='L225' name='L225'></a>    assert [] = le2.post_comments_authors
+<a id='L226' name='L226'></a>
+<a id='L227' name='L227'></a>    # With assoc query
+<a id='L228' name='L228'></a>    [l1, l2] = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>([l1, l2], :post_comments_authors)
+<a id='L229' name='L229'></a>
+<a id='L230' name='L230'></a>    # Through was preloaded
+<a id='L231' name='L231'></a>    [u1, u2] = l1.post_comments_authors |&gt; <a href='../S/55.html#L415' title='Defined at 415 in deps/ecto/integration_test/cases/preload.exs.'>sort_by_id</a>
+<a id='L232' name='L232'></a>    assert u1.id == uid1
+<a id='L233' name='L233'></a>    assert u2.id == uid2
+<a id='L234' name='L234'></a>
+<a id='L235' name='L235'></a>    [u2] = l2.post_comments_authors
+<a id='L236' name='L236'></a>    assert u2.id == uid2
+<a id='L237' name='L237'></a>
+<a id='L238' name='L238'></a>    # But we also preloaded everything along the way
+<a id='L239' name='L239'></a>    assert l1.post.id == pid1
+<a id='L240' name='L240'></a>    assert l1.post.comments != []
+<a id='L241' name='L241'></a>
+<a id='L242' name='L242'></a>    assert l2.post.id == pid2
+<a id='L243' name='L243'></a>    assert l2.post.comments != []
+<a id='L244' name='L244'></a>  end
+<a id='L245' name='L245'></a>
+<a id='L246' name='L246'></a>  test "preload has_many through nested" <strong class='reserved'>do</strong>
+<a id='L247' name='L247'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid1<em class='brace'>}</em> = p1 = TestRepo.insert!(%Post<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L248' name='L248'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid2<em class='brace'>}</em> = p2 = TestRepo.insert!(%Post<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L249' name='L249'></a>
+<a id='L250' name='L250'></a>    %<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>id: uid1<em class='brace'>}</em> = TestRepo.insert!(%User<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L251' name='L251'></a>    %<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>id: uid2<em class='brace'>}</em> = TestRepo.insert!(%User<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L252' name='L252'></a>
+<a id='L253' name='L253'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = c1 = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1, author_id: uid1<em class='brace'>}</em>)
+<a id='L254' name='L254'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = c2 = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1, author_id: uid1<em class='brace'>}</em>)
+<a id='L255' name='L255'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = c3 = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1, author_id: uid2<em class='brace'>}</em>)
+<a id='L256' name='L256'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = c4 = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid2, author_id: uid2<em class='brace'>}</em>)
+<a id='L257' name='L257'></a>
+<a id='L258' name='L258'></a>    [p1, p2] = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>([p1, p2], [:permalink, comments_authors: :comments])
+<a id='L259' name='L259'></a>
+<a id='L260' name='L260'></a>    # Through was preloaded
+<a id='L261' name='L261'></a>    [u1, u2] = p1.comments_authors |&gt; <a href='../S/55.html#L415' title='Defined at 415 in deps/ecto/integration_test/cases/preload.exs.'>sort_by_id</a>
+<a id='L262' name='L262'></a>    assert u1.id == uid1
+<a id='L263' name='L263'></a>    assert u2.id == uid2
+<a id='L264' name='L264'></a>    assert [c1, c2] == u1.comments |&gt; <a href='../S/55.html#L415' title='Defined at 415 in deps/ecto/integration_test/cases/preload.exs.'>sort_by_id</a>
+<a id='L265' name='L265'></a>
+<a id='L266' name='L266'></a>    [u2] = p2.comments_authors
+<a id='L267' name='L267'></a>    assert u2.id == uid2
+<a id='L268' name='L268'></a>    assert [c3, c4] == u2.comments |&gt; <a href='../S/55.html#L415' title='Defined at 415 in deps/ecto/integration_test/cases/preload.exs.'>sort_by_id</a>
+<a id='L269' name='L269'></a>  end
+<a id='L270' name='L270'></a>
+<a id='L271' name='L271'></a>  test "preload belongs_to with shared assocs" <strong class='reserved'>do</strong>
+<a id='L272' name='L272'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid1<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L273' name='L273'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid2<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L274' name='L274'></a>
+<a id='L275' name='L275'></a>    c1 = TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "1", post_id: pid1<em class='brace'>}</em>)
+<a id='L276' name='L276'></a>    c2 = TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "2", post_id: pid1<em class='brace'>}</em>)
+<a id='L277' name='L277'></a>    c3 = TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "3", post_id: pid2<em class='brace'>}</em>)
+<a id='L278' name='L278'></a>
+<a id='L279' name='L279'></a>    assert [c3, c1, c2] = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>([c3, c1, c2], :post)
+<a id='L280' name='L280'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: ^pid1<em class='brace'>}</em> = c1.post
+<a id='L281' name='L281'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: ^pid1<em class='brace'>}</em> = c2.post
+<a id='L282' name='L282'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: ^pid2<em class='brace'>}</em> = c3.post
+<a id='L283' name='L283'></a>  end
+<a id='L284' name='L284'></a>
+<a id='L285' name='L285'></a>  @tag :invalid_prefix
+<a id='L286' name='L286'></a>  test "preload custom prefix" <strong class='reserved'>do</strong>
+<a id='L287' name='L287'></a>    p = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L288' name='L288'></a>    p = <a href='../D/46.html' title='Multiple defined in 2 places.'>Ecto</a>.<a href='../S/134.html#L542' title='Defined at 542 in deps/ecto/lib/ecto.ex.'>put_meta</a>(p, prefix: "this_surely_does_not_exist")
+<a id='L289' name='L289'></a>    # This preload should fail because it points to a prefix that does not exist
+<a id='L290' name='L290'></a>    assert catch_error(TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>(p, [:comments]))
+<a id='L291' name='L291'></a>  end
+<a id='L292' name='L292'></a>
+<a id='L293' name='L293'></a>  test "preload nested" <strong class='reserved'>do</strong>
+<a id='L294' name='L294'></a>    p1 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L295' name='L295'></a>    p2 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L296' name='L296'></a>
+<a id='L297' name='L297'></a>    TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "1", post_id: p1.id<em class='brace'>}</em>)
+<a id='L298' name='L298'></a>    TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "2", post_id: p1.id<em class='brace'>}</em>)
+<a id='L299' name='L299'></a>    TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "3", post_id: p2.id<em class='brace'>}</em>)
+<a id='L300' name='L300'></a>    TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "4", post_id: p2.id<em class='brace'>}</em>)
+<a id='L301' name='L301'></a>
+<a id='L302' name='L302'></a>    assert [p2, p1] = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>([p2, p1], [comments: :post])
+<a id='L303' name='L303'></a>    assert [c1, c2] = p1.comments
+<a id='L304' name='L304'></a>    assert [c3, c4] = p2.comments
+<a id='L305' name='L305'></a>    assert p1.id == c1.post.id
+<a id='L306' name='L306'></a>    assert p1.id == c2.post.id
+<a id='L307' name='L307'></a>    assert p2.id == c3.post.id
+<a id='L308' name='L308'></a>    assert p2.id == c4.post.id
+<a id='L309' name='L309'></a>  end
+<a id='L310' name='L310'></a>
+<a id='L311' name='L311'></a>  test "preload nested via custom query" <strong class='reserved'>do</strong>
+<a id='L312' name='L312'></a>    p1 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L313' name='L313'></a>    p2 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L314' name='L314'></a>
+<a id='L315' name='L315'></a>    TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "1", post_id: p1.id<em class='brace'>}</em>)
+<a id='L316' name='L316'></a>    TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "2", post_id: p1.id<em class='brace'>}</em>)
+<a id='L317' name='L317'></a>    TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "3", post_id: p2.id<em class='brace'>}</em>)
+<a id='L318' name='L318'></a>    TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "4", post_id: p2.id<em class='brace'>}</em>)
+<a id='L319' name='L319'></a>
+<a id='L320' name='L320'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(c in <a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a>, preload: :post, order_by: [desc: c.text])
+<a id='L321' name='L321'></a>    assert [p2, p1] = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>([p2, p1], comments: <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L322' name='L322'></a>    assert [c2, c1] = p1.comments
+<a id='L323' name='L323'></a>    assert [c4, c3] = p2.comments
+<a id='L324' name='L324'></a>    assert p1.id == c1.post.id
+<a id='L325' name='L325'></a>    assert p1.id == c2.post.id
+<a id='L326' name='L326'></a>    assert p2.id == c3.post.id
+<a id='L327' name='L327'></a>    assert p2.id == c4.post.id
+<a id='L328' name='L328'></a>  end
+<a id='L329' name='L329'></a>
+<a id='L330' name='L330'></a>  test "preload has_many with no associated entries" <strong class='reserved'>do</strong>
+<a id='L331' name='L331'></a>    p = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L332' name='L332'></a>    p = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>(p, :comments)
+<a id='L333' name='L333'></a>
+<a id='L334' name='L334'></a>    assert p.title == "1"
+<a id='L335' name='L335'></a>    assert p.comments == []
+<a id='L336' name='L336'></a>  end
+<a id='L337' name='L337'></a>
+<a id='L338' name='L338'></a>  test "preload has_one with no associated entries" <strong class='reserved'>do</strong>
+<a id='L339' name='L339'></a>    p = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L340' name='L340'></a>    p = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>(p, :permalink)
+<a id='L341' name='L341'></a>
+<a id='L342' name='L342'></a>    assert p.title == "1"
+<a id='L343' name='L343'></a>    assert p.permalink == nil
+<a id='L344' name='L344'></a>  end
+<a id='L345' name='L345'></a>
+<a id='L346' name='L346'></a>  test "preload belongs_to with no associated entry" <strong class='reserved'>do</strong>
+<a id='L347' name='L347'></a>    c = TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "1"<em class='brace'>}</em>)
+<a id='L348' name='L348'></a>    c = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>(c, :post)
+<a id='L349' name='L349'></a>
+<a id='L350' name='L350'></a>    assert c.text == "1"
+<a id='L351' name='L351'></a>    assert c.post == nil
+<a id='L352' name='L352'></a>  end
+<a id='L353' name='L353'></a>
+<a id='L354' name='L354'></a>  test "preload with binary_id" <strong class='reserved'>do</strong>
+<a id='L355' name='L355'></a>    c = TestRepo.insert!(%<a href='../S/66.html#L129' title='Defined at 129 in deps/ecto/integration_test/support/models.exs.'>Custom</a><em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L356' name='L356'></a>    u = TestRepo.insert!(%<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>custom_id: c.bid<em class='brace'>}</em>)
+<a id='L357' name='L357'></a>
+<a id='L358' name='L358'></a>    u = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>(u, :custom)
+<a id='L359' name='L359'></a>    assert u.custom.bid == c.bid
+<a id='L360' name='L360'></a>  end
+<a id='L361' name='L361'></a>
+<a id='L362' name='L362'></a>  test "preload skips already loaded" <strong class='reserved'>do</strong>
+<a id='L363' name='L363'></a>    p1 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L364' name='L364'></a>    p2 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L365' name='L365'></a>
+<a id='L366' name='L366'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: _<em class='brace'>}</em>    = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "1", post_id: p1.id<em class='brace'>}</em>)
+<a id='L367' name='L367'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid2<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "2", post_id: p2.id<em class='brace'>}</em>)
+<a id='L368' name='L368'></a>
+<a id='L369' name='L369'></a>    assert %Ecto.Association.NotLoaded<em class='brace'>{</em><em class='brace'>}</em> = p1.comments
+<a id='L370' name='L370'></a>    p1 = %<em class='brace'>{</em>p1 | comments: []<em class='brace'>}</em>
+<a id='L371' name='L371'></a>
+<a id='L372' name='L372'></a>    assert [p1, p2] = TestRepo.<a href='../D/886.html' title='Multiple defined in 6 places.'>preload</a>([p1, p2], :comments)
+<a id='L373' name='L373'></a>    assert [] = p1.comments
+<a id='L374' name='L374'></a>    assert [%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: ^cid2<em class='brace'>}</em>] = p2.comments
+<a id='L375' name='L375'></a>  end
+<a id='L376' name='L376'></a>
+<a id='L377' name='L377'></a>  test "preload keyword query" <strong class='reserved'>do</strong>
+<a id='L378' name='L378'></a>    p1 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L379' name='L379'></a>    p2 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L380' name='L380'></a>    TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "3"<em class='brace'>}</em>)
+<a id='L381' name='L381'></a>
+<a id='L382' name='L382'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid1<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "1", post_id: p1.id<em class='brace'>}</em>)
+<a id='L383' name='L383'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid2<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "2", post_id: p1.id<em class='brace'>}</em>)
+<a id='L384' name='L384'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid3<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "3", post_id: p2.id<em class='brace'>}</em>)
+<a id='L385' name='L385'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid4<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "4", post_id: p2.id<em class='brace'>}</em>)
+<a id='L386' name='L386'></a>
+<a id='L387' name='L387'></a>    # Regular query
+<a id='L388' name='L388'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, preload: [:comments], select: p)
+<a id='L389' name='L389'></a>
+<a id='L390' name='L390'></a>    assert [p1, p2, p3] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L391' name='L391'></a>    assert [%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: ^cid1<em class='brace'>}</em>, %Comment<em class='brace'>{</em>id: ^cid2<em class='brace'>}</em>] = p1.comments |&gt; <a href='../S/55.html#L415' title='Defined at 415 in deps/ecto/integration_test/cases/preload.exs.'>sort_by_id</a>
+<a id='L392' name='L392'></a>    assert [%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: ^cid3<em class='brace'>}</em>, %Comment<em class='brace'>{</em>id: ^cid4<em class='brace'>}</em>] = p2.comments |&gt; <a href='../S/55.html#L415' title='Defined at 415 in deps/ecto/integration_test/cases/preload.exs.'>sort_by_id</a>
+<a id='L393' name='L393'></a>    assert [] = p3.comments
+<a id='L394' name='L394'></a>
+<a id='L395' name='L395'></a>    # Query with interpolated preload query
+<a id='L396' name='L396'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, preload: [comments: ^from(c in <a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a>, where: false)], select: p)
+<a id='L397' name='L397'></a>
+<a id='L398' name='L398'></a>    assert [p1, p2, p3] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L399' name='L399'></a>    assert [] = p1.comments
+<a id='L400' name='L400'></a>    assert [] = p2.comments
+<a id='L401' name='L401'></a>    assert [] = p3.comments
+<a id='L402' name='L402'></a>
+<a id='L403' name='L403'></a>    # Now let's use an interpolated preload too
+<a id='L404' name='L404'></a>    comments = [:comments]
+<a id='L405' name='L405'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, preload: ^comments, select: <em class='brace'>{</em>0, [p], 1, 2<em class='brace'>}</em>)
+<a id='L406' name='L406'></a>
+<a id='L407' name='L407'></a>    posts = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L408' name='L408'></a>    [p1, p2, p3] = Enum.map(posts, fn <em class='brace'>{</em>0, [p], 1, 2<em class='brace'>}</em> -&gt; p end)
+<a id='L409' name='L409'></a>
+<a id='L410' name='L410'></a>    assert [%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: ^cid1<em class='brace'>}</em>, %Comment<em class='brace'>{</em>id: ^cid2<em class='brace'>}</em>] = p1.comments |&gt; <a href='../S/55.html#L415' title='Defined at 415 in deps/ecto/integration_test/cases/preload.exs.'>sort_by_id</a>
+<a id='L411' name='L411'></a>    assert [%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: ^cid3<em class='brace'>}</em>, %Comment<em class='brace'>{</em>id: ^cid4<em class='brace'>}</em>] = p2.comments |&gt; <a href='../S/55.html#L415' title='Defined at 415 in deps/ecto/integration_test/cases/preload.exs.'>sort_by_id</a>
+<a id='L412' name='L412'></a>    assert [] = p3.comments
+<a id='L413' name='L413'></a>  end
+<a id='L414' name='L414'></a>
+<a id='L415' name='L415'></a>  defp <a href='../R/887.html' title='Multiple referred from 15 places.'>sort_by_id</a>(values) <strong class='reserved'>do</strong>
+<a id='L416' name='L416'></a>    Enum.sort_by(values, &amp;(&amp;1.id))
+<a id='L417' name='L417'></a>  end
+<a id='L418' name='L418'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;][^]<a href='#L415'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

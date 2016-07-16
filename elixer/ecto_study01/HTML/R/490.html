@@ -1,0 +1,346 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>from</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/17.html#L415'>from</a>              415 deps/connection/lib/connection.ex   defdelegate reply(from, response), to: :gen_server</span>
+<span class='curline'><a href='../S/17.html#L487'>from</a>              487 deps/connection/lib/connection.ex   def handle_call(request, from, %{mod: mod, mod_state: mod_state} = s) do</span>
+<span class='curline'><a href='../S/17.html#L489'>from</a>              489 deps/connection/lib/connection.ex       apply(mod, :handle_call, [request, from, mod_state])</span>
+<span class='curline'><a href='../S/17.html#L505'>from</a>              505 deps/connection/lib/connection.ex         reply(from, reply)</span>
+<span class='curline'><a href='../S/17.html#L510'>from</a>              510 deps/connection/lib/connection.ex         reply(from, reply)</span>
+<span class='curline'><a href='../S/23.html#L164'>from</a>              164 deps/db_connection/lib/db_connection/connection.ex   def handle_call({:checkout, ref, queue?, timeout}, {pid, _} = from, s) do</span>
+<span class='curline'><a href='../S/23.html#L170'>from</a>              170 deps/db_connection/lib/db_connection/connection.ex         handle_checkout({ref, mon}, timeout, from, state, s)</span>
+<span class='curline'><a href='../S/23.html#L176'>from</a>              176 deps/db_connection/lib/db_connection/connection.ex         queue = :queue.in({client, timeout, from}, queue)</span>
+<span class='curline'><a href='../S/23.html#L184'>from</a>              184 deps/db_connection/lib/db_connection/connection.ex   def handle_call({:stop, ref, _, _} = stop, from, %{client: {ref, _}} = s) do</span>
+<span class='curline'><a href='../S/23.html#L185'>from</a>              185 deps/db_connection/lib/db_connection/connection.ex     Connection.reply(from, :ok)</span>
+<span class='curline'><a href='../S/23.html#L383'>from</a>              383 deps/db_connection/lib/db_connection/connection.ex   defp handle_checkout({ref, _} = client, timeout, from, state, s) do</span>
+<span class='curline'><a href='../S/23.html#L387'>from</a>              387 deps/db_connection/lib/db_connection/connection.ex         Connection.reply(from, {:ok, {self(), ref}, mod, state})</span>
+<span class='curline'><a href='../S/23.html#L416'>from</a>              416 deps/db_connection/lib/db_connection/connection.ex       {:value, {{ref, _} = new_client, timeout, from}} -&gt;</span>
+<span class='curline'><a href='../S/23.html#L418'>from</a>              418 deps/db_connection/lib/db_connection/connection.ex         Connection.reply(from, {:ok, {self(), ref}, mod, state})</span>
+<span class='curline'><a href='../S/23.html#L500'>from</a>              500 deps/db_connection/lib/db_connection/connection.ex       fn({{_, mon}, _, from}) -&gt;</span>
+<span class='curline'><a href='../S/23.html#L503'>from</a>              503 deps/db_connection/lib/db_connection/connection.ex           Connection.reply(from, {:error, err})</span>
+<span class='curline'><a href='../S/25.html#L45'>from</a>               45 deps/db_connection/lib/db_connection/log_entry.ex   defmacrop diff(to, from) do</span>
+<span class='curline'><a href='../S/25.html#L47'>from</a>               47 deps/db_connection/lib/db_connection/log_entry.ex       quote do: unquote(to) - unquote(from)</span>
+<span class='curline'><a href='../S/25.html#L49'>from</a>               49 deps/db_connection/lib/db_connection/log_entry.ex       quote do: max(:timer.now_diff(unquote(to), unquote(from)), 0)</span>
+<span class='curline'><a href='../S/27.html#L79'>from</a>               79 deps/db_connection/lib/db_connection/ownership/owner.ex   def handle_call(:init, from, state) do</span>
+<span class='curline'><a href='../S/27.html#L88'>from</a>               88 deps/db_connection/lib/db_connection/ownership/owner.ex         GenServer.reply(from, {:error, DBConnection.Error.exception(msg)})</span>
+<span class='curline'><a href='../S/27.html#L100'>from</a>              100 deps/db_connection/lib/db_connection/ownership/owner.ex   def handle_call({:checkout, ref, queue?, timeout}, from, %{queue: queue} = state) do</span>
+<span class='curline'><a href='../S/27.html#L102'>from</a>              102 deps/db_connection/lib/db_connection/ownership/owner.ex       {pid, _} = from</span>
+<span class='curline'><a href='../S/27.html#L104'>from</a>              104 deps/db_connection/lib/db_connection/ownership/owner.ex       queue = :queue.in({client, timeout, from}, queue)</span>
+<span class='curline'><a href='../S/27.html#L159'>from</a>              159 deps/db_connection/lib/db_connection/ownership/owner.ex       {:value, {{ref, _} = client, timeout, from}} -&gt;</span>
+<span class='curline'><a href='../S/27.html#L160'>from</a>              160 deps/db_connection/lib/db_connection/ownership/owner.ex         {caller, _} = from</span>
+<span class='curline'><a href='../S/27.html#L162'>from</a>              162 deps/db_connection/lib/db_connection/ownership/owner.ex         GenServer.reply(from, {:ok, {self(), ref}, conn_module, conn_state})</span>
+<span class='curline'><a href='../S/28.html#L10'>from</a>               10 deps/db_connection/lib/db_connection/ownership/owner_supervisor.ex   def start_owner(sup, from, pool, opts) do</span>
+<span class='curline'><a href='../S/28.html#L11'>from</a>               11 deps/db_connection/lib/db_connection/ownership/owner_supervisor.ex     Supervisor.start_child(sup, [self(), from, pool, opts])</span>
+<span class='curline'><a href='../S/51.html#L19'>from</a>               19 deps/ecto/integration_test/cases/interval.exs     assert [{2015, 1, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, 1, "year"))</span>
+<span class='curline'><a href='../S/51.html#L20'>from</a>               20 deps/ecto/integration_test/cases/interval.exs     assert [{2015, 1, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, 1.0, "year"))</span>
+<span class='curline'><a href='../S/51.html#L21'>from</a>               21 deps/ecto/integration_test/cases/interval.exs     assert [{2015, 1, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^1, "year"))</span>
+<span class='curline'><a href='../S/51.html#L22'>from</a>               22 deps/ecto/integration_test/cases/interval.exs     assert [{2015, 1, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^1.0, "year"))</span>
+<span class='curline'><a href='../S/51.html#L23'>from</a>               23 deps/ecto/integration_test/cases/interval.exs     assert [{2015, 1, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^dec, "year"))</span>
+<span class='curline'><a href='../S/51.html#L28'>from</a>               28 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 4, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, 3, "month"))</span>
+<span class='curline'><a href='../S/51.html#L29'>from</a>               29 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 4, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, 3.0, "month"))</span>
+<span class='curline'><a href='../S/51.html#L30'>from</a>               30 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 4, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^3, "month"))</span>
+<span class='curline'><a href='../S/51.html#L31'>from</a>               31 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 4, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^3.0, "month"))</span>
+<span class='curline'><a href='../S/51.html#L32'>from</a>               32 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 4, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^dec, "month"))</span>
+<span class='curline'><a href='../S/51.html#L37'>from</a>               37 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 22}] = TestRepo.all(from p in Post, select: date_add(p.posted, 3, "week"))</span>
+<span class='curline'><a href='../S/51.html#L38'>from</a>               38 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 22}] = TestRepo.all(from p in Post, select: date_add(p.posted, 3.0, "week"))</span>
+<span class='curline'><a href='../S/51.html#L39'>from</a>               39 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 22}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^3, "week"))</span>
+<span class='curline'><a href='../S/51.html#L40'>from</a>               40 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 22}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^3.0, "week"))</span>
+<span class='curline'><a href='../S/51.html#L41'>from</a>               41 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 22}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^dec, "week"))</span>
+<span class='curline'><a href='../S/51.html#L46'>from</a>               46 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 6}] = TestRepo.all(from p in Post, select: date_add(p.posted, 5, "day"))</span>
+<span class='curline'><a href='../S/51.html#L47'>from</a>               47 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 6}] = TestRepo.all(from p in Post, select: date_add(p.posted, 5.0, "day"))</span>
+<span class='curline'><a href='../S/51.html#L48'>from</a>               48 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 6}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^5, "day"))</span>
+<span class='curline'><a href='../S/51.html#L49'>from</a>               49 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 6}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^5.0, "day"))</span>
+<span class='curline'><a href='../S/51.html#L50'>from</a>               50 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 6}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^dec, "day"))</span>
+<span class='curline'><a href='../S/51.html#L55'>from</a>               55 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 3}] = TestRepo.all(from p in Post, select: date_add(p.posted, 48, "hour"))</span>
+<span class='curline'><a href='../S/51.html#L56'>from</a>               56 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 3}] = TestRepo.all(from p in Post, select: date_add(p.posted, 48.0, "hour"))</span>
+<span class='curline'><a href='../S/51.html#L57'>from</a>               57 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 3}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^48, "hour"))</span>
+<span class='curline'><a href='../S/51.html#L58'>from</a>               58 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 3}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^48.0, "hour"))</span>
+<span class='curline'><a href='../S/51.html#L59'>from</a>               59 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 3}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^dec, "hour"))</span>
+<span class='curline'><a href='../S/51.html#L64'>from</a>               64 deps/ecto/integration_test/cases/interval.exs     assert [{2015, 1, 1}]  = TestRepo.all(from p in Post, select: date_add(^posted, ^1, ^"year"))</span>
+<span class='curline'><a href='../S/51.html#L65'>from</a>               65 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 4, 1}]  = TestRepo.all(from p in Post, select: date_add(^posted, ^3, ^"month"))</span>
+<span class='curline'><a href='../S/51.html#L66'>from</a>               66 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 22}] = TestRepo.all(from p in Post, select: date_add(^posted, ^3, ^"week"))</span>
+<span class='curline'><a href='../S/51.html#L67'>from</a>               67 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 6}]  = TestRepo.all(from p in Post, select: date_add(^posted, ^5, ^"day"))</span>
+<span class='curline'><a href='../S/51.html#L68'>from</a>               68 deps/ecto/integration_test/cases/interval.exs     assert [{2014, 1, 3}]  = TestRepo.all(from p in Post, select: date_add(^posted, ^48, ^"hour"))</span>
+<span class='curline'><a href='../S/51.html#L73'>from</a>               73 deps/ecto/integration_test/cases/interval.exs     assert [{2013, 1, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, -1, "year"))</span>
+<span class='curline'><a href='../S/51.html#L74'>from</a>               74 deps/ecto/integration_test/cases/interval.exs     assert [{2013, 1, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, -1.0, "year"))</span>
+<span class='curline'><a href='../S/51.html#L75'>from</a>               75 deps/ecto/integration_test/cases/interval.exs     assert [{2013, 1, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^-1, "year"))</span>
+<span class='curline'><a href='../S/51.html#L76'>from</a>               76 deps/ecto/integration_test/cases/interval.exs     assert [{2013, 1, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^-1.0, "year"))</span>
+<span class='curline'><a href='../S/51.html#L77'>from</a>               77 deps/ecto/integration_test/cases/interval.exs     assert [{2013, 1, 1}] = TestRepo.all(from p in Post, select: date_add(p.posted, ^dec, "year"))</span>
+<span class='curline'><a href='../S/51.html#L83'>from</a>               83 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 1, "year"))</span>
+<span class='curline'><a href='../S/51.html#L85'>from</a>               85 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 1.0, "year"))</span>
+<span class='curline'><a href='../S/51.html#L87'>from</a>               87 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^1, "year"))</span>
+<span class='curline'><a href='../S/51.html#L89'>from</a>               89 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^1.0, "year"))</span>
+<span class='curline'><a href='../S/51.html#L91'>from</a>               91 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^dec, "year"))</span>
+<span class='curline'><a href='../S/51.html#L97'>from</a>               97 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 3, "month"))</span>
+<span class='curline'><a href='../S/51.html#L99'>from</a>               99 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 3.0, "month"))</span>
+<span class='curline'><a href='../S/51.html#L101'>from</a>              101 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^3, "month"))</span>
+<span class='curline'><a href='../S/51.html#L103'>from</a>              103 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^3.0, "month"))</span>
+<span class='curline'><a href='../S/51.html#L105'>from</a>              105 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^dec, "month"))</span>
+<span class='curline'><a href='../S/51.html#L111'>from</a>              111 deps/ecto/integration_test/cases/interval.exs             TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 3, "week"))</span>
+<span class='curline'><a href='../S/51.html#L113'>from</a>              113 deps/ecto/integration_test/cases/interval.exs             TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 3.0, "week"))</span>
+<span class='curline'><a href='../S/51.html#L115'>from</a>              115 deps/ecto/integration_test/cases/interval.exs             TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^3, "week"))</span>
+<span class='curline'><a href='../S/51.html#L117'>from</a>              117 deps/ecto/integration_test/cases/interval.exs             TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^3.0, "week"))</span>
+<span class='curline'><a href='../S/51.html#L119'>from</a>              119 deps/ecto/integration_test/cases/interval.exs             TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^dec, "week"))</span>
+<span class='curline'><a href='../S/51.html#L125'>from</a>              125 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 5, "day"))</span>
+<span class='curline'><a href='../S/51.html#L127'>from</a>              127 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 5.0, "day"))</span>
+<span class='curline'><a href='../S/51.html#L129'>from</a>              129 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^5, "day"))</span>
+<span class='curline'><a href='../S/51.html#L131'>from</a>              131 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^5.0, "day"))</span>
+<span class='curline'><a href='../S/51.html#L133'>from</a>              133 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^dec, "day"))</span>
+<span class='curline'><a href='../S/51.html#L139'>from</a>              139 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 60, "hour"))</span>
+<span class='curline'><a href='../S/51.html#L141'>from</a>              141 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 60.0, "hour"))</span>
+<span class='curline'><a href='../S/51.html#L143'>from</a>              143 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^60, "hour"))</span>
+<span class='curline'><a href='../S/51.html#L145'>from</a>              145 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^60.0, "hour"))</span>
+<span class='curline'><a href='../S/51.html#L147'>from</a>              147 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^dec, "hour"))</span>
+<span class='curline'><a href='../S/51.html#L153'>from</a>              153 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 90, "minute"))</span>
+<span class='curline'><a href='../S/51.html#L155'>from</a>              155 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 90.0, "minute"))</span>
+<span class='curline'><a href='../S/51.html#L157'>from</a>              157 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^90, "minute"))</span>
+<span class='curline'><a href='../S/51.html#L159'>from</a>              159 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^90.0, "minute"))</span>
+<span class='curline'><a href='../S/51.html#L161'>from</a>              161 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^dec, "minute"))</span>
+<span class='curline'><a href='../S/51.html#L167'>from</a>              167 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 90, "second"))</span>
+<span class='curline'><a href='../S/51.html#L169'>from</a>              169 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 90.0, "second"))</span>
+<span class='curline'><a href='../S/51.html#L171'>from</a>              171 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^90, "second"))</span>
+<span class='curline'><a href='../S/51.html#L173'>from</a>              173 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^90.0, "second"))</span>
+<span class='curline'><a href='../S/51.html#L175'>from</a>              175 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^dec, "second"))</span>
+<span class='curline'><a href='../S/51.html#L182'>from</a>              182 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 1500, "millisecond"))</span>
+<span class='curline'><a href='../S/51.html#L184'>from</a>              184 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 1500.0, "millisecond"))</span>
+<span class='curline'><a href='../S/51.html#L186'>from</a>              186 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^1500, "millisecond"))</span>
+<span class='curline'><a href='../S/51.html#L188'>from</a>              188 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^1500.0, "millisecond"))</span>
+<span class='curline'><a href='../S/51.html#L190'>from</a>              190 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^dec, "millisecond"))</span>
+<span class='curline'><a href='../S/51.html#L197'>from</a>              197 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 1500, "microsecond"))</span>
+<span class='curline'><a href='../S/51.html#L199'>from</a>              199 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, 1500.0, "microsecond"))</span>
+<span class='curline'><a href='../S/51.html#L201'>from</a>              201 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^1500, "microsecond"))</span>
+<span class='curline'><a href='../S/51.html#L203'>from</a>              203 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^1500.0, "microsecond"))</span>
+<span class='curline'><a href='../S/51.html#L205'>from</a>              205 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^dec, "microsecond"))</span>
+<span class='curline'><a href='../S/51.html#L211'>from</a>              211 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(^inserted_at, ^1, ^"year"))</span>
+<span class='curline'><a href='../S/51.html#L213'>from</a>              213 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(^inserted_at, ^3, ^"month"))</span>
+<span class='curline'><a href='../S/51.html#L215'>from</a>              215 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(^inserted_at, ^3, ^"week"))</span>
+<span class='curline'><a href='../S/51.html#L217'>from</a>              217 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(^inserted_at, ^5, ^"day"))</span>
+<span class='curline'><a href='../S/51.html#L219'>from</a>              219 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(^inserted_at, ^60, ^"hour"))</span>
+<span class='curline'><a href='../S/51.html#L221'>from</a>              221 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(^inserted_at, ^90, ^"minute"))</span>
+<span class='curline'><a href='../S/51.html#L223'>from</a>              223 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(^inserted_at, ^90, ^"second"))</span>
+<span class='curline'><a href='../S/51.html#L230'>from</a>              230 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, where: p.inserted_at &gt; datetime_add(^inserted_at, ^-1, "year"))</span>
+<span class='curline'><a href='../S/51.html#L232'>from</a>              232 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, where: p.inserted_at &gt; datetime_add(^inserted_at, -3, "month"))</span>
+<span class='curline'><a href='../S/51.html#L234'>from</a>              234 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, where: field(p, ^field) &gt; datetime_add(^inserted_at, ^-3, ^"week"))</span>
+<span class='curline'><a href='../S/51.html#L236'>from</a>              236 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, where: field(p, ^field) &gt; datetime_add(^inserted_at, -5, ^"day"))</span>
+<span class='curline'><a href='../S/51.html#L242'>from</a>              242 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, -1, "year"))</span>
+<span class='curline'><a href='../S/51.html#L244'>from</a>              244 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, -1.0, "year"))</span>
+<span class='curline'><a href='../S/51.html#L246'>from</a>              246 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^-1, "year"))</span>
+<span class='curline'><a href='../S/51.html#L248'>from</a>              248 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^-1.0, "year"))</span>
+<span class='curline'><a href='../S/51.html#L250'>from</a>              250 deps/ecto/integration_test/cases/interval.exs            TestRepo.all(from p in Post, select: datetime_add(p.inserted_at, ^dec, "year"))</span>
+<span class='curline'><a href='../S/52.html#L21'>from</a>               21 deps/ecto/integration_test/cases/joins.exs     query = from(c in Comment, join: u in User, on: u.id == c.author_id,</span>
+<span class='curline'><a href='../S/52.html#L37'>from</a>               37 deps/ecto/integration_test/cases/joins.exs     query = from(c in Comment, join: u in User, on: u.id == c.author_id,</span>
+<span class='curline'><a href='../S/52.html#L48'>from</a>               48 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, join: c in assoc(p, :permalink), order_by: p.id, select: {p, c})</span>
+<span class='curline'><a href='../S/52.html#L51'>from</a>               51 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, left_join: c in assoc(p, :permalink), order_by: p.id, select: {p, c})</span>
+<span class='curline'><a href='../S/52.html#L66'>from</a>               66 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, right_join: c in assoc(p, :comments),</span>
+<span class='curline'><a href='../S/52.html#L81'>from</a>               81 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, join: c in assoc(p, :comments), select: {p, c}, order_by: p.id)</span>
+<span class='curline'><a href='../S/52.html#L90'>from</a>               90 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, join: c in assoc(p, :permalink), select: {p, c}, order_by: c.id)</span>
+<span class='curline'><a href='../S/52.html#L99'>from</a>               99 deps/ecto/integration_test/cases/joins.exs     query = from(p in Permalink, join: c in assoc(p, :post), select: {p, c}, order_by: p.id)</span>
+<span class='curline'><a href='../S/52.html#L131'>from</a>              131 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, join: c in assoc(p, :comments), preload: [comments: c])</span>
+<span class='curline'><a href='../S/52.html#L145'>from</a>              145 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, join: pl in assoc(p, :permalink), preload: [permalink: pl])</span>
+<span class='curline'><a href='../S/52.html#L160'>from</a>              160 deps/ecto/integration_test/cases/joins.exs     query = from(pl in Permalink, left_join: p in assoc(pl, :post), preload: [post: p], order_by: pl.id)</span>
+<span class='curline'><a href='../S/52.html#L180'>from</a>              180 deps/ecto/integration_test/cases/joins.exs     query = from(p in Post, left_join: ca in assoc(p, :comments_authors),</span>
+<span class='curline'><a href='../S/52.html#L207'>from</a>              207 deps/ecto/integration_test/cases/joins.exs     query = from(p in Permalink, left_join: ca in assoc(p, :post_comments_authors),</span>
+<span class='curline'><a href='../S/52.html#L219'>from</a>              219 deps/ecto/integration_test/cases/joins.exs     query = from(p in Permalink,</span>
+<span class='curline'><a href='../S/52.html#L246'>from</a>              246 deps/ecto/integration_test/cases/joins.exs     query = from p in Post,</span>
+<span class='curline'><a href='../S/52.html#L281'>from</a>              281 deps/ecto/integration_test/cases/joins.exs     query = from p in Post,</span>
+<span class='curline'><a href='../S/52.html#L314'>from</a>              314 deps/ecto/integration_test/cases/joins.exs     query = from p in Post,</span>
+<span class='curline'><a href='../S/55.html#L66'>from</a>               66 deps/ecto/integration_test/cases/preload.exs                                                  post: from(p in Post, where: false))</span>
+<span class='curline'><a href='../S/55.html#L92'>from</a>               92 deps/ecto/integration_test/cases/preload.exs                                               comments: from(c in Comment, where: false))</span>
+<span class='curline'><a href='../S/55.html#L99'>from</a>               99 deps/ecto/integration_test/cases/preload.exs                                               comments: from(c in Comment, order_by: [desc: c.text]))</span>
+<span class='curline'><a href='../S/55.html#L106'>from</a>              106 deps/ecto/integration_test/cases/preload.exs                                               comments: {from(c in Comment, order_by: [desc: c.text]), :post})</span>
+<span class='curline'><a href='../S/55.html#L174'>from</a>              174 deps/ecto/integration_test/cases/preload.exs     p1 = TestRepo.preload(p1, comments_authors: from(u in User, where: u.name == "foo"))</span>
+<span class='curline'><a href='../S/55.html#L222'>from</a>              222 deps/ecto/integration_test/cases/preload.exs                                   post_comments_authors: from(u in User, where: u.name == "foo"))</span>
+<span class='curline'><a href='../S/55.html#L320'>from</a>              320 deps/ecto/integration_test/cases/preload.exs     query = from(c in Comment, preload: :post, order_by: [desc: c.text])</span>
+<span class='curline'><a href='../S/55.html#L388'>from</a>              388 deps/ecto/integration_test/cases/preload.exs     query = from(p in Post, preload: [:comments], select: p)</span>
+<span class='curline'><a href='../S/55.html#L396'>from</a>              396 deps/ecto/integration_test/cases/preload.exs     query = from(p in Post, preload: [comments: ^from(c in Comment, where: false)], select: p)</span>
+<span class='curline'><a href='../S/55.html#L405'>from</a>              405 deps/ecto/integration_test/cases/preload.exs     query = from(p in Post, preload: ^comments, select: {0, [p], 1, 2})</span>
+<span class='curline'><a href='../S/56.html#L23'>from</a>               23 deps/ecto/integration_test/cases/repo.exs     assert [] == TestRepo.all(from p in Post)</span>
+<span class='curline'><a href='../S/56.html#L29'>from</a>               29 deps/ecto/integration_test/cases/repo.exs     assert []  = TestRepo.all from p in Post, where: p.title in []</span>
+<span class='curline'><a href='../S/56.html#L30'>from</a>               30 deps/ecto/integration_test/cases/repo.exs     assert []  = TestRepo.all from p in Post, where: p.title in ["1", "2", "3"]</span>
+<span class='curline'><a href='../S/56.html#L31'>from</a>               31 deps/ecto/integration_test/cases/repo.exs     assert []  = TestRepo.all from p in Post, where: p.title in ^[]</span>
+<span class='curline'><a href='../S/56.html#L33'>from</a>               33 deps/ecto/integration_test/cases/repo.exs     assert [_] = TestRepo.all from p in Post, where: not p.title in []</span>
+<span class='curline'><a href='../S/56.html#L34'>from</a>               34 deps/ecto/integration_test/cases/repo.exs     assert [_] = TestRepo.all from p in Post, where: p.title in ["1", "hello", "3"]</span>
+<span class='curline'><a href='../S/56.html#L35'>from</a>               35 deps/ecto/integration_test/cases/repo.exs     assert [_] = TestRepo.all from p in Post, where: p.title in ["1", ^"hello", "3"]</span>
+<span class='curline'><a href='../S/56.html#L36'>from</a>               36 deps/ecto/integration_test/cases/repo.exs     assert [_] = TestRepo.all from p in Post, where: p.title in ^["1", "hello", "3"]</span>
+<span class='curline'><a href='../S/56.html#L44'>from</a>               44 deps/ecto/integration_test/cases/repo.exs       TestRepo.all(from(p in "posts", order_by: p.title, select: p.title))</span>
+<span class='curline'><a href='../S/56.html#L47'>from</a>               47 deps/ecto/integration_test/cases/repo.exs       TestRepo.all(from(p in "posts", where: p.title == "title1", select: p.id))</span>
+<span class='curline'><a href='../S/56.html#L118'>from</a>              118 deps/ecto/integration_test/cases/repo.exs     TestRepo.update_all from(u in RAW, where: u.id == ^cid), set: [counter: 11]</span>
+<span class='curline'><a href='../S/56.html#L365'>from</a>              365 deps/ecto/integration_test/cases/repo.exs            TestRepo.get(from(c in {"posts", Custom}), bid)</span>
+<span class='curline'><a href='../S/56.html#L395'>from</a>              395 deps/ecto/integration_test/cases/repo.exs     assert post1 == TestRepo.one(from p in Post, where: p.id == ^post1.id)</span>
+<span class='curline'><a href='../S/56.html#L396'>from</a>              396 deps/ecto/integration_test/cases/repo.exs     assert post2 == TestRepo.one(from p in Post, where: p.id == ^to_string post2.id) # With casting</span>
+<span class='curline'><a href='../S/56.html#L397'>from</a>              397 deps/ecto/integration_test/cases/repo.exs     assert nil   == TestRepo.one(from p in Post, where: is_nil(p.id))</span>
+<span class='curline'><a href='../S/56.html#L399'>from</a>              399 deps/ecto/integration_test/cases/repo.exs     assert post1 == TestRepo.one!(from p in Post, where: p.id == ^post1.id)</span>
+<span class='curline'><a href='../S/56.html#L400'>from</a>              400 deps/ecto/integration_test/cases/repo.exs     assert post2 == TestRepo.one!(from p in Post, where: p.id == ^to_string post2.id) # With casting</span>
+<span class='curline'><a href='../S/56.html#L403'>from</a>              403 deps/ecto/integration_test/cases/repo.exs       TestRepo.one!(from p in Post, where: is_nil(p.id))</span>
+<span class='curline'><a href='../S/56.html#L412'>from</a>              412 deps/ecto/integration_test/cases/repo.exs       TestRepo.one(from p in Post, where: p.title == "hai")</span>
+<span class='curline'><a href='../S/56.html#L416'>from</a>              416 deps/ecto/integration_test/cases/repo.exs       TestRepo.one!(from p in Post, where: p.title == "hai")</span>
+<span class='curline'><a href='../S/56.html#L443'>from</a>              443 deps/ecto/integration_test/cases/repo.exs     query = from(p in Post, where: p.title == "1" or p.title == "2",</span>
+<span class='curline'><a href='../S/56.html#L457'>from</a>              457 deps/ecto/integration_test/cases/repo.exs     query = from(p in Post, where: p.title == "4")</span>
+<span class='curline'><a href='../S/56.html#L470'>from</a>              470 deps/ecto/integration_test/cases/repo.exs     query = from p in Post, where: not is_nil(p.id), update: [inc: [visits: 2]]</span>
+<span class='curline'><a href='../S/56.html#L477'>from</a>              477 deps/ecto/integration_test/cases/repo.exs     query = from p in Post, where: not is_nil(p.id), update: [inc: [visits: -1]]</span>
+<span class='curline'><a href='../S/56.html#L514'>from</a>              514 deps/ecto/integration_test/cases/repo.exs     query = from(p in Post, where: p.title == "1" or p.title == "2")</span>
+<span class='curline'><a href='../S/56.html#L524'>from</a>              524 deps/ecto/integration_test/cases/repo.exs     query = from(p in Post, where: p.title == "4")</span>
+<span class='curline'><a href='../S/56.html#L591'>from</a>              591 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.get!(from(p in Post, preload: [:permalink]), p1.id)</span>
+<span class='curline'><a href='../S/56.html#L602'>from</a>              602 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.get!(from(p in Post, preload: [:permalink]), p1.id)</span>
+<span class='curline'><a href='../S/56.html#L611'>from</a>              611 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.get!(from(p in Post, preload: [:permalink]), p1.id)</span>
+<span class='curline'><a href='../S/56.html#L614'>from</a>              614 deps/ecto/integration_test/cases/repo.exs     assert [0] == TestRepo.all(from(p in Permalink, select: count(p.id)))</span>
+<span class='curline'><a href='../S/56.html#L629'>from</a>              629 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.get!(from(p in Post, preload: [:comments]), p1.id)</span>
+<span class='curline'><a href='../S/56.html#L641'>from</a>              641 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.get!(from(p in Post, preload: [:comments]), p1.id)</span>
+<span class='curline'><a href='../S/56.html#L652'>from</a>              652 deps/ecto/integration_test/cases/repo.exs     p1 = TestRepo.get!(from(p in Post, preload: [:comments]), p1.id)</span>
+<span class='curline'><a href='../S/56.html#L655'>from</a>              655 deps/ecto/integration_test/cases/repo.exs     assert [0] == TestRepo.all(from(c in Comment, select: count(c.id)))</span>
+<span class='curline'><a href='../S/56.html#L693'>from</a>              693 deps/ecto/integration_test/cases/repo.exs     assert [0] == TestRepo.all(from(p in Post, select: count(p.id)))</span>
+<span class='curline'><a href='../S/56.html#L694'>from</a>              694 deps/ecto/integration_test/cases/repo.exs     assert [0] == TestRepo.all(from(p in Permalink, select: count(p.id)))</span>
+<span class='curline'><a href='../S/56.html#L749'>from</a>              749 deps/ecto/integration_test/cases/repo.exs     assert [post1, post2]  == (from Post, where: ^params0) |&gt; TestRepo.all</span>
+<span class='curline'><a href='../S/56.html#L750'>from</a>              750 deps/ecto/integration_test/cases/repo.exs     assert [post1]         == (from Post, where: ^params1) |&gt; TestRepo.all</span>
+<span class='curline'><a href='../S/56.html#L751'>from</a>              751 deps/ecto/integration_test/cases/repo.exs     assert [post1]         == (from Post, where: ^params2) |&gt; TestRepo.all</span>
+<span class='curline'><a href='../S/56.html#L755'>from</a>              755 deps/ecto/integration_test/cases/repo.exs     assert [post3]         == (from Post, where: ^params3) |&gt; TestRepo.all</span>
+<span class='curline'><a href='../S/57.html#L27'>from</a>               27 deps/ecto/integration_test/cases/type.exs     assert [nil] = TestRepo.all(from Post, select: nil)</span>
+<span class='curline'><a href='../S/57.html#L30'>from</a>               30 deps/ecto/integration_test/cases/type.exs     assert [1] = TestRepo.all(from p in Post, where: p.counter == ^integer, select: p.counter)</span>
+<span class='curline'><a href='../S/57.html#L33'>from</a>               33 deps/ecto/integration_test/cases/type.exs     assert [1] = TestRepo.all(from p in Post, where: p.visits == ^integer, select: p.visits)</span>
+<span class='curline'><a href='../S/57.html#L34'>from</a>               34 deps/ecto/integration_test/cases/type.exs     assert [1] = TestRepo.all(from p in Post, where: p.visits == 1, select: p.visits)</span>
+<span class='curline'><a href='../S/57.html#L37'>from</a>               37 deps/ecto/integration_test/cases/type.exs     assert [0.1] = TestRepo.all(from p in Post, where: p.intensity == ^float, select: p.intensity)</span>
+<span class='curline'><a href='../S/57.html#L38'>from</a>               38 deps/ecto/integration_test/cases/type.exs     assert [0.1] = TestRepo.all(from p in Post, where: p.intensity == 0.1, select: p.intensity)</span>
+<span class='curline'><a href='../S/57.html#L39'>from</a>               39 deps/ecto/integration_test/cases/type.exs     assert [1500.0] = TestRepo.all(from p in Post, select: 1500.0)</span>
+<span class='curline'><a href='../S/57.html#L42'>from</a>               42 deps/ecto/integration_test/cases/type.exs     assert [true] = TestRepo.all(from p in Post, where: p.public == ^true, select: p.public)</span>
+<span class='curline'><a href='../S/57.html#L43'>from</a>               43 deps/ecto/integration_test/cases/type.exs     assert [true] = TestRepo.all(from p in Post, where: p.public == true, select: p.public)</span>
+<span class='curline'><a href='../S/57.html#L46'>from</a>               46 deps/ecto/integration_test/cases/type.exs     assert [^text] = TestRepo.all(from p in Post, where: p.text == &lt;&lt;0, 1&gt;&gt;, select: p.text)</span>
+<span class='curline'><a href='../S/57.html#L47'>from</a>               47 deps/ecto/integration_test/cases/type.exs     assert [^text] = TestRepo.all(from p in Post, where: p.text == ^text, select: p.text)</span>
+<span class='curline'><a href='../S/57.html#L50'>from</a>               50 deps/ecto/integration_test/cases/type.exs     assert [^uuid] = TestRepo.all(from p in Post, where: p.uuid == ^uuid, select: p.uuid)</span>
+<span class='curline'><a href='../S/57.html#L53'>from</a>               53 deps/ecto/integration_test/cases/type.exs     assert [^datetime] = TestRepo.all(from p in Post, where: p.inserted_at == ^datetime, select: p.inserted_at)</span>
+<span class='curline'><a href='../S/57.html#L60'>from</a>               60 deps/ecto/integration_test/cases/type.exs     assert [1]   = TestRepo.all(from Post, select: type(^"1", :integer))</span>
+<span class='curline'><a href='../S/57.html#L61'>from</a>               61 deps/ecto/integration_test/cases/type.exs     assert [1.0] = TestRepo.all(from Post, select: type(^1.0, :float))</span>
+<span class='curline'><a href='../S/57.html#L62'>from</a>               62 deps/ecto/integration_test/cases/type.exs     assert [1]   = TestRepo.all(from p in Post, select: type(^"1", p.visits))</span>
+<span class='curline'><a href='../S/57.html#L63'>from</a>               63 deps/ecto/integration_test/cases/type.exs     assert [1.0] = TestRepo.all(from p in Post, select: type(^"1", p.intensity))</span>
+<span class='curline'><a href='../S/57.html#L68'>from</a>               68 deps/ecto/integration_test/cases/type.exs     assert [^ecto_datetime] = TestRepo.all(from Post, select: type(^datetime, Ecto.DateTime))</span>
+<span class='curline'><a href='../S/57.html#L71'>from</a>               71 deps/ecto/integration_test/cases/type.exs     assert [1] = TestRepo.all(from Post, select: type(^"1", Elixir.Custom.Permalink))</span>
+<span class='curline'><a href='../S/57.html#L75'>from</a>               75 deps/ecto/integration_test/cases/type.exs     assert [^datetime] = TestRepo.all(from Post, select: type(^datetime, Ecto.DateTime))</span>
+<span class='curline'><a href='../S/57.html#L81'>from</a>               81 deps/ecto/integration_test/cases/type.exs     assert [^bid] = TestRepo.all(from c in Custom, select: c.bid)</span>
+<span class='curline'><a href='../S/57.html#L82'>from</a>               82 deps/ecto/integration_test/cases/type.exs     assert [^bid] = TestRepo.all(from c in Custom, select: type(^bid, :binary_id))</span>
+<span class='curline'><a href='../S/57.html#L89'>from</a>               89 deps/ecto/integration_test/cases/type.exs            TestRepo.all(from p in Post, select: {p.title, p.text})</span>
+<span class='curline'><a href='../S/57.html#L92'>from</a>               92 deps/ecto/integration_test/cases/type.exs            TestRepo.all(from p in Post, select: [p.title, p.text])</span>
+<span class='curline'><a href='../S/57.html#L95'>from</a>               95 deps/ecto/integration_test/cases/type.exs            TestRepo.all(from p in Post, select: %{</span>
+<span class='curline'><a href='../S/57.html#L107'>from</a>              107 deps/ecto/integration_test/cases/type.exs     assert TestRepo.all(from t in Tag, where: t.ints == ^[], select: t.ints) == []</span>
+<span class='curline'><a href='../S/57.html#L108'>from</a>              108 deps/ecto/integration_test/cases/type.exs     assert TestRepo.all(from t in Tag, where: t.ints == ^[1, 2, 3], select: t.ints) == [ints]</span>
+<span class='curline'><a href='../S/57.html#L111'>from</a>              111 deps/ecto/integration_test/cases/type.exs     assert TestRepo.all(from t in Tag, where: t.ints == [1, 2, 3], select: t.ints) == [ints]</span>
+<span class='curline'><a href='../S/57.html#L112'>from</a>              112 deps/ecto/integration_test/cases/type.exs     assert TestRepo.all(from t in Tag, where: 0 in t.ints, select: t.ints) == []</span>
+<span class='curline'><a href='../S/57.html#L113'>from</a>              113 deps/ecto/integration_test/cases/type.exs     assert TestRepo.all(from t in Tag, where: 1 in t.ints, select: t.ints) == [ints]</span>
+<span class='curline'><a href='../S/57.html#L132'>from</a>              132 deps/ecto/integration_test/cases/type.exs     assert TestRepo.all(from t in Tag, where: t.uuids == ^[], select: t.uuids) == []</span>
+<span class='curline'><a href='../S/57.html#L133'>from</a>              133 deps/ecto/integration_test/cases/type.exs     assert TestRepo.all(from t in Tag, where: t.uuids == ^["51fcfbdd-ad60-4ccb-8bf9-47aabd66d075"],</span>
+<span class='curline'><a href='../S/57.html#L142'>from</a>              142 deps/ecto/integration_test/cases/type.exs     assert TestRepo.all(from p in Post, where: p.id == ^post1.id, select: p.meta) ==</span>
+<span class='curline'><a href='../S/57.html#L144'>from</a>              144 deps/ecto/integration_test/cases/type.exs     assert TestRepo.all(from p in Post, where: p.id == ^post2.id, select: p.meta) ==</span>
+<span class='curline'><a href='../S/57.html#L156'>from</a>              156 deps/ecto/integration_test/cases/type.exs     query = from(p in Post, where: p.id == ^post.id)</span>
+<span class='curline'><a href='../S/57.html#L174'>from</a>              174 deps/ecto/integration_test/cases/type.exs     [dbitem] = TestRepo.all(from o in Order, select: o.item)</span>
+<span class='curline'><a href='../S/57.html#L195'>from</a>              195 deps/ecto/integration_test/cases/type.exs     [[dbitem]] = TestRepo.all(from t in Tag, select: t.items)</span>
+<span class='curline'><a href='../S/57.html#L207'>from</a>              207 deps/ecto/integration_test/cases/type.exs     assert [^decimal] = TestRepo.all(from p in Post, where: p.cost == ^decimal, select: p.cost)</span>
+<span class='curline'><a href='../S/57.html#L208'>from</a>              208 deps/ecto/integration_test/cases/type.exs     assert [^decimal] = TestRepo.all(from p in Post, where: p.cost == ^1.0, select: p.cost)</span>
+<span class='curline'><a href='../S/57.html#L209'>from</a>              209 deps/ecto/integration_test/cases/type.exs     assert [^decimal] = TestRepo.all(from p in Post, where: p.cost == ^1, select: p.cost)</span>
+<span class='curline'><a href='../S/57.html#L210'>from</a>              210 deps/ecto/integration_test/cases/type.exs     assert [^decimal] = TestRepo.all(from p in Post, where: p.cost == 1.0, select: p.cost)</span>
+<span class='curline'><a href='../S/57.html#L211'>from</a>              211 deps/ecto/integration_test/cases/type.exs     assert [^decimal] = TestRepo.all(from p in Post, where: p.cost == 1, select: p.cost)</span>
+<span class='curline'><a href='../S/58.html#L11'>from</a>               11 deps/ecto/integration_test/sql/escape.exs     query = from(p in Post, select: "'\\")</span>
+<span class='curline'><a href='../S/58.html#L18'>from</a>               18 deps/ecto/integration_test/sql/escape.exs     query = from(p in Post, select: p.title)</span>
+<span class='curline'><a href='../S/58.html#L26'>from</a>               26 deps/ecto/integration_test/sql/escape.exs     query = from(p in Post, select: p.title)</span>
+<span class='curline'><a href='../S/58.html#L34'>from</a>               34 deps/ecto/integration_test/sql/escape.exs     reader = from(p in Post, select: p.title)</span>
+<span class='curline'><a href='../S/58.html#L37'>from</a>               37 deps/ecto/integration_test/sql/escape.exs     query = from(Post, where: "'" != "")</span>
+<span class='curline'><a href='../S/58.html#L47'>from</a>               47 deps/ecto/integration_test/sql/escape.exs     TestRepo.delete_all(from(Post, where: "'" == "'"))</span>
+<span class='curline'><a href='../S/59.html#L33'>from</a>               33 deps/ecto/integration_test/sql/lock.exs     query = from(lc in LockCounter, where: lc.id == ^id)</span>
+<span class='curline'><a href='../S/60.html#L286'>from</a>              286 deps/ecto/integration_test/sql/migration.exs     reader = from r in "ref_migration", select: {r.parent1, r.parent2}</span>
+<span class='curline'><a href='../S/60.html#L321'>from</a>              321 deps/ecto/integration_test/sql/migration.exs     assert [2] == TestRepo.all from p in "add_col_migration", select: p.to_be_added</span>
+<span class='curline'><a href='../S/60.html#L330'>from</a>              330 deps/ecto/integration_test/sql/migration.exs            TestRepo.all from p in "alter_col_migration", select: p.from_null_to_not_null</span>
+<span class='curline'><a href='../S/60.html#L332'>from</a>              332 deps/ecto/integration_test/sql/migration.exs            TestRepo.all from p in "alter_col_migration", select: p.from_not_null_to_null</span>
+<span class='curline'><a href='../S/60.html#L334'>from</a>              334 deps/ecto/integration_test/sql/migration.exs            TestRepo.all from p in "alter_col_migration", select: p.from_default_to_no_default</span>
+<span class='curline'><a href='../S/60.html#L336'>from</a>              336 deps/ecto/integration_test/sql/migration.exs            TestRepo.all from p in "alter_col_migration", select: p.from_no_default_to_default</span>
+<span class='curline'><a href='../S/60.html#L347'>from</a>              347 deps/ecto/integration_test/sql/migration.exs     assert [nil] == TestRepo.all from p in "alter_fk_posts", select: p.alter_fk_user_id</span>
+<span class='curline'><a href='../S/60.html#L354'>from</a>              354 deps/ecto/integration_test/sql/migration.exs     assert catch_error(TestRepo.all from p in "drop_col_migration", select: p.to_be_removed)</span>
+<span class='curline'><a href='../S/60.html#L361'>from</a>              361 deps/ecto/integration_test/sql/migration.exs     assert [1] == TestRepo.all from p in "rename_col_migration", select: p.was_renamed</span>
+<span class='curline'><a href='../S/61.html#L19'>from</a>               19 deps/ecto/integration_test/sql/sql.exs                                           from(b in Barebone, update: [set: [num: ^0]]))</span>
+<span class='curline'><a href='../S/63.html#L93'>from</a>               93 deps/ecto/integration_test/sql/transaction.exs           assert [^e1, ^e2] = PoolRepo.all(from(t in Trans, order_by: t.text))</span>
+<span class='curline'><a href='../S/74.html#L92'>from</a>               92 deps/ecto/lib/ecto/adapters/mysql/connection.ex       from     = from(sources)</span>
+<span class='curline'><a href='../S/74.html#L103'>from</a>              103 deps/ecto/lib/ecto/adapters/mysql/connection.ex       assemble([select, from, join, where, group_by, having, order_by, limit, offset, lock])</span>
+<span class='curline'><a href='../S/74.html#L123'>from</a>              123 deps/ecto/lib/ecto/adapters/mysql/connection.ex       from   = from(sources)</span>
+<span class='curline'><a href='../S/74.html#L127'>from</a>              127 deps/ecto/lib/ecto/adapters/mysql/connection.ex       assemble([delete, from, join, where])</span>
+<span class='curline'><a href='../S/76.html#L109'>from</a>              109 deps/ecto/lib/ecto/adapters/postgres/connection.ex       from     = from(sources)</span>
+<span class='curline'><a href='../S/76.html#L120'>from</a>              120 deps/ecto/lib/ecto/adapters/postgres/connection.ex       assemble([select, from, join, where, group_by, having, order_by, limit, offset, lock])</span>
+<span class='curline'><a href='../S/80.html#L98'>from</a>               98 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   def handle_call(req, from, %{conn: nil} = s) do</span>
+<span class='curline'><a href='../S/80.html#L102'>from</a>              102 deps/ecto/lib/ecto/adapters/sql/sandbox.ex         handle_call(req, from, %{s | conn: conn})</span>
+<span class='curline'><a href='../S/80.html#L116'>from</a>              116 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   def handle_call({:checkout, ref, fun}, {pid, _} = from, %{queue: q} = s) do</span>
+<span class='curline'><a href='../S/80.html#L118'>from</a>              118 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     {:noreply, %{s | queue: :queue.in({:checkout, from, ref, fun, mon}, q)}}</span>
+<span class='curline'><a href='../S/80.html#L123'>from</a>              123 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   def handle_call({:break, ref}, from, %{mode: :raw, ref: ref} = s) do</span>
+<span class='curline'><a href='../S/80.html#L125'>from</a>              125 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     GenServer.reply(from, :ok)</span>
+<span class='curline'><a href='../S/80.html#L131'>from</a>              131 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   def handle_call({:break, ref}, from, %{mode: :sandbox, ref: ref} = s) do</span>
+<span class='curline'><a href='../S/80.html#L133'>from</a>              133 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     GenServer.reply(from, :ok)</span>
+<span class='curline'><a href='../S/80.html#L144'>from</a>              144 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   def handle_call({:query, query, log, opts}, from, %{queue: q} = s) do</span>
+<span class='curline'><a href='../S/80.html#L145'>from</a>              145 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     {:noreply, %{s | queue: :queue.in({query, log, opts, from}, q)}}</span>
+<span class='curline'><a href='../S/80.html#L263'>from</a>              263 deps/ecto/lib/ecto/adapters/sql/sandbox.ex       {{:value, {:checkout, from, ref, fun, mon}}, q} -&gt;</span>
+<span class='curline'><a href='../S/80.html#L265'>from</a>              265 deps/ecto/lib/ecto/adapters/sql/sandbox.ex         GenServer.reply(from, {:ok, {module, conn}})</span>
+<span class='curline'><a href='../S/80.html#L267'>from</a>              267 deps/ecto/lib/ecto/adapters/sql/sandbox.ex       {{:value, {query, log, opts, from}}, q} -&gt;</span>
+<span class='curline'><a href='../S/80.html#L269'>from</a>              269 deps/ecto/lib/ecto/adapters/sql/sandbox.ex         GenServer.reply(from, reply)</span>
+<span class='curline'><a href='../S/83.html#L308'>from</a>              308 deps/ecto/lib/ecto/association.ex     from o in refl.owner,</span>
+<span class='curline'><a href='../S/83.html#L320'>from</a>              320 deps/ecto/lib/ecto/association.ex     from x in query,</span>
+<span class='curline'><a href='../S/83.html#L509'>from</a>              509 deps/ecto/lib/ecto/association.ex               from: merge_from(query.from, assoc.source), sources: nil}</span>
+<span class='curline'><a href='../S/83.html#L513'>from</a>              513 deps/ecto/lib/ecto/association.ex   defp assoc_to_join(%{from: from, wheres: [on], order_bys: [], joins: []}, position) do</span>
+<span class='curline'><a href='../S/83.html#L514'>from</a>              514 deps/ecto/lib/ecto/association.ex     %JoinExpr{ix: position, qual: :inner, source: from,</span>
+<span class='curline'><a href='../S/83.html#L520'>from</a>              520 deps/ecto/lib/ecto/association.ex   defp merge_from(from, _assoc_source), do: from</span>
+<span class='curline'><a href='../S/83.html#L613'>from</a>              613 deps/ecto/lib/ecto/association.ex     from o in refl.owner,</span>
+<span class='curline'><a href='../S/83.html#L625'>from</a>              625 deps/ecto/lib/ecto/association.ex     from x in query,</span>
+<span class='curline'><a href='../S/92.html#L22'>from</a>               22 deps/ecto/lib/ecto/migration/schema_migration.ex     repo.all from(p in __MODULE__, select: p.version) |&gt; Map.put(:prefix, prefix), @opts</span>
+<span class='curline'><a href='../S/92.html#L30'>from</a>               30 deps/ecto/lib/ecto/migration/schema_migration.ex     repo.delete_all from(p in __MODULE__, where: p.version == ^version) |&gt; Map.put(:prefix, prefix), @opts</span>
+<span class='curline'><a href='../S/101.html#L57'>from</a>               57 deps/ecto/lib/ecto/pools/poolboy/worker.ex   def handle_call(request, from, %{conn: nil, params: params, module: module} = s) do</span>
+<span class='curline'><a href='../S/101.html#L59'>from</a>               59 deps/ecto/lib/ecto/pools/poolboy/worker.ex       {:ok, conn}   -&gt; handle_call(request, from, %{s | conn: conn})</span>
+<span class='curline'><a href='../S/101.html#L66'>from</a>               66 deps/ecto/lib/ecto/pools/poolboy/worker.ex   def handle_call({:checkout, _} = checkout, from, %{transaction: {client, _}} = s) do</span>
+<span class='curline'><a href='../S/101.html#L75'>from</a>               75 deps/ecto/lib/ecto/pools/poolboy/worker.ex       handle_call(checkout, from, s)</span>
+<span class='curline'><a href='../S/101.html#L87'>from</a>               87 deps/ecto/lib/ecto/pools/poolboy/worker.ex   def handle_call({:checkout, :transaction}, from, %{transaction: nil} = s) do</span>
+<span class='curline'><a href='../S/101.html#L88'>from</a>               88 deps/ecto/lib/ecto/pools/poolboy/worker.ex     {pid, _} = from</span>
+<span class='curline'><a href='../S/122.html#L285'>from</a>              285 deps/ecto/lib/ecto/query.ex     from(kw, __CALLER__, count_bind, quoted, binds)</span>
+<span class='curline'><a href='../S/122.html#L308'>from</a>              308 deps/ecto/lib/ecto/query.ex     from(t, env, count_bind, quoted, binds)</span>
+<span class='curline'><a href='../S/122.html#L317'>from</a>              317 deps/ecto/lib/ecto/query.ex     from(t, env, count_bind, quoted, binds)</span>
+<span class='curline'><a href='../S/122.html#L332'>from</a>              332 deps/ecto/lib/ecto/query.ex     from(t, env, count_bind, quoted, binds)</span>
+<span class='curline'><a href='../S/119.html#L555'>from</a>              555 deps/ecto/lib/ecto/query/builder.ex   def count_binds(%Query{from: from, joins: joins}) do</span>
+<span class='curline'><a href='../S/119.html#L556'>from</a>              556 deps/ecto/lib/ecto/query/builder.ex     count = if from, do: 1, else: 0</span>
+<span class='curline'><a href='../S/120.html#L35'>from</a>               35 deps/ecto/lib/ecto/query/inspect.ex     from      = bound_from(query.from, elem(names, 0))</span>
+<span class='curline'><a href='../S/120.html#L52'>from</a>               52 deps/ecto/lib/ecto/query/inspect.ex     Enum.concat [from, joins, wheres, group_bys, havings, order_bys,</span>
+<span class='curline'><a href='../S/120.html#L56'>from</a>               56 deps/ecto/lib/ecto/query/inspect.ex   defp bound_from(from, name), do: ["from #{name} in #{unbound_from from}"]</span>
+<span class='curline'><a href='../S/120.html#L61'>from</a>               61 deps/ecto/lib/ecto/query/inspect.ex   defp unbound_from(from = {source, model}) do</span>
+<span class='curline'><a href='../S/120.html#L62'>from</a>               62 deps/ecto/lib/ecto/query/inspect.ex     inspect if(source == model.__schema__(:source), do: model, else: from)</span>
+<span class='curline'><a href='../S/120.html#L179'>from</a>              179 deps/ecto/lib/ecto/query/inspect.ex     from_sources(query.from) ++ join_sources(query.joins)</span>
+<span class='curline'><a href='../S/121.html#L206'>from</a>              206 deps/ecto/lib/ecto/query/planner.ex     [operation, source_cache(query.from)|cache]</span>
+<span class='curline'><a href='../S/121.html#L276'>from</a>              276 deps/ecto/lib/ecto/query/planner.ex     from = query.from || error!(query, "query must have a from expression")</span>
+<span class='curline'><a href='../S/121.html#L277'>from</a>              277 deps/ecto/lib/ecto/query/planner.ex     {joins, sources, tail_sources} = prepare_joins(query, [from], length(query.joins))</span>
+<span class='curline'><a href='../S/121.html#L323'>from</a>              323 deps/ecto/lib/ecto/query/planner.ex       prepare_joins(child, [child.from], offset + last_ix - 1)</span>
+<span class='curline'><a href='../S/121.html#L576'>from</a>              576 deps/ecto/lib/ecto/query/planner.ex     query.from</span>
+<span class='curline'><a href='../S/123.html#L42'>from</a>               42 deps/ecto/lib/ecto/queryable.ex   def to_query(from = {source, model}) when is_binary(source) and is_atom(model),</span>
+<span class='curline'><a href='../S/123.html#L43'>from</a>               43 deps/ecto/lib/ecto/queryable.ex     do: %Ecto.Query{from: from}</span>
+<span class='curline'><a href='../S/126.html#L70'>from</a>               70 deps/ecto/lib/ecto/repo/queryable.ex     query = Ecto.Query.from q in queryable, update: ^updates</span>
+<span class='curline'><a href='../S/126.html#L150'>from</a>              150 deps/ecto/lib/ecto/repo/queryable.ex   defp transform_row({:{}, _, list}, from, values) do</span>
+<span class='curline'><a href='../S/126.html#L151'>from</a>              151 deps/ecto/lib/ecto/repo/queryable.ex     {result, values} = transform_row(list, from, values)</span>
+<span class='curline'><a href='../S/126.html#L155'>from</a>              155 deps/ecto/lib/ecto/repo/queryable.ex   defp transform_row({left, right}, from, values) do</span>
+<span class='curline'><a href='../S/126.html#L156'>from</a>              156 deps/ecto/lib/ecto/repo/queryable.ex     {[left, right], values} = transform_row([left, right], from, values)</span>
+<span class='curline'><a href='../S/126.html#L160'>from</a>              160 deps/ecto/lib/ecto/repo/queryable.ex   defp transform_row({:%{}, _, pairs}, from, values) do</span>
+<span class='curline'><a href='../S/126.html#L162'>from</a>              162 deps/ecto/lib/ecto/repo/queryable.ex       {value, new_values} = transform_row(value, from, values_acc)</span>
+<span class='curline'><a href='../S/126.html#L167'>from</a>              167 deps/ecto/lib/ecto/repo/queryable.ex   defp transform_row(list, from, values) when is_list(list) do</span>
+<span class='curline'><a href='../S/126.html#L168'>from</a>              168 deps/ecto/lib/ecto/repo/queryable.ex     Enum.map_reduce(list, values, &amp;transform_row(&amp;1, from, &amp;2))</span>
+<span class='curline'><a href='../S/126.html#L171'>from</a>              171 deps/ecto/lib/ecto/repo/queryable.ex   defp transform_row({:&amp;, _, [0]}, from, values) do</span>
+<span class='curline'><a href='../S/126.html#L172'>from</a>              172 deps/ecto/lib/ecto/repo/queryable.ex     {from, values}</span>
+<span class='curline'><a href='../S/126.html#L188'>from</a>              188 deps/ecto/lib/ecto/repo/queryable.ex     Ecto.Query.from(x in query, where: field(x, ^primary_key) == ^id)</span>
+<span class='curline'><a href='../S/126.html#L196'>from</a>              196 deps/ecto/lib/ecto/repo/queryable.ex     case query.from do</span>
+<span class='curline'><a href='../S/188.html#L101'>from</a>              101 deps/postgrex/lib/postgrex/notifications.ex   def handle_call({:listen, channel}, {pid, _} = from, s) do</span>
+<span class='curline'><a href='../S/188.html#L110'>from</a>              110 deps/postgrex/lib/postgrex/notifications.ex       listener_query("LISTEN #{channel}", {:ok, ref}, from, s)</span>
+<span class='curline'><a href='../S/188.html#L116'>from</a>              116 deps/postgrex/lib/postgrex/notifications.ex   def handle_call({:unlisten, ref}, from, s) do</span>
+<span class='curline'><a href='../S/188.html#L129'>from</a>              129 deps/postgrex/lib/postgrex/notifications.ex           listener_query("UNLISTEN #{channel}", :ok, from, s)</span>
+<span class='curline'><a href='../S/188.html#L164'>from</a>              164 deps/postgrex/lib/postgrex/notifications.ex   defp listener_query(statement, result, from, s) do</span>
+<span class='curline'><a href='../S/188.html#L170'>from</a>              170 deps/postgrex/lib/postgrex/notifications.ex         if from, do: Connection.reply(from, result)</span>
+<span class='curline'><a href='../S/188.html#L173'>from</a>              173 deps/postgrex/lib/postgrex/notifications.ex         Connection.reply(from, reason)</span>
+<span class='curline'><a href='../S/194.html#L44'>from</a>               44 deps/postgrex/lib/postgrex/type_server.ex   def handle_call({:fetch, key}, {pid, _} = from, {tables, conns}) do</span>
+<span class='curline'><a href='../S/194.html#L54'>from</a>               54 deps/postgrex/lib/postgrex/type_server.ex         tables = Map.put(tables, key, {:waiting, owner_ref, [{ref, from}|waiting], table})</span>
+<span class='curline'><a href='../S/194.html#L68'>from</a>               68 deps/postgrex/lib/postgrex/type_server.ex         for {_ref, from} &lt;- waiting, do: GenServer.reply(from, {:ok, table})</span>
+<span class='curline'><a href='../S/194.html#L101'>from</a>              101 deps/postgrex/lib/postgrex/type_server.ex         {:waiting, ^ref, [{owner_ref, from}|waiting], table} -&gt;</span>
+<span class='curline'><a href='../S/194.html#L102'>from</a>              102 deps/postgrex/lib/postgrex/type_server.ex           GenServer.reply(from, {:lock, owner_ref, table})</span>
+</pre>
+</body>
+</html>

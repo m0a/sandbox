@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>conn_sup</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/37.html#L7'>conn_sup</a>            7 deps/db_connection/lib/db_connection/sojourn/pool.ex     children   = [watcher(owner), conn_sup(mod, opts), starter(owner, opts)]</span>
+<span class='curline'><a href='../S/38.html#L14'>conn_sup</a>           14 deps/db_connection/lib/db_connection/sojourn/starter.ex     conn_sup = conn_sup(sup)</span>
+<span class='curline'><a href='../S/38.html#L15'>conn_sup</a>           15 deps/db_connection/lib/db_connection/sojourn/starter.ex     %{workers: conns} = Supervisor.count_children(conn_sup)</span>
+<span class='curline'><a href='../S/38.html#L16'>conn_sup</a>           16 deps/db_connection/lib/db_connection/sojourn/starter.ex     start_conns(size - conns, conn_sup, broker)</span>
+<span class='curline'><a href='../S/38.html#L19'>conn_sup</a>           19 deps/db_connection/lib/db_connection/sojourn/starter.ex   defp start_conns(n, conn_sup, broker) when n &gt; 0 do</span>
+<span class='curline'><a href='../S/38.html#L20'>conn_sup</a>           20 deps/db_connection/lib/db_connection/sojourn/starter.ex     case Supervisor.start_child(conn_sup, [broker]) do</span>
+<span class='curline'><a href='../S/38.html#L22'>conn_sup</a>           22 deps/db_connection/lib/db_connection/sojourn/starter.ex         start_conns(n - 1, conn_sup, broker)</span>
+<span class='curline'><a href='../S/38.html#L33'>conn_sup</a>           33 deps/db_connection/lib/db_connection/sojourn/starter.ex     {Supervisor, conn_sup, _, _}  = List.keyfind(children, Supervisor, 0)</span>
+<span class='curline'><a href='../S/38.html#L34'>conn_sup</a>           34 deps/db_connection/lib/db_connection/sojourn/starter.ex     conn_sup</span>
+</pre>
+</body>
+</html>

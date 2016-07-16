@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>select</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/56.html#L734'>select</a>            734 deps/ecto/integration_test/cases/repo.exs     assert [3] == Post |&gt; select([p], count(p.title)) |&gt; TestRepo.all</span>
+<span class='curline'><a href='../S/56.html#L735'>select</a>            735 deps/ecto/integration_test/cases/repo.exs     assert [2] == Post |&gt; select([p], count(p.title, :distinct)) |&gt; TestRepo.all</span>
+<span class='curline'><a href='../S/74.html#L93'>select</a>             93 deps/ecto/lib/ecto/adapters/mysql/connection.ex       select   = select(query, sources)</span>
+<span class='curline'><a href='../S/74.html#L103'>select</a>            103 deps/ecto/lib/ecto/adapters/mysql/connection.ex       assemble([select, from, join, where, group_by, having, order_by, limit, offset, lock])</span>
+<span class='curline'><a href='../S/76.html#L110'>select</a>            110 deps/ecto/lib/ecto/adapters/postgres/connection.ex       select   = select(query, distinct_exprs, sources)</span>
+<span class='curline'><a href='../S/76.html#L120'>select</a>            120 deps/ecto/lib/ecto/adapters/postgres/connection.ex       assemble([select, from, join, where, group_by, having, order_by, limit, offset, lock])</span>
+<span class='curline'><a href='../S/81.html#L479'>select</a>            479 deps/ecto/lib/ecto/adapters/sql.ex     fields = count_fields(meta.select.fields, meta.sources)</span>
+<span class='curline'><a href='../S/117.html#L87'>select</a>             87 deps/ecto/lib/ecto/query/builder/select.ex     select = quote do: %Ecto.Query.SelectExpr{</span>
+<span class='curline'><a href='../S/117.html#L92'>select</a>             92 deps/ecto/lib/ecto/query/builder/select.ex     Builder.apply_query(query, __MODULE__, [select], env)</span>
+<span class='curline'><a href='../S/117.html#L99'>select</a>             99 deps/ecto/lib/ecto/query/builder/select.ex   def apply(query, select) do</span>
+<span class='curline'><a href='../S/117.html#L102'>select</a>            102 deps/ecto/lib/ecto/query/builder/select.ex     if query.select do</span>
+<span class='curline'><a href='../S/117.html#L105'>select</a>            105 deps/ecto/lib/ecto/query/builder/select.ex       %{query | select: select}</span>
+<span class='curline'><a href='../S/120.html#L49'>select</a>             49 deps/ecto/lib/ecto/query/inspect.ex     select    = kw_expr(:select, query.select, names)</span>
+<span class='curline'><a href='../S/120.html#L53'>select</a>             53 deps/ecto/lib/ecto/query/inspect.ex                  limit, offset, lock, distinct, updates, select, preloads, assocs]</span>
+<span class='curline'><a href='../S/121.html#L68'>select</a>             68 deps/ecto/lib/ecto/query/planner.ex       {_, select, prepared} = query_without_cache(query, operation, adapter)</span>
+<span class='curline'><a href='../S/121.html#L69'>select</a>             69 deps/ecto/lib/ecto/query/planner.ex       {build_meta(query, select), prepared, params}</span>
+<span class='curline'><a href='../S/121.html#L73'>select</a>             73 deps/ecto/lib/ecto/query/planner.ex         [{_, select, prepared}] -&gt;</span>
+<span class='curline'><a href='../S/121.html#L74'>select</a>             74 deps/ecto/lib/ecto/query/planner.ex           {build_meta(query, select), prepared, params}</span>
+<span class='curline'><a href='../S/121.html#L77'>select</a>             77 deps/ecto/lib/ecto/query/planner.ex             {:cache, select, prepared} -&gt;</span>
+<span class='curline'><a href='../S/121.html#L78'>select</a>             78 deps/ecto/lib/ecto/query/planner.ex               :ets.insert(table, {key, select, prepared})</span>
+<span class='curline'><a href='../S/121.html#L79'>select</a>             79 deps/ecto/lib/ecto/query/planner.ex               {build_meta(query, select), prepared, params}</span>
+<span class='curline'><a href='../S/121.html#L80'>select</a>             80 deps/ecto/lib/ecto/query/planner.ex             {:nocache, select, prepared} -&gt;</span>
+<span class='curline'><a href='../S/121.html#L81'>select</a>             81 deps/ecto/lib/ecto/query/planner.ex               {build_meta(query, select), prepared, params}</span>
+<span class='curline'><a href='../S/121.html#L96'>select</a>             96 deps/ecto/lib/ecto/query/planner.ex     %{select: select} = query = normalize(query, operation, adapter)</span>
+<span class='curline'><a href='../S/121.html#L98'>select</a>             98 deps/ecto/lib/ecto/query/planner.ex     {cache, select &amp;&amp; %{select | file: nil, line: nil}, prepared}</span>
+<span class='curline'><a href='../S/121.html#L102'>select</a>            102 deps/ecto/lib/ecto/query/planner.ex                     assocs: assocs, preloads: preloads}, select) do</span>
+<span class='curline'><a href='../S/121.html#L104'>select</a>            104 deps/ecto/lib/ecto/query/planner.ex       assocs: assocs, preloads: preloads, select: select}</span>
+<span class='curline'><a href='../S/121.html#L487'>select</a>            487 deps/ecto/lib/ecto/query/planner.ex       select = query.select -&gt;</span>
+<span class='curline'><a href='../S/121.html#L488'>select</a>            488 deps/ecto/lib/ecto/query/planner.ex         %{query | select: normalize_fields(query, select)}</span>
+<span class='curline'><a href='../S/121.html#L490'>select</a>            490 deps/ecto/lib/ecto/query/planner.ex         select = %SelectExpr{expr: {:&amp;, [], [0]}}</span>
+<span class='curline'><a href='../S/121.html#L491'>select</a>            491 deps/ecto/lib/ecto/query/planner.ex         %{query | select: normalize_fields(query, select)}</span>
+<span class='curline'><a href='../S/121.html#L495'>select</a>            495 deps/ecto/lib/ecto/query/planner.ex   defp normalize_fields(%{assocs: [], preloads: []} = query, select) do</span>
+<span class='curline'><a href='../S/121.html#L496'>select</a>            496 deps/ecto/lib/ecto/query/planner.ex     {fields, from?} = collect_fields(query, select.expr, false)</span>
+<span class='curline'><a href='../S/121.html#L505'>select</a>            505 deps/ecto/lib/ecto/query/planner.ex     %{select | fields: fields}</span>
+<span class='curline'><a href='../S/121.html#L508'>select</a>            508 deps/ecto/lib/ecto/query/planner.ex   defp normalize_fields(%{assocs: assocs} = query, select) do</span>
+<span class='curline'><a href='../S/121.html#L509'>select</a>            509 deps/ecto/lib/ecto/query/planner.ex     {fields, from?} = collect_fields(query, select.expr, false)</span>
+<span class='curline'><a href='../S/121.html#L517'>select</a>            517 deps/ecto/lib/ecto/query/planner.ex     %{select | fields: fields}</span>
+<span class='curline'><a href='../S/121.html#L595'>select</a>            595 deps/ecto/lib/ecto/query/planner.ex     {select, acc} = fun.(:select, original, original.select, acc)</span>
+<span class='curline'><a href='../S/121.html#L596'>select</a>            596 deps/ecto/lib/ecto/query/planner.ex     query = %{query | select: select}</span>
+<span class='curline'><a href='../S/126.html#L93'>select</a>             93 deps/ecto/lib/ecto/repo/queryable.ex     if meta.select do</span>
+<span class='curline'><a href='../S/126.html#L99'>select</a>             99 deps/ecto/lib/ecto/repo/queryable.ex         |&gt; Ecto.Repo.Preloader.query(repo, meta.preloads, meta.assocs, postprocess(meta.select))}</span>
+<span class='curline'><a href='../S/149.html#L217'>select</a>            217 deps/poolboy/src/poolboy.erl     Monitors = ets:select(State#state.monitors,</span>
+</pre>
+</body>
+</html>

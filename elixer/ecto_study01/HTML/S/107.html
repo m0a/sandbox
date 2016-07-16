@@ -1,0 +1,289 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/query/api.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/<a href='../files/245.html'>query</a>/api.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L63'>[^]</a><a href='#L242'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L63' title='Defined at 63.'>not</a></li>
+<li><a href='#L84' title='Defined at 84.'>like</a></li>
+<li><a href='#L93' title='Defined at 93.'>ilike</a></li>
+<li><a href='#L100' title='Defined at 100.'>is_nil</a></li>
+<li><a href='#L107' title='Defined at 107.'>count</a></li>
+<li><a href='#L114' title='Defined at 114.'>count</a></li>
+<li><a href='#L121' title='Defined at 121.'>avg</a></li>
+<li><a href='#L128' title='Defined at 128.'>sum</a></li>
+<li><a href='#L135' title='Defined at 135.'>min</a></li>
+<li><a href='#L142' title='Defined at 142.'>max</a></li>
+<li><a href='#L162' title='Defined at 162.'>datetime_add</a></li>
+<li><a href='#L169' title='Defined at 169.'>date_add</a></li>
+<li><a href='#L178' title='Defined at 178.'>unpublished_by_title</a></li>
+<li><a href='#L211' title='Defined at 211.'>fragment</a></li>
+<li><a href='#L216' title='Defined at 216.'>at_least_four</a></li>
+<li><a href='#L224' title='Defined at 224.'>field</a></li>
+<li><a href='#L240' title='Defined at 240.'>type</a></li>
+<li><a href='#L242' title='Defined at 242.'>doc!</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Query.API <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc """
+<a id='L3' name='L3'></a>  This module lists all functions allowed in the query API.
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a>    * Comparison operators: `==`, `!=`, `&lt;=`, `&gt;=`, `&lt;`, `&gt;`
+<a id='L6' name='L6'></a>    * Boolean operators: `and`, `or`, `not`
+<a id='L7' name='L7'></a>    * Inclusion operator: `in/2`
+<a id='L8' name='L8'></a>    * Search functions: `like/2` and `ilike/2`
+<a id='L9' name='L9'></a>    * Null check functions: `is_nil/1`
+<a id='L10' name='L10'></a>    * Aggregates: `count/1`, `avg/1`, `sum/1`, `min/1`, `max/1`
+<a id='L11' name='L11'></a>    * Date/time intervals: `datetime_add/3`, `date_add/3`
+<a id='L12' name='L12'></a>    * General: `fragment/1`, `field/2` and `type/2`
+<a id='L13' name='L13'></a>
+<a id='L14' name='L14'></a>  Note the functions in this module exist <strong class='reserved'>for</strong> documentation
+<a id='L15' name='L15'></a>  purposes and one should never need to invoke them directly.
+<a id='L16' name='L16'></a>  Furthermore, it is possible to define your own macros and
+<a id='L17' name='L17'></a>  use them in Ecto queries.
+<a id='L18' name='L18'></a>  """
+<a id='L19' name='L19'></a>
+<a id='L20' name='L20'></a>  @doc """
+<a id='L21' name='L21'></a>  Binary `==` operation.
+<a id='L22' name='L22'></a>  """
+<a id='L23' name='L23'></a>  def <a href='../R/583.html' title='Multiple referred from 56 places.'>left</a> == right, <strong class='reserved'>do</strong>: doc! [left, right]
+<a id='L24' name='L24'></a>
+<a id='L25' name='L25'></a>  @doc """
+<a id='L26' name='L26'></a>  Binary `!=` operation.
+<a id='L27' name='L27'></a>  """
+<a id='L28' name='L28'></a>  def <a href='../R/583.html' title='Multiple referred from 56 places.'>left</a> != right, <strong class='reserved'>do</strong>: doc! [left, right]
+<a id='L29' name='L29'></a>
+<a id='L30' name='L30'></a>  @doc """
+<a id='L31' name='L31'></a>  Binary `&lt;=` operation.
+<a id='L32' name='L32'></a>  """
+<a id='L33' name='L33'></a>  def <a href='../R/583.html' title='Multiple referred from 56 places.'>left</a> &lt;= right, <strong class='reserved'>do</strong>: doc! [left, right]
+<a id='L34' name='L34'></a>
+<a id='L35' name='L35'></a>  @doc """
+<a id='L36' name='L36'></a>  Binary `&gt;=` operation.
+<a id='L37' name='L37'></a>  """
+<a id='L38' name='L38'></a>  def <a href='../R/583.html' title='Multiple referred from 56 places.'>left</a> &gt;= right, <strong class='reserved'>do</strong>: doc! [left, right]
+<a id='L39' name='L39'></a>
+<a id='L40' name='L40'></a>  @doc """
+<a id='L41' name='L41'></a>  Binary `&lt;` operation.
+<a id='L42' name='L42'></a>  """
+<a id='L43' name='L43'></a>  def <a href='../R/583.html' title='Multiple referred from 56 places.'>left</a> &lt; right, <strong class='reserved'>do</strong>: doc! [left, right]
+<a id='L44' name='L44'></a>
+<a id='L45' name='L45'></a>  @doc """
+<a id='L46' name='L46'></a>  Binary `&gt;` operation.
+<a id='L47' name='L47'></a>  """
+<a id='L48' name='L48'></a>  def <a href='../R/583.html' title='Multiple referred from 56 places.'>left</a> &gt; right, <strong class='reserved'>do</strong>: doc! [left, right]
+<a id='L49' name='L49'></a>
+<a id='L50' name='L50'></a>  @doc """
+<a id='L51' name='L51'></a>  Binary `and` operation.
+<a id='L52' name='L52'></a>  """
+<a id='L53' name='L53'></a>  def <a href='../R/583.html' title='Multiple referred from 56 places.'>left</a> and right, <strong class='reserved'>do</strong>: doc! [left, right]
+<a id='L54' name='L54'></a>
+<a id='L55' name='L55'></a>  @doc """
+<a id='L56' name='L56'></a>  Binary `or` operation.
+<a id='L57' name='L57'></a>  """
+<a id='L58' name='L58'></a>  def <a href='../R/583.html' title='Multiple referred from 56 places.'>left</a> or right, <strong class='reserved'>do</strong>: doc! [left, right]
+<a id='L59' name='L59'></a>
+<a id='L60' name='L60'></a>  @doc """
+<a id='L61' name='L61'></a>  Unary `not` operation.
+<a id='L62' name='L62'></a>  """
+<a id='L63' name='L63'></a>  def not(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>), <strong class='reserved'>do</strong>: doc! [value]
+<a id='L64' name='L64'></a>
+<a id='L65' name='L65'></a>  @doc """
+<a id='L66' name='L66'></a>  Checks <strong class='reserved'>if</strong> the left-value is included in the right one.
+<a id='L67' name='L67'></a>
+<a id='L68' name='L68'></a>      from p in Post, where: p.id in [1, 2, 3]
+<a id='L69' name='L69'></a>
+<a id='L70' name='L70'></a>  The right side may either be a list, a literal list
+<a id='L71' name='L71'></a>  or even a column in the database with array type:
+<a id='L72' name='L72'></a>
+<a id='L73' name='L73'></a>      from p in Post, where: "elixir" in p.tags
+<a id='L74' name='L74'></a>  """
+<a id='L75' name='L75'></a>  def <a href='../R/583.html' title='Multiple referred from 56 places.'>left</a> in right, <strong class='reserved'>do</strong>: doc! [left, right]
+<a id='L76' name='L76'></a>
+<a id='L77' name='L77'></a>  @doc """
+<a id='L78' name='L78'></a>  Searches <strong class='reserved'>for</strong> `search` in `string`.
+<a id='L79' name='L79'></a>
+<a id='L80' name='L80'></a>  Translates to the underlying SQL LIKE query.
+<a id='L81' name='L81'></a>
+<a id='L82' name='L82'></a>      from p in Post, where: like(p.body, "Chapter%")
+<a id='L83' name='L83'></a>  """
+<a id='L84' name='L84'></a>  def <a href='../S/119.html#L290' title='Referred from 290 in deps/ecto/lib/ecto/query/builder.ex.'>like</a>(string, search), <strong class='reserved'>do</strong>: doc! [string, search]
+<a id='L85' name='L85'></a>
+<a id='L86' name='L86'></a>  @doc """
+<a id='L87' name='L87'></a>  Searches <strong class='reserved'>for</strong> `search` in `string` in a <strong class='reserved'>case</strong> insensitive fashion.
+<a id='L88' name='L88'></a>
+<a id='L89' name='L89'></a>  Translates to the underlying SQL ILIKE query.
+<a id='L90' name='L90'></a>
+<a id='L91' name='L91'></a>      from p in Post, where: ilike(p.body, "Chapter%")
+<a id='L92' name='L92'></a>  """
+<a id='L93' name='L93'></a>  def ilike(string, search), <strong class='reserved'>do</strong>: doc! [string, search]
+<a id='L94' name='L94'></a>
+<a id='L95' name='L95'></a>  @doc """
+<a id='L96' name='L96'></a>  Checks <strong class='reserved'>if</strong> the given value is nil.
+<a id='L97' name='L97'></a>
+<a id='L98' name='L98'></a>      from p in Post, where: is_nil(p.published_at)
+<a id='L99' name='L99'></a>  """
+<a id='L100' name='L100'></a>  def <a href='../R/566.html' title='Multiple referred from 24 places.'>is_nil</a>(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>), <strong class='reserved'>do</strong>: doc! [value]
+<a id='L101' name='L101'></a>
+<a id='L102' name='L102'></a>  @doc """
+<a id='L103' name='L103'></a>  Counts the given entry.
+<a id='L104' name='L104'></a>
+<a id='L105' name='L105'></a>      from p in Post, select: count(p.id)
+<a id='L106' name='L106'></a>  """
+<a id='L107' name='L107'></a>  def <a href='../R/271.html' title='Multiple referred from 79 places.'>count</a>(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>), <strong class='reserved'>do</strong>: doc! [value]
+<a id='L108' name='L108'></a>
+<a id='L109' name='L109'></a>  @doc """
+<a id='L110' name='L110'></a>  Counts the distinct values in given entry.
+<a id='L111' name='L111'></a>
+<a id='L112' name='L112'></a>      from p in Post, select: count(p.id, :distinct)
+<a id='L113' name='L113'></a>  """
+<a id='L114' name='L114'></a>  def <a href='../R/271.html' title='Multiple referred from 79 places.'>count</a>(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, :distinct), <strong class='reserved'>do</strong>: doc! [value, :distinct]
+<a id='L115' name='L115'></a>
+<a id='L116' name='L116'></a>  @doc """
+<a id='L117' name='L117'></a>  Calculates the average <strong class='reserved'>for</strong> the given entry.
+<a id='L118' name='L118'></a>
+<a id='L119' name='L119'></a>      from p in Payment, select: avg(p.value)
+<a id='L120' name='L120'></a>  """
+<a id='L121' name='L121'></a>  def avg(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>), <strong class='reserved'>do</strong>: doc! [value]
+<a id='L122' name='L122'></a>
+<a id='L123' name='L123'></a>  @doc """
+<a id='L124' name='L124'></a>  Calculates the sum <strong class='reserved'>for</strong> the given entry.
+<a id='L125' name='L125'></a>
+<a id='L126' name='L126'></a>      from p in Payment, select: sum(p.value)
+<a id='L127' name='L127'></a>  """
+<a id='L128' name='L128'></a>  def sum(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>), <strong class='reserved'>do</strong>: doc! [value]
+<a id='L129' name='L129'></a>
+<a id='L130' name='L130'></a>  @doc """
+<a id='L131' name='L131'></a>  Calculates the minimum <strong class='reserved'>for</strong> the given entry.
+<a id='L132' name='L132'></a>
+<a id='L133' name='L133'></a>      from p in Payment, select: min(p.value)
+<a id='L134' name='L134'></a>  """
+<a id='L135' name='L135'></a>  def <a href='../R/638.html' title='Multiple referred from 113 places.'>min</a>(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>), <strong class='reserved'>do</strong>: doc! [value]
+<a id='L136' name='L136'></a>
+<a id='L137' name='L137'></a>  @doc """
+<a id='L138' name='L138'></a>  Calculates the maximum <strong class='reserved'>for</strong> the given entry.
+<a id='L139' name='L139'></a>
+<a id='L140' name='L140'></a>      from p in Payment, select: max(p.value)
+<a id='L141' name='L141'></a>  """
+<a id='L142' name='L142'></a>  def <a href='../R/616.html' title='Multiple referred from 32 places.'>max</a>(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>), <strong class='reserved'>do</strong>: doc! [value]
+<a id='L143' name='L143'></a>
+<a id='L144' name='L144'></a>  @doc """
+<a id='L145' name='L145'></a>  Adds a given interval to a datetime.
+<a id='L146' name='L146'></a>
+<a id='L147' name='L147'></a>  The first argument is a `datetime`, the second one is the count
+<a id='L148' name='L148'></a>  <strong class='reserved'>for</strong> the interval, which may be either positive or negative and
+<a id='L149' name='L149'></a>  the interval value:
+<a id='L150' name='L150'></a>
+<a id='L151' name='L151'></a>      # Get all items published since the last month
+<a id='L152' name='L152'></a>      from p in Post, where: p.published_at &gt;
+<a id='L153' name='L153'></a>                             datetime_add(^Ecto.DateTime.utc, -1, "month")
+<a id='L154' name='L154'></a>
+<a id='L155' name='L155'></a>  In the example above, we used `datetime_add/3` to subtract one month
+<a id='L156' name='L156'></a>  from the current datetime and compared it with the `p.published_at`.
+<a id='L157' name='L157'></a>  If you want to perform operations on date, `date_add/3` could be used.
+<a id='L158' name='L158'></a>
+<a id='L159' name='L159'></a>  The following intervals are supported: year, month, week, day, hour,
+<a id='L160' name='L160'></a>  minute, second, millisecond and microsecond.
+<a id='L161' name='L161'></a>  """
+<a id='L162' name='L162'></a>  def <a href='../R/285.html' title='Multiple referred from 61 places.'>datetime_add</a>(datetime, <a href='../D/394.html' title='Multiple defined in 2 places.'>count</a>, <a href='../D/699.html' title='Multiple defined in 7 places.'>interval</a>), <strong class='reserved'>do</strong>: doc! [datetime, count, interval]
+<a id='L163' name='L163'></a>
+<a id='L164' name='L164'></a>  @doc """
+<a id='L165' name='L165'></a>  Adds a given interval to a date.
+<a id='L166' name='L166'></a>
+<a id='L167' name='L167'></a>  See `datetime_add/3` <strong class='reserved'>for</strong> more information.
+<a id='L168' name='L168'></a>  """
+<a id='L169' name='L169'></a>  def <a href='../R/284.html' title='Multiple referred from 35 places.'>date_add</a>(date, <a href='../D/394.html' title='Multiple defined in 2 places.'>count</a>, <a href='../D/699.html' title='Multiple defined in 7 places.'>interval</a>), <strong class='reserved'>do</strong>: doc! [date, count, interval]
+<a id='L170' name='L170'></a>
+<a id='L171' name='L171'></a>  @doc """
+<a id='L172' name='L172'></a>  Send fragments directly to the database.
+<a id='L173' name='L173'></a>
+<a id='L174' name='L174'></a>  It is not possible to represent all possible database queries using
+<a id='L175' name='L175'></a>  Ecto's query syntax. When such is required, it is possible to use
+<a id='L176' name='L176'></a>  fragments to send any expression to the database:
+<a id='L177' name='L177'></a>
+<a id='L178' name='L178'></a>      def unpublished_by_title(title) <strong class='reserved'>do</strong>
+<a id='L179' name='L179'></a>        from p in Post,
+<a id='L180' name='L180'></a>          where: is_nil(p.published_at) and
+<a id='L181' name='L181'></a>                 fragment("downcase(?)", p.title) == ^title
+<a id='L182' name='L182'></a>      end
+<a id='L183' name='L183'></a>
+<a id='L184' name='L184'></a>  In the example above, we are using the downcase procedure in the
+<a id='L185' name='L185'></a>  database to downcase the title column.
+<a id='L186' name='L186'></a>
+<a id='L187' name='L187'></a>  It is very important to keep in mind that Ecto is unable to <strong class='reserved'>do</strong> any
+<a id='L188' name='L188'></a>  type casting described above when fragments are used. You can
+<a id='L189' name='L189'></a>  however use the `type/2` function to give Ecto some hints:
+<a id='L190' name='L190'></a>
+<a id='L191' name='L191'></a>      fragment("downcase(?)", p.title) == type(^title, :string)
+<a id='L192' name='L192'></a>
+<a id='L193' name='L193'></a>  Or even say the right side is of the same type as `p.title`:
+<a id='L194' name='L194'></a>
+<a id='L195' name='L195'></a>      fragment("downcase(?)", p.title) == type(^title, p.title)
+<a id='L196' name='L196'></a>
+<a id='L197' name='L197'></a>  It is possible to make use of PostgreSQL's JSON/JSONB data type
+<a id='L198' name='L198'></a>  with fragments, as well:
+<a id='L199' name='L199'></a>  
+<a id='L200' name='L200'></a>      fragment("?-&gt;&gt;? ILIKE ?", p.map, "key_name", ^some_value)
+<a id='L201' name='L201'></a>
+<a id='L202' name='L202'></a><em class='sharp'>  #</em># Keyword fragments
+<a id='L203' name='L203'></a>
+<a id='L204' name='L204'></a>  In order to support databases that <strong class='reserved'>do</strong> not have string-based
+<a id='L205' name='L205'></a>  queries, like MongoDB, fragments also allow keywords to be given:
+<a id='L206' name='L206'></a>
+<a id='L207' name='L207'></a>      from p in Post,
+<a id='L208' name='L208'></a>          where: fragment(title: ["$eq": ^some_value])
+<a id='L209' name='L209'></a>    
+<a id='L210' name='L210'></a>  """
+<a id='L211' name='L211'></a>  def fragment(fragments), <strong class='reserved'>do</strong>: doc! [fragments]
+<a id='L212' name='L212'></a>
+<a id='L213' name='L213'></a>  @doc """
+<a id='L214' name='L214'></a>  Allows a field to be dynamically accessed.
+<a id='L215' name='L215'></a>
+<a id='L216' name='L216'></a>      def at_least_four(doors_or_tires) <strong class='reserved'>do</strong>
+<a id='L217' name='L217'></a>          from c in Car,
+<a id='L218' name='L218'></a>        where: field(c, ^doors_or_tires) &gt;= 4
+<a id='L219' name='L219'></a>      end
+<a id='L220' name='L220'></a>
+<a id='L221' name='L221'></a>  In the example above, both `at_least_four(:doors)` and `at_least_four(:tires)`
+<a id='L222' name='L222'></a>  would be valid calls as the field is dynamically generated.
+<a id='L223' name='L223'></a>  """
+<a id='L224' name='L224'></a>  def <a href='../R/473.html' title='Multiple referred from 296 places.'>field</a>(source, field), <strong class='reserved'>do</strong>: doc! [source, field]
+<a id='L225' name='L225'></a>
+<a id='L226' name='L226'></a>  @doc """
+<a id='L227' name='L227'></a>  Casts the given value to the given type.
+<a id='L228' name='L228'></a>
+<a id='L229' name='L229'></a>  Most of the times, Ecto is able to proper cast interpolated
+<a id='L230' name='L230'></a>  values due to its type checking mechanism. In some situations
+<a id='L231' name='L231'></a>  though, in particular when using fragments with `fragment/1`,
+<a id='L232' name='L232'></a>  you may want to tell Ecto you are expecting a particular type:
+<a id='L233' name='L233'></a>
+<a id='L234' name='L234'></a>      fragment("downcase(?)", p.title) == type(^title, :string)
+<a id='L235' name='L235'></a>
+<a id='L236' name='L236'></a>  It is also possible to say the type must match the same of a column:
+<a id='L237' name='L237'></a>
+<a id='L238' name='L238'></a>      fragment("downcase(?)", p.title) == type(^title, p.title)
+<a id='L239' name='L239'></a>  """
+<a id='L240' name='L240'></a>  def <a href='../R/981.html' title='Multiple referred from 375 places.'>type</a>(interpolated_value, type), <strong class='reserved'>do</strong>: doc! [interpolated_value, type]
+<a id='L241' name='L241'></a>
+<a id='L242' name='L242'></a>  defp doc!(_) <strong class='reserved'>do</strong>
+<a id='L243' name='L243'></a>    raise "the functions in Ecto.Query.API should not be invoked directly, " &lt;&gt;
+<a id='L244' name='L244'></a>          "they serve for documentation purposes only"
+<a id='L245' name='L245'></a>  end
+<a id='L246' name='L246'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L63'>[^]</a><a href='#L242'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

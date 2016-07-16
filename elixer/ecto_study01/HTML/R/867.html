@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>savepoint</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/74.html#L75'>savepoint</a>          75 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "SAVEPOINT " &lt;&gt; savepoint</span>
+<span class='curline'><a href='../S/74.html#L78'>savepoint</a>          78 deps/ecto/lib/ecto/adapters/mysql/connection.ex     def rollback_to_savepoint(savepoint) do</span>
+<span class='curline'><a href='../S/74.html#L79'>savepoint</a>          79 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "ROLLBACK TO SAVEPOINT " &lt;&gt; savepoint</span>
+<span class='curline'><a href='../S/76.html#L91'>savepoint</a>          91 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "SAVEPOINT " &lt;&gt; savepoint</span>
+<span class='curline'><a href='../S/76.html#L94'>savepoint</a>          94 deps/ecto/lib/ecto/adapters/postgres/connection.ex     def rollback_to_savepoint(savepoint) do</span>
+<span class='curline'><a href='../S/76.html#L95'>savepoint</a>          95 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "ROLLBACK TO SAVEPOINT " &lt;&gt; savepoint</span>
+<span class='curline'><a href='../S/81.html#L604'>savepoint</a>         604 deps/ecto/lib/ecto/adapters/sql.ex   defp begin_sql(mod, :sandbox), do: mod.savepoint "ecto_trans"</span>
+<span class='curline'><a href='../S/79.html#L110'>savepoint</a>         110 deps/ecto/lib/ecto/adapters/sql/query.ex   defcallback rollback_to_savepoint(savepoint :: String.t) :: String.t</span>
+<span class='curline'><a href='../S/80.html#L291'>savepoint</a>         291 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     savepoint_sql = module.savepoint("ecto_sandbox")</span>
+</pre>
+</body>
+</html>

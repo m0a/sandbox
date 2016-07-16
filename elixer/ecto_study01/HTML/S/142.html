@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/mix.exs</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/mix.exs</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L50'>[^]</a><a href='#L80'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L50' title='Defined at 50.'>test_paths</a></li>
+<li><a href='#L51' title='Defined at 51.'>test_paths</a></li>
+<li><a href='#L52' title='Defined at 52.'>test_paths</a></li>
+<li><a href='#L54' title='Defined at 54.'>pool</a></li>
+<li><a href='#L55' title='Defined at 55.'>pool</a></li>
+<li><a href='#L56' title='Defined at 56.'>pool</a></li>
+<li><a href='#L72' title='Defined at 72.'>test_pools</a></li>
+<li><a href='#L76' title='Defined at 76.'>test_adapters</a></li>
+<li><a href='#L80' title='Defined at 80.'>env_run</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Mixfile <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  use Mix.Project
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>  @version "1.1.4"
+<a id='L5' name='L5'></a>  @adapters [:pg, :mysql]
+<a id='L6' name='L6'></a>  @pools [:poolboy, :sojourn_timeout, :sojourn_codel]
+<a id='L7' name='L7'></a>
+<a id='L8' name='L8'></a>  def project <strong class='reserved'>do</strong>
+<a id='L9' name='L9'></a>    [app: :ecto,
+<a id='L10' name='L10'></a>     version: @version,
+<a id='L11' name='L11'></a>     elixir: "~&gt; 1.0",
+<a id='L12' name='L12'></a>     <a href='../D/455.html' title='Multiple defined in 6 places.'>deps</a>: deps,
+<a id='L13' name='L13'></a>     build_per_environment: false,
+<a id='L14' name='L14'></a>     consolidate_protocols: false,
+<a id='L15' name='L15'></a>     <a href='../D/1096.html' title='Multiple defined in 5 places.'>test_paths</a>: test_paths(Mix.env),
+<a id='L16' name='L16'></a>
+<a id='L17' name='L17'></a>     # Custom testing
+<a id='L18' name='L18'></a>     aliases: ["test.all": ["test", "test.pools", "test.adapters"],
+<a id='L19' name='L19'></a>               "test.pools": &amp;<a href='../D/1097.html' title='Multiple defined in 2 places.'>test_pools</a>/1,
+<a id='L20' name='L20'></a>               "test.adapters": &amp;<a href='../S/142.html#L76' title='Defined at 76 in deps/ecto/mix.exs.'>test_adapters</a>/1],
+<a id='L21' name='L21'></a>     preferred_cli_env: ["test.all": :test],
+<a id='L22' name='L22'></a>
+<a id='L23' name='L23'></a>     # Hex
+<a id='L24' name='L24'></a>     <a href='../D/461.html' title='Multiple defined in 5 places.'>description</a>: description,
+<a id='L25' name='L25'></a>     <a href='../D/850.html' title='Multiple defined in 5 places.'>package</a>: package,
+<a id='L26' name='L26'></a>
+<a id='L27' name='L27'></a>     # Docs
+<a id='L28' name='L28'></a>     name: "Ecto",
+<a id='L29' name='L29'></a>     docs: [source_ref: "v#{@version}", main: "Ecto",
+<a id='L30' name='L30'></a>            source_url: "https://github.com/elixir-lang/ecto"]]
+<a id='L31' name='L31'></a>  end
+<a id='L32' name='L32'></a>
+<a id='L33' name='L33'></a>  def application <strong class='reserved'>do</strong>
+<a id='L34' name='L34'></a>    [applications: [:logger, :decimal, :poolboy],
+<a id='L35' name='L35'></a>     env: [json_library: Poison], mod: <em class='brace'>{</em>Ecto.Application, []<em class='brace'>}</em>]
+<a id='L36' name='L36'></a>  end
+<a id='L37' name='L37'></a>
+<a id='L38' name='L38'></a>  defp <a href='../R/331.html' title='Multiple referred from 6 places.'>deps</a> <strong class='reserved'>do</strong>
+<a id='L39' name='L39'></a>    [<em class='brace'>{</em>:poolboy, "~&gt; 1.4"<em class='brace'>}</em>,
+<a id='L40' name='L40'></a>     <em class='brace'>{</em>:sbroker, "~&gt; 0.7", optional: true<em class='brace'>}</em>,
+<a id='L41' name='L41'></a>     <em class='brace'>{</em>:decimal, "~&gt; 1.0"<em class='brace'>}</em>,
+<a id='L42' name='L42'></a>     <em class='brace'>{</em>:postgrex, "~&gt; 0.11.0", optional: true<em class='brace'>}</em>,
+<a id='L43' name='L43'></a>     <em class='brace'>{</em>:mariaex, "~&gt; 0.5 or ~&gt; 0.6", optional: true<em class='brace'>}</em>,
+<a id='L44' name='L44'></a>     <em class='brace'>{</em>:poison, "~&gt; 1.0", optional: true<em class='brace'>}</em>,
+<a id='L45' name='L45'></a>     <em class='brace'>{</em>:ex_doc, "~&gt; 0.11", only: :docs<em class='brace'>}</em>,
+<a id='L46' name='L46'></a>     <em class='brace'>{</em>:earmark, "~&gt; 0.1", only: :docs<em class='brace'>}</em>,
+<a id='L47' name='L47'></a>     <em class='brace'>{</em>:inch_ex, "&gt;= 0.0.0", only: :docs<em class='brace'>}</em>]
+<a id='L48' name='L48'></a>  end
+<a id='L49' name='L49'></a>
+<a id='L50' name='L50'></a>  defp <a href='../R/935.html' title='Multiple referred from 2 places.'>test_paths</a>(adapter) when adapter in @adapters, <strong class='reserved'>do</strong>: ["integration_test/#{adapter}"]
+<a id='L51' name='L51'></a>  defp <a href='../R/935.html' title='Multiple referred from 2 places.'>test_paths</a>(<a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>) when pool in @pools, <strong class='reserved'>do</strong>: ["test/pool/#{pool(pool)}"]
+<a id='L52' name='L52'></a>  defp <a href='../R/935.html' title='Multiple referred from 2 places.'>test_paths</a>(_), <strong class='reserved'>do</strong>: ["test/ecto", "test/mix"]
+<a id='L53' name='L53'></a>
+<a id='L54' name='L54'></a>  defp <a href='../R/726.html' title='Multiple referred from 171 places.'>pool</a>(:sojourn_timeout), <strong class='reserved'>do</strong>: "sojourn_broker"
+<a id='L55' name='L55'></a>  defp <a href='../R/726.html' title='Multiple referred from 171 places.'>pool</a>(:sojourn_codel),   <strong class='reserved'>do</strong>: "sojourn_broker"
+<a id='L56' name='L56'></a>  defp <a href='../R/726.html' title='Multiple referred from 171 places.'>pool</a>(:poolboy),         <strong class='reserved'>do</strong>: "poolboy"
+<a id='L57' name='L57'></a>
+<a id='L58' name='L58'></a>  defp <a href='../R/337.html' title='Multiple referred from 5 places.'>description</a> <strong class='reserved'>do</strong>
+<a id='L59' name='L59'></a>    """
+<a id='L60' name='L60'></a>    Ecto is a domain specific language <strong class='reserved'>for</strong> writing queries and interacting with databases in Elixir.
+<a id='L61' name='L61'></a>    """
+<a id='L62' name='L62'></a>  end
+<a id='L63' name='L63'></a>
+<a id='L64' name='L64'></a>  defp <a href='../R/702.html' title='Multiple referred from 5 places.'>package</a> <strong class='reserved'>do</strong>
+<a id='L65' name='L65'></a>    [maintainers: ["Eric Meadows-Jönsson", "José Valim", "James Fish", "Michał Muskała"],
+<a id='L66' name='L66'></a>     licenses: ["Apache 2.0"],
+<a id='L67' name='L67'></a>     links: %<em class='brace'>{</em>"GitHub" =&gt; "https://github.com/elixir-lang/ecto"<em class='brace'>}</em>,
+<a id='L68' name='L68'></a>     files: ~w(mix.exs README.md CHANGELOG.md lib) ++
+<a id='L69' name='L69'></a>            ~w(integration_test/cases integration_test/sql integration_test/support)]
+<a id='L70' name='L70'></a>  end
+<a id='L71' name='L71'></a>
+<a id='L72' name='L72'></a>  defp <a href='../R/936.html' title='Multiple referred from 2 places.'>test_pools</a>(args) <strong class='reserved'>do</strong>
+<a id='L73' name='L73'></a>    <strong class='reserved'>for</strong> env &lt;- @pools, <strong class='reserved'>do</strong>: <a href='../D/557.html' title='Multiple defined in 2 places.'>env_run</a>(env, args)
+<a id='L74' name='L74'></a>  end
+<a id='L75' name='L75'></a>
+<a id='L76' name='L76'></a>  defp <a href='../S/142.html#L20' title='Referred from 20 in deps/ecto/mix.exs.'>test_adapters</a>(args) <strong class='reserved'>do</strong>
+<a id='L77' name='L77'></a>    <strong class='reserved'>for</strong> env &lt;- @adapters, <strong class='reserved'>do</strong>: <a href='../D/557.html' title='Multiple defined in 2 places.'>env_run</a>(env, args)
+<a id='L78' name='L78'></a>  end
+<a id='L79' name='L79'></a>
+<a id='L80' name='L80'></a>  defp <a href='../R/429.html' title='Multiple referred from 3 places.'>env_run</a>(env, args) <strong class='reserved'>do</strong>
+<a id='L81' name='L81'></a>    args = <strong class='reserved'>if</strong> IO.ANSI.enabled?, <strong class='reserved'>do</strong>: ["--color"|args], <strong class='reserved'>else</strong>: ["--no-color"|args]
+<a id='L82' name='L82'></a>
+<a id='L83' name='L83'></a>    IO.puts "==&gt; Running tests for MIX_ENV=#{env} mix test"
+<a id='L84' name='L84'></a>    <em class='brace'>{</em>_, res<em class='brace'>}</em> = System.cmd "mix", ["test"|args],
+<a id='L85' name='L85'></a>                          into: IO.binstream(:stdio, :line),
+<a id='L86' name='L86'></a>                          env: [<em class='brace'>{</em>"MIX_ENV", <a href='../D/1119.html' title='Multiple defined in 14 places.'>to_string</a>(env)<em class='brace'>}</em>]
+<a id='L87' name='L87'></a>
+<a id='L88' name='L88'></a>    <strong class='reserved'>if</strong> res &gt; 0 <strong class='reserved'>do</strong>
+<a id='L89' name='L89'></a>      System.at_exit(fn _ -&gt; exit(<em class='brace'>{</em>:shutdown, 1<em class='brace'>}</em>) end)
+<a id='L90' name='L90'></a>    end
+<a id='L91' name='L91'></a>  end
+<a id='L92' name='L92'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L50'>[^]</a><a href='#L80'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

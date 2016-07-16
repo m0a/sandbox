@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>join</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/64.html#L16'>join</a>               16 deps/ecto/integration_test/support/file_helpers.exs     path = Path.join([tmp_path, "#{__CALLER__.module}", "#{elem(__CALLER__.function, 0)}"])</span>
+<span class='curline'><a href='../S/74.html#L94'>join</a>               94 deps/ecto/lib/ecto/adapters/mysql/connection.ex       join     = join(query, sources)</span>
+<span class='curline'><a href='../S/74.html#L103'>join</a>              103 deps/ecto/lib/ecto/adapters/mysql/connection.ex       assemble([select, from, join, where, group_by, having, order_by, limit, offset, lock])</span>
+<span class='curline'><a href='../S/74.html#L112'>join</a>              112 deps/ecto/lib/ecto/adapters/mysql/connection.ex       join   = join(query, sources)</span>
+<span class='curline'><a href='../S/74.html#L115'>join</a>              115 deps/ecto/lib/ecto/adapters/mysql/connection.ex       assemble([update, join, "SET", fields, where])</span>
+<span class='curline'><a href='../S/74.html#L124'>join</a>              124 deps/ecto/lib/ecto/adapters/mysql/connection.ex       join   = join(query, sources)</span>
+<span class='curline'><a href='../S/74.html#L127'>join</a>              127 deps/ecto/lib/ecto/adapters/mysql/connection.ex       assemble([delete, from, join, where])</span>
+<span class='curline'><a href='../S/74.html#L148'>join</a>              148 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "UPDATE #{quote_table(prefix, table)} SET " &lt;&gt; Enum.join(fields, ", ") &lt;&gt;</span>
+<span class='curline'><a href='../S/74.html#L149'>join</a>              149 deps/ecto/lib/ecto/adapters/mysql/connection.ex         " WHERE " &lt;&gt; Enum.join(filters, " AND ")</span>
+<span class='curline'><a href='../S/74.html#L158'>join</a>              158 deps/ecto/lib/ecto/adapters/mysql/connection.ex         Enum.join(filters, " AND ")</span>
+<span class='curline'><a href='../S/74.html#L199'>join</a>              199 deps/ecto/lib/ecto/adapters/mysql/connection.ex           do: update_op(op, key, value, sources, query)) |&gt; Enum.join(", ")</span>
+<span class='curline'><a href='../S/74.html#L219'>join</a>              219 deps/ecto/lib/ecto/adapters/mysql/connection.ex           {join, name, _model} = elem(sources, ix)</span>
+<span class='curline'><a href='../S/74.html#L221'>join</a>              221 deps/ecto/lib/ecto/adapters/mysql/connection.ex           join = join || "(" &lt;&gt; expr(source, sources, query) &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/74.html#L222'>join</a>              222 deps/ecto/lib/ecto/adapters/mysql/connection.ex           "#{qual} JOIN " &lt;&gt; join &lt;&gt; " AS #{name} ON " &lt;&gt; expr(expr, sources, query)</span>
+<span class='curline'><a href='../S/74.html#L675'>join</a>              675 deps/ecto/lib/ecto/adapters/mysql/connection.ex       |&gt; Enum.join(" ")</span>
+<span class='curline'><a href='../S/76.html#L111'>join</a>              111 deps/ecto/lib/ecto/adapters/postgres/connection.ex       join     = join(query, sources)</span>
+<span class='curline'><a href='../S/76.html#L120'>join</a>              120 deps/ecto/lib/ecto/adapters/postgres/connection.ex       assemble([select, from, join, where, group_by, having, order_by, limit, offset, lock])</span>
+<span class='curline'><a href='../S/76.html#L128'>join</a>              128 deps/ecto/lib/ecto/adapters/postgres/connection.ex       {join, wheres} = update_join(query, sources)</span>
+<span class='curline'><a href='../S/76.html#L131'>join</a>              131 deps/ecto/lib/ecto/adapters/postgres/connection.ex       assemble(["UPDATE #{table} AS #{name} SET", fields, join, where])</span>
+<span class='curline'><a href='../S/76.html#L138'>join</a>              138 deps/ecto/lib/ecto/adapters/postgres/connection.ex       join  = using(query, sources)</span>
+<span class='curline'><a href='../S/76.html#L141'>join</a>              141 deps/ecto/lib/ecto/adapters/postgres/connection.ex       assemble(["DELETE FROM #{table} AS #{name}", join, where])</span>
+<span class='curline'><a href='../S/76.html#L165'>join</a>              165 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "UPDATE #{quote_table(prefix, table)} SET " &lt;&gt; Enum.join(fields, ", ") &lt;&gt;</span>
+<span class='curline'><a href='../S/76.html#L166'>join</a>              166 deps/ecto/lib/ecto/adapters/postgres/connection.ex         " WHERE " &lt;&gt; Enum.join(filters, " AND ") &lt;&gt;</span>
+<span class='curline'><a href='../S/76.html#L176'>join</a>              176 deps/ecto/lib/ecto/adapters/postgres/connection.ex         Enum.join(filters, " AND ") &lt;&gt; returning(returning)</span>
+<span class='curline'><a href='../S/76.html#L233'>join</a>              233 deps/ecto/lib/ecto/adapters/postgres/connection.ex           do: update_op(op, key, value, sources, query)) |&gt; Enum.join(", ")</span>
+<span class='curline'><a href='../S/76.html#L264'>join</a>              264 deps/ecto/lib/ecto/adapters/postgres/connection.ex             {join, name, _model} = elem(sources, ix)</span>
+<span class='curline'><a href='../S/76.html#L265'>join</a>              265 deps/ecto/lib/ecto/adapters/postgres/connection.ex             join = join || "(" &lt;&gt; expr(source, sources, query) &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/76.html#L266'>join</a>              266 deps/ecto/lib/ecto/adapters/postgres/connection.ex             join &lt;&gt; " AS " &lt;&gt; name</span>
+<span class='curline'><a href='../S/76.html#L283'>join</a>              283 deps/ecto/lib/ecto/adapters/postgres/connection.ex           {join, name, _model} = elem(sources, ix)</span>
+<span class='curline'><a href='../S/76.html#L285'>join</a>              285 deps/ecto/lib/ecto/adapters/postgres/connection.ex           join = join || "(" &lt;&gt; expr(source, sources, query) &lt;&gt; ")"</span>
+<span class='curline'><a href='../S/76.html#L286'>join</a>              286 deps/ecto/lib/ecto/adapters/postgres/connection.ex           "#{qual} JOIN " &lt;&gt; join &lt;&gt; " AS " &lt;&gt; name &lt;&gt; " ON " &lt;&gt; expr(expr, sources, query)</span>
+<span class='curline'><a href='../S/76.html#L775'>join</a>              775 deps/ecto/lib/ecto/adapters/postgres/connection.ex       |&gt; Enum.join(" ")</span>
+<span class='curline'><a href='../S/83.html#L468'>join</a>              468 deps/ecto/lib/ecto/association.ex       {join(acc, :inner, [x: counter], assoc(x, ^current)), counter + 1}</span>
+<span class='curline'><a href='../S/83.html#L490'>join</a>              490 deps/ecto/lib/ecto/association.ex     join = assoc_to_join(refl.__struct__.assoc_query(refl, values), position)</span>
+<span class='curline'><a href='../S/83.html#L495'>join</a>              495 deps/ecto/lib/ecto/association.ex       %{query | joins: query.joins ++ [join]}</span>
+<span class='curline'><a href='../S/94.html#L440'>join</a>              440 deps/ecto/lib/ecto/migration.ex     |&gt; Enum.join("_")</span>
+<span class='curline'><a href='../S/95.html#L192'>join</a>              192 deps/ecto/lib/ecto/migrator.ex     query = Path.join(directory, "*")</span>
+<span class='curline'><a href='../S/122.html#L320'>join</a>              320 deps/ecto/lib/ecto/query.ex   defp from([{join, expr}|t], env, count_bind, quoted, binds) when join in @joins do</span>
+<span class='curline'><a href='../S/122.html#L322'>join</a>              322 deps/ecto/lib/ecto/query.ex       case join do</span>
+<span class='curline'><a href='../S/119.html#L463'>join</a>              463 deps/ecto/lib/ecto/query/builder.ex     do: error!("invalid interval: `#{inspect other}` (expected one of #{Enum.join(@interval, ", ")})")</span>
+<span class='curline'><a href='../S/112.html#L76'>join</a>               76 deps/ecto/lib/ecto/query/builder/join.ex   def escape(join, _vars, _env) do</span>
+<span class='curline'><a href='../S/112.html#L77'>join</a>               77 deps/ecto/lib/ecto/query/builder/join.ex     Builder.error! "malformed join `#{Macro.to_string(join)}` in query expression"</span>
+<span class='curline'><a href='../S/112.html#L125'>join</a>              125 deps/ecto/lib/ecto/query/builder/join.ex     join =</span>
+<span class='curline'><a href='../S/112.html#L136'>join</a>              136 deps/ecto/lib/ecto/query/builder/join.ex          Builder.apply_query(query, __MODULE__, [join], env)}</span>
+<span class='curline'><a href='../S/112.html#L142'>join</a>              142 deps/ecto/lib/ecto/query/builder/join.ex            %{query | joins: query.joins ++ [unquote(join)]}</span>
+<span class='curline'><a href='../S/120.html#L68'>join</a>               68 deps/ecto/lib/ecto/query/inspect.ex     |&gt; Enum.flat_map(fn {expr, ix} -&gt; join(expr, elem(names, expr.ix || ix + 1), names) end)</span>
+<span class='curline'><a href='../S/120.html#L170'>join</a>              170 deps/ecto/lib/ecto/query/inspect.ex     Enum.join [inspect(frag &lt;&gt; s)|Enum.reverse(args)], ", "</span>
+<span class='curline'><a href='../S/121.html#L163'>join</a>              163 deps/ecto/lib/ecto/query/planner.ex         %JoinExpr{on: on, qual: qual, source: source} = join, {params, cacheable?} -&gt;</span>
+<span class='curline'><a href='../S/121.html#L164'>join</a>              164 deps/ecto/lib/ecto/query/planner.ex           {params, join_cacheable?} = cast_and_merge_params(:join, query, join, params, adapter)</span>
+<span class='curline'><a href='../S/121.html#L286'>join</a>              286 deps/ecto/lib/ecto/query/planner.ex   defp prepare_joins([%JoinExpr{assoc: {ix, assoc}, qual: qual} = join|t],</span>
+<span class='curline'><a href='../S/121.html#L291'>join</a>              291 deps/ecto/lib/ecto/query/planner.ex       error! query, join, "cannot perform association join on #{inspect source} " &lt;&gt;</span>
+<span class='curline'><a href='../S/121.html#L298'>join</a>              298 deps/ecto/lib/ecto/query/planner.ex       error! query, join, "could not find association `#{assoc}` on model #{inspect model}"</span>
+<span class='curline'><a href='../S/121.html#L338'>join</a>              338 deps/ecto/lib/ecto/query/planner.ex   defp prepare_joins([%JoinExpr{source: {source, model}} = join|t],</span>
+<span class='curline'><a href='../S/121.html#L341'>join</a>              341 deps/ecto/lib/ecto/query/planner.ex     join   = %{join | source: source, ix: counter}</span>
+<span class='curline'><a href='../S/121.html#L342'>join</a>              342 deps/ecto/lib/ecto/query/planner.ex     prepare_joins(t, query, [join|joins], [source|sources], tail_sources, counter + 1, offset)</span>
+<span class='curline'><a href='../S/121.html#L345'>join</a>              345 deps/ecto/lib/ecto/query/planner.ex   defp prepare_joins([%JoinExpr{source: source} = join|t],</span>
+<span class='curline'><a href='../S/121.html#L347'>join</a>              347 deps/ecto/lib/ecto/query/planner.ex     join = %{join | source: source, ix: counter}</span>
+<span class='curline'><a href='../S/121.html#L348'>join</a>              348 deps/ecto/lib/ecto/query/planner.ex     prepare_joins(t, query, [join|joins], [source|sources], tail_sources, counter + 1, offset)</span>
+<span class='curline'><a href='../S/121.html#L355'>join</a>              355 deps/ecto/lib/ecto/query/planner.ex   defp rewrite_join(%{on: on, ix: join_ix} = join, qual, ix, last_ix, source_ix, inc_ix) do</span>
+<span class='curline'><a href='../S/121.html#L365'>join</a>              365 deps/ecto/lib/ecto/query/planner.ex     %{join | on: on, qual: qual,</span>
+<span class='curline'><a href='../S/121.html#L434'>join</a>              434 deps/ecto/lib/ecto/query/planner.ex     Enum.map_reduce exprs, counter, fn join, acc -&gt;</span>
+<span class='curline'><a href='../S/121.html#L435'>join</a>              435 deps/ecto/lib/ecto/query/planner.ex       {source, acc} = validate_and_increment_each(:join, query, join, join.source, acc, adapter)</span>
+<span class='curline'><a href='../S/121.html#L436'>join</a>              436 deps/ecto/lib/ecto/query/planner.ex       {on, acc} = validate_and_increment_each(:join, query, join.on, acc, adapter)</span>
+<span class='curline'><a href='../S/121.html#L437'>join</a>              437 deps/ecto/lib/ecto/query/planner.ex       {%{join | on: on, source: source, params: nil}, acc}</span>
+<span class='curline'><a href='../S/135.html#L104'>join</a>              104 deps/ecto/lib/mix/ecto.ex     Path.join(repo_priv(repo), "migrations")</span>
+<span class='curline'><a href='../S/138.html#L42'>join</a>               42 deps/ecto/lib/mix/tasks/ecto.gen.migration.ex           file = Path.join(path, "#{timestamp}_#{underscore(name)}.exs")</span>
+<span class='curline'><a href='../S/138.html#L51'>join</a>               51 deps/ecto/lib/mix/tasks/ecto.gen.migration.ex                     "got: #{inspect Enum.join(args, " ")}"</span>
+<span class='curline'><a href='../S/139.html#L42'>join</a>               42 deps/ecto/lib/mix/tasks/ecto.gen.repo.ex     file = Path.join("lib", underscored) &lt;&gt; ".ex"</span>
+<span class='curline'><a href='../S/160.html#L21'>join</a>               21 deps/postgrex/lib/postgrex/error.ex       _  -&gt; "\n" &lt;&gt; Enum.join(metadata)</span>
+<span class='curline'><a href='../S/161.html#L4'>join</a>                4 deps/postgrex/lib/postgrex/error_code.ex   @external_resource errcodes_path = Path.join(__DIR__, "errcodes.txt")</span>
+</pre>
+</body>
+</html>

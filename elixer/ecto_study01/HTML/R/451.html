@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>execute</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/44.html#L584'>execute</a>           584 deps/db_connection/lib/db_connection.ex   @spec execute(conn, query, params, opts :: Keyword.t) ::</span>
+<span class='curline'><a href='../S/44.html#L587'>execute</a>           587 deps/db_connection/lib/db_connection.ex     execute(conn, :execute, :handle_execute, query, params, opts)</span>
+<span class='curline'><a href='../S/44.html#L598'>execute</a>           598 deps/db_connection/lib/db_connection.ex     case execute(conn, query, params, opts) do</span>
+<span class='curline'><a href='../S/44.html#L616'>execute</a>           616 deps/db_connection/lib/db_connection.ex     execute(conn, :execute_close, :handle_execute_close, query, params, opts)</span>
+<span class='curline'><a href='../S/53.html#L33'>execute</a>            33 deps/ecto/integration_test/cases/migrator.exs       execute "CREATE WHAT"</span>
+<span class='curline'><a href='../S/60.html#L37'>execute</a>            37 deps/ecto/integration_test/sql/migration.exs       execute "INSERT INTO add_col_migration (value, to_be_added) VALUES (1, 2)"</span>
+<span class='curline'><a href='../S/60.html#L65'>execute</a>            65 deps/ecto/integration_test/sql/migration.exs       execute "INSERT INTO alter_col_migration (from_null_to_not_null) VALUES ('foo')"</span>
+<span class='curline'><a href='../S/60.html#L87'>execute</a>            87 deps/ecto/integration_test/sql/migration.exs       execute "INSERT INTO alter_fk_users (id) VALUES ('1')"</span>
+<span class='curline'><a href='../S/60.html#L88'>execute</a>            88 deps/ecto/integration_test/sql/migration.exs       execute "INSERT INTO alter_fk_posts (id, alter_fk_user_id) VALUES ('1', '1')"</span>
+<span class='curline'><a href='../S/60.html#L89'>execute</a>            89 deps/ecto/integration_test/sql/migration.exs       execute "DELETE FROM alter_fk_users"</span>
+<span class='curline'><a href='../S/60.html#L107'>execute</a>           107 deps/ecto/integration_test/sql/migration.exs       execute "INSERT INTO drop_col_migration (value, to_be_removed) VALUES (1, 2)"</span>
+<span class='curline'><a href='../S/60.html#L129'>execute</a>           129 deps/ecto/integration_test/sql/migration.exs       execute "INSERT INTO rename_col_migration (was_renamed) VALUES (1)"</span>
+<span class='curline'><a href='../S/60.html#L196'>execute</a>           196 deps/ecto/integration_test/sql/migration.exs       execute TestRepo.create_prefix(@prefix)</span>
+<span class='curline'><a href='../S/60.html#L206'>execute</a>           206 deps/ecto/integration_test/sql/migration.exs       execute TestRepo.drop_prefix(@prefix)</span>
+<span class='curline'><a href='../S/60.html#L215'>execute</a>           215 deps/ecto/integration_test/sql/migration.exs       execute create: "collection"</span>
+<span class='curline'><a href='../S/81.html#L69'>execute</a>            69 deps/ecto/lib/ecto/adapters/sql.ex         Ecto.Adapters.SQL.execute(repo, meta, prepared, params, preprocess, opts)</span>
+<span class='curline'><a href='../S/94.html#L270'>execute</a>           270 deps/ecto/lib/ecto/migration.ex     Runner.execute {:create, __prefix__(index)}</span>
+<span class='curline'><a href='../S/94.html#L289'>execute</a>           289 deps/ecto/lib/ecto/migration.ex     Runner.execute {:create_if_not_exists, __prefix__(index)}</span>
+<span class='curline'><a href='../S/94.html#L304'>execute</a>           304 deps/ecto/lib/ecto/migration.ex     Runner.execute {command, __prefix__(table), columns}</span>
+<span class='curline'><a href='../S/94.html#L317'>execute</a>           317 deps/ecto/lib/ecto/migration.ex     Runner.execute {:drop, __prefix__(index_or_table)}</span>
+<span class='curline'><a href='../S/94.html#L333'>execute</a>           333 deps/ecto/lib/ecto/migration.ex     Runner.execute {:drop_if_exists, __prefix__(index_or_table)}</span>
+<span class='curline'><a href='../S/94.html#L457'>execute</a>           457 deps/ecto/lib/ecto/migration.ex     Runner.execute command</span>
+<span class='curline'><a href='../S/94.html#L525'>execute</a>           525 deps/ecto/lib/ecto/migration.ex     Runner.execute {:rename, __prefix__(table_current), __prefix__(table_new)}</span>
+<span class='curline'><a href='../S/94.html#L537'>execute</a>           537 deps/ecto/lib/ecto/migration.ex     Runner.execute {:rename, __prefix__(table), current_column, new_column}</span>
+<span class='curline'><a href='../S/126.html#L15'>execute</a>            15 deps/ecto/lib/ecto/repo/queryable.ex     execute(:all, repo, adapter, queryable, opts) |&gt; elem(1)</span>
+<span class='curline'><a href='../S/126.html#L75'>execute</a>            75 deps/ecto/lib/ecto/repo/queryable.ex     execute(:update_all, repo, adapter, queryable, opts)</span>
+<span class='curline'><a href='../S/126.html#L82'>execute</a>            82 deps/ecto/lib/ecto/repo/queryable.ex     execute(:delete_all, repo, adapter, queryable, opts)</span>
+<span class='curline'><a href='../S/126.html#L95'>execute</a>            95 deps/ecto/lib/ecto/repo/queryable.ex       {count, rows} = adapter.execute(repo, meta, prepared, params, preprocess, opts)</span>
+<span class='curline'><a href='../S/126.html#L101'>execute</a>           101 deps/ecto/lib/ecto/repo/queryable.ex       adapter.execute(repo, meta, prepared, params, nil, opts)</span>
+<span class='curline'><a href='../S/197.html#L198'>execute</a>           198 deps/postgrex/lib/postgrex.ex   @spec execute(conn, Postgrex.Query.t, list, Keyword.t) ::</span>
+<span class='curline'><a href='../S/197.html#L201'>execute</a>           201 deps/postgrex/lib/postgrex.ex     case DBConnection.execute(conn, query, params, defaults(opts)) do</span>
+</pre>
+</body>
+</html>

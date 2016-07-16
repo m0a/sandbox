@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>priv/repo/migrations/20160224035715_create_user.exs</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/258.html'>priv</a>/<a href='../files/259.html'>repo</a>/<a href='../files/260.html'>migrations</a>/20160224035715_create_user.exs</h2>
+<em class='comment'>/* [&lt;][&gt;][^][v][top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule EctoStudy01.Repo.Migrations.CreateUser <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  use Ecto.Migration
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>  def <a href='../R/220.html' title='Multiple referred from 42 places.'>change</a> <strong class='reserved'>do</strong>
+<a id='L5' name='L5'></a>    <a href='../D/398.html' title='Multiple defined in 4 places.'>create</a> <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a>(:users) <strong class='reserved'>do</strong>
+<a id='L6' name='L6'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :username, :string, unique: true
+<a id='L7' name='L7'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :encrypted_password, :string, null: false
+<a id='L8' name='L8'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :email, :string
+<a id='L9' name='L9'></a>      <a href='../D/226.html' title='Multiple defined in 9 places.'>add</a> :confirmed, :boolean, <strong class='reserved'>default</strong>: false
+<a id='L10' name='L10'></a>
+<a id='L11' name='L11'></a>      <a href='../D/1103.html' title='Multiple defined in 2 places.'>timestamps</a>      
+<a id='L12' name='L12'></a>    end
+<a id='L13' name='L13'></a>    
+<a id='L14' name='L14'></a>    <a href='../D/398.html' title='Multiple defined in 4 places.'>create</a> <a href='../S/94.html#L433' title='Defined at 433 in deps/ecto/lib/ecto/migration.ex.'>unique_index</a>(:users, [:username], name: :unique_usernames)
+<a id='L15' name='L15'></a>  end
+<a id='L16' name='L16'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;][^][v]<a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

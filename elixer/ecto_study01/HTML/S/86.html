@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/data_type.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/data_type.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L18'>[^]</a><a href='#L32'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L18' title='Defined at 18.'>cast</a></li>
+<li><a href='#L21' title='Defined at 21.'>cast</a></li>
+<li><a href='#L28' title='Defined at 28.'>cast</a></li>
+<li><a href='#L32' title='Defined at 32.'>cast</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defprotocol Ecto.DataType <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc """
+<a id='L3' name='L3'></a>  Casts a given data type into an `Ecto.Type`.
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a>  While `Ecto.Type` allows developers to cast/load/dump
+<a id='L6' name='L6'></a>  any value from the storage into the <strong class='reserved'>struct</strong> based on the
+<a id='L7' name='L7'></a>  schema, `Ecto.DataType` allows developers to convert
+<a id='L8' name='L8'></a>  existing data types into existing Ecto types, be them
+<a id='L9' name='L9'></a>  primitive or custom.
+<a id='L10' name='L10'></a>
+<a id='L11' name='L11'></a>  For example, `Ecto.Date` is a custom type, represented
+<a id='L12' name='L12'></a>  by the `%Ecto.Date<em class='brace'>{</em><em class='brace'>}</em>` <strong class='reserved'>struct</strong> that can be used in place
+<a id='L13' name='L13'></a>  of Ecto's primitive `:date` type. Therefore, we need to
+<a id='L14' name='L14'></a>  tell Ecto how to convert `%Ecto.Date<em class='brace'>{</em><em class='brace'>}</em>` into `:date` and
+<a id='L15' name='L15'></a>  such is done with the `Ecto.DataType` protocol:
+<a id='L16' name='L16'></a>
+<a id='L17' name='L17'></a>      defimpl Ecto.DataType, <strong class='reserved'>for</strong>: Ecto.DateTime <strong class='reserved'>do</strong>
+<a id='L18' name='L18'></a>        def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(%Ecto.Date<em class='brace'>{</em>day: day, month: month, year: year<em class='brace'>}</em>, :date) <strong class='reserved'>do</strong>
+<a id='L19' name='L19'></a>          <em class='brace'>{</em>:ok, <em class='brace'>{</em>year, month, day<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L20' name='L20'></a>        end
+<a id='L21' name='L21'></a>        def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(_, _) <strong class='reserved'>do</strong>
+<a id='L22' name='L22'></a>          :error
+<a id='L23' name='L23'></a>        end
+<a id='L24' name='L24'></a>      end
+<a id='L25' name='L25'></a>
+<a id='L26' name='L26'></a>  """
+<a id='L27' name='L27'></a>  @fallback_to_any true
+<a id='L28' name='L28'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>)
+<a id='L29' name='L29'></a>end
+<a id='L30' name='L30'></a>
+<a id='L31' name='L31'></a>defimpl Ecto.DataType, <strong class='reserved'>for</strong>: Any <strong class='reserved'>do</strong>
+<a id='L32' name='L32'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(_value, _type) <strong class='reserved'>do</strong>
+<a id='L33' name='L33'></a>    :error
+<a id='L34' name='L34'></a>  end
+<a id='L35' name='L35'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L18'>[^]</a><a href='#L32'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>after_connect</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/23.html#L112'>after_connect</a>     112 deps/db_connection/lib/db_connection/connection.ex     %{mod: mod, opts: opts, backoff: backoff, after_connect: after_connect,</span>
+<span class='curline'><a href='../S/23.html#L115'>after_connect</a>     115 deps/db_connection/lib/db_connection/connection.ex       {:ok, state} when after_connect != nil -&gt;</span>
+<span class='curline'><a href='../S/23.html#L237'>after_connect</a>     237 deps/db_connection/lib/db_connection/connection.ex     %{mod: mod, state: state, after_connect: after_connect,</span>
+<span class='curline'><a href='../S/23.html#L242'>after_connect</a>     242 deps/db_connection/lib/db_connection/connection.ex         ref = DBConnection.Task.run_child(mod, after_connect, state, opts)</span>
+<span class='curline'><a href='../S/73.html#L29'>after_connect</a>      29 deps/ecto/lib/ecto/adapters/connection.ex         after_connect(conn, opts)</span>
+<span class='curline'><a href='../S/73.html#L39'>after_connect</a>      39 deps/ecto/lib/ecto/adapters/connection.ex         Task.async(fn -&gt; repo.after_connect(conn) end)</span>
+</pre>
+</body>
+</html>

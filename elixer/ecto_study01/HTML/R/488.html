@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>format</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/17.html#L681'>format</a>            681 deps/connection/lib/connection.ex     format = '** Generic server ~p terminating \n' ++</span>
+<span class='curline'><a href='../S/17.html#L686'>format</a>            686 deps/connection/lib/connection.ex     :error_logger.format(format, args)</span>
+<span class='curline'><a href='../S/85.html#L1143'>format</a>           1143 deps/ecto/lib/ecto/changeset.ex   def validate_format(changeset, field, format, opts \\ []) do</span>
+<span class='curline'><a href='../S/85.html#L1144'>format</a>           1144 deps/ecto/lib/ecto/changeset.ex     validate_change changeset, field, {:format, format}, fn _, value -&gt;</span>
+<span class='curline'><a href='../S/85.html#L1145'>format</a>           1145 deps/ecto/lib/ecto/changeset.ex       if value =~ format, do: [], else: [{field, message(opts, "has invalid format")}]</span>
+<span class='curline'><a href='../S/187.html#L231'>format</a>            231 deps/postgrex/lib/postgrex/messages.ex     pfs = for format &lt;- param_formats,  into: "", do: &lt;&lt;format(format) :: int16&gt;&gt;</span>
+<span class='curline'><a href='../S/187.html#L232'>format</a>            232 deps/postgrex/lib/postgrex/messages.ex     rfs = for format &lt;- result_formats, into: "", do: &lt;&lt;format(format) :: int16&gt;&gt;</span>
+<span class='curline'><a href='../S/187.html#L292'>format</a>            292 deps/postgrex/lib/postgrex/messages.ex        type_size :: int16, type_mod :: int32, format :: int16,</span>
+<span class='curline'><a href='../S/187.html#L295'>format</a>            295 deps/postgrex/lib/postgrex/messages.ex                       type_size: type_size, type_mod: type_mod, format: format)</span>
+<span class='curline'><a href='../S/195.html#L172'>format</a>            172 deps/postgrex/lib/postgrex/types.ex       extension.format(opts) == :binary</span>
+<span class='curline'><a href='../S/195.html#L186'>format</a>            186 deps/postgrex/lib/postgrex/types.ex            extension.format(opts) == :binary</span>
+<span class='curline'><a href='../S/195.html#L217'>format</a>            217 deps/postgrex/lib/postgrex/types.ex     {format(info, extension, state), &amp;extension.encode(info, &amp;1, state, opts)}</span>
+<span class='curline'><a href='../S/195.html#L224'>format</a>            224 deps/postgrex/lib/postgrex/types.ex     {format(info, extension, state), &amp;extension.decode(info, &amp;1, state, opts)}</span>
+<span class='curline'><a href='../S/195.html#L229'>format</a>            229 deps/postgrex/lib/postgrex/types.ex     format(info, extension, state)</span>
+<span class='curline'><a href='../S/195.html#L235'>format</a>            235 deps/postgrex/lib/postgrex/types.ex         format(info.array_elem, state)</span>
+<span class='curline'><a href='../S/195.html#L237'>format</a>            237 deps/postgrex/lib/postgrex/types.ex         format(info.base_type, state)</span>
+<span class='curline'><a href='../S/195.html#L243'>format</a>            243 deps/postgrex/lib/postgrex/types.ex           format(hd(info.comp_elems), state)</span>
+<span class='curline'><a href='../S/195.html#L247'>format</a>            247 deps/postgrex/lib/postgrex/types.ex         extension.format(opts)</span>
+</pre>
+</body>
+</html>

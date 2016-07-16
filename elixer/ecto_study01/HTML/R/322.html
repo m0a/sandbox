@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>delete_all</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/52.html#L39'>delete_all</a>         39 deps/ecto/integration_test/cases/joins.exs     assert {2, nil} = TestRepo.delete_all(query)</span>
+<span class='curline'><a href='../S/53.html#L13'>delete_all</a>         13 deps/ecto/integration_test/cases/migrator.exs     TestRepo.delete_all(SchemaMigration)</span>
+<span class='curline'><a href='../S/56.html#L505'>delete_all</a>        505 deps/ecto/integration_test/cases/repo.exs     assert {3, nil} = TestRepo.delete_all(Post)</span>
+<span class='curline'><a href='../S/56.html#L515'>delete_all</a>        515 deps/ecto/integration_test/cases/repo.exs     assert {2, nil} = TestRepo.delete_all(query)</span>
+<span class='curline'><a href='../S/56.html#L525'>delete_all</a>        525 deps/ecto/integration_test/cases/repo.exs     assert {0, nil} = TestRepo.delete_all(query)</span>
+<span class='curline'><a href='../S/58.html#L47'>delete_all</a>         47 deps/ecto/integration_test/sql/escape.exs     TestRepo.delete_all(from(Post, where: "'" == "'"))</span>
+<span class='curline'><a href='../S/59.html#L18'>delete_all</a>         18 deps/ecto/integration_test/sql/lock.exs     PoolRepo.delete_all(LockCounter)</span>
+<span class='curline'><a href='../S/63.html#L15'>delete_all</a>         15 deps/ecto/integration_test/sql/transaction.exs     PoolRepo.delete_all "transactions"</span>
+<span class='curline'><a href='../S/81.html#L65'>delete_all</a>         65 deps/ecto/lib/ecto/adapters/sql.ex       def prepare(:delete_all, query), do: {:cache, @conn.delete_all(query)}</span>
+<span class='curline'><a href='../S/92.html#L30'>delete_all</a>         30 deps/ecto/lib/ecto/migration/schema_migration.ex     repo.delete_all from(p in __MODULE__, where: p.version == ^version) |&gt; Map.put(:prefix, prefix), @opts</span>
+<span class='curline'><a href='../S/129.html#L128'>delete_all</a>        128 deps/ecto/lib/ecto/repo.ex         Ecto.Repo.Queryable.delete_all(__MODULE__, @adapter, queryable, opts)</span>
+<span class='curline'><a href='../S/127.html#L407'>delete_all</a>        407 deps/ecto/lib/ecto/repo/schema.ex           repo.delete_all Ecto.assoc(model, field)</span>
+</pre>
+</body>
+</html>

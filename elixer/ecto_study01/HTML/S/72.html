@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/adapter.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/adapter.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L43'>[^]</a><a href='#L205'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L43' title='Defined at 43.'>load</a></li>
+<li><a href='#L44' title='Defined at 44.'>load</a></li>
+<li><a href='#L45' title='Defined at 45.'>load</a></li>
+<li><a href='#L55' title='Defined at 55.'>load</a></li>
+<li><a href='#L56' title='Defined at 56.'>load</a></li>
+<li><a href='#L59' title='Defined at 59.'>load</a></li>
+<li><a href='#L69' title='Defined at 69.'>dump</a></li>
+<li><a href='#L70' title='Defined at 70.'>dump</a></li>
+<li><a href='#L71' title='Defined at 71.'>dump</a></li>
+<li><a href='#L81' title='Defined at 81.'>dump</a></li>
+<li><a href='#L82' title='Defined at 82.'>dump</a></li>
+<li><a href='#L85' title='Defined at 85.'>dump</a></li>
+<li><a href='#L92' title='Defined at 92.'>embed_id</a></li>
+<li><a href='#L107' title='Defined at 107.'>start_link</a></li>
+<li><a href='#L116' title='Defined at 116.'>stop</a></li>
+<li><a href='#L123' title='Defined at 123.'>prepare</a></li>
+<li><a href='#L141' title='Defined at 141.'>execute</a></li>
+<li><a href='#L160' title='Defined at 160.'>insert</a></li>
+<li><a href='#L184' title='Defined at 184.'>update</a></li>
+<li><a href='#L205' title='Defined at 205.'>delete</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Adapter <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc """
+<a id='L3' name='L3'></a>  This module specifies the adapter API that an adapter is required to
+<a id='L4' name='L4'></a>  implement.
+<a id='L5' name='L5'></a>  """
+<a id='L6' name='L6'></a>
+<a id='L7' name='L7'></a>  use Behaviour
+<a id='L8' name='L8'></a>
+<a id='L9' name='L9'></a>  @type t :: module
+<a id='L10' name='L10'></a>
+<a id='L11' name='L11'></a>  @typedoc "Ecto.Query fields that are orthogonal to the generated query"
+<a id='L12' name='L12'></a>  @type query_meta :: %<em class='brace'>{</em>prefix: <a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a> | nil, sources: tuple, assocs: term, preloads: term, select: term<em class='brace'>}</em>
+<a id='L13' name='L13'></a>
+<a id='L14' name='L14'></a>  @typedoc "Schema metadata fields"
+<a id='L15' name='L15'></a>  @type schema_meta :: %<em class='brace'>{</em>source: <em class='brace'>{</em><a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a> :: <a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a> | nil, <a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a> :: binary<em class='brace'>}</em>, model: atom, context: term<em class='brace'>}</em>
+<a id='L16' name='L16'></a>
+<a id='L17' name='L17'></a>  @type <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a> :: Keyword.t
+<a id='L18' name='L18'></a>  @type <a href='../S/51.html#L226' title='Defined at 226 in deps/ecto/integration_test/cases/interval.exs.'>filters</a> :: Keyword.t
+<a id='L19' name='L19'></a>  @type <a href='../S/56.html#L659' title='Defined at 659 in deps/ecto/integration_test/cases/repo.exs.'>constraints</a> :: Keyword.t
+<a id='L20' name='L20'></a>  @type <a href='../D/990.html' title='Multiple defined in 2 places.'>returning</a> :: [atom]
+<a id='L21' name='L21'></a>  @type prepared :: term
+<a id='L22' name='L22'></a>  @type <a href='../D/902.html' title='Multiple defined in 5 places.'>preprocess</a> :: (<a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :: Macro.t, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a> :: term, <a href='../S/47.html#L1060' title='Defined at 1060 in deps/decimal/lib/decimal.ex.'>context</a> :: term -&gt; term)
+<a id='L23' name='L23'></a>  @<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a> <a href='../D/282.html' title='Multiple defined in 3 places.'>autogenerate_id</a> :: <em class='brace'>{</em><a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :: atom, type :: :id | :binary_id, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a> :: term<em class='brace'>}</em> | nil
+<a id='L24' name='L24'></a>
+<a id='L25' name='L25'></a>  @typep <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a> :: Ecto.Repo.t
+<a id='L26' name='L26'></a>  @typep options :: Keyword.t
+<a id='L27' name='L27'></a>
+<a id='L28' name='L28'></a>  @doc """
+<a id='L29' name='L29'></a>  The callback invoked in <strong class='reserved'>case</strong> the adapter needs to inject code.
+<a id='L30' name='L30'></a>  """
+<a id='L31' name='L31'></a>  defmacrocallback <a href='../D/203.html' title='Multiple defined in 4 places.'>__before_compile__</a>(Macro.Env.t) :: Macro.t
+<a id='L32' name='L32'></a>
+<a id='L33' name='L33'></a><em class='sharp'>  #</em># Types
+<a id='L34' name='L34'></a>
+<a id='L35' name='L35'></a>  @doc """
+<a id='L36' name='L36'></a>  Called <strong class='reserved'>for</strong> every known Ecto type when loading data from the adapter.
+<a id='L37' name='L37'></a>
+<a id='L38' name='L38'></a>  This allows developers to properly translate values coming from
+<a id='L39' name='L39'></a>  the adapters into Ecto ones. For example, <strong class='reserved'>if</strong> the database does not
+<a id='L40' name='L40'></a>  support booleans but instead returns 0 and 1 <strong class='reserved'>for</strong> them, you could
+<a id='L41' name='L41'></a>  add:
+<a id='L42' name='L42'></a>
+<a id='L43' name='L43'></a>      def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(:boolean, 0), <strong class='reserved'>do</strong>: <em class='brace'>{</em>:ok, false<em class='brace'>}</em>
+<a id='L44' name='L44'></a>      def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(:boolean, 1), <strong class='reserved'>do</strong>: <em class='brace'>{</em>:ok, true<em class='brace'>}</em>
+<a id='L45' name='L45'></a>      def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(type, value), <strong class='reserved'>do</strong>: Ecto.Type.load(type, value, &amp;load/2)
+<a id='L46' name='L46'></a>
+<a id='L47' name='L47'></a>  Notice that `Ecto.Type.load/3` provides a <strong class='reserved'>default</strong> implementation
+<a id='L48' name='L48'></a>  which also expects the current `load/2` <strong class='reserved'>for</strong> handling recursive
+<a id='L49' name='L49'></a>  types like arrays and embeds.
+<a id='L50' name='L50'></a>
+<a id='L51' name='L51'></a>  Finally, notice all adapters are required to implement a clause
+<a id='L52' name='L52'></a>  <strong class='reserved'>for</strong> :binary_id types, since they are adapter specific. If your
+<a id='L53' name='L53'></a>  adapter does not provide binary ids, you may simply use Ecto.UUID:
+<a id='L54' name='L54'></a>
+<a id='L55' name='L55'></a>      def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(:binary_id, value), <strong class='reserved'>do</strong>: load(Ecto.UUID, value)
+<a id='L56' name='L56'></a>      def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(type, value), <strong class='reserved'>do</strong>: Ecto.Type.load(type, value, &amp;load/2)
+<a id='L57' name='L57'></a>
+<a id='L58' name='L58'></a>  """
+<a id='L59' name='L59'></a>  defcallback <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(Ecto.Type.t, term) :: <em class='brace'>{</em>:ok, term<em class='brace'>}</em> | :error
+<a id='L60' name='L60'></a>
+<a id='L61' name='L61'></a>  @doc """
+<a id='L62' name='L62'></a>  Called <strong class='reserved'>for</strong> every known Ecto type when dumping data to the adapter.
+<a id='L63' name='L63'></a>
+<a id='L64' name='L64'></a>  This allows developers to properly translate values coming from
+<a id='L65' name='L65'></a>  the Ecto into adapter ones. For example, <strong class='reserved'>if</strong> the database does not
+<a id='L66' name='L66'></a>  support booleans but instead returns 0 and 1 <strong class='reserved'>for</strong> them, you could
+<a id='L67' name='L67'></a>  add:
+<a id='L68' name='L68'></a>
+<a id='L69' name='L69'></a>      def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(:boolean, false), <strong class='reserved'>do</strong>: <em class='brace'>{</em>:ok, 0<em class='brace'>}</em>
+<a id='L70' name='L70'></a>      def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(:boolean, true), <strong class='reserved'>do</strong>: <em class='brace'>{</em>:ok, 1<em class='brace'>}</em>
+<a id='L71' name='L71'></a>      def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(type, value), <strong class='reserved'>do</strong>: Ecto.Type.dump(type, value, &amp;dump/2)
+<a id='L72' name='L72'></a>
+<a id='L73' name='L73'></a>  Notice that `Ecto.Type.dump/3` provides a <strong class='reserved'>default</strong> implementation
+<a id='L74' name='L74'></a>  which also expects the current `dump/2` <strong class='reserved'>for</strong> handling recursive
+<a id='L75' name='L75'></a>  types like arrays and embeds.
+<a id='L76' name='L76'></a>
+<a id='L77' name='L77'></a>  Finally, notice all adapters are required to implement a clause
+<a id='L78' name='L78'></a>  <strong class='reserved'>for</strong> :binary_id types, since they are adapter specific. If your
+<a id='L79' name='L79'></a>  adapter does not provide binary ids, you may simply use Ecto.UUID:
+<a id='L80' name='L80'></a>
+<a id='L81' name='L81'></a>      def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(:binary_id, value), <strong class='reserved'>do</strong>: dump(Ecto.UUID, value)
+<a id='L82' name='L82'></a>      def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(type, value), <strong class='reserved'>do</strong>: Ecto.Type.dump(type, value, &amp;dump/2)
+<a id='L83' name='L83'></a>
+<a id='L84' name='L84'></a>  """
+<a id='L85' name='L85'></a>  defcallback <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(Ecto.Type.t, term) :: <em class='brace'>{</em>:ok, term<em class='brace'>}</em> | :error
+<a id='L86' name='L86'></a>
+<a id='L87' name='L87'></a>  @doc """
+<a id='L88' name='L88'></a>  Called every time an id is needed <strong class='reserved'>for</strong> an embedded model.
+<a id='L89' name='L89'></a>
+<a id='L90' name='L90'></a>  It receives the `Ecto.Embedded` <strong class='reserved'>struct</strong>.
+<a id='L91' name='L91'></a>  """
+<a id='L92' name='L92'></a>  defcallback <a href='../S/88.html#L128' title='Referred from 128 in deps/ecto/lib/ecto/embedded.ex.'>embed_id</a>(Ecto.Embedded.t) :: String.t
+<a id='L93' name='L93'></a>
+<a id='L94' name='L94'></a>  @doc """
+<a id='L95' name='L95'></a>  Starts any connection pooling or supervision and <strong class='reserved'>return</strong> `<em class='brace'>{</em>:ok, pid<em class='brace'>}</em>`.
+<a id='L96' name='L96'></a>
+<a id='L97' name='L97'></a>  Returns `<em class='brace'>{</em>:error, <em class='brace'>{</em>:already_started, pid<em class='brace'>}</em><em class='brace'>}</em>` <strong class='reserved'>if</strong> the repo already
+<a id='L98' name='L98'></a>  started or `<em class='brace'>{</em>:error, term<em class='brace'>}</em>` in <strong class='reserved'>case</strong> anything <strong class='reserved'>else</strong> goes wrong.
+<a id='L99' name='L99'></a>
+<a id='L100' name='L100'></a><em class='sharp'>  #</em># Adapter start
+<a id='L101' name='L101'></a>
+<a id='L102' name='L102'></a>  Because some Ecto tasks like migration may run without starting
+<a id='L103' name='L103'></a>  the parent application, it is recommended that start_link in
+<a id='L104' name='L104'></a>  adapters make sure the adapter application is started by calling
+<a id='L105' name='L105'></a>  `Application.ensure_all_started/1`.
+<a id='L106' name='L106'></a>  """
+<a id='L107' name='L107'></a>  defcallback <a href='../R/900.html' title='Multiple referred from 71 places.'>start_link</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, options) ::
+<a id='L108' name='L108'></a>              <em class='brace'>{</em>:ok, pid<em class='brace'>}</em> | <em class='brace'>{</em>:error, <em class='brace'>{</em>:already_started, pid<em class='brace'>}</em><em class='brace'>}</em> | <em class='brace'>{</em>:error, term<em class='brace'>}</em>
+<a id='L109' name='L109'></a>
+<a id='L110' name='L110'></a>  @doc """
+<a id='L111' name='L111'></a>  Shuts down the repository represented by the given pid.
+<a id='L112' name='L112'></a>
+<a id='L113' name='L113'></a>  This callback must be called by the process that called
+<a id='L114' name='L114'></a>  `start_link/2`. Therefore, it is useful <strong class='reserved'>for</strong> scripts.
+<a id='L115' name='L115'></a>  """
+<a id='L116' name='L116'></a>  defcallback <a href='../R/910.html' title='Multiple referred from 39 places.'>stop</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, pid, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>) :: :ok
+<a id='L117' name='L117'></a>
+<a id='L118' name='L118'></a>  @doc """
+<a id='L119' name='L119'></a>  Commands invoked to prepare a query <strong class='reserved'>for</strong> `all`, `update_all` and `delete_all`.
+<a id='L120' name='L120'></a>
+<a id='L121' name='L121'></a>  The returned result is given to `execute/6`.
+<a id='L122' name='L122'></a>  """
+<a id='L123' name='L123'></a>  defcallback <a href='../R/741.html' title='Multiple referred from 33 places.'>prepare</a>(:all | :update_all | :delete_all, <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> :: Ecto.Query.t) ::
+<a id='L124' name='L124'></a>              <em class='brace'>{</em>:cache, prepared<em class='brace'>}</em> | <em class='brace'>{</em>:nocache, prepared<em class='brace'>}</em>
+<a id='L125' name='L125'></a>
+<a id='L126' name='L126'></a>  @doc """
+<a id='L127' name='L127'></a>  Executes a previously prepared query.
+<a id='L128' name='L128'></a>
+<a id='L129' name='L129'></a>  It must <strong class='reserved'>return</strong> a tuple containing the number of entries and
+<a id='L130' name='L130'></a>  the result set as a list of lists. The result set may also be
+<a id='L131' name='L131'></a>  `nil` <strong class='reserved'>if</strong> a particular operation does not support them.
+<a id='L132' name='L132'></a>
+<a id='L133' name='L133'></a>  The `meta` field is a map containing some of the fields found
+<a id='L134' name='L134'></a>  in the `Ecto.Query` <strong class='reserved'>struct</strong>.
+<a id='L135' name='L135'></a>
+<a id='L136' name='L136'></a>  It receives a preprocess function that should be invoked <strong class='reserved'>for</strong> each
+<a id='L137' name='L137'></a>  selected field in the query result in order to convert them to the
+<a id='L138' name='L138'></a>  expected Ecto type. The `preprocess` function will be nil <strong class='reserved'>if</strong> no
+<a id='L139' name='L139'></a>  result set is expected from the query.
+<a id='L140' name='L140'></a>  """
+<a id='L141' name='L141'></a>  defcallback <a href='../R/451.html' title='Multiple referred from 31 places.'>execute</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, query_meta :: map, prepared, params :: list(), <a href='../D/902.html' title='Multiple defined in 5 places.'>preprocess</a> | nil, options) ::
+<a id='L142' name='L142'></a>              <em class='brace'>{</em>integer, [[term]] | nil<em class='brace'>}</em> | no_return
+<a id='L143' name='L143'></a>
+<a id='L144' name='L144'></a>  @doc """
+<a id='L145' name='L145'></a>  Inserts a single new model in the data store.
+<a id='L146' name='L146'></a>
+<a id='L147' name='L147'></a><em class='sharp'>  #</em># Autogenerate
+<a id='L148' name='L148'></a>
+<a id='L149' name='L149'></a>  The `autogenerate_id` tells <strong class='reserved'>if</strong> there is a primary key to be autogenerated
+<a id='L150' name='L150'></a>  and, <strong class='reserved'>if</strong> so, its name, type and value. The type is `:id` or `:binary_id` and
+<a id='L151' name='L151'></a>  the adapter should raise <strong class='reserved'>if</strong> it cannot handle those types.
+<a id='L152' name='L152'></a>
+<a id='L153' name='L153'></a>  If the value is `nil`, it means no value was supplied by the user and
+<a id='L154' name='L154'></a>  the database MUST <strong class='reserved'>return</strong> a new one.
+<a id='L155' name='L155'></a>
+<a id='L156' name='L156'></a>  `autogenerate_id` also allows drivers to detect <strong class='reserved'>if</strong> a value was assigned
+<a id='L157' name='L157'></a>  to a primary key that does not support assignment. In this <strong class='reserved'>case</strong>, `value`
+<a id='L158' name='L158'></a>  will be a non `nil` value.
+<a id='L159' name='L159'></a>  """
+<a id='L160' name='L160'></a>  defcallback <a href='../R/554.html' title='Multiple referred from 34 places.'>insert</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, schema_meta, <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, <a href='../D/282.html' title='Multiple defined in 3 places.'>autogenerate_id</a>, <a href='../D/990.html' title='Multiple defined in 2 places.'>returning</a>, options) ::
+<a id='L161' name='L161'></a>                    <em class='brace'>{</em>:ok, Keyword.t<em class='brace'>}</em> | <em class='brace'>{</em>:invalid, <a href='../S/56.html#L659' title='Defined at 659 in deps/ecto/integration_test/cases/repo.exs.'>constraints</a><em class='brace'>}</em> | no_return
+<a id='L162' name='L162'></a>
+<a id='L163' name='L163'></a>  @doc """
+<a id='L164' name='L164'></a>  Updates a single model with the given filters.
+<a id='L165' name='L165'></a>
+<a id='L166' name='L166'></a>  While `filters` can be any record column, it is expected that
+<a id='L167' name='L167'></a>  at least the primary key (or any other key that uniquely
+<a id='L168' name='L168'></a>  identifies an existing record) be given as a filter. Therefore,
+<a id='L169' name='L169'></a>  in <strong class='reserved'>case</strong> there is no record matching the given filters,
+<a id='L170' name='L170'></a>  `<em class='brace'>{</em>:error, :stale<em class='brace'>}</em>` is returned.
+<a id='L171' name='L171'></a>
+<a id='L172' name='L172'></a><em class='sharp'>  #</em># Autogenerate
+<a id='L173' name='L173'></a>
+<a id='L174' name='L174'></a>  The `autogenerate_id` tells <strong class='reserved'>if</strong> there is an autogenerated primary key and
+<a id='L175' name='L175'></a>  <strong class='reserved'>if</strong> so, its name type and value. The type is `:id` or `:binary_id` and
+<a id='L176' name='L176'></a>  the adapter should raise <strong class='reserved'>if</strong> it cannot handle those types.
+<a id='L177' name='L177'></a>
+<a id='L178' name='L178'></a>  If the value is `nil`, it means there is no autogenerate primary key.
+<a id='L179' name='L179'></a>
+<a id='L180' name='L180'></a>  `autogenerate_id` also allows drivers to detect <strong class='reserved'>if</strong> a value was assigned
+<a id='L181' name='L181'></a>  to a primary key that does not support assignment. In this <strong class='reserved'>case</strong>, `value`
+<a id='L182' name='L182'></a>  will be a non `nil` value.
+<a id='L183' name='L183'></a>  """
+<a id='L184' name='L184'></a>  defcallback <a href='../R/1004.html' title='Multiple referred from 24 places.'>update</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, schema_meta, <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>, <a href='../S/51.html#L226' title='Defined at 226 in deps/ecto/integration_test/cases/interval.exs.'>filters</a>, <a href='../D/282.html' title='Multiple defined in 3 places.'>autogenerate_id</a>, <a href='../D/990.html' title='Multiple defined in 2 places.'>returning</a>, options) ::
+<a id='L185' name='L185'></a>                    <em class='brace'>{</em>:ok, Keyword.t<em class='brace'>}</em> | <em class='brace'>{</em>:invalid, <a href='../S/56.html#L659' title='Defined at 659 in deps/ecto/integration_test/cases/repo.exs.'>constraints</a><em class='brace'>}</em> |
+<a id='L186' name='L186'></a>                    <em class='brace'>{</em>:error, :stale<em class='brace'>}</em> | no_return
+<a id='L187' name='L187'></a>
+<a id='L188' name='L188'></a>  @doc """
+<a id='L189' name='L189'></a>  Deletes a single model with the given filters.
+<a id='L190' name='L190'></a>
+<a id='L191' name='L191'></a>  While `filters` can be any record column, it is expected that
+<a id='L192' name='L192'></a>  at least the primary key (or any other key that uniquely
+<a id='L193' name='L193'></a>  identifies an existing record) be given as a filter. Therefore,
+<a id='L194' name='L194'></a>  in <strong class='reserved'>case</strong> there is no record matching the given filters,
+<a id='L195' name='L195'></a>  `<em class='brace'>{</em>:error, :stale<em class='brace'>}</em>` is returned.
+<a id='L196' name='L196'></a>
+<a id='L197' name='L197'></a><em class='sharp'>  #</em># Autogenerate
+<a id='L198' name='L198'></a>
+<a id='L199' name='L199'></a>  The `autogenerate_id` tells <strong class='reserved'>if</strong> there is an autogenerated primary key and
+<a id='L200' name='L200'></a>  <strong class='reserved'>if</strong> so, its name type and value. The type is `:id` or `:binary_id` and
+<a id='L201' name='L201'></a>  the adapter should raise <strong class='reserved'>if</strong> it cannot handle those types.
+<a id='L202' name='L202'></a>
+<a id='L203' name='L203'></a>  If the value is `nil`, it means there is no autogenerate primary key.
+<a id='L204' name='L204'></a>  """
+<a id='L205' name='L205'></a>  defcallback <a href='../R/320.html' title='Multiple referred from 40 places.'>delete</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, schema_meta, <a href='../S/51.html#L226' title='Defined at 226 in deps/ecto/integration_test/cases/interval.exs.'>filters</a>, <a href='../D/282.html' title='Multiple defined in 3 places.'>autogenerate_id</a>, options) ::
+<a id='L206' name='L206'></a>                     <em class='brace'>{</em>:ok, Keyword.t<em class='brace'>}</em> | <em class='brace'>{</em>:invalid, <a href='../S/56.html#L659' title='Defined at 659 in deps/ecto/integration_test/cases/repo.exs.'>constraints</a><em class='brace'>}</em> |
+<a id='L207' name='L207'></a>                     <em class='brace'>{</em>:error, :stale<em class='brace'>}</em> | no_return
+<a id='L208' name='L208'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L43'>[^]</a><a href='#L205'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

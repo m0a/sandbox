@@ -1,0 +1,719 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/association.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/association.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L17'>[^]</a><a href='#L630'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L17' title='Defined at 17.'>inspect</a></li>
+<li><a href='#L48' title='Defined at 48.'>struct</a></li>
+<li><a href='#L58' title='Defined at 58.'>build</a></li>
+<li><a href='#L78' title='Defined at 78.'>joins_query</a></li>
+<li><a href='#L89' title='Defined at 89.'>assoc_query</a></li>
+<li><a href='#L100' title='Defined at 100.'>assoc_query</a></li>
+<li><a href='#L105' title='Defined at 105.'>preload_info</a></li>
+<li><a href='#L111' title='Defined at 111.'>association_from_model!</a></li>
+<li><a href='#L131' title='Defined at 131.'>association_key</a></li>
+<li><a href='#L138' title='Defined at 138.'>underscore</a></li>
+<li><a href='#L140' title='Defined at 140.'>underscore</a></li>
+<li><a href='#L144' title='Defined at 144.'>do_underscore</a></li>
+<li><a href='#L148' title='Defined at 148.'>do_underscore</a></li>
+<li><a href='#L152' title='Defined at 152.'>do_underscore</a></li>
+<li><a href='#L156' title='Defined at 156.'>do_underscore</a></li>
+<li><a href='#L160' title='Defined at 160.'>do_underscore</a></li>
+<li><a href='#L162' title='Defined at 162.'>do_underscore</a></li>
+<li><a href='#L166' title='Defined at 166.'>do_underscore</a></li>
+<li><a href='#L170' title='Defined at 170.'>do_underscore</a></li>
+<li><a href='#L174' title='Defined at 174.'>to_lower_char</a></li>
+<li><a href='#L175' title='Defined at 175.'>to_lower_char</a></li>
+<li><a href='#L192' title='Defined at 192.'>related_from_query</a></li>
+<li><a href='#L193' title='Defined at 193.'>related_from_query</a></li>
+<li><a href='#L194' title='Defined at 194.'>related_from_query</a></li>
+<li><a href='#L205' title='Defined at 205.'>merge_source</a></li>
+<li><a href='#L207' title='Defined at 207.'>merge_source</a></li>
+<li><a href='#L211' title='Defined at 211.'>merge_source</a></li>
+<li><a href='#L242' title='Defined at 242.'>struct</a></li>
+<li><a href='#L299' title='Defined at 299.'>build</a></li>
+<li><a href='#L307' title='Defined at 307.'>joins_query</a></li>
+<li><a href='#L314' title='Defined at 314.'>assoc_query</a></li>
+<li><a href='#L319' title='Defined at 319.'>assoc_query</a></li>
+<li><a href='#L325' title='Defined at 325.'>preload_info</a></li>
+<li><a href='#L332' title='Defined at 332.'>build</a></li>
+<li><a href='#L339' title='Defined at 339.'>on_replace</a></li>
+<li><a href='#L343' title='Defined at 343.'>on_replace</a></li>
+<li><a href='#L349' title='Defined at 349.'>on_repo_action</a></li>
+<li><a href='#L366' title='Defined at 366.'>update_parent_key</a></li>
+<li><a href='#L368' title='Defined at 368.'>update_parent_key</a></li>
+<li><a href='#L371' title='Defined at 371.'>parent_key</a></li>
+<li><a href='#L375' title='Defined at 375.'>check_action!</a></li>
+<li><a href='#L377' title='Defined at 377.'>check_action!</a></li>
+<li><a href='#L379' title='Defined at 379.'>maybe_replace_one!</a></li>
+<li><a href='#L400' title='Defined at 400.'>maybe_replace_one!</a></li>
+<li><a href='#L422' title='Defined at 422.'>struct</a></li>
+<li><a href='#L450' title='Defined at 450.'>build</a></li>
+<li><a href='#L457' title='Defined at 457.'>preload_info</a></li>
+<li><a href='#L462' title='Defined at 462.'>joins_query</a></li>
+<li><a href='#L466' title='Defined at 466.'>joins_query</a></li>
+<li><a href='#L473' title='Defined at 473.'>assoc_query</a></li>
+<li><a href='#L478' title='Defined at 478.'>assoc_query</a></li>
+<li><a href='#L513' title='Defined at 513.'>assoc_to_join</a></li>
+<li><a href='#L519' title='Defined at 519.'>merge_from</a></li>
+<li><a href='#L520' title='Defined at 520.'>merge_from</a></li>
+<li><a href='#L522' title='Defined at 522.'>rewrite_expr</a></li>
+<li><a href='#L565' title='Defined at 565.'>struct</a></li>
+<li><a href='#L605' title='Defined at 605.'>build</a></li>
+<li><a href='#L612' title='Defined at 612.'>joins_query</a></li>
+<li><a href='#L619' title='Defined at 619.'>assoc_query</a></li>
+<li><a href='#L624' title='Defined at 624.'>assoc_query</a></li>
+<li><a href='#L630' title='Defined at 630.'>preload_info</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>import Ecto.Query, only: [from: 2, join: 4, distinct: 3, select: 3]
+<a id='L2' name='L2'></a>
+<a id='L3' name='L3'></a>defmodule Ecto.Association.<a href='../R/46.html' title='Multiple referred from 3 places.'>NotLoaded</a> <strong class='reserved'>do</strong>
+<a id='L4' name='L4'></a>  @moduledoc """
+<a id='L5' name='L5'></a>  Struct returned by one to one associations when they are not loaded.
+<a id='L6' name='L6'></a>
+<a id='L7' name='L7'></a>  The fields are:
+<a id='L8' name='L8'></a>
+<a id='L9' name='L9'></a>    * `__field__` - the association field in `owner`
+<a id='L10' name='L10'></a>    * `__owner__` - the model that owns the association
+<a id='L11' name='L11'></a>    * `__cardinality__` - the cardinality of the association
+<a id='L12' name='L12'></a>
+<a id='L13' name='L13'></a>  """
+<a id='L14' name='L14'></a>  defstruct [:__field__, :__owner__, :__cardinality__]
+<a id='L15' name='L15'></a>
+<a id='L16' name='L16'></a>  defimpl Inspect <strong class='reserved'>do</strong>
+<a id='L17' name='L17'></a>    def <a href='../R/559.html' title='Multiple referred from 222 places.'>inspect</a>(not_loaded, _opts) <strong class='reserved'>do</strong>
+<a id='L18' name='L18'></a>      msg = "association #{inspect not_loaded.__field__} is not loaded"
+<a id='L19' name='L19'></a>      ~s(#Ecto.Association.NotLoaded&lt;#<em class='brace'>{</em>msg<em class='brace'>}</em>&gt;)
+<a id='L20' name='L20'></a>    end
+<a id='L21' name='L21'></a>  end
+<a id='L22' name='L22'></a>end
+<a id='L23' name='L23'></a>
+<a id='L24' name='L24'></a>defmodule Ecto.Association <strong class='reserved'>do</strong>
+<a id='L25' name='L25'></a>  @moduledoc false
+<a id='L26' name='L26'></a>
+<a id='L27' name='L27'></a>  @type t :: %<em class='brace'>{</em>__struct__: atom, cardinality: :one | :many,
+<a id='L28' name='L28'></a>               field: atom, owner_key: atom, owner: atom<em class='brace'>}</em>
+<a id='L29' name='L29'></a>  use Behaviour
+<a id='L30' name='L30'></a>
+<a id='L31' name='L31'></a>  @doc """
+<a id='L32' name='L32'></a>  Builds the association <strong class='reserved'>struct</strong>.
+<a id='L33' name='L33'></a>
+<a id='L34' name='L34'></a>  The <strong class='reserved'>struct</strong> must be defined in the module that implements the
+<a id='L35' name='L35'></a>  callback and it must contain at least the following keys:
+<a id='L36' name='L36'></a>
+<a id='L37' name='L37'></a>    * `:cardinality` - tells <strong class='reserved'>if</strong> the association is one to one
+<a id='L38' name='L38'></a>      or one/many to many
+<a id='L39' name='L39'></a>
+<a id='L40' name='L40'></a>    * `:field` - tells the field in the owner <strong class='reserved'>struct</strong> where the
+<a id='L41' name='L41'></a>      association should be stored
+<a id='L42' name='L42'></a>
+<a id='L43' name='L43'></a>    * `:owner` - the owner module of the association
+<a id='L44' name='L44'></a>
+<a id='L45' name='L45'></a>    * `:owner_key` - the key in the owner with the association value
+<a id='L46' name='L46'></a>
+<a id='L47' name='L47'></a>  """
+<a id='L48' name='L48'></a>  defcallback <strong class='reserved'>struct</strong>(module, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a> :: atom, opts :: Keyword.t) :: t
+<a id='L49' name='L49'></a>
+<a id='L50' name='L50'></a>  @doc """
+<a id='L51' name='L51'></a>  Builds a model <strong class='reserved'>for</strong> the given association.
+<a id='L52' name='L52'></a>
+<a id='L53' name='L53'></a>  The <strong class='reserved'>struct</strong> to build from is given as argument in <strong class='reserved'>case</strong> <strong class='reserved'>default</strong> values
+<a id='L54' name='L54'></a>  should be set in the <strong class='reserved'>struct</strong>.
+<a id='L55' name='L55'></a>
+<a id='L56' name='L56'></a>  Invoked by `Ecto.build_assoc/3`.
+<a id='L57' name='L57'></a>  """
+<a id='L58' name='L58'></a>  defcallback <a href='../R/195.html' title='Multiple referred from 29 places.'>build</a>(t, Ecto.Schema.t, %<em class='brace'>{</em>atom =&gt; term<em class='brace'>}</em> | [Keyword.t]) :: Ecto.Schema.t
+<a id='L59' name='L59'></a>
+<a id='L60' name='L60'></a>  @doc """
+<a id='L61' name='L61'></a>  Returns an association join query.
+<a id='L62' name='L62'></a>
+<a id='L63' name='L63'></a>  This callback receives the association <strong class='reserved'>struct</strong> and it must <strong class='reserved'>return</strong>
+<a id='L64' name='L64'></a>  a query that retrieves all associated entries using joins up to
+<a id='L65' name='L65'></a>  the owner association.
+<a id='L66' name='L66'></a>
+<a id='L67' name='L67'></a>  For example, a `has_many :comments` inside a `Post` module would
+<a id='L68' name='L68'></a>  <strong class='reserved'>return</strong>:
+<a id='L69' name='L69'></a>
+<a id='L70' name='L70'></a>      from c in Comment, join: p in Post, on: c.post_id == p.id
+<a id='L71' name='L71'></a>
+<a id='L72' name='L72'></a>  Note all the logic must be expressed inside joins, as fields like
+<a id='L73' name='L73'></a>  `where` and `order_by` won't be used by the caller.
+<a id='L74' name='L74'></a>
+<a id='L75' name='L75'></a>  This callback is invoked when `join: assoc(p, :comments)` is used
+<a id='L76' name='L76'></a>  inside queries.
+<a id='L77' name='L77'></a>  """
+<a id='L78' name='L78'></a>  defcallback <a href='../R/573.html' title='Multiple referred from 3 places.'>joins_query</a>(t) :: Ecto.Query.t
+<a id='L79' name='L79'></a>
+<a id='L80' name='L80'></a>  @doc """
+<a id='L81' name='L81'></a>  Returns the association query.
+<a id='L82' name='L82'></a>
+<a id='L83' name='L83'></a>  This callback receives the association <strong class='reserved'>struct</strong> and it must <strong class='reserved'>return</strong>
+<a id='L84' name='L84'></a>  a query that retrieves all associated entries with the given
+<a id='L85' name='L85'></a>  values <strong class='reserved'>for</strong> the owner key.
+<a id='L86' name='L86'></a>
+<a id='L87' name='L87'></a>  This callback is used by `Ecto.assoc/2`.
+<a id='L88' name='L88'></a>  """
+<a id='L89' name='L89'></a>  defcallback <a href='../R/153.html' title='Multiple referred from 7 places.'>assoc_query</a>(t, values :: [term]) :: Ecto.Query.t
+<a id='L90' name='L90'></a>
+<a id='L91' name='L91'></a>  @doc """
+<a id='L92' name='L92'></a>  Returns the association query on top of the given query.
+<a id='L93' name='L93'></a>
+<a id='L94' name='L94'></a>  This callback receives the association <strong class='reserved'>struct</strong> and it must <strong class='reserved'>return</strong>
+<a id='L95' name='L95'></a>  a query that retrieves all associated entries with the given
+<a id='L96' name='L96'></a>  values <strong class='reserved'>for</strong> the owner key.
+<a id='L97' name='L97'></a>
+<a id='L98' name='L98'></a>  This callback is used by preloading.
+<a id='L99' name='L99'></a>  """
+<a id='L100' name='L100'></a>  defcallback <a href='../R/153.html' title='Multiple referred from 7 places.'>assoc_query</a>(t, Ecto.Query.t, values :: [term]) :: Ecto.Query.t
+<a id='L101' name='L101'></a>
+<a id='L102' name='L102'></a>  @doc """
+<a id='L103' name='L103'></a>  Returns information used by the preloader.
+<a id='L104' name='L104'></a>  """
+<a id='L105' name='L105'></a>  defcallback <a href='../S/125.html#L259' title='Referred from 259 in deps/ecto/lib/ecto/repo/preloader.ex.'>preload_info</a>(t) ::
+<a id='L106' name='L106'></a>              <em class='brace'>{</em>:assoc, t, atom<em class='brace'>}</em> | <em class='brace'>{</em>:through, t, [atom]<em class='brace'>}</em>
+<a id='L107' name='L107'></a>
+<a id='L108' name='L108'></a>  @doc """
+<a id='L109' name='L109'></a>  Retrieves the association from the given model.
+<a id='L110' name='L110'></a>  """
+<a id='L111' name='L111'></a>  def association_from_model!(<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>) <strong class='reserved'>do</strong>
+<a id='L112' name='L112'></a>    <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>.<a href='../D/220.html' title='Multiple defined in 18 places.'>__schema__</a>(:association, <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>) ||
+<a id='L113' name='L113'></a>      raise ArgumentError, "model #{inspect model} does not have association #{inspect assoc}"
+<a id='L114' name='L114'></a>  end
+<a id='L115' name='L115'></a>
+<a id='L116' name='L116'></a>  @doc """
+<a id='L117' name='L117'></a>  Returns the association key <strong class='reserved'>for</strong> the given module with the given suffix.
+<a id='L118' name='L118'></a>
+<a id='L119' name='L119'></a><em class='sharp'>  #</em># Examples
+<a id='L120' name='L120'></a>
+<a id='L121' name='L121'></a>      iex&gt; Ecto.Association.association_key(Hello.World, :id)
+<a id='L122' name='L122'></a>      :world_id
+<a id='L123' name='L123'></a>
+<a id='L124' name='L124'></a>      iex&gt; Ecto.Association.association_key(Hello.HTTP, :id)
+<a id='L125' name='L125'></a>      :http_id
+<a id='L126' name='L126'></a>
+<a id='L127' name='L127'></a>      iex&gt; Ecto.Association.association_key(Hello.HTTPServer, :id)
+<a id='L128' name='L128'></a>      :http_server_id
+<a id='L129' name='L129'></a>
+<a id='L130' name='L130'></a>  """
+<a id='L131' name='L131'></a>  def <a href='../S/83.html#L289' title='Referred from 289 in deps/ecto/lib/ecto/association.ex.'>association_key</a>(module, suffix) <strong class='reserved'>do</strong>
+<a id='L132' name='L132'></a>    <a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a> = module |&gt; Module.split |&gt; List.last |&gt; <a href='../D/1152.html' title='Multiple defined in 2 places.'>underscore</a>
+<a id='L133' name='L133'></a>    :"#{prefix}_#{suffix}"
+<a id='L134' name='L134'></a>  end
+<a id='L135' name='L135'></a>
+<a id='L136' name='L136'></a>  # TODO: Use Elixir's underscore function on from Elixir v1.2 onwards
+<a id='L137' name='L137'></a>
+<a id='L138' name='L138'></a>  defp <a href='../R/987.html' title='Multiple referred from 6 places.'>underscore</a>(""), <strong class='reserved'>do</strong>: ""
+<a id='L139' name='L139'></a>
+<a id='L140' name='L140'></a>  defp <a href='../R/987.html' title='Multiple referred from 6 places.'>underscore</a>(&lt;&lt;h, t :: <a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>&gt;&gt;) <strong class='reserved'>do</strong>
+<a id='L141' name='L141'></a>    &lt;&lt;<a href='../D/1116.html' title='Multiple defined in 2 places.'>to_lower_char</a>(h)&gt;&gt; &lt;&gt; <a href='../D/501.html' title='Multiple defined in 8 places.'>do_underscore</a>(t, h)
+<a id='L142' name='L142'></a>  end
+<a id='L143' name='L143'></a>
+<a id='L144' name='L144'></a>  defp <a href='../R/376.html' title='Multiple referred from 5 places.'>do_underscore</a>(&lt;&lt;h, t, rest :: <a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>&gt;&gt;, _) when h in ?A..?Z and not t in ?A..?Z <strong class='reserved'>do</strong>
+<a id='L145' name='L145'></a>    &lt;&lt;?_, <a href='../D/1116.html' title='Multiple defined in 2 places.'>to_lower_char</a>(h), t&gt;&gt; &lt;&gt; <a href='../D/501.html' title='Multiple defined in 8 places.'>do_underscore</a>(rest, t)
+<a id='L146' name='L146'></a>  end
+<a id='L147' name='L147'></a>
+<a id='L148' name='L148'></a>  defp <a href='../R/376.html' title='Multiple referred from 5 places.'>do_underscore</a>(&lt;&lt;h, t :: <a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>&gt;&gt;, prev) when h in ?A..?Z and not prev in ?A..?Z <strong class='reserved'>do</strong>
+<a id='L149' name='L149'></a>    &lt;&lt;?_, <a href='../D/1116.html' title='Multiple defined in 2 places.'>to_lower_char</a>(h)&gt;&gt; &lt;&gt; <a href='../D/501.html' title='Multiple defined in 8 places.'>do_underscore</a>(t, h)
+<a id='L150' name='L150'></a>  end
+<a id='L151' name='L151'></a>
+<a id='L152' name='L152'></a>  defp <a href='../R/376.html' title='Multiple referred from 5 places.'>do_underscore</a>(&lt;&lt;?-, t :: <a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>&gt;&gt;, _) <strong class='reserved'>do</strong>
+<a id='L153' name='L153'></a>    &lt;&lt;?_&gt;&gt; &lt;&gt; <a href='../D/501.html' title='Multiple defined in 8 places.'>do_underscore</a>(t, ?-)
+<a id='L154' name='L154'></a>  end
+<a id='L155' name='L155'></a>
+<a id='L156' name='L156'></a>  defp <a href='../R/376.html' title='Multiple referred from 5 places.'>do_underscore</a>(&lt;&lt; "..", t :: <a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>&gt;&gt;, _) <strong class='reserved'>do</strong>
+<a id='L157' name='L157'></a>    &lt;&lt;".."&gt;&gt; &lt;&gt; <a href='../D/1152.html' title='Multiple defined in 2 places.'>underscore</a>(t)
+<a id='L158' name='L158'></a>  end
+<a id='L159' name='L159'></a>
+<a id='L160' name='L160'></a>  defp <a href='../R/376.html' title='Multiple referred from 5 places.'>do_underscore</a>(&lt;&lt;?.&gt;&gt;, _), <strong class='reserved'>do</strong>: &lt;&lt;?.&gt;&gt;
+<a id='L161' name='L161'></a>
+<a id='L162' name='L162'></a>  defp <a href='../R/376.html' title='Multiple referred from 5 places.'>do_underscore</a>(&lt;&lt;?., t :: <a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>&gt;&gt;, _) <strong class='reserved'>do</strong>
+<a id='L163' name='L163'></a>    &lt;&lt;?/&gt;&gt; &lt;&gt; <a href='../D/1152.html' title='Multiple defined in 2 places.'>underscore</a>(t)
+<a id='L164' name='L164'></a>  end
+<a id='L165' name='L165'></a>
+<a id='L166' name='L166'></a>  defp <a href='../R/376.html' title='Multiple referred from 5 places.'>do_underscore</a>(&lt;&lt;h, t :: <a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>&gt;&gt;, _) <strong class='reserved'>do</strong>
+<a id='L167' name='L167'></a>    &lt;&lt;<a href='../D/1116.html' title='Multiple defined in 2 places.'>to_lower_char</a>(h)&gt;&gt; &lt;&gt; <a href='../D/501.html' title='Multiple defined in 8 places.'>do_underscore</a>(t, h)
+<a id='L168' name='L168'></a>  end
+<a id='L169' name='L169'></a>
+<a id='L170' name='L170'></a>  defp <a href='../R/376.html' title='Multiple referred from 5 places.'>do_underscore</a>(&lt;&lt;&gt;&gt;, _) <strong class='reserved'>do</strong>
+<a id='L171' name='L171'></a>    &lt;&lt;&gt;&gt;
+<a id='L172' name='L172'></a>  end
+<a id='L173' name='L173'></a>
+<a id='L174' name='L174'></a>  defp <a href='../R/953.html' title='Multiple referred from 4 places.'>to_lower_char</a>(<strong class='reserved'>char</strong>) when <strong class='reserved'>char</strong> in ?A..?Z, <strong class='reserved'>do</strong>: <strong class='reserved'>char</strong> + 32
+<a id='L175' name='L175'></a>  defp <a href='../R/953.html' title='Multiple referred from 4 places.'>to_lower_char</a>(<strong class='reserved'>char</strong>), <strong class='reserved'>do</strong>: <strong class='reserved'>char</strong>
+<a id='L176' name='L176'></a>
+<a id='L177' name='L177'></a>  @doc """
+<a id='L178' name='L178'></a>  Retrieves related module from queryable.
+<a id='L179' name='L179'></a>
+<a id='L180' name='L180'></a><em class='sharp'>  #</em># Examples
+<a id='L181' name='L181'></a>
+<a id='L182' name='L182'></a>      iex&gt; Ecto.Association.related_from_query(<em class='brace'>{</em>"custom_source", Model<em class='brace'>}</em>)
+<a id='L183' name='L183'></a>      Model
+<a id='L184' name='L184'></a>
+<a id='L185' name='L185'></a>      iex&gt; Ecto.Association.related_from_query(Model)
+<a id='L186' name='L186'></a>      Model
+<a id='L187' name='L187'></a>
+<a id='L188' name='L188'></a>      iex&gt; Ecto.Association.related_from_query("wrong")
+<a id='L189' name='L189'></a>      ** (ArgumentError) association queryable must be a model or <em class='brace'>{</em>source, model<em class='brace'>}</em>, got: "wrong"
+<a id='L190' name='L190'></a>
+<a id='L191' name='L191'></a>  """
+<a id='L192' name='L192'></a>  def <a href='../R/812.html' title='Multiple referred from 2 places.'>related_from_query</a>(atom) when is_atom(atom), <strong class='reserved'>do</strong>: atom
+<a id='L193' name='L193'></a>  def <a href='../R/812.html' title='Multiple referred from 2 places.'>related_from_query</a>(<em class='brace'>{</em>source, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a><em class='brace'>}</em>) when is_binary(source) and is_atom(model), <strong class='reserved'>do</strong>: model
+<a id='L194' name='L194'></a>  def <a href='../R/812.html' title='Multiple referred from 2 places.'>related_from_query</a>(queryable) <strong class='reserved'>do</strong>
+<a id='L195' name='L195'></a>    raise ArgumentError, "association queryable must be a model " &lt;&gt;
+<a id='L196' name='L196'></a>      "or {source, model}, got: #{inspect queryable}"
+<a id='L197' name='L197'></a>  end
+<a id='L198' name='L198'></a>
+<a id='L199' name='L199'></a>  @doc """
+<a id='L200' name='L200'></a>  Merges source from query into to the given model.
+<a id='L201' name='L201'></a>
+<a id='L202' name='L202'></a>  In <strong class='reserved'>case</strong> the query does not have a source, returns
+<a id='L203' name='L203'></a>  the model unchanged.
+<a id='L204' name='L204'></a>  """
+<a id='L205' name='L205'></a>  def <a href='../S/83.html#L335' title='Referred from 335 in deps/ecto/lib/ecto/association.ex.'>merge_source</a>(<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L206' name='L206'></a>
+<a id='L207' name='L207'></a>  def <a href='../S/83.html#L335' title='Referred from 335 in deps/ecto/lib/ecto/association.ex.'>merge_source</a>(<strong class='reserved'>struct</strong>, <em class='brace'>{</em>source, _<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L208' name='L208'></a>    <a href='../D/46.html' title='Multiple defined in 2 places.'>Ecto</a>.<a href='../S/134.html#L542' title='Defined at 542 in deps/ecto/lib/ecto.ex.'>put_meta</a>(<strong class='reserved'>struct</strong>, source: source)
+<a id='L209' name='L209'></a>  end
+<a id='L210' name='L210'></a>
+<a id='L211' name='L211'></a>  def <a href='../S/83.html#L335' title='Referred from 335 in deps/ecto/lib/ecto/association.ex.'>merge_source</a>(<strong class='reserved'>struct</strong>, _query) <strong class='reserved'>do</strong>
+<a id='L212' name='L212'></a>    <strong class='reserved'>struct</strong>
+<a id='L213' name='L213'></a>  end
+<a id='L214' name='L214'></a>end
+<a id='L215' name='L215'></a>
+<a id='L216' name='L216'></a>defmodule Ecto.Association.Has <strong class='reserved'>do</strong>
+<a id='L217' name='L217'></a>  @moduledoc """
+<a id='L218' name='L218'></a>  The association <strong class='reserved'>struct</strong> <strong class='reserved'>for</strong> `has_one` and `has_many` associations.
+<a id='L219' name='L219'></a>
+<a id='L220' name='L220'></a>  Its fields are:
+<a id='L221' name='L221'></a>
+<a id='L222' name='L222'></a>    * `cardinality` - The association cardinality
+<a id='L223' name='L223'></a>    * `field` - The name of the association field on the model
+<a id='L224' name='L224'></a>    * `owner` - The model where the association was defined
+<a id='L225' name='L225'></a>    * `related` - The model that is associated
+<a id='L226' name='L226'></a>    * `owner_key` - The key on the `owner` model used <strong class='reserved'>for</strong> the association
+<a id='L227' name='L227'></a>    * `related_key` - The key on the `related` model used <strong class='reserved'>for</strong> the association
+<a id='L228' name='L228'></a>    * `queryable` - The real query to use <strong class='reserved'>for</strong> querying association
+<a id='L229' name='L229'></a>    * `on_delete` - The action taken on associations when model is deleted
+<a id='L230' name='L230'></a>    * `on_replace` - The action taken on associations when model is replaced
+<a id='L231' name='L231'></a>    * `on_cast` - The changeset function to call during casting
+<a id='L232' name='L232'></a>    * `defaults` - Default fields used when building the association
+<a id='L233' name='L233'></a>  """
+<a id='L234' name='L234'></a>
+<a id='L235' name='L235'></a>  @behaviour Ecto.Association
+<a id='L236' name='L236'></a>  @on_delete_opts [:nothing, :fetch_and_delete, :nilify_all, :delete_all]
+<a id='L237' name='L237'></a>  @on_replace_opts [:raise, :mark_as_invalid, :delete, :nilify]
+<a id='L238' name='L238'></a>  defstruct [:cardinality, :field, :owner, :related, :owner_key, :related_key,
+<a id='L239' name='L239'></a>             :queryable, :on_delete, :on_replace, on_cast: :changeset, defaults: []]
+<a id='L240' name='L240'></a>
+<a id='L241' name='L241'></a>  @doc false
+<a id='L242' name='L242'></a>  def <strong class='reserved'>struct</strong>(module, name, opts) <strong class='reserved'>do</strong>
+<a id='L243' name='L243'></a>    ref =
+<a id='L244' name='L244'></a>      cond <strong class='reserved'>do</strong>
+<a id='L245' name='L245'></a>        ref = opts[:references] -&gt;
+<a id='L246' name='L246'></a>          ref
+<a id='L247' name='L247'></a>        <a href='../D/903.html' title='Multiple defined in 2 places.'>primary_key</a> = Module.get_attribute(module, :primary_key) -&gt;
+<a id='L248' name='L248'></a>          elem(<a href='../D/903.html' title='Multiple defined in 2 places.'>primary_key</a>, 0)
+<a id='L249' name='L249'></a>        true -&gt;
+<a id='L250' name='L250'></a>          raise ArgumentError, "need to set :references option for " &lt;&gt;
+<a id='L251' name='L251'></a>            "association #{inspect name} when model has no primary key"
+<a id='L252' name='L252'></a>      end
+<a id='L253' name='L253'></a>
+<a id='L254' name='L254'></a>    unless Module.get_attribute(module, :ecto_fields)[ref] <strong class='reserved'>do</strong>
+<a id='L255' name='L255'></a>      raise ArgumentError, "model does not have the field #{inspect ref} used by " &lt;&gt;
+<a id='L256' name='L256'></a>        "association #{inspect name}, please set the :references option accordingly"
+<a id='L257' name='L257'></a>    end
+<a id='L258' name='L258'></a>
+<a id='L259' name='L259'></a>    queryable = Keyword.fetch!(opts, :queryable)
+<a id='L260' name='L260'></a>    related = Ecto.Association.<a href='../D/967.html' title='Multiple defined in 3 places.'>related_from_query</a>(queryable)
+<a id='L261' name='L261'></a>
+<a id='L262' name='L262'></a>    <strong class='reserved'>if</strong> opts[:through] <strong class='reserved'>do</strong>
+<a id='L263' name='L263'></a>      raise ArgumentError, "invalid association #{inspect name}. When using the :through " &lt;&gt;
+<a id='L264' name='L264'></a>                           "option, the model should not be passed as second argument"
+<a id='L265' name='L265'></a>    end
+<a id='L266' name='L266'></a>
+<a id='L267' name='L267'></a>    on_delete  = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :on_delete, :nothing)
+<a id='L268' name='L268'></a>    <a href='../D/830.html' title='Multiple defined in 5 places.'>on_replace</a> = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :on_replace, :raise)
+<a id='L269' name='L269'></a>    on_cast    = Keyword.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(opts, :on_cast, :changeset)
+<a id='L270' name='L270'></a>
+<a id='L271' name='L271'></a>    unless on_delete in @on_delete_opts <strong class='reserved'>do</strong>
+<a id='L272' name='L272'></a>      raise ArgumentError, "invalid :on_delete option for #{inspect name}. " &lt;&gt;
+<a id='L273' name='L273'></a>        "The only valid options are: " &lt;&gt;
+<a id='L274' name='L274'></a>        Enum.map_join(@on_delete_opts, ", ", &amp;"`#{inspect &amp;1}`")
+<a id='L275' name='L275'></a>    end
+<a id='L276' name='L276'></a>
+<a id='L277' name='L277'></a>    unless <a href='../D/830.html' title='Multiple defined in 5 places.'>on_replace</a> in @on_replace_opts <strong class='reserved'>do</strong>
+<a id='L278' name='L278'></a>      raise ArgumentError, "invalid `:on_replace` option for #{inspect name}. " &lt;&gt;
+<a id='L279' name='L279'></a>        "The only valid options are: " &lt;&gt;
+<a id='L280' name='L280'></a>        Enum.map_join(@on_replace_opts, ", ", &amp;"`#{inspect &amp;1}`")
+<a id='L281' name='L281'></a>    end
+<a id='L282' name='L282'></a>
+<a id='L283' name='L283'></a>    %__MODULE__<em class='brace'>{</em>
+<a id='L284' name='L284'></a>      field: name,
+<a id='L285' name='L285'></a>      cardinality: Keyword.fetch!(opts, :cardinality),
+<a id='L286' name='L286'></a>      owner: module,
+<a id='L287' name='L287'></a>      related: related,
+<a id='L288' name='L288'></a>      owner_key: ref,
+<a id='L289' name='L289'></a>      related_key: opts[:foreign_key] || Ecto.Association.<a href='../S/83.html#L131' title='Defined at 131 in deps/ecto/lib/ecto/association.ex.'>association_key</a>(module, ref),
+<a id='L290' name='L290'></a>      queryable: queryable,
+<a id='L291' name='L291'></a>      on_delete: on_delete,
+<a id='L292' name='L292'></a>      <a href='../D/830.html' title='Multiple defined in 5 places.'>on_replace</a>: on_replace,
+<a id='L293' name='L293'></a>      on_cast: on_cast,
+<a id='L294' name='L294'></a>      defaults: opts[:defaults] || []
+<a id='L295' name='L295'></a>    <em class='brace'>}</em>
+<a id='L296' name='L296'></a>  end
+<a id='L297' name='L297'></a>
+<a id='L298' name='L298'></a>  @doc false
+<a id='L299' name='L299'></a>  def <a href='../R/195.html' title='Multiple referred from 29 places.'>build</a>(%<em class='brace'>{</em>owner_key: owner_key, related_key: related_key<em class='brace'>}</em> = refl, <strong class='reserved'>struct</strong>, attributes) <strong class='reserved'>do</strong>
+<a id='L300' name='L300'></a>    refl
+<a id='L301' name='L301'></a>    |&gt; <a href='../D/315.html' title='Multiple defined in 20 places.'>build</a>()
+<a id='L302' name='L302'></a>    |&gt; <strong class='reserved'>struct</strong>(attributes)
+<a id='L303' name='L303'></a>    |&gt; Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(related_key, Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(<strong class='reserved'>struct</strong>, owner_key))
+<a id='L304' name='L304'></a>  end
+<a id='L305' name='L305'></a>
+<a id='L306' name='L306'></a>  @doc false
+<a id='L307' name='L307'></a>  def <a href='../R/573.html' title='Multiple referred from 3 places.'>joins_query</a>(refl) <strong class='reserved'>do</strong>
+<a id='L308' name='L308'></a>    <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> o in refl.owner,
+<a id='L309' name='L309'></a>      join: q in ^refl.queryable,
+<a id='L310' name='L310'></a>      on: <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>(q, ^refl.related_key) == field(o, ^refl.owner_key)
+<a id='L311' name='L311'></a>  end
+<a id='L312' name='L312'></a>
+<a id='L313' name='L313'></a>  @doc false
+<a id='L314' name='L314'></a>  def <a href='../R/153.html' title='Multiple referred from 7 places.'>assoc_query</a>(refl, values) <strong class='reserved'>do</strong>
+<a id='L315' name='L315'></a>    <a href='../D/267.html' title='Multiple defined in 8 places.'>assoc_query</a>(refl, refl.queryable, values)
+<a id='L316' name='L316'></a>  end
+<a id='L317' name='L317'></a>
+<a id='L318' name='L318'></a>  @doc false
+<a id='L319' name='L319'></a>  def <a href='../R/153.html' title='Multiple referred from 7 places.'>assoc_query</a>(refl, <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, values) <strong class='reserved'>do</strong>
+<a id='L320' name='L320'></a>    <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> x in <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>,
+<a id='L321' name='L321'></a>      where: <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>(x, ^refl.related_key) in ^values
+<a id='L322' name='L322'></a>  end
+<a id='L323' name='L323'></a>
+<a id='L324' name='L324'></a>  @doc false
+<a id='L325' name='L325'></a>  def <a href='../S/125.html#L259' title='Referred from 259 in deps/ecto/lib/ecto/repo/preloader.ex.'>preload_info</a>(refl) <strong class='reserved'>do</strong>
+<a id='L326' name='L326'></a>    <em class='brace'>{</em>:assoc, refl, refl.related_key<em class='brace'>}</em>
+<a id='L327' name='L327'></a>  end
+<a id='L328' name='L328'></a>
+<a id='L329' name='L329'></a>  @behaviour Ecto.Changeset.Relation
+<a id='L330' name='L330'></a>
+<a id='L331' name='L331'></a>  @doc false
+<a id='L332' name='L332'></a>  def <a href='../R/195.html' title='Multiple referred from 29 places.'>build</a>(%<em class='brace'>{</em>related: related, queryable: queryable, <a href='../S/197.html#L345' title='Defined at 345 in deps/postgrex/lib/postgrex.ex.'>defaults</a>: defaults<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L333' name='L333'></a>    related
+<a id='L334' name='L334'></a>    |&gt; <strong class='reserved'>struct</strong>(<a href='../S/197.html#L345' title='Defined at 345 in deps/postgrex/lib/postgrex.ex.'>defaults</a>)
+<a id='L335' name='L335'></a>    |&gt; Ecto.Association.<a href='../D/767.html' title='Multiple defined in 3 places.'>merge_source</a>(queryable)
+<a id='L336' name='L336'></a>  end
+<a id='L337' name='L337'></a>
+<a id='L338' name='L338'></a>  @doc false
+<a id='L339' name='L339'></a>  def <a href='../R/682.html' title='Multiple referred from 11 places.'>on_replace</a>(%<em class='brace'>{</em>on_replace: :delete<em class='brace'>}</em>, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>) <strong class='reserved'>do</strong>
+<a id='L340' name='L340'></a>    <em class='brace'>{</em>:delete, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a><em class='brace'>}</em>
+<a id='L341' name='L341'></a>  end
+<a id='L342' name='L342'></a>
+<a id='L343' name='L343'></a>  def <a href='../R/682.html' title='Multiple referred from 11 places.'>on_replace</a>(%<em class='brace'>{</em>on_replace: :nilify, related_key: related_key<em class='brace'>}</em>, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>) <strong class='reserved'>do</strong>
+<a id='L344' name='L344'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> = update_in changeset.changes, &amp;Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(&amp;1, related_key, nil)
+<a id='L345' name='L345'></a>    <em class='brace'>{</em>:update, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a><em class='brace'>}</em>
+<a id='L346' name='L346'></a>  end
+<a id='L347' name='L347'></a>
+<a id='L348' name='L348'></a>  @doc false
+<a id='L349' name='L349'></a>  def <a href='../R/683.html' title='Multiple referred from 7 places.'>on_repo_action</a>(<a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, parent, _adapter, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, repo_action, opts) <strong class='reserved'>do</strong>
+<a id='L350' name='L350'></a>    %<em class='brace'>{</em>action: action, changes: changes<em class='brace'>}</em> = <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>
+<a id='L351' name='L351'></a>    check_action!(action, repo_action, <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>)
+<a id='L352' name='L352'></a>
+<a id='L353' name='L353'></a>    <em class='brace'>{</em><a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a><em class='brace'>}</em> = <a href='../S/83.html#L371' title='Defined at 371 in deps/ecto/lib/ecto/association.ex.'>parent_key</a>(<a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>, parent)
+<a id='L354' name='L354'></a>    <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> = <a href='../D/1181.html' title='Multiple defined in 2 places.'>update_parent_key</a>(changeset, action, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>)
+<a id='L355' name='L355'></a>
+<a id='L356' name='L356'></a>    <strong class='reserved'>case</strong> <a href='../D/244.html' title='Multiple defined in 16 places.'>apply</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, action, [<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, opts]) <strong class='reserved'>do</strong>
+<a id='L357' name='L357'></a>      <em class='brace'>{</em>:<a href='../D/828.html' title='Multiple defined in 6 places.'>ok</a>, _<em class='brace'>}</em> = ok -&gt;
+<a id='L358' name='L358'></a>        maybe_replace_one!(<a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, parent, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, opts)
+<a id='L359' name='L359'></a>        <strong class='reserved'>if</strong> action == :delete, <strong class='reserved'>do</strong>: <em class='brace'>{</em>:<a href='../D/828.html' title='Multiple defined in 6 places.'>ok</a>, nil<em class='brace'>}</em>, <strong class='reserved'>else</strong>: ok
+<a id='L360' name='L360'></a>      <em class='brace'>{</em>:error, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a><em class='brace'>}</em> -&gt;
+<a id='L361' name='L361'></a>        original = Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(changes, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>)
+<a id='L362' name='L362'></a>        <em class='brace'>{</em>:error, update_in(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.changes, &amp;Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(&amp;1, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, original))<em class='brace'>}</em>
+<a id='L363' name='L363'></a>    end
+<a id='L364' name='L364'></a>  end
+<a id='L365' name='L365'></a>
+<a id='L366' name='L366'></a>  defp <a href='../S/83.html#L354' title='Referred from 354 in deps/ecto/lib/ecto/association.ex.'>update_parent_key</a>(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, :delete, _key, _value),
+<a id='L367' name='L367'></a>    <strong class='reserved'>do</strong>: <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>
+<a id='L368' name='L368'></a>  defp <a href='../S/83.html#L354' title='Referred from 354 in deps/ecto/lib/ecto/association.ex.'>update_parent_key</a>(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, _action, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>),
+<a id='L369' name='L369'></a>    <strong class='reserved'>do</strong>: Ecto.Changeset.<a href='../D/920.html' title='Multiple defined in 4 places.'>put_change</a>(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>)
+<a id='L370' name='L370'></a>
+<a id='L371' name='L371'></a>  defp <a href='../R/706.html' title='Multiple referred from 5 places.'>parent_key</a>(%<em class='brace'>{</em>owner_key: owner_key, related_key: related_key<em class='brace'>}</em>, owner) <strong class='reserved'>do</strong>
+<a id='L372' name='L372'></a>    <em class='brace'>{</em>related_key, Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(owner, owner_key)<em class='brace'>}</em>
+<a id='L373' name='L373'></a>  end
+<a id='L374' name='L374'></a>
+<a id='L375' name='L375'></a>  defp check_action!(:delete, :insert, %<em class='brace'>{</em>related: <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a><em class='brace'>}</em>),
+<a id='L376' name='L376'></a>    <strong class='reserved'>do</strong>: raise(ArgumentError, "got action :delete in changeset for associated #{inspect model} while inserting")
+<a id='L377' name='L377'></a>  defp check_action!(_, _, _), <strong class='reserved'>do</strong>: :ok
+<a id='L378' name='L378'></a>
+<a id='L379' name='L379'></a>  defp maybe_replace_one!(%<em class='brace'>{</em>cardinality: :one, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>: field<em class='brace'>}</em> = <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>,
+<a id='L380' name='L380'></a>                          %<em class='brace'>{</em>action: :insert<em class='brace'>}</em>, parent, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, opts) <strong class='reserved'>do</strong>
+<a id='L381' name='L381'></a>    <strong class='reserved'>case</strong> Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(parent, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>) <strong class='reserved'>do</strong>
+<a id='L382' name='L382'></a>      %Ecto.Association.NotLoaded<em class='brace'>{</em><em class='brace'>}</em> -&gt;
+<a id='L383' name='L383'></a>        :ok
+<a id='L384' name='L384'></a>      nil -&gt;
+<a id='L385' name='L385'></a>        :ok
+<a id='L386' name='L386'></a>      previous -&gt;
+<a id='L387' name='L387'></a>        # the <strong class='reserved'>case</strong> when this could <strong class='reserved'>return</strong> :error, was handled before
+<a id='L388' name='L388'></a>        <em class='brace'>{</em>:ok, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a><em class='brace'>}</em> = Ecto.Changeset.Relation.<a href='../D/830.html' title='Multiple defined in 5 places.'>on_replace</a>(<a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>, previous)
+<a id='L389' name='L389'></a>
+<a id='L390' name='L390'></a>        <strong class='reserved'>case</strong> <a href='../D/244.html' title='Multiple defined in 16 places.'>apply</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.action, [changeset, opts]) <strong class='reserved'>do</strong>
+<a id='L391' name='L391'></a>          <em class='brace'>{</em>:ok, _<em class='brace'>}</em> -&gt;
+<a id='L392' name='L392'></a>            :ok
+<a id='L393' name='L393'></a>          <em class='brace'>{</em>:error, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a><em class='brace'>}</em> -&gt;
+<a id='L394' name='L394'></a>            raise Ecto.InvalidChangesetError,
+<a id='L395' name='L395'></a>              action: <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>.action, changeset: changeset
+<a id='L396' name='L396'></a>        end
+<a id='L397' name='L397'></a>    end
+<a id='L398' name='L398'></a>  end
+<a id='L399' name='L399'></a>
+<a id='L400' name='L400'></a>  defp maybe_replace_one!(_, _, _, _, _), <strong class='reserved'>do</strong>: :ok
+<a id='L401' name='L401'></a>end
+<a id='L402' name='L402'></a>
+<a id='L403' name='L403'></a>defmodule Ecto.Association.HasThrough <strong class='reserved'>do</strong>
+<a id='L404' name='L404'></a>  @moduledoc """
+<a id='L405' name='L405'></a>  The association <strong class='reserved'>struct</strong> <strong class='reserved'>for</strong> `has_one` and `has_many` through associations.
+<a id='L406' name='L406'></a>
+<a id='L407' name='L407'></a>  Its fields are:
+<a id='L408' name='L408'></a>
+<a id='L409' name='L409'></a>    * `cardinality` - The association cardinality
+<a id='L410' name='L410'></a>    * `field` - The name of the association field on the model
+<a id='L411' name='L411'></a>    * `owner` - The model where the association was defined
+<a id='L412' name='L412'></a>    * `owner_key` - The key on the `owner` model used <strong class='reserved'>for</strong> the association
+<a id='L413' name='L413'></a>    * `through` - The through associations
+<a id='L414' name='L414'></a>  """
+<a id='L415' name='L415'></a>
+<a id='L416' name='L416'></a>  alias Ecto.Query.JoinExpr
+<a id='L417' name='L417'></a>
+<a id='L418' name='L418'></a>  @behaviour Ecto.Association
+<a id='L419' name='L419'></a>  defstruct [:cardinality, :field, :owner, :owner_key, :through]
+<a id='L420' name='L420'></a>
+<a id='L421' name='L421'></a>  @doc false
+<a id='L422' name='L422'></a>  def <strong class='reserved'>struct</strong>(module, name, opts) <strong class='reserved'>do</strong>
+<a id='L423' name='L423'></a>    <a href='../D/1099.html' title='Multiple defined in 4 places.'>through</a> = Keyword.fetch!(opts, :through)
+<a id='L424' name='L424'></a>
+<a id='L425' name='L425'></a>    refl =
+<a id='L426' name='L426'></a>      <strong class='reserved'>case</strong> <a href='../D/1099.html' title='Multiple defined in 4 places.'>through</a> <strong class='reserved'>do</strong>
+<a id='L427' name='L427'></a>        [h,_|_] -&gt;
+<a id='L428' name='L428'></a>          Module.get_attribute(module, :ecto_assocs)[h]
+<a id='L429' name='L429'></a>        _ -&gt;
+<a id='L430' name='L430'></a>          raise ArgumentError, ":through expects a list with at least two entries: " &lt;&gt;
+<a id='L431' name='L431'></a>            "the association in the current module and one step through, got: #{inspect through}"
+<a id='L432' name='L432'></a>      end
+<a id='L433' name='L433'></a>
+<a id='L434' name='L434'></a>    unless refl <strong class='reserved'>do</strong>
+<a id='L435' name='L435'></a>      raise ArgumentError, "model does not have the association #{inspect hd(through)} " &lt;&gt;
+<a id='L436' name='L436'></a>        "used by association #{inspect name}, please ensure the association exists and " &lt;&gt;
+<a id='L437' name='L437'></a>        "is defined before the :through one"
+<a id='L438' name='L438'></a>    end
+<a id='L439' name='L439'></a>
+<a id='L440' name='L440'></a>    %__MODULE__<em class='brace'>{</em>
+<a id='L441' name='L441'></a>      field: name,
+<a id='L442' name='L442'></a>      cardinality: Keyword.fetch!(opts, :cardinality),
+<a id='L443' name='L443'></a>      <a href='../D/1099.html' title='Multiple defined in 4 places.'>through</a>: through,
+<a id='L444' name='L444'></a>      owner: module,
+<a id='L445' name='L445'></a>      owner_key: refl.owner_key,
+<a id='L446' name='L446'></a>    <em class='brace'>}</em>
+<a id='L447' name='L447'></a>  end
+<a id='L448' name='L448'></a>
+<a id='L449' name='L449'></a>  @doc false
+<a id='L450' name='L450'></a>  def <a href='../R/195.html' title='Multiple referred from 29 places.'>build</a>(%<em class='brace'>{</em>field: name<em class='brace'>}</em>, %<em class='brace'>{</em>__struct__: <strong class='reserved'>struct</strong><em class='brace'>}</em>, _attributes) <strong class='reserved'>do</strong>
+<a id='L451' name='L451'></a>    raise ArgumentError,
+<a id='L452' name='L452'></a>      "cannot build through association #{inspect name} for #{inspect struct}. " &lt;&gt;
+<a id='L453' name='L453'></a>      "Instead build the intermediate steps explicitly."
+<a id='L454' name='L454'></a>  end
+<a id='L455' name='L455'></a>
+<a id='L456' name='L456'></a>  @doc false
+<a id='L457' name='L457'></a>  def <a href='../S/125.html#L259' title='Referred from 259 in deps/ecto/lib/ecto/repo/preloader.ex.'>preload_info</a>(refl) <strong class='reserved'>do</strong>
+<a id='L458' name='L458'></a>    <em class='brace'>{</em>:<a href='../D/1099.html' title='Multiple defined in 4 places.'>through</a>, refl, refl.through<em class='brace'>}</em>
+<a id='L459' name='L459'></a>  end
+<a id='L460' name='L460'></a>
+<a id='L461' name='L461'></a>  @doc false
+<a id='L462' name='L462'></a>  def <a href='../R/573.html' title='Multiple referred from 3 places.'>joins_query</a>(%<em class='brace'>{</em>owner: owner, <a href='../D/1099.html' title='Multiple defined in 4 places.'>through</a>: through<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L463' name='L463'></a>    <a href='../D/710.html' title='Multiple defined in 5 places.'>joins_query</a>(owner, <a href='../D/1099.html' title='Multiple defined in 4 places.'>through</a>, 0)
+<a id='L464' name='L464'></a>  end
+<a id='L465' name='L465'></a>
+<a id='L466' name='L466'></a>  defp <a href='../R/573.html' title='Multiple referred from 3 places.'>joins_query</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, <a href='../D/1099.html' title='Multiple defined in 4 places.'>through</a>, counter) <strong class='reserved'>do</strong>
+<a id='L467' name='L467'></a>    Enum.<a href='../D/959.html' title='Multiple defined in 4 places.'>reduce</a>(<a href='../D/1099.html' title='Multiple defined in 4 places.'>through</a>, <em class='brace'>{</em><a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, counter<em class='brace'>}</em>, fn current, <em class='brace'>{</em>acc, counter<em class='brace'>}</em> -&gt;
+<a id='L468' name='L468'></a>      <em class='brace'>{</em><a href='../D/705.html' title='Multiple defined in 11 places.'>join</a>(acc, :inner, [x: counter], <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(x, ^current)), counter + 1<em class='brace'>}</em>
+<a id='L469' name='L469'></a>    end) |&gt; elem(0)
+<a id='L470' name='L470'></a>  end
+<a id='L471' name='L471'></a>
+<a id='L472' name='L472'></a>  @doc false
+<a id='L473' name='L473'></a>  def <a href='../R/153.html' title='Multiple referred from 7 places.'>assoc_query</a>(refl, values) <strong class='reserved'>do</strong>
+<a id='L474' name='L474'></a>    <a href='../D/267.html' title='Multiple defined in 8 places.'>assoc_query</a>(refl, %Ecto.Query<em class='brace'>{</em>from: <em class='brace'>{</em>"join expression", nil<em class='brace'>}</em><em class='brace'>}</em>, values)
+<a id='L475' name='L475'></a>  end
+<a id='L476' name='L476'></a>
+<a id='L477' name='L477'></a>  @doc false
+<a id='L478' name='L478'></a>  def <a href='../R/153.html' title='Multiple referred from 7 places.'>assoc_query</a>(%<em class='brace'>{</em>owner: owner, through: [h|t]<em class='brace'>}</em>, %Ecto.Query<em class='brace'>{</em><em class='brace'>}</em> = <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, values) <strong class='reserved'>do</strong>
+<a id='L479' name='L479'></a>    refl = owner.<a href='../D/220.html' title='Multiple defined in 18 places.'>__schema__</a>(:association, h)
+<a id='L480' name='L480'></a>
+<a id='L481' name='L481'></a>    # Find the position <strong class='reserved'>for</strong> upcoming joins
+<a id='L482' name='L482'></a>    position = length(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>.<a href='../D/709.html' title='Multiple defined in 4 places.'>joins</a>) + 1
+<a id='L483' name='L483'></a>
+<a id='L484' name='L484'></a>    # The first association must become a join,
+<a id='L485' name='L485'></a>    # so we convert its where (that comes from assoc_query)
+<a id='L486' name='L486'></a>    # to a join expression.
+<a id='L487' name='L487'></a><em class='sharp'>    #</em>
+<a id='L488' name='L488'></a>    # Note we are being restrictive on the format
+<a id='L489' name='L489'></a>    # expected from assoc_query.
+<a id='L490' name='L490'></a>    <a href='../D/705.html' title='Multiple defined in 11 places.'>join</a> = <a href='../S/83.html#L513' title='Defined at 513 in deps/ecto/lib/ecto/association.ex.'>assoc_to_join</a>(refl.__struct__.<a href='../D/267.html' title='Multiple defined in 8 places.'>assoc_query</a>(refl, values), position)
+<a id='L491' name='L491'></a>
+<a id='L492' name='L492'></a>    # Add the new join to the query and traverse the remaining
+<a id='L493' name='L493'></a>    # joins that will start counting from the added join position.
+<a id='L494' name='L494'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> =
+<a id='L495' name='L495'></a>      %<em class='brace'>{</em><a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> | <a href='../D/709.html' title='Multiple defined in 4 places.'>joins</a>: query.joins ++ [<a href='../D/705.html' title='Multiple defined in 11 places.'>join</a>]<em class='brace'>}</em>
+<a id='L496' name='L496'></a>      |&gt; <a href='../D/710.html' title='Multiple defined in 5 places.'>joins_query</a>(t, position)
+<a id='L497' name='L497'></a>      |&gt; Ecto.Query.Planner.<a href='../S/121.html#L275' title='Defined at 275 in deps/ecto/lib/ecto/query/planner.ex.'>prepare_sources</a>()
+<a id='L498' name='L498'></a>
+<a id='L499' name='L499'></a>    # Our source is going to be the last join after
+<a id='L500' name='L500'></a>    # traversing them all.
+<a id='L501' name='L501'></a>    <em class='brace'>{</em><a href='../D/709.html' title='Multiple defined in 4 places.'>joins</a>, [<a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>]<em class='brace'>}</em> = Enum.split(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>.joins, -1)
+<a id='L502' name='L502'></a>
+<a id='L503' name='L503'></a>    # Update the mapping and start rewriting expressions
+<a id='L504' name='L504'></a>    # to make the last join point to the new from source.
+<a id='L505' name='L505'></a>    mapping  = Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(%<em class='brace'>{</em><em class='brace'>}</em>, length(<a href='../D/709.html' title='Multiple defined in 4 places.'>joins</a>) + 1, 0)
+<a id='L506' name='L506'></a>    assoc_on = <a href='../S/83.html#L522' title='Defined at 522 in deps/ecto/lib/ecto/association.ex.'>rewrite_expr</a>(<a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>.on, mapping)
+<a id='L507' name='L507'></a>
+<a id='L508' name='L508'></a>    %<em class='brace'>{</em><a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> | wheres: [assoc_on|query.wheres], <a href='../D/709.html' title='Multiple defined in 4 places.'>joins</a>: joins,
+<a id='L509' name='L509'></a>              <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>: <a href='../D/763.html' title='Multiple defined in 2 places.'>merge_from</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>.from, <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>.source), sources: nil<em class='brace'>}</em>
+<a id='L510' name='L510'></a>    |&gt; <a href='../D/469.html' title='Multiple defined in 10 places.'>distinct</a>([x], true)
+<a id='L511' name='L511'></a>  end
+<a id='L512' name='L512'></a>
+<a id='L513' name='L513'></a>  defp <a href='../S/83.html#L490' title='Referred from 490 in deps/ecto/lib/ecto/association.ex.'>assoc_to_join</a>(%<em class='brace'>{</em><a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>: from, wheres: [on], order_bys: [], joins: []<em class='brace'>}</em>, position) <strong class='reserved'>do</strong>
+<a id='L514' name='L514'></a>    %<a href='../S/122.html#L181' title='Defined at 181 in deps/ecto/lib/ecto/query.ex.'>JoinExpr</a><em class='brace'>{</em>ix: position, qual: :inner, source: <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>,
+<a id='L515' name='L515'></a>              on: <a href='../S/83.html#L522' title='Defined at 522 in deps/ecto/lib/ecto/association.ex.'>rewrite_expr</a>(on, %<em class='brace'>{</em>0 =&gt; position<em class='brace'>}</em>),
+<a id='L516' name='L516'></a>              file: on.file, line: on.line<em class='brace'>}</em>
+<a id='L517' name='L517'></a>  end
+<a id='L518' name='L518'></a>
+<a id='L519' name='L519'></a>  defp <a href='../S/83.html#L509' title='Referred from 509 in deps/ecto/lib/ecto/association.ex.'>merge_from</a>(<em class='brace'>{</em>"join expression", _<em class='brace'>}</em>, assoc_source), <strong class='reserved'>do</strong>: assoc_source
+<a id='L520' name='L520'></a>  defp <a href='../S/83.html#L509' title='Referred from 509 in deps/ecto/lib/ecto/association.ex.'>merge_from</a>(<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>, _assoc_source), <strong class='reserved'>do</strong>: from
+<a id='L521' name='L521'></a>
+<a id='L522' name='L522'></a>  defp <a href='../R/836.html' title='Multiple referred from 2 places.'>rewrite_expr</a>(%<em class='brace'>{</em><a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>: expr, params: params<em class='brace'>}</em> = part, mapping) <strong class='reserved'>do</strong>
+<a id='L523' name='L523'></a>    <a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a> =
+<a id='L524' name='L524'></a>      Macro.prewalk <a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>, fn
+<a id='L525' name='L525'></a>        <em class='brace'>{</em>:&amp;, meta, [ix]<em class='brace'>}</em> -&gt;
+<a id='L526' name='L526'></a>          <em class='brace'>{</em>:&amp;, meta, [Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(mapping, ix, ix)]<em class='brace'>}</em>
+<a id='L527' name='L527'></a>        other -&gt;
+<a id='L528' name='L528'></a>          other
+<a id='L529' name='L529'></a>      end
+<a id='L530' name='L530'></a>
+<a id='L531' name='L531'></a>    params =
+<a id='L532' name='L532'></a>      Enum.map params, fn
+<a id='L533' name='L533'></a>        <em class='brace'>{</em>val, <em class='brace'>{</em>composite, <em class='brace'>{</em>ix, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a><em class='brace'>}</em><em class='brace'>}</em><em class='brace'>}</em> when is_integer(ix) -&gt;
+<a id='L534' name='L534'></a>          <em class='brace'>{</em>val, <em class='brace'>{</em>composite, <em class='brace'>{</em>Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(mapping, ix, ix), <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a><em class='brace'>}</em><em class='brace'>}</em><em class='brace'>}</em>
+<a id='L535' name='L535'></a>        <em class='brace'>{</em>val, <em class='brace'>{</em>ix, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a><em class='brace'>}</em><em class='brace'>}</em> when is_integer(ix) -&gt;
+<a id='L536' name='L536'></a>          <em class='brace'>{</em>val, <em class='brace'>{</em>Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(mapping, ix, ix), <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a><em class='brace'>}</em><em class='brace'>}</em>
+<a id='L537' name='L537'></a>        val -&gt;
+<a id='L538' name='L538'></a>          val
+<a id='L539' name='L539'></a>      end
+<a id='L540' name='L540'></a>
+<a id='L541' name='L541'></a>    %<em class='brace'>{</em>part | <a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>: expr, params: params<em class='brace'>}</em>
+<a id='L542' name='L542'></a>  end
+<a id='L543' name='L543'></a>end
+<a id='L544' name='L544'></a>
+<a id='L545' name='L545'></a>defmodule Ecto.Association.BelongsTo <strong class='reserved'>do</strong>
+<a id='L546' name='L546'></a>  @moduledoc """
+<a id='L547' name='L547'></a>  The association <strong class='reserved'>struct</strong> <strong class='reserved'>for</strong> a `belongs_to` association.
+<a id='L548' name='L548'></a>
+<a id='L549' name='L549'></a>  Its fields are:
+<a id='L550' name='L550'></a>
+<a id='L551' name='L551'></a>    * `cardinality` - The association cardinality
+<a id='L552' name='L552'></a>    * `field` - The name of the association field on the model
+<a id='L553' name='L553'></a>    * `owner` - The model where the association was defined
+<a id='L554' name='L554'></a>    * `related` - The model that is associated
+<a id='L555' name='L555'></a>    * `owner_key` - The key on the `owner` model used <strong class='reserved'>for</strong> the association
+<a id='L556' name='L556'></a>    * `related_key` - The key on the `related` model used <strong class='reserved'>for</strong> the association
+<a id='L557' name='L557'></a>    * `queryable` - The real query to use <strong class='reserved'>for</strong> querying association
+<a id='L558' name='L558'></a>    * `defaults` - Default fields used when building the association
+<a id='L559' name='L559'></a>  """
+<a id='L560' name='L560'></a>
+<a id='L561' name='L561'></a>  @behaviour Ecto.Association
+<a id='L562' name='L562'></a>  defstruct [:cardinality, :field, :owner, :related, :owner_key, :related_key, :queryable, defaults: []]
+<a id='L563' name='L563'></a>
+<a id='L564' name='L564'></a>  @doc false
+<a id='L565' name='L565'></a>  def <strong class='reserved'>struct</strong>(module, name, opts) <strong class='reserved'>do</strong>
+<a id='L566' name='L566'></a>    ref =
+<a id='L567' name='L567'></a>      cond <strong class='reserved'>do</strong>
+<a id='L568' name='L568'></a>        ref = opts[:references] -&gt;
+<a id='L569' name='L569'></a>          ref
+<a id='L570' name='L570'></a>        <a href='../D/903.html' title='Multiple defined in 2 places.'>primary_key</a> = Module.get_attribute(module, :primary_key) -&gt;
+<a id='L571' name='L571'></a>          <strong class='reserved'>case</strong> elem(<a href='../D/903.html' title='Multiple defined in 2 places.'>primary_key</a>, 0) <strong class='reserved'>do</strong>
+<a id='L572' name='L572'></a>            :id -&gt; :id
+<a id='L573' name='L573'></a>            <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a> -&gt;
+<a id='L574' name='L574'></a>              IO.puts :stderr, "warning: #{inspect module} has a custom primary key and " &lt;&gt;
+<a id='L575' name='L575'></a>                               "invoked belongs_to(#{inspect name}). To avoid ambiguity, " &lt;&gt;
+<a id='L576' name='L576'></a>                               "please also specify the :references option in belongs_to " &lt;&gt;
+<a id='L577' name='L577'></a>                               "with the primary key name of the associated model, currently " &lt;&gt;
+<a id='L578' name='L578'></a>                               "it defaults to #{inspect key}\n#{Exception.format_stacktrace}"
+<a id='L579' name='L579'></a>              <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>
+<a id='L580' name='L580'></a>          end
+<a id='L581' name='L581'></a>        true -&gt;
+<a id='L582' name='L582'></a>          :id
+<a id='L583' name='L583'></a>      end
+<a id='L584' name='L584'></a>
+<a id='L585' name='L585'></a>    queryable = Keyword.fetch!(opts, :queryable)
+<a id='L586' name='L586'></a>
+<a id='L587' name='L587'></a>    related = Ecto.Association.<a href='../D/967.html' title='Multiple defined in 3 places.'>related_from_query</a>(queryable)
+<a id='L588' name='L588'></a>
+<a id='L589' name='L589'></a>    unless is_atom(related) <strong class='reserved'>do</strong>
+<a id='L590' name='L590'></a>      raise ArgumentError, "association queryable must be a model, got: #{inspect related}"
+<a id='L591' name='L591'></a>    end
+<a id='L592' name='L592'></a>
+<a id='L593' name='L593'></a>    %__MODULE__<em class='brace'>{</em>
+<a id='L594' name='L594'></a>      field: name,
+<a id='L595' name='L595'></a>      cardinality: :one,
+<a id='L596' name='L596'></a>      owner: module,
+<a id='L597' name='L597'></a>      related: related,
+<a id='L598' name='L598'></a>      owner_key: Keyword.fetch!(opts, :foreign_key),
+<a id='L599' name='L599'></a>      related_key: ref,
+<a id='L600' name='L600'></a>      queryable: queryable
+<a id='L601' name='L601'></a>    <em class='brace'>}</em>
+<a id='L602' name='L602'></a>  end
+<a id='L603' name='L603'></a>
+<a id='L604' name='L604'></a>  @doc false
+<a id='L605' name='L605'></a>  def <a href='../R/195.html' title='Multiple referred from 29 places.'>build</a>(%<em class='brace'>{</em>field: name<em class='brace'>}</em>, %<em class='brace'>{</em>__struct__: <strong class='reserved'>struct</strong><em class='brace'>}</em>, _attributes) <strong class='reserved'>do</strong>
+<a id='L606' name='L606'></a>    raise ArgumentError,
+<a id='L607' name='L607'></a>      "cannot build belongs_to association #{inspect name} for #{inspect struct}. " &lt;&gt;
+<a id='L608' name='L608'></a>      "Belongs to associations cannot be built with build/3, only the opposide side (has_one/has_many)"
+<a id='L609' name='L609'></a>  end
+<a id='L610' name='L610'></a>
+<a id='L611' name='L611'></a>  @doc false
+<a id='L612' name='L612'></a>  def <a href='../R/573.html' title='Multiple referred from 3 places.'>joins_query</a>(refl) <strong class='reserved'>do</strong>
+<a id='L613' name='L613'></a>    <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> o in refl.owner,
+<a id='L614' name='L614'></a>      join: q in ^refl.queryable,
+<a id='L615' name='L615'></a>      on: <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>(q, ^refl.related_key) == field(o, ^refl.owner_key)
+<a id='L616' name='L616'></a>  end
+<a id='L617' name='L617'></a>
+<a id='L618' name='L618'></a>  @doc false
+<a id='L619' name='L619'></a>  def <a href='../R/153.html' title='Multiple referred from 7 places.'>assoc_query</a>(refl, values) <strong class='reserved'>do</strong>
+<a id='L620' name='L620'></a>    <a href='../D/267.html' title='Multiple defined in 8 places.'>assoc_query</a>(refl, refl.queryable, values)
+<a id='L621' name='L621'></a>  end
+<a id='L622' name='L622'></a>
+<a id='L623' name='L623'></a>  @doc false
+<a id='L624' name='L624'></a>  def <a href='../R/153.html' title='Multiple referred from 7 places.'>assoc_query</a>(refl, <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, values) <strong class='reserved'>do</strong>
+<a id='L625' name='L625'></a>    <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> x in <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>,
+<a id='L626' name='L626'></a>      where: <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>(x, ^refl.related_key) in ^values
+<a id='L627' name='L627'></a>  end
+<a id='L628' name='L628'></a>
+<a id='L629' name='L629'></a>  @doc false
+<a id='L630' name='L630'></a>  def <a href='../S/125.html#L259' title='Referred from 259 in deps/ecto/lib/ecto/repo/preloader.ex.'>preload_info</a>(refl) <strong class='reserved'>do</strong>
+<a id='L631' name='L631'></a>    <em class='brace'>{</em>:assoc, refl, refl.related_key<em class='brace'>}</em>
+<a id='L632' name='L632'></a>  end
+<a id='L633' name='L633'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L17'>[^]</a><a href='#L630'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

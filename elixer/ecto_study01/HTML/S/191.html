@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/postgrex/lib/postgrex/query.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/252.html'>postgrex</a>/<a href='../files/253.html'>lib</a>/<a href='../files/254.html'>postgrex</a>/query.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L34'>[^]</a><a href='#L124'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L34' title='Defined at 34.'>parse</a></li>
+<li><a href='#L40' title='Defined at 40.'>describe</a></li>
+<li><a href='#L56' title='Defined at 56.'>encode</a></li>
+<li><a href='#L60' title='Defined at 60.'>encode</a></li>
+<li><a href='#L70' title='Defined at 70.'>decode</a></li>
+<li><a href='#L71' title='Defined at 71.'>decode</a></li>
+<li><a href='#L80' title='Defined at 80.'>encoders</a></li>
+<li><a href='#L86' title='Defined at 86.'>decoders</a></li>
+<li><a href='#L89' title='Defined at 89.'>decoders</a></li>
+<li><a href='#L95' title='Defined at 95.'>do_encode</a></li>
+<li><a href='#L99' title='Defined at 99.'>do_encode</a></li>
+<li><a href='#L105' title='Defined at 105.'>do_encode</a></li>
+<li><a href='#L106' title='Defined at 106.'>do_encode</a></li>
+<li><a href='#L108' title='Defined at 108.'>do_decode</a></li>
+<li><a href='#L112' title='Defined at 112.'>do_decode</a></li>
+<li><a href='#L114' title='Defined at 114.'>decode_row</a></li>
+<li><a href='#L117' title='Defined at 117.'>decode_row</a></li>
+<li><a href='#L120' title='Defined at 120.'>decode_row</a></li>
+<li><a href='#L124' title='Defined at 124.'>to_string</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Postgrex.<a href='../R/63.html' title='Multiple referred from 69 places.'>Query</a> <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc """
+<a id='L3' name='L3'></a>  Query <strong class='reserved'>struct</strong> returned from a successfully prepared query. Its fields are:
+<a id='L4' name='L4'></a>
+<a id='L5' name='L5'></a>    * `name` - The name of the prepared statement;
+<a id='L6' name='L6'></a>    * `statement` - The prepared statement;
+<a id='L7' name='L7'></a>    * `param_formats` - List of formats <strong class='reserved'>for</strong> each parameters encoded to;
+<a id='L8' name='L8'></a>    * `encoders` - List of anonymous functions to encode each parameter;
+<a id='L9' name='L9'></a>    * `columns` - The column names;
+<a id='L10' name='L10'></a>    * `result_formats` - List of formats <strong class='reserved'>for</strong> each column is decoded from;
+<a id='L11' name='L11'></a>    * `decoders` - List of anonymous functions to decode each column;
+<a id='L12' name='L12'></a>    * `types` - The type server table to fetch the type information from;
+<a id='L13' name='L13'></a>    * `null` - Atom to use as a stand in <strong class='reserved'>for</strong> postgres' `NULL`;
+<a id='L14' name='L14'></a>  """
+<a id='L15' name='L15'></a>
+<a id='L16' name='L16'></a>  @type t :: %__MODULE__<em class='brace'>{</em>
+<a id='L17' name='L17'></a>    name:           iodata,
+<a id='L18' name='L18'></a>    statement:      iodata,
+<a id='L19' name='L19'></a>    param_formats:  [:binary | :text] | nil,
+<a id='L20' name='L20'></a>    encoders:       [Postgrex.Types.oid] | [(term -&gt; iodata)] | nil,
+<a id='L21' name='L21'></a>    columns:        [String.t] | nil,
+<a id='L22' name='L22'></a>    result_formats: [:binary | :text] | nil,
+<a id='L23' name='L23'></a>    decoders:       [Postgrex.Types.oid] | [(<a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a> -&gt; term)] | nil,
+<a id='L24' name='L24'></a>    types:          Postgrex.TypeServer.<a href='../D/1089.html' title='Multiple defined in 2 places.'>table</a> | nil,
+<a id='L25' name='L25'></a>    null:           atom<em class='brace'>}</em>
+<a id='L26' name='L26'></a>
+<a id='L27' name='L27'></a>  defstruct [:name, :statement, :param_formats, :encoders, :columns,
+<a id='L28' name='L28'></a>    :result_formats, :decoders, :types, :null]
+<a id='L29' name='L29'></a>end
+<a id='L30' name='L30'></a>
+<a id='L31' name='L31'></a>defimpl DBConnection.<a href='../R/63.html' title='Multiple referred from 69 places.'>Query</a>, <strong class='reserved'>for</strong>: Postgrex.Query <strong class='reserved'>do</strong>
+<a id='L32' name='L32'></a>  import Postgrex.BinaryUtils
+<a id='L33' name='L33'></a>
+<a id='L34' name='L34'></a>  def <a href='../R/707.html' title='Multiple referred from 20 places.'>parse</a>(%<em class='brace'>{</em>name: name, statement: statement<em class='brace'>}</em> = <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, _) <strong class='reserved'>do</strong>
+<a id='L35' name='L35'></a>    # for query table to match on two identical statements they must be equal
+<a id='L36' name='L36'></a>    %<em class='brace'>{</em><a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> | name: IO.iodata_to_binary(name),
+<a id='L37' name='L37'></a>      statement: IO.iodata_to_binary(statement)<em class='brace'>}</em>
+<a id='L38' name='L38'></a>  end
+<a id='L39' name='L39'></a>
+<a id='L40' name='L40'></a>  def <a href='../R/333.html' title='Multiple referred from 3 places.'>describe</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, opts) <strong class='reserved'>do</strong>
+<a id='L41' name='L41'></a>    %Postgrex.Query<em class='brace'>{</em>encoders: poids, decoders: roids,
+<a id='L42' name='L42'></a>                    <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>: types, null: conn_null<em class='brace'>}</em> = <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>
+<a id='L43' name='L43'></a>    <em class='brace'>{</em>pfs, <a href='../S/191.html#L80' title='Defined at 80 in deps/postgrex/lib/postgrex/query.ex.'>encoders</a><em class='brace'>}</em> = encoders(poids, <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>)
+<a id='L44' name='L44'></a>    <em class='brace'>{</em>rfs, <a href='../D/436.html' title='Multiple defined in 2 places.'>decoders</a><em class='brace'>}</em> = decoders(roids, <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>)
+<a id='L45' name='L45'></a>
+<a id='L46' name='L46'></a>    null = <strong class='reserved'>case</strong> Keyword.<a href='../D/597.html' title='Multiple defined in 2 places.'>fetch</a>(opts, :null) <strong class='reserved'>do</strong>
+<a id='L47' name='L47'></a>      <em class='brace'>{</em>:ok, q_null<em class='brace'>}</em> -&gt; q_null
+<a id='L48' name='L48'></a>      :error -&gt; conn_null
+<a id='L49' name='L49'></a>    end
+<a id='L50' name='L50'></a>
+<a id='L51' name='L51'></a>    %Postgrex.Query<em class='brace'>{</em><a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> | param_formats: pfs, <a href='../S/191.html#L80' title='Defined at 80 in deps/postgrex/lib/postgrex/query.ex.'>encoders</a>: encoders,
+<a id='L52' name='L52'></a>                            result_formats: rfs, <a href='../D/436.html' title='Multiple defined in 2 places.'>decoders</a>: decoders,
+<a id='L53' name='L53'></a>                            null: null<em class='brace'>}</em>
+<a id='L54' name='L54'></a>  end
+<a id='L55' name='L55'></a>
+<a id='L56' name='L56'></a>  def <a href='../R/398.html' title='Multiple referred from 16 places.'>encode</a>(%Postgrex.Query<em class='brace'>{</em>types: nil<em class='brace'>}</em> = <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, _params, _) <strong class='reserved'>do</strong>
+<a id='L57' name='L57'></a>    raise ArgumentError, "query #{inspect query} has not been prepared"
+<a id='L58' name='L58'></a>  end
+<a id='L59' name='L59'></a>
+<a id='L60' name='L60'></a>  def <a href='../R/398.html' title='Multiple referred from 16 places.'>encode</a>(%Postgrex.Query<em class='brace'>{</em><a href='../S/191.html#L80' title='Defined at 80 in deps/postgrex/lib/postgrex/query.ex.'>encoders</a>: encoders, null: null<em class='brace'>}</em> = <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, params, _) <strong class='reserved'>do</strong>
+<a id='L61' name='L61'></a>    <strong class='reserved'>case</strong> <a href='../D/485.html' title='Multiple defined in 4 places.'>do_encode</a>(params || [], <a href='../S/191.html#L80' title='Defined at 80 in deps/postgrex/lib/postgrex/query.ex.'>encoders</a>, null, []) <strong class='reserved'>do</strong>
+<a id='L62' name='L62'></a>      :error -&gt;
+<a id='L63' name='L63'></a>        raise ArgumentError,
+<a id='L64' name='L64'></a>        "parameters must be of length #{length encoders} for query #{inspect query}"
+<a id='L65' name='L65'></a>      params -&gt;
+<a id='L66' name='L66'></a>       params
+<a id='L67' name='L67'></a>    end
+<a id='L68' name='L68'></a>  end
+<a id='L69' name='L69'></a>
+<a id='L70' name='L70'></a>  def <a href='../R/289.html' title='Multiple referred from 21 places.'>decode</a>(%Postgrex.Query<em class='brace'>{</em>decoders: nil<em class='brace'>}</em>, res, _), <strong class='reserved'>do</strong>: res
+<a id='L71' name='L71'></a>  def <a href='../R/289.html' title='Multiple referred from 21 places.'>decode</a>(%Postgrex.Query<em class='brace'>{</em><a href='../D/436.html' title='Multiple defined in 2 places.'>decoders</a>: decoders, null: null<em class='brace'>}</em>, res, opts) <strong class='reserved'>do</strong>
+<a id='L72' name='L72'></a>    mapper = opts[:decode_mapper] || fn x -&gt; x end
+<a id='L73' name='L73'></a>    %Postgrex.Result<em class='brace'>{</em>rows: rows<em class='brace'>}</em> = res
+<a id='L74' name='L74'></a>    rows = <a href='../D/481.html' title='Multiple defined in 2 places.'>do_decode</a>(rows, <a href='../D/436.html' title='Multiple defined in 2 places.'>decoders</a>, null, mapper, [])
+<a id='L75' name='L75'></a>    %Postgrex.Result<em class='brace'>{</em>res | rows: rows<em class='brace'>}</em>
+<a id='L76' name='L76'></a>  end
+<a id='L77' name='L77'></a>
+<a id='L78' name='L78'></a><em class='sharp'>  #</em># helpers
+<a id='L79' name='L79'></a>
+<a id='L80' name='L80'></a>  defp <a href='../R/414.html' title='Multiple referred from 9 places.'>encoders</a>(oids, <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>) <strong class='reserved'>do</strong>
+<a id='L81' name='L81'></a>    oids
+<a id='L82' name='L82'></a>    |&gt; Enum.map(&amp;Postgrex.Types.<a href='../S/195.html#L214' title='Defined at 214 in deps/postgrex/lib/postgrex/types.ex.'>encoder</a>(&amp;1, <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>))
+<a id='L83' name='L83'></a>    |&gt; :lists.unzip()
+<a id='L84' name='L84'></a>  end
+<a id='L85' name='L85'></a>
+<a id='L86' name='L86'></a>  defp <a href='../R/312.html' title='Multiple referred from 11 places.'>decoders</a>(nil, _) <strong class='reserved'>do</strong>
+<a id='L87' name='L87'></a>    <em class='brace'>{</em>[], nil<em class='brace'>}</em>
+<a id='L88' name='L88'></a>  end
+<a id='L89' name='L89'></a>  defp <a href='../R/312.html' title='Multiple referred from 11 places.'>decoders</a>(oids, <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>) <strong class='reserved'>do</strong>
+<a id='L90' name='L90'></a>    oids
+<a id='L91' name='L91'></a>    |&gt; Enum.map(&amp;Postgrex.Types.<a href='../S/195.html#L221' title='Defined at 221 in deps/postgrex/lib/postgrex/types.ex.'>decoder</a>(&amp;1, <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>))
+<a id='L92' name='L92'></a>    |&gt; :lists.unzip()
+<a id='L93' name='L93'></a>  end
+<a id='L94' name='L94'></a>
+<a id='L95' name='L95'></a>  defp <a href='../R/360.html' title='Multiple referred from 3 places.'>do_encode</a>([null | params], [_encoder | <a href='../S/191.html#L80' title='Defined at 80 in deps/postgrex/lib/postgrex/query.ex.'>encoders</a>], null, encoded) <strong class='reserved'>do</strong>
+<a id='L96' name='L96'></a>    <a href='../D/485.html' title='Multiple defined in 4 places.'>do_encode</a>(params, <a href='../S/191.html#L80' title='Defined at 80 in deps/postgrex/lib/postgrex/query.ex.'>encoders</a>, null, [&lt;&lt;-1::int32&gt;&gt; | encoded])
+<a id='L97' name='L97'></a>  end
+<a id='L98' name='L98'></a>
+<a id='L99' name='L99'></a>  defp <a href='../R/360.html' title='Multiple referred from 3 places.'>do_encode</a>([param | params], [<a href='../S/195.html#L214' title='Defined at 214 in deps/postgrex/lib/postgrex/types.ex.'>encoder</a> | <a href='../S/191.html#L80' title='Defined at 80 in deps/postgrex/lib/postgrex/query.ex.'>encoders</a>], null, encoded) <strong class='reserved'>do</strong>
+<a id='L100' name='L100'></a>    param = <a href='../S/195.html#L214' title='Defined at 214 in deps/postgrex/lib/postgrex/types.ex.'>encoder</a>.(param)
+<a id='L101' name='L101'></a>    encoded = [[&lt;&lt;IO.iodata_length(param)::int32&gt;&gt; | param] | encoded]
+<a id='L102' name='L102'></a>    <a href='../D/485.html' title='Multiple defined in 4 places.'>do_encode</a>(params, <a href='../S/191.html#L80' title='Defined at 80 in deps/postgrex/lib/postgrex/query.ex.'>encoders</a>, null, encoded)
+<a id='L103' name='L103'></a>  end
+<a id='L104' name='L104'></a>
+<a id='L105' name='L105'></a>  defp <a href='../R/360.html' title='Multiple referred from 3 places.'>do_encode</a>([], [], _, encoded), <strong class='reserved'>do</strong>: Enum.<a href='../D/991.html' title='Multiple defined in 5 places.'>reverse</a>(encoded)
+<a id='L106' name='L106'></a>  defp <a href='../R/360.html' title='Multiple referred from 3 places.'>do_encode</a>(params, _, _, _) when is_list(params), <strong class='reserved'>do</strong>: :error
+<a id='L107' name='L107'></a>
+<a id='L108' name='L108'></a>  defp <a href='../R/356.html' title='Multiple referred from 2 places.'>do_decode</a>([row | rows], <a href='../D/436.html' title='Multiple defined in 2 places.'>decoders</a>, null, mapper, decoded) <strong class='reserved'>do</strong>
+<a id='L109' name='L109'></a>    decoded = [mapper.(<a href='../D/428.html' title='Multiple defined in 3 places.'>decode_row</a>(row, <a href='../D/436.html' title='Multiple defined in 2 places.'>decoders</a>, null, [])) | decoded]
+<a id='L110' name='L110'></a>    <a href='../D/481.html' title='Multiple defined in 2 places.'>do_decode</a>(rows, <a href='../D/436.html' title='Multiple defined in 2 places.'>decoders</a>, null, mapper, decoded)
+<a id='L111' name='L111'></a>  end
+<a id='L112' name='L112'></a>  defp <a href='../R/356.html' title='Multiple referred from 2 places.'>do_decode</a>([], _, _, _, decoded), <strong class='reserved'>do</strong>: decoded
+<a id='L113' name='L113'></a>
+<a id='L114' name='L114'></a>  defp <a href='../R/304.html' title='Multiple referred from 3 places.'>decode_row</a>(&lt;&lt;-1 :: int32, rest :: <a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>&gt;&gt;, [_ | <a href='../D/436.html' title='Multiple defined in 2 places.'>decoders</a>], null, decoded) <strong class='reserved'>do</strong>
+<a id='L115' name='L115'></a>    <a href='../D/428.html' title='Multiple defined in 3 places.'>decode_row</a>(rest, <a href='../D/436.html' title='Multiple defined in 2 places.'>decoders</a>, null, [null | decoded])
+<a id='L116' name='L116'></a>  end
+<a id='L117' name='L117'></a>  defp <a href='../R/304.html' title='Multiple referred from 3 places.'>decode_row</a>(&lt;&lt;len :: uint32, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a> :: <a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>(len), rest :: binary&gt;&gt;, [<a href='../D/413.html' title='Multiple defined in 49 places.'>decode</a> | <a href='../D/436.html' title='Multiple defined in 2 places.'>decoders</a>], null, decoded) <strong class='reserved'>do</strong>
+<a id='L118' name='L118'></a>    <a href='../D/428.html' title='Multiple defined in 3 places.'>decode_row</a>(rest, <a href='../D/436.html' title='Multiple defined in 2 places.'>decoders</a>, null, [<a href='../D/413.html' title='Multiple defined in 49 places.'>decode</a>.(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) | decoded])
+<a id='L119' name='L119'></a>  end
+<a id='L120' name='L120'></a>  defp <a href='../R/304.html' title='Multiple referred from 3 places.'>decode_row</a>(&lt;&lt;&gt;&gt;, [], _, decoded), <strong class='reserved'>do</strong>: Enum.<a href='../D/991.html' title='Multiple defined in 5 places.'>reverse</a>(decoded)
+<a id='L121' name='L121'></a>end
+<a id='L122' name='L122'></a>
+<a id='L123' name='L123'></a>defimpl String.Chars, <strong class='reserved'>for</strong>: Postgrex.Query <strong class='reserved'>do</strong>
+<a id='L124' name='L124'></a>  def <a href='../R/956.html' title='Multiple referred from 88 places.'>to_string</a>(%Postgrex.Query<em class='brace'>{</em>statement: statement<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L125' name='L125'></a>    IO.iodata_to_binary(statement)
+<a id='L126' name='L126'></a>  end
+<a id='L127' name='L127'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L34'>[^]</a><a href='#L124'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

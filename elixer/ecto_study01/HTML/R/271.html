@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>count</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/56.html#L614'>count</a>             614 deps/ecto/integration_test/cases/repo.exs     assert [0] == TestRepo.all(from(p in Permalink, select: count(p.id)))</span>
+<span class='curline'><a href='../S/56.html#L655'>count</a>             655 deps/ecto/integration_test/cases/repo.exs     assert [0] == TestRepo.all(from(c in Comment, select: count(c.id)))</span>
+<span class='curline'><a href='../S/56.html#L693'>count</a>             693 deps/ecto/integration_test/cases/repo.exs     assert [0] == TestRepo.all(from(p in Post, select: count(p.id)))</span>
+<span class='curline'><a href='../S/56.html#L694'>count</a>             694 deps/ecto/integration_test/cases/repo.exs     assert [0] == TestRepo.all(from(p in Permalink, select: count(p.id)))</span>
+<span class='curline'><a href='../S/56.html#L726'>count</a>             726 deps/ecto/integration_test/cases/repo.exs     assert Enum.count(TestRepo.all(Post)) == 1</span>
+<span class='curline'><a href='../S/56.html#L734'>count</a>             734 deps/ecto/integration_test/cases/repo.exs     assert [3] == Post |&gt; select([p], count(p.title)) |&gt; TestRepo.all</span>
+<span class='curline'><a href='../S/56.html#L735'>count</a>             735 deps/ecto/integration_test/cases/repo.exs     assert [2] == Post |&gt; select([p], count(p.title, :distinct)) |&gt; TestRepo.all</span>
+<span class='curline'><a href='../S/59.html#L42'>count</a>              42 deps/ecto/integration_test/sql/lock.exs           post |&gt; Ecto.Changeset.change(count: post.count + 1) |&gt; PoolRepo.update!</span>
+<span class='curline'><a href='../S/59.html#L51'>count</a>              51 deps/ecto/integration_test/sql/lock.exs       post |&gt; Ecto.Changeset.change(count: post.count + 1) |&gt; PoolRepo.update!</span>
+<span class='curline'><a href='../S/74.html#L354'>count</a>             354 deps/ecto/lib/ecto/adapters/mysql/connection.ex     defp expr({:datetime_add, _, [datetime, count, interval]}, sources, query) do</span>
+<span class='curline'><a href='../S/74.html#L356'>count</a>             356 deps/ecto/lib/ecto/adapters/mysql/connection.ex                        &lt;&gt; interval(count, interval, sources, query) &lt;&gt; ") AS datetime)"</span>
+<span class='curline'><a href='../S/74.html#L359'>count</a>             359 deps/ecto/lib/ecto/adapters/mysql/connection.ex     defp expr({:date_add, _, [date, count, interval]}, sources, query) do</span>
+<span class='curline'><a href='../S/74.html#L361'>count</a>             361 deps/ecto/lib/ecto/adapters/mysql/connection.ex                        &lt;&gt; interval(count, interval, sources, query) &lt;&gt; ") AS date)"</span>
+<span class='curline'><a href='../S/74.html#L424'>count</a>             424 deps/ecto/lib/ecto/adapters/mysql/connection.ex     defp interval(count, "millisecond", sources, query) do</span>
+<span class='curline'><a href='../S/74.html#L425'>count</a>             425 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "INTERVAL (" &lt;&gt; expr(count, sources, query) &lt;&gt; " * 1000) microsecond"</span>
+<span class='curline'><a href='../S/74.html#L428'>count</a>             428 deps/ecto/lib/ecto/adapters/mysql/connection.ex     defp interval(count, interval, sources, query) do</span>
+<span class='curline'><a href='../S/74.html#L429'>count</a>             429 deps/ecto/lib/ecto/adapters/mysql/connection.ex       "INTERVAL " &lt;&gt; expr(count, sources, query) &lt;&gt; " " &lt;&gt; interval</span>
+<span class='curline'><a href='../S/76.html#L157'>count</a>             157 deps/ecto/lib/ecto/adapters/postgres/connection.ex       {fields, count} = Enum.map_reduce fields, 1, fn field, acc -&gt;</span>
+<span class='curline'><a href='../S/76.html#L161'>count</a>             161 deps/ecto/lib/ecto/adapters/postgres/connection.ex       {filters, _count} = Enum.map_reduce filters, count, fn field, acc -&gt;</span>
+<span class='curline'><a href='../S/76.html#L426'>count</a>             426 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp expr({:datetime_add, _, [datetime, count, interval]}, sources, query) do</span>
+<span class='curline'><a href='../S/76.html#L428'>count</a>             428 deps/ecto/lib/ecto/adapters/postgres/connection.ex           &lt;&gt; interval(count, interval, sources, query) &lt;&gt; ")::timestamp"</span>
+<span class='curline'><a href='../S/76.html#L431'>count</a>             431 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp expr({:date_add, _, [date, count, interval]}, sources, query) do</span>
+<span class='curline'><a href='../S/76.html#L433'>count</a>             433 deps/ecto/lib/ecto/adapters/postgres/connection.ex           &lt;&gt; interval(count, interval, sources, query) &lt;&gt; ")::date"</span>
+<span class='curline'><a href='../S/76.html#L489'>count</a>             489 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp interval(count, interval, _sources, _query) when is_integer(count) do</span>
+<span class='curline'><a href='../S/76.html#L490'>count</a>             490 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "interval '" &lt;&gt; String.Chars.Integer.to_string(count) &lt;&gt; " " &lt;&gt; interval &lt;&gt; "'"</span>
+<span class='curline'><a href='../S/76.html#L493'>count</a>             493 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp interval(count, interval, _sources, _query) when is_float(count) do</span>
+<span class='curline'><a href='../S/76.html#L494'>count</a>             494 deps/ecto/lib/ecto/adapters/postgres/connection.ex       count = :erlang.float_to_binary(count, [:compact, decimals: 16])</span>
+<span class='curline'><a href='../S/76.html#L495'>count</a>             495 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "interval '" &lt;&gt; count &lt;&gt; " " &lt;&gt; interval &lt;&gt; "'"</span>
+<span class='curline'><a href='../S/76.html#L498'>count</a>             498 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp interval(count, interval, sources, query) do</span>
+<span class='curline'><a href='../S/76.html#L499'>count</a>             499 deps/ecto/lib/ecto/adapters/postgres/connection.ex       "(" &lt;&gt; expr(count, sources, query) &lt;&gt; "::numeric * "</span>
+<span class='curline'><a href='../S/81.html#L516'>count</a>             516 deps/ecto/lib/ecto/adapters/sql.ex       {field, count}, acc -&gt;</span>
+<span class='curline'><a href='../S/81.html#L517'>count</a>             517 deps/ecto/lib/ecto/adapters/sql.ex         case split_and_not_nil(acc, count, true, []) do</span>
+<span class='curline'><a href='../S/81.html#L527'>count</a>             527 deps/ecto/lib/ecto/adapters/sql.ex   defp split_and_not_nil([nil|t], count, all_nil?, acc) do</span>
+<span class='curline'><a href='../S/81.html#L528'>count</a>             528 deps/ecto/lib/ecto/adapters/sql.ex     split_and_not_nil(t, count - 1, all_nil?, [nil|acc])</span>
+<span class='curline'><a href='../S/81.html#L531'>count</a>             531 deps/ecto/lib/ecto/adapters/sql.ex   defp split_and_not_nil([h|t], count, _all_nil?, acc) do</span>
+<span class='curline'><a href='../S/81.html#L532'>count</a>             532 deps/ecto/lib/ecto/adapters/sql.ex     split_and_not_nil(t, count - 1, false, [h|acc])</span>
+<span class='curline'><a href='../S/87.html#L7'>count</a>               7 deps/ecto/lib/ecto/date_time.ex   def zero_pad(val, count) do</span>
+<span class='curline'><a href='../S/87.html#L9'>count</a>               9 deps/ecto/lib/ecto/date_time.ex     :binary.copy("0", count - byte_size(num)) &lt;&gt; num</span>
+<span class='curline'><a href='../S/89.html#L139'>count</a>             139 deps/ecto/lib/ecto/exceptions.ex     count = Keyword.fetch!(opts, :count)</span>
+<span class='curline'><a href='../S/89.html#L142'>count</a>             142 deps/ecto/lib/ecto/exceptions.ex     expected at most one result but got #{count} in query:</span>
+<span class='curline'><a href='../S/95.html#L169'>count</a>             169 deps/ecto/lib/ecto/migrator.ex   defp run_step(repo, versions, directory, direction, count, opts) do</span>
+<span class='curline'><a href='../S/95.html#L171'>count</a>             171 deps/ecto/lib/ecto/migrator.ex     |&gt; Enum.take(count)</span>
+<span class='curline'><a href='../S/107.html#L162'>count</a>             162 deps/ecto/lib/ecto/query/api.ex   def datetime_add(datetime, count, interval), do: doc! [datetime, count, interval]</span>
+<span class='curline'><a href='../S/107.html#L169'>count</a>             169 deps/ecto/lib/ecto/query/api.ex   def date_add(date, count, interval), do: doc! [date, count, interval]</span>
+<span class='curline'><a href='../S/119.html#L92'>count</a>              92 deps/ecto/lib/ecto/query/builder.ex   def escape({:datetime_add, _, [datetime, count, interval]} = expr, type, params, vars, env) do</span>
+<span class='curline'><a href='../S/119.html#L95'>count</a>              95 deps/ecto/lib/ecto/query/builder.ex     {count, interval, params} = escape_interval(count, interval, params, vars, env)</span>
+<span class='curline'><a href='../S/119.html#L96'>count</a>              96 deps/ecto/lib/ecto/query/builder.ex     {{:{}, [], [:datetime_add, [], [datetime, count, interval]]}, params}</span>
+<span class='curline'><a href='../S/119.html#L99'>count</a>              99 deps/ecto/lib/ecto/query/builder.ex   def escape({:date_add, _, [date, count, interval]} = expr, type, params, vars, env) do</span>
+<span class='curline'><a href='../S/119.html#L102'>count</a>             102 deps/ecto/lib/ecto/query/builder.ex     {count, interval, params} = escape_interval(count, interval, params, vars, env)</span>
+<span class='curline'><a href='../S/119.html#L103'>count</a>             103 deps/ecto/lib/ecto/query/builder.ex     {{:{}, [], [:date_add, [], [date, count, interval]]}, params}</span>
+<span class='curline'><a href='../S/119.html#L256'>count</a>             256 deps/ecto/lib/ecto/query/builder.ex   defp escape_interval(count, interval, params, vars, env) do</span>
+<span class='curline'><a href='../S/119.html#L259'>count</a>             259 deps/ecto/lib/ecto/query/builder.ex         is_float(count)   -&gt; :float</span>
+<span class='curline'><a href='../S/119.html#L260'>count</a>             260 deps/ecto/lib/ecto/query/builder.ex         is_integer(count) -&gt; :integer</span>
+<span class='curline'><a href='../S/119.html#L264'>count</a>             264 deps/ecto/lib/ecto/query/builder.ex     {count, params} = escape(count, type, params, vars, env)</span>
+<span class='curline'><a href='../S/119.html#L265'>count</a>             265 deps/ecto/lib/ecto/query/builder.ex     {count, quoted_interval!(interval), params}</span>
+<span class='curline'><a href='../S/119.html#L556'>count</a>             556 deps/ecto/lib/ecto/query/builder.ex     count = if from, do: 1, else: 0</span>
+<span class='curline'><a href='../S/119.html#L557'>count</a>             557 deps/ecto/lib/ecto/query/builder.ex     count + length(joins)</span>
+<span class='curline'><a href='../S/110.html#L93'>count</a>              93 deps/ecto/lib/ecto/query/builder/from.ex   defp check_binds(query, count) do</span>
+<span class='curline'><a href='../S/110.html#L94'>count</a>              94 deps/ecto/lib/ecto/query/builder/from.ex     if count &gt; 1 and count &gt; Builder.count_binds(query) do</span>
+<span class='curline'><a href='../S/110.html#L95'>count</a>              95 deps/ecto/lib/ecto/query/builder/from.ex       Builder.error! "`from` in query expression specified #{count} " &lt;&gt;</span>
+<span class='curline'><a href='../S/118.html#L150'>count</a>             150 deps/ecto/lib/ecto/query/builder/update.ex       {k, v}, {params, count} when is_atom(k) -&gt;</span>
+<span class='curline'><a href='../S/118.html#L152'>count</a>             152 deps/ecto/lib/ecto/query/builder/update.ex         {{k, {:^, [], [count]}}, {params, count+1}}</span>
+<span class='curline'><a href='../S/120.html#L211'>count</a>             211 deps/ecto/lib/ecto/query/inspect.ex     index = Enum.count(rest, &amp; &amp;1 == letter)</span>
+<span class='curline'><a href='../S/126.html#L95'>count</a>              95 deps/ecto/lib/ecto/repo/queryable.ex       {count, rows} = adapter.execute(repo, meta, prepared, params, preprocess, opts)</span>
+<span class='curline'><a href='../S/126.html#L96'>count</a>              96 deps/ecto/lib/ecto/repo/queryable.ex       {count,</span>
+<span class='curline'><a href='../S/133.html#L115'>count</a>             115 deps/ecto/lib/ecto/uuid.ex   defp hex_pad(hex, count) do</span>
+<span class='curline'><a href='../S/133.html#L117'>count</a>             117 deps/ecto/lib/ecto/uuid.ex     lower(hex, :binary.copy("0", count - byte_size(hex)))</span>
+<span class='curline'><a href='../S/163.html#L88'>count</a>              88 deps/postgrex/lib/postgrex/extensions/array.ex   defp array_elements(&lt;&lt;-1 :: int32, rest :: binary&gt;&gt;, count, acc, decoder) do</span>
+<span class='curline'><a href='../S/163.html#L89'>count</a>              89 deps/postgrex/lib/postgrex/extensions/array.ex     array_elements(rest, count-1, [nil|acc], decoder)</span>
+<span class='curline'><a href='../S/163.html#L93'>count</a>              93 deps/postgrex/lib/postgrex/extensions/array.ex                        count, acc, decoder) do</span>
+<span class='curline'><a href='../S/163.html#L95'>count</a>              95 deps/postgrex/lib/postgrex/extensions/array.ex     array_elements(rest, count-1, [value|acc], decoder)</span>
+<span class='curline'><a href='../S/181.html#L23'>count</a>              23 deps/postgrex/lib/postgrex/extensions/record.ex     {data, count} =</span>
+<span class='curline'><a href='../S/181.html#L25'>count</a>              25 deps/postgrex/lib/postgrex/extensions/record.ex         {nil, oid}, count -&gt;</span>
+<span class='curline'><a href='../S/181.html#L26'>count</a>              26 deps/postgrex/lib/postgrex/extensions/record.ex           {&lt;&lt;oid::uint32, -1::int32&gt;&gt;, count + 1}</span>
+<span class='curline'><a href='../S/181.html#L27'>count</a>              27 deps/postgrex/lib/postgrex/extensions/record.ex         {value, oid}, count -&gt;</span>
+<span class='curline'><a href='../S/181.html#L30'>count</a>              30 deps/postgrex/lib/postgrex/extensions/record.ex           {data, count + 1}</span>
+<span class='curline'><a href='../S/181.html#L33'>count</a>              33 deps/postgrex/lib/postgrex/extensions/record.ex     [&lt;&lt;count :: int32&gt;&gt;, data]</span>
+<span class='curline'><a href='../S/187.html#L284'>count</a>             284 deps/postgrex/lib/postgrex/messages.ex   defp decode_row_fields(rest, count) do</span>
+<span class='curline'><a href='../S/187.html#L286'>count</a>             286 deps/postgrex/lib/postgrex/messages.ex     [field | decode_row_fields(rest, count-1)]</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>reverse</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/47.html#L1047'>reverse</a>          1047 deps/decimal/lib/decimal.ex     do: digits_increment(:lists.reverse(digits), [])</span>
+<span class='curline'><a href='../S/47.html#L1053'>reverse</a>          1053 deps/decimal/lib/decimal.ex     do: :lists.reverse(rest, [head+1|acc])</span>
+<span class='curline'><a href='../S/47.html#L1143'>reverse</a>          1143 deps/decimal/lib/decimal.ex     {:lists.reverse(acc), rest}</span>
+<span class='curline'><a href='../S/81.html#L525'>reverse</a>           525 deps/ecto/lib/ecto/adapters/sql.ex   defp split_and_not_nil(rest, 0, false, acc), do: {:lists.reverse(acc), rest}</span>
+<span class='curline'><a href='../S/85.html#L386'>reverse</a>           386 deps/ecto/lib/ecto/changeset.ex                errors: Enum.reverse(errors), changes: changes, required: required,</span>
+<span class='curline'><a href='../S/85.html#L1798'>reverse</a>          1798 deps/ecto/lib/ecto/changeset.ex     |&gt; Enum.reverse()</span>
+<span class='curline'><a href='../S/84.html#L109'>reverse</a>           109 deps/ecto/lib/ecto/changeset/relation.ex       {Map.put(parent, field, Enum.reverse(models)), Map.put(changes, field, changesets), valid?}</span>
+<span class='curline'><a href='../S/84.html#L317'>reverse</a>           317 deps/ecto/lib/ecto/changeset/relation.ex     reduce_delete_changesets(current_models, fun, Enum.reverse(acc), valid?, skip?)</span>
+<span class='curline'><a href='../S/91.html#L85'>reverse</a>            85 deps/ecto/lib/ecto/migration/runner.ex     commands  = if direction == :backward, do: commands, else: Enum.reverse(commands)</span>
+<span class='curline'><a href='../S/91.html#L118'>reverse</a>           118 deps/ecto/lib/ecto/migration/runner.ex       command = {operation, object, Enum.reverse(state.subcommands)}</span>
+<span class='curline'><a href='../S/91.html#L159'>reverse</a>           159 deps/ecto/lib/ecto/migration/runner.ex     if reversed = reverse(command) do</span>
+<span class='curline'><a href='../S/95.html#L188'>reverse</a>           188 deps/ecto/lib/ecto/migrator.ex     |&gt; Enum.reverse</span>
+<span class='curline'><a href='../S/96.html#L20'>reverse</a>            20 deps/ecto/lib/ecto/model/callbacks.ex       body = Enum.reduce Enum.reverse(callbacks),</span>
+<span class='curline'><a href='../S/109.html#L119'>reverse</a>           119 deps/ecto/lib/ecto/query/builder/filter.ex     {Enum.reverse(exprs), Enum.reverse(params)}</span>
+<span class='curline'><a href='../S/116.html#L45'>reverse</a>            45 deps/ecto/lib/ecto/query/builder/preload.ex     {Enum.reverse(preloads), Enum.reverse(assocs)}</span>
+<span class='curline'><a href='../S/116.html#L90'>reverse</a>            90 deps/ecto/lib/ecto/query/builder/preload.ex      [{key, {idx, Enum.reverse(inner_assocs)}}|assocs]}</span>
+<span class='curline'><a href='../S/116.html#L97'>reverse</a>            97 deps/ecto/lib/ecto/query/builder/preload.ex     {[{key, Enum.reverse(inner_preloads)}|preloads], assocs}</span>
+<span class='curline'><a href='../S/116.html#L146'>reverse</a>           146 deps/ecto/lib/ecto/query/builder/preload.ex     Builder.apply_query(query, __MODULE__, [Enum.reverse(preloads), Enum.reverse(assocs)], env)</span>
+<span class='curline'><a href='../S/118.html#L51'>reverse</a>            51 deps/ecto/lib/ecto/query/builder/update.ex     {Enum.reverse(compile), Enum.reverse(runtime), params}</span>
+<span class='curline'><a href='../S/118.html#L140'>reverse</a>           140 deps/ecto/lib/ecto/query/builder/update.ex     %Ecto.Query.QueryExpr{expr: runtime, params: Enum.reverse(params),</span>
+<span class='curline'><a href='../S/120.html#L170'>reverse</a>           170 deps/ecto/lib/ecto/query/inspect.ex     Enum.join [inspect(frag &lt;&gt; s)|Enum.reverse(args)], ", "</span>
+<span class='curline'><a href='../S/120.html#L207'>reverse</a>           207 deps/ecto/lib/ecto/query/inspect.ex     generate_names(Enum.reverse(letters), [], [])</span>
+<span class='curline'><a href='../S/121.html#L133'>reverse</a>           133 deps/ecto/lib/ecto/query/planner.ex     {query, Enum.reverse(params), finalize_cache(query, operation, cache)}</span>
+<span class='curline'><a href='../S/121.html#L265'>reverse</a>           265 deps/ecto/lib/ecto/query/planner.ex     do: Enum.reverse(value, acc)</span>
+<span class='curline'><a href='../S/121.html#L278'>reverse</a>           278 deps/ecto/lib/ecto/query/planner.ex     %{query | sources: (tail_sources ++ sources) |&gt; Enum.reverse |&gt; List.to_tuple(),</span>
+<span class='curline'><a href='../S/121.html#L279'>reverse</a>           279 deps/ecto/lib/ecto/query/planner.ex               joins: joins |&gt; Enum.reverse}</span>
+<span class='curline'><a href='../S/121.html#L288'>reverse</a>           288 deps/ecto/lib/ecto/query/planner.ex     {source, model} = Enum.fetch!(Enum.reverse(sources), ix)</span>
+<span class='curline'><a href='../S/121.html#L430'>reverse</a>           430 deps/ecto/lib/ecto/query/planner.ex     {Enum.reverse(exprs), counter}</span>
+<span class='curline'><a href='../S/124.html#L32'>reverse</a>            32 deps/ecto/lib/ecto/repo/assoc.ex     for {item, sub_structs} &lt;- Enum.reverse(rows) do</span>
+<span class='curline'><a href='../S/124.html#L77'>reverse</a>            77 deps/ecto/lib/ecto/repo/assoc.ex           |&gt; Enum.reverse()</span>
+<span class='curline'><a href='../S/125.html#L199'>reverse</a>           199 deps/ecto/lib/ecto/repo/preloader.ex     end) |&gt; elem(0) |&gt; Enum.reverse()</span>
+<span class='curline'><a href='../S/125.html#L267'>reverse</a>           267 deps/ecto/lib/ecto/repo/preloader.ex                 |&gt; Enum.reverse</span>
+<span class='curline'><a href='../S/127.html#L276'>reverse</a>           276 deps/ecto/lib/ecto/repo/schema.ex     Enum.reduce(Enum.reverse(prepare), changeset, fn fun, acc -&gt;</span>
+<span class='curline'><a href='../S/130.html#L341'>reverse</a>           341 deps/ecto/lib/ecto/schema.ex       fields = @ecto_fields |&gt; Enum.reverse</span>
+<span class='curline'><a href='../S/130.html#L342'>reverse</a>           342 deps/ecto/lib/ecto/schema.ex       assocs = @ecto_assocs |&gt; Enum.reverse</span>
+<span class='curline'><a href='../S/130.html#L343'>reverse</a>           343 deps/ecto/lib/ecto/schema.ex       embeds = @ecto_embeds |&gt; Enum.reverse</span>
+<span class='curline'><a href='../S/130.html#L1172'>reverse</a>          1172 deps/ecto/lib/ecto/schema.ex       def __schema__(:read_after_writes), do: unquote(Enum.reverse(fields))</span>
+<span class='curline'><a href='../S/132.html#L344'>reverse</a>           344 deps/ecto/lib/ecto/type.ex     {:ok, %Ecto.Query.Tagged{value: Enum.reverse(acc), type: type({:array, type})}}</span>
+<span class='curline'><a href='../S/132.html#L348'>reverse</a>           348 deps/ecto/lib/ecto/type.ex     {:ok, Enum.reverse(acc)}</span>
+<span class='curline'><a href='../S/132.html#L653'>reverse</a>           653 deps/ecto/lib/ecto/type.ex     {:ok, Enum.reverse(acc)}</span>
+<span class='curline'><a href='../S/135.html#L40'>reverse</a>            40 deps/ecto/lib/mix/ecto.ex     Enum.reverse(acc)</span>
+<span class='curline'><a href='../S/163.html#L23'>reverse</a>            23 deps/postgrex/lib/postgrex/extensions/array.ex     lengths = for len &lt;- Enum.reverse(lengths), do: &lt;&lt;len :: int32, 1 :: int32&gt;&gt;</span>
+<span class='curline'><a href='../S/163.html#L85'>reverse</a>            85 deps/postgrex/lib/postgrex/extensions/array.ex     {Enum.reverse(acc), rest}</span>
+<span class='curline'><a href='../S/176.html#L36'>reverse</a>            36 deps/postgrex/lib/postgrex/extensions/numeric.ex       {weight, int_digits} = Enum.reverse(int) |&gt; encode_numeric_int(0, [])</span>
+<span class='curline'><a href='../S/176.html#L67'>reverse</a>            67 deps/postgrex/lib/postgrex/extensions/numeric.ex     |&gt; Enum.reverse</span>
+<span class='curline'><a href='../S/176.html#L87'>reverse</a>            87 deps/postgrex/lib/postgrex/extensions/numeric.ex     digit = Enum.reverse(list) |&gt; List.to_integer</span>
+<span class='curline'><a href='../S/191.html#L105'>reverse</a>           105 deps/postgrex/lib/postgrex/query.ex   defp do_encode([], [], _, encoded), do: Enum.reverse(encoded)</span>
+<span class='curline'><a href='../S/191.html#L120'>reverse</a>           120 deps/postgrex/lib/postgrex/query.ex   defp decode_row(&lt;&lt;&gt;&gt;, [], _, decoded), do: Enum.reverse(decoded)</span>
+<span class='curline'><a href='../S/195.html#L202'>reverse</a>           202 deps/postgrex/lib/postgrex/types.ex       {int, "}"}         -&gt; Enum.reverse([int|acc])</span>
+</pre>
+</body>
+</html>

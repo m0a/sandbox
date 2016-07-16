@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/mix/tasks/ecto.gen.migration.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/248.html'>mix</a>/<a href='../files/249.html'>tasks</a>/ecto.gen.migration.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L33'>[^]</a><a href='#L62'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L33' title='Defined at 33.'>run</a></li>
+<li><a href='#L61' title='Defined at 61.'>pad</a></li>
+<li><a href='#L62' title='Defined at 62.'>pad</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Mix.Tasks.Ecto.Gen.Migration <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  use Mix.Task
+<a id='L3' name='L3'></a>  import Mix.Ecto
+<a id='L4' name='L4'></a>  import Mix.Generator
+<a id='L5' name='L5'></a>  import Mix.Utils, only: [camelize: 1, underscore: 1]
+<a id='L6' name='L6'></a>
+<a id='L7' name='L7'></a>  @shortdoc "Generate a new migration for the repo"
+<a id='L8' name='L8'></a>
+<a id='L9' name='L9'></a>  @moduledoc """
+<a id='L10' name='L10'></a>  Generates a migration.
+<a id='L11' name='L11'></a>
+<a id='L12' name='L12'></a><em class='sharp'>  #</em># Examples
+<a id='L13' name='L13'></a>
+<a id='L14' name='L14'></a>      mix ecto.gen.migration add_posts_table
+<a id='L15' name='L15'></a>      mix ecto.gen.migration add_posts_table -r Custom.Repo
+<a id='L16' name='L16'></a>
+<a id='L17' name='L17'></a>  By <strong class='reserved'>default</strong>, the migration will be generated to the
+<a id='L18' name='L18'></a>  "priv/YOUR_REPO/migrations" directory of the current application
+<a id='L19' name='L19'></a>  but it can be configured by specify the `:priv` key under
+<a id='L20' name='L20'></a>  the repository configuration.
+<a id='L21' name='L21'></a>
+<a id='L22' name='L22'></a>  This generator will automatically open the generated file <strong class='reserved'>if</strong>
+<a id='L23' name='L23'></a>  you have `ECTO_EDITOR` set in your environment variable.
+<a id='L24' name='L24'></a>
+<a id='L25' name='L25'></a><em class='sharp'>  #</em># Command line options
+<a id='L26' name='L26'></a>
+<a id='L27' name='L27'></a>    * `-r`, `--repo` - the repo to generate migration <strong class='reserved'>for</strong> (defaults to `YourApp.Repo`)
+<a id='L28' name='L28'></a>    * `--no-start` - <strong class='reserved'>do</strong> not start applications
+<a id='L29' name='L29'></a>
+<a id='L30' name='L30'></a>  """
+<a id='L31' name='L31'></a>
+<a id='L32' name='L32'></a>  @doc false
+<a id='L33' name='L33'></a>  def <a href='../R/845.html' title='Multiple referred from 26 places.'>run</a>(args) <strong class='reserved'>do</strong>
+<a id='L34' name='L34'></a>    no_umbrella!("ecto.gen.migration")
+<a id='L35' name='L35'></a>    <a href='../S/56.html#L17' title='Defined at 17 in deps/ecto/integration_test/cases/repo.exs.'>repos</a> = <a href='../D/865.html' title='Multiple defined in 5 places.'>parse_repo</a>(args)
+<a id='L36' name='L36'></a>
+<a id='L37' name='L37'></a>    Enum.each <a href='../S/56.html#L17' title='Defined at 17 in deps/ecto/integration_test/cases/repo.exs.'>repos</a>, fn <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a> -&gt;
+<a id='L38' name='L38'></a>      <strong class='reserved'>case</strong> OptionParser.<a href='../D/856.html' title='Multiple defined in 25 places.'>parse</a>(args) <strong class='reserved'>do</strong>
+<a id='L39' name='L39'></a>        <em class='brace'>{</em>_, [name], _<em class='brace'>}</em> -&gt;
+<a id='L40' name='L40'></a>          <a href='../D/547.html' title='Multiple defined in 2 places.'>ensure_repo</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, args)
+<a id='L41' name='L41'></a>          path = Path.relative_to(<a href='../S/135.html#L103' title='Defined at 103 in deps/ecto/lib/mix/ecto.ex.'>migrations_path</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>), Mix.Project.app_path)
+<a id='L42' name='L42'></a>          file = Path.<a href='../D/705.html' title='Multiple defined in 11 places.'>join</a>(path, "#{timestamp}_#{underscore(name)}.exs")
+<a id='L43' name='L43'></a>          create_directory path
+<a id='L44' name='L44'></a>          create_file file, migration_template(mod: Module.concat([<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, Migrations, camelize(name)]))
+<a id='L45' name='L45'></a>
+<a id='L46' name='L46'></a>          <strong class='reserved'>if</strong> open?(file) &amp;&amp; Mix.shell.yes?("Do you want to run this migration?") <strong class='reserved'>do</strong>
+<a id='L47' name='L47'></a>            Mix.Task.<a href='../D/1001.html' title='Multiple defined in 11 places.'>run</a> "ecto.migrate", [<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>]
+<a id='L48' name='L48'></a>          end
+<a id='L49' name='L49'></a>        <em class='brace'>{</em>_, _, _<em class='brace'>}</em> -&gt;
+<a id='L50' name='L50'></a>          Mix.raise "expected ecto.gen.migration to receive the migration file name, " &lt;&gt;
+<a id='L51' name='L51'></a>                    "got: #{inspect Enum.join(args, " ")}"
+<a id='L52' name='L52'></a>      end
+<a id='L53' name='L53'></a>    end
+<a id='L54' name='L54'></a>  end
+<a id='L55' name='L55'></a>
+<a id='L56' name='L56'></a>  defp <a href='../R/941.html' title='Multiple referred from 11 places.'>timestamp</a> <strong class='reserved'>do</strong>
+<a id='L57' name='L57'></a>    <em class='brace'>{</em><em class='brace'>{</em>y, m, <a href='../D/406.html' title='Multiple defined in 23 places.'>d</a><em class='brace'>}</em>, <em class='brace'>{</em>hh, mm, ss<em class='brace'>}</em><em class='brace'>}</em> = :calendar.universal_time()
+<a id='L58' name='L58'></a>    "#{y}#{pad(m)}#{pad(d)}#{pad(hh)}#{pad(mm)}#{pad(ss)}"
+<a id='L59' name='L59'></a>  end
+<a id='L60' name='L60'></a>
+<a id='L61' name='L61'></a>  defp <a href='../R/703.html' title='Multiple referred from 3 places.'>pad</a>(i) when i &lt; 10, <strong class='reserved'>do</strong>: &lt;&lt; ?0, ?0 + i &gt;&gt;
+<a id='L62' name='L62'></a>  defp <a href='../R/703.html' title='Multiple referred from 3 places.'>pad</a>(i), <strong class='reserved'>do</strong>: <a href='../D/1119.html' title='Multiple defined in 14 places.'>to_string</a>(i)
+<a id='L63' name='L63'></a>
+<a id='L64' name='L64'></a>  embed_template :migration, """
+<a id='L65' name='L65'></a>  defmodule &lt;%= inspect @mod %&gt; <strong class='reserved'>do</strong>
+<a id='L66' name='L66'></a>    use Ecto.Migration
+<a id='L67' name='L67'></a>
+<a id='L68' name='L68'></a>    def <a href='../R/220.html' title='Multiple referred from 42 places.'>change</a> <strong class='reserved'>do</strong>
+<a id='L69' name='L69'></a>    end
+<a id='L70' name='L70'></a>  end
+<a id='L71' name='L71'></a>  """
+<a id='L72' name='L72'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L33'>[^]</a><a href='#L62'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>column_change</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/74.html#L546'>column_change</a>     546 deps/ecto/lib/ecto/adapters/mysql/connection.ex defp column_change(table, {:add, name, %Reference{} = ref, opts}) do</span>
+<span class='curline'><a href='../S/74.html#L551'>column_change</a>     551 deps/ecto/lib/ecto/adapters/mysql/connection.ex defp column_change(_table, {:add, name, type, opts}) do</span>
+<span class='curline'><a href='../S/74.html#L555'>column_change</a>     555 deps/ecto/lib/ecto/adapters/mysql/connection.ex defp column_change(table, {:modify, name, %Reference{} = ref, opts}) do</span>
+<span class='curline'><a href='../S/74.html#L562'>column_change</a>     562 deps/ecto/lib/ecto/adapters/mysql/connection.ex defp column_change(_table, {:modify, name, type, opts}) do</span>
+<span class='curline'><a href='../S/74.html#L566'>column_change</a>     566 deps/ecto/lib/ecto/adapters/mysql/connection.ex defp column_change(_table, {:remove, name}), do: "DROP #{quote_name(name)}"</span>
+<span class='curline'><a href='../S/76.html#L625'>column_change</a>     625 deps/ecto/lib/ecto/adapters/postgres/connection.ex defp column_change(table, {:add, name, %Reference{} = ref, opts}) do</span>
+<span class='curline'><a href='../S/76.html#L632'>column_change</a>     632 deps/ecto/lib/ecto/adapters/postgres/connection.ex defp column_change(_table, {:add, name, type, opts}) do</span>
+<span class='curline'><a href='../S/76.html#L636'>column_change</a>     636 deps/ecto/lib/ecto/adapters/postgres/connection.ex defp column_change(table, {:modify, name, %Reference{} = ref, opts}) do</span>
+<span class='curline'><a href='../S/76.html#L643'>column_change</a>     643 deps/ecto/lib/ecto/adapters/postgres/connection.ex defp column_change(_table, {:modify, name, type, opts}) do</span>
+<span class='curline'><a href='../S/76.html#L648'>column_change</a>     648 deps/ecto/lib/ecto/adapters/postgres/connection.ex defp column_change(_table, {:remove, name}), do: "DROP COLUMN #{quote_name(name)}"</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>close_transaction</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/80.html#L76'>close_transaction</a>   76 deps/ecto/lib/ecto/adapters/sql/sandbox.ex def close_transaction(pool, ref, _) do</span>
+<span class='curline'><a href='../S/100.html#L111'>close_transaction</a>  111 deps/ecto/lib/ecto/pool.ex defcallback close_transaction(t, worker, timeout) :: :ok when worker: any</span>
+<span class='curline'><a href='../S/100.html#L271'>close_transaction</a>  271 deps/ecto/lib/ecto/pool.ex defp close_transaction({__MODULE__, pool_mod, pool}, %{conn: _, worker: worker}, timeout) do</span>
+<span class='curline'><a href='../S/100.html#L276'>close_transaction</a>  276 deps/ecto/lib/ecto/pool.ex defp close_transaction(_, %{}, _) do</span>
+<span class='curline'><a href='../S/102.html#L49'>close_transaction</a>   49 deps/ecto/lib/ecto/pools/poolboy.ex def close_transaction(pool, worker, _) do</span>
+<span class='curline'><a href='../S/106.html#L63'>close_transaction</a>   63 deps/ecto/lib/ecto/pools/sojourn_broker.ex def close_transaction(_, {worker, ref}, _) do</span>
+</pre>
+</body>
+</html>

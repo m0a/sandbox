@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>struct</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/47.html#L97'>struct</a>             97 deps/decimal/lib/decimal.ex       struct(__MODULE__, [message: msg] ++ opts)</span>
+<span class='curline'><a href='../S/56.html#L111'>struct</a>            111 deps/ecto/integration_test/cases/repo.exs     changeset = Ecto.Changeset.cast(struct(RAW, %{}), %{}, ~w(), ~w())</span>
+<span class='curline'><a href='../S/56.html#L142'>struct</a>            142 deps/ecto/integration_test/cases/repo.exs     id = TestRepo.insert!(struct(ID, id: nil))</span>
+<span class='curline'><a href='../S/134.html#L411'>struct</a>            411 deps/ecto/lib/ecto.ex   def primary_key(%{__struct__: module} = struct) do</span>
+<span class='curline'><a href='../S/134.html#L413'>struct</a>            413 deps/ecto/lib/ecto.ex       {field, Map.fetch!(struct, field)}</span>
+<span class='curline'><a href='../S/134.html#L424'>struct</a>            424 deps/ecto/lib/ecto.ex   def primary_key!(struct) do</span>
+<span class='curline'><a href='../S/134.html#L425'>struct</a>            425 deps/ecto/lib/ecto.ex     case primary_key(struct) do</span>
+<span class='curline'><a href='../S/134.html#L426'>struct</a>            426 deps/ecto/lib/ecto.ex       [] -&gt; raise Ecto.NoPrimaryKeyFieldError, model: struct</span>
+<span class='curline'><a href='../S/134.html#L467'>struct</a>            467 deps/ecto/lib/ecto.ex   def build_assoc(%{__struct__: model} = struct, assoc, attributes \\ %{}) do</span>
+<span class='curline'><a href='../S/134.html#L469'>struct</a>            469 deps/ecto/lib/ecto.ex     assoc.__struct__.build(assoc, struct, Dict.delete(attributes, :__meta__))</span>
+<span class='curline'><a href='../S/134.html#L502'>struct</a>            502 deps/ecto/lib/ecto.ex       Enum.uniq for(struct &lt;- structs,</span>
+<span class='curline'><a href='../S/134.html#L503'>struct</a>            503 deps/ecto/lib/ecto.ex         assert_struct!(model, struct),</span>
+<span class='curline'><a href='../S/134.html#L504'>struct</a>            504 deps/ecto/lib/ecto.ex         key = Map.fetch!(struct, owner_key),</span>
+<span class='curline'><a href='../S/134.html#L574'>struct</a>            574 deps/ecto/lib/ecto.ex   defp assert_struct!(model, %{__struct__: struct}) do</span>
+<span class='curline'><a href='../S/134.html#L575'>struct</a>            575 deps/ecto/lib/ecto.ex     if struct != model do</span>
+<span class='curline'><a href='../S/134.html#L577'>struct</a>            577 deps/ecto/lib/ecto.ex                            "got: #{inspect model} and #{inspect struct}"</span>
+<span class='curline'><a href='../S/83.html#L207'>struct</a>            207 deps/ecto/lib/ecto/association.ex   def merge_source(struct, {source, _}) do</span>
+<span class='curline'><a href='../S/83.html#L208'>struct</a>            208 deps/ecto/lib/ecto/association.ex     Ecto.put_meta(struct, source: source)</span>
+<span class='curline'><a href='../S/83.html#L211'>struct</a>            211 deps/ecto/lib/ecto/association.ex   def merge_source(struct, _query) do</span>
+<span class='curline'><a href='../S/83.html#L212'>struct</a>            212 deps/ecto/lib/ecto/association.ex     struct</span>
+<span class='curline'><a href='../S/83.html#L299'>struct</a>            299 deps/ecto/lib/ecto/association.ex   def build(%{owner_key: owner_key, related_key: related_key} = refl, struct, attributes) do</span>
+<span class='curline'><a href='../S/83.html#L302'>struct</a>            302 deps/ecto/lib/ecto/association.ex     |&gt; struct(attributes)</span>
+<span class='curline'><a href='../S/83.html#L303'>struct</a>            303 deps/ecto/lib/ecto/association.ex     |&gt; Map.put(related_key, Map.get(struct, owner_key))</span>
+<span class='curline'><a href='../S/83.html#L334'>struct</a>            334 deps/ecto/lib/ecto/association.ex     |&gt; struct(defaults)</span>
+<span class='curline'><a href='../S/83.html#L450'>struct</a>            450 deps/ecto/lib/ecto/association.ex   def build(%{field: name}, %{__struct__: struct}, _attributes) do</span>
+<span class='curline'><a href='../S/83.html#L452'>struct</a>            452 deps/ecto/lib/ecto/association.ex       "cannot build through association #{inspect name} for #{inspect struct}. " &lt;&gt;</span>
+<span class='curline'><a href='../S/83.html#L605'>struct</a>            605 deps/ecto/lib/ecto/association.ex   def build(%{field: name}, %{__struct__: struct}, _attributes) do</span>
+<span class='curline'><a href='../S/83.html#L607'>struct</a>            607 deps/ecto/lib/ecto/association.ex       "cannot build belongs_to association #{inspect name} for #{inspect struct}. " &lt;&gt;</span>
+<span class='curline'><a href='../S/85.html#L239'>struct</a>            239 deps/ecto/lib/ecto/changeset.ex   def change(%{__struct__: struct} = model, changes) when is_map(changes) or is_list(changes) do</span>
+<span class='curline'><a href='../S/85.html#L240'>struct</a>            240 deps/ecto/lib/ecto/changeset.ex     types = struct.__changeset__</span>
+<span class='curline'><a href='../S/85.html#L1039'>struct</a>           1039 deps/ecto/lib/ecto/changeset.ex     struct(model, changes)</span>
+<span class='curline'><a href='../S/84.html#L195'>struct</a>            195 deps/ecto/lib/ecto/changeset/relation.ex   defp do_cast(%{on_cast: fun}, params, struct) when is_function(fun) do</span>
+<span class='curline'><a href='../S/84.html#L196'>struct</a>            196 deps/ecto/lib/ecto/changeset/relation.ex     {:ok, fun.(struct, params) |&gt; put_new_action(:update)}</span>
+<span class='curline'><a href='../S/84.html#L199'>struct</a>            199 deps/ecto/lib/ecto/changeset/relation.ex   defp do_cast(%{related: model, on_cast: fun}, params, struct) do</span>
+<span class='curline'><a href='../S/84.html#L200'>struct</a>            200 deps/ecto/lib/ecto/changeset/relation.ex     {:ok, apply(model, fun, [struct, params])</span>
+<span class='curline'><a href='../S/84.html#L215'>struct</a>            215 deps/ecto/lib/ecto/changeset/relation.ex   defp do_change(%{related: model}, struct, nil) do</span>
+<span class='curline'><a href='../S/84.html#L219'>struct</a>            219 deps/ecto/lib/ecto/changeset/relation.ex     changeset = Changeset.change(struct)</span>
+<span class='curline'><a href='../S/84.html#L220'>struct</a>            220 deps/ecto/lib/ecto/changeset/relation.ex     struct    = changeset.model</span>
+<span class='curline'><a href='../S/84.html#L224'>struct</a>            224 deps/ecto/lib/ecto/changeset/relation.ex       Enum.reduce(embeds ++ assocs, Map.take(struct, fields), fn field, acc -&gt;</span>
+<span class='curline'><a href='../S/84.html#L227'>struct</a>            227 deps/ecto/lib/ecto/changeset/relation.ex             value = load!(struct, Map.get(struct, field))</span>
+<span class='curline'><a href='../S/84.html#L254'>struct</a>            254 deps/ecto/lib/ecto/changeset/relation.ex   defp do_change(_relation, struct, current) do</span>
+<span class='curline'><a href='../S/84.html#L255'>struct</a>            255 deps/ecto/lib/ecto/changeset/relation.ex     changes = Map.take(struct, struct.__struct__.__schema__(:fields))</span>
+<span class='curline'><a href='../S/88.html#L42'>struct</a>             42 deps/ecto/lib/ecto/embedded.ex     struct(%Embedded{field: name, owner: module}, opts)</span>
+<span class='curline'><a href='../S/89.html#L107'>struct</a>            107 deps/ecto/lib/ecto/exceptions.ex     struct  = Keyword.fetch!(opts, :struct)</span>
+<span class='curline'><a href='../S/89.html#L108'>struct</a>            108 deps/ecto/lib/ecto/exceptions.ex     message = "struct `#{inspect struct}` is missing primary key value"</span>
+<span class='curline'><a href='../S/89.html#L109'>struct</a>            109 deps/ecto/lib/ecto/exceptions.ex     %__MODULE__{message: message, struct: struct}</span>
+<span class='curline'><a href='../S/94.html#L364'>struct</a>            364 deps/ecto/lib/ecto/migration.ex     struct(%Table{name: name}, opts)</span>
+<span class='curline'><a href='../S/94.html#L424'>struct</a>            424 deps/ecto/lib/ecto/migration.ex     index = struct(%Index{table: table, columns: columns}, opts)</span>
+<span class='curline'><a href='../S/94.html#L625'>struct</a>            625 deps/ecto/lib/ecto/migration.ex     reference = struct(%Reference{table: table}, opts)</span>
+<span class='curline'><a href='../S/98.html#L41'>struct</a>             41 deps/ecto/lib/ecto/model.ex   def primary_key(struct) do</span>
+<span class='curline'><a href='../S/98.html#L42'>struct</a>             42 deps/ecto/lib/ecto/model.ex     Ecto.primary_key(struct)</span>
+<span class='curline'><a href='../S/98.html#L46'>struct</a>             46 deps/ecto/lib/ecto/model.ex   def primary_key!(struct) do</span>
+<span class='curline'><a href='../S/98.html#L47'>struct</a>             47 deps/ecto/lib/ecto/model.ex     Ecto.primary_key!(struct)</span>
+<span class='curline'><a href='../S/98.html#L51'>struct</a>             51 deps/ecto/lib/ecto/model.ex   def build(struct, assoc, attributes \\ %{}) do</span>
+<span class='curline'><a href='../S/98.html#L52'>struct</a>             52 deps/ecto/lib/ecto/model.ex     Ecto.build_assoc(struct, assoc, attributes)</span>
+<span class='curline'><a href='../S/119.html#L614'>struct</a>            614 deps/ecto/lib/ecto/query/builder.ex     struct(Query, list)</span>
+<span class='curline'><a href='../S/124.html#L37'>struct</a>             37 deps/ecto/lib/ecto/repo/assoc.ex   defp merge([struct|sub_structs], {keys, dict, sub_dicts}, parent_key) do</span>
+<span class='curline'><a href='../S/124.html#L39'>struct</a>             39 deps/ecto/lib/ecto/repo/assoc.ex       if struct do</span>
+<span class='curline'><a href='../S/124.html#L40'>struct</a>             40 deps/ecto/lib/ecto/repo/assoc.ex         [{_, key}] = Ecto.primary_key!(struct)</span>
+<span class='curline'><a href='../S/124.html#L41'>struct</a>             41 deps/ecto/lib/ecto/repo/assoc.ex         key || raise Ecto.NoPrimaryKeyValueError, struct: struct</span>
+<span class='curline'><a href='../S/124.html#L54'>struct</a>             54 deps/ecto/lib/ecto/repo/assoc.ex     if struct &amp;&amp; parent_key &amp;&amp; not HashSet.member?(keys, cache) do</span>
+<span class='curline'><a href='../S/124.html#L56'>struct</a>             56 deps/ecto/lib/ecto/repo/assoc.ex       item = {child_key, struct}</span>
+<span class='curline'><a href='../S/124.html#L71'>struct</a>             71 deps/ecto/lib/ecto/repo/assoc.ex   defp load_assocs({child_key, struct}, sub_dicts, refls) do</span>
+<span class='curline'><a href='../S/124.html#L72'>struct</a>             72 deps/ecto/lib/ecto/repo/assoc.ex     Enum.reduce :lists.zip(sub_dicts, refls), struct, fn</span>
+<span class='curline'><a href='../S/125.html#L39'>struct</a>             39 deps/ecto/lib/ecto/repo/preloader.ex   def preload(struct, repo, preloads) when is_map(struct) do</span>
+<span class='curline'><a href='../S/125.html#L40'>struct</a>             40 deps/ecto/lib/ecto/repo/preloader.ex     do_preload([struct], repo, preloads, nil) |&gt; hd()</span>
+<span class='curline'><a href='../S/125.html#L69'>struct</a>             69 deps/ecto/lib/ecto/repo/preloader.ex     for struct &lt;- structs do</span>
+<span class='curline'><a href='../S/125.html#L70'>struct</a>             70 deps/ecto/lib/ecto/repo/preloader.ex       Enum.reduce entries, struct, fn {kind, assoc, data}, acc -&gt;</span>
+<span class='curline'><a href='../S/125.html#L116'>struct</a>            116 deps/ecto/lib/ecto/repo/preloader.ex     Enum.uniq for(struct &lt;- structs,</span>
+<span class='curline'><a href='../S/125.html#L117'>struct</a>            117 deps/ecto/lib/ecto/repo/preloader.ex       assert_struct!(module, struct),</span>
+<span class='curline'><a href='../S/125.html#L118'>struct</a>            118 deps/ecto/lib/ecto/repo/preloader.ex       not loaded?(struct, field),</span>
+<span class='curline'><a href='../S/125.html#L119'>struct</a>            119 deps/ecto/lib/ecto/repo/preloader.ex       key = Map.fetch!(struct, owner_key),</span>
+<span class='curline'><a href='../S/125.html#L123'>struct</a>            123 deps/ecto/lib/ecto/repo/preloader.ex   defp loaded?(struct, field) do</span>
+<span class='curline'><a href='../S/125.html#L124'>struct</a>            124 deps/ecto/lib/ecto/repo/preloader.ex     case Map.get(struct, field) do</span>
+<span class='curline'><a href='../S/125.html#L130'>struct</a>            130 deps/ecto/lib/ecto/repo/preloader.ex   defp assert_struct!(model, %{__struct__: struct}) do</span>
+<span class='curline'><a href='../S/125.html#L131'>struct</a>            131 deps/ecto/lib/ecto/repo/preloader.ex     if struct != model do</span>
+<span class='curline'><a href='../S/125.html#L133'>struct</a>            133 deps/ecto/lib/ecto/repo/preloader.ex                            "got: #{inspect model} and #{inspect struct}"</span>
+<span class='curline'><a href='../S/125.html#L161'>struct</a>            161 deps/ecto/lib/ecto/repo/preloader.ex   defp load_assoc(struct, assoc, dict) do</span>
+<span class='curline'><a href='../S/125.html#L162'>struct</a>            162 deps/ecto/lib/ecto/repo/preloader.ex     key = Map.fetch!(struct, assoc.owner_key)</span>
+<span class='curline'><a href='../S/125.html#L171'>struct</a>            171 deps/ecto/lib/ecto/repo/preloader.ex     Map.put(struct, assoc.field, loaded)</span>
+<span class='curline'><a href='../S/125.html#L174'>struct</a>            174 deps/ecto/lib/ecto/repo/preloader.ex   defp load_through(struct, assoc, [h|t]) do</span>
+<span class='curline'><a href='../S/125.html#L175'>struct</a>            175 deps/ecto/lib/ecto/repo/preloader.ex     initial = struct |&gt; Map.fetch!(h) |&gt; List.wrap</span>
+<span class='curline'><a href='../S/125.html#L182'>struct</a>            182 deps/ecto/lib/ecto/repo/preloader.ex     Map.put(struct, assoc.field, loaded)</span>
+<span class='curline'><a href='../S/125.html#L186'>struct</a>            186 deps/ecto/lib/ecto/repo/preloader.ex     Enum.reduce(structs, {[], HashSet.new}, fn struct, acc -&gt;</span>
+<span class='curline'><a href='../S/125.html#L187'>struct</a>            187 deps/ecto/lib/ecto/repo/preloader.ex       children = struct |&gt; Map.fetch!(assoc) |&gt; List.wrap</span>
+<span class='curline'><a href='../S/127.html#L50'>struct</a>             50 deps/ecto/lib/ecto/repo/schema.ex   def insert(repo, adapter, %{__struct__: _} = struct, opts) when is_list(opts) do</span>
+<span class='curline'><a href='../S/127.html#L51'>struct</a>             51 deps/ecto/lib/ecto/repo/schema.ex     changeset = Ecto.Changeset.change(struct)</span>
+<span class='curline'><a href='../S/127.html#L56'>struct</a>             56 deps/ecto/lib/ecto/repo/schema.ex     struct = struct_from_changeset!(:insert, changeset)</span>
+<span class='curline'><a href='../S/127.html#L57'>struct</a>             57 deps/ecto/lib/ecto/repo/schema.ex     model  = struct.__struct__</span>
+<span class='curline'><a href='../S/127.html#L67'>struct</a>             67 deps/ecto/lib/ecto/repo/schema.ex     changeset = insert_changes(struct, fields, embeds, assocs, changeset)</span>
+<span class='curline'><a href='../S/127.html#L80'>struct</a>             80 deps/ecto/lib/ecto/repo/schema.ex       args = [repo, metadata(struct), changes, autogen, return, opts]</span>
+<span class='curline'><a href='../S/127.html#L105'>struct</a>            105 deps/ecto/lib/ecto/repo/schema.ex   def update(repo, adapter, %{__struct__: model} = struct, opts) when is_list(opts) do</span>
+<span class='curline'><a href='../S/127.html#L111'>struct</a>            111 deps/ecto/lib/ecto/repo/schema.ex       struct</span>
+<span class='curline'><a href='../S/127.html#L117'>struct</a>            117 deps/ecto/lib/ecto/repo/schema.ex       struct</span>
+<span class='curline'><a href='../S/127.html#L125'>struct</a>            125 deps/ecto/lib/ecto/repo/schema.ex     struct = struct_from_changeset!(:update, changeset)</span>
+<span class='curline'><a href='../S/127.html#L126'>struct</a>            126 deps/ecto/lib/ecto/repo/schema.ex     model  = struct.__struct__</span>
+<span class='curline'><a href='../S/127.html#L149'>struct</a>            149 deps/ecto/lib/ecto/repo/schema.ex         filters = add_pk_filter!(changeset.filters, struct)</span>
+<span class='curline'><a href='../S/127.html#L152'>struct</a>            152 deps/ecto/lib/ecto/repo/schema.ex         args   = [repo, metadata(struct), changes, filters, autogen, return, opts]</span>
+<span class='curline'><a href='../S/127.html#L212'>struct</a>            212 deps/ecto/lib/ecto/repo/schema.ex   def delete(repo, adapter, %{__struct__: _} = struct, opts) when is_list(opts) do</span>
+<span class='curline'><a href='../S/127.html#L213'>struct</a>            213 deps/ecto/lib/ecto/repo/schema.ex     changeset = Ecto.Changeset.change(struct)</span>
+<span class='curline'><a href='../S/127.html#L218'>struct</a>            218 deps/ecto/lib/ecto/repo/schema.ex     struct = struct_from_changeset!(:delete, changeset)</span>
+<span class='curline'><a href='../S/127.html#L219'>struct</a>            219 deps/ecto/lib/ecto/repo/schema.ex     model  = struct.__struct__</span>
+<span class='curline'><a href='../S/127.html#L241'>struct</a>            241 deps/ecto/lib/ecto/repo/schema.ex       filters = add_pk_filter!(changeset.filters, struct)</span>
+<span class='curline'><a href='../S/127.html#L244'>struct</a>            244 deps/ecto/lib/ecto/repo/schema.ex       args = [repo, metadata(struct), filters, autogen, opts]</span>
+<span class='curline'><a href='../S/127.html#L267'>struct</a>            267 deps/ecto/lib/ecto/repo/schema.ex   defp struct_from_changeset!(_action, %{model: struct}),</span>
+<span class='curline'><a href='../S/127.html#L268'>struct</a>            268 deps/ecto/lib/ecto/repo/schema.ex     do: struct</span>
+<span class='curline'><a href='../S/127.html#L335'>struct</a>            335 deps/ecto/lib/ecto/repo/schema.ex   defp load_each(struct, kv, types, adapter) do</span>
+<span class='curline'><a href='../S/127.html#L336'>struct</a>            336 deps/ecto/lib/ecto/repo/schema.ex     Enum.reduce(kv, struct, fn</span>
+<span class='curline'><a href='../S/127.html#L350'>struct</a>            350 deps/ecto/lib/ecto/repo/schema.ex   defp insert_changes(struct, fields, embeds, assocs, changeset) do</span>
+<span class='curline'><a href='../S/127.html#L352'>struct</a>            352 deps/ecto/lib/ecto/repo/schema.ex     assert_empty_relation!(struct, embeds, types)</span>
+<span class='curline'><a href='../S/127.html#L353'>struct</a>            353 deps/ecto/lib/ecto/repo/schema.ex     assert_empty_relation!(struct, assocs, types)</span>
+<span class='curline'><a href='../S/127.html#L356'>struct</a>            356 deps/ecto/lib/ecto/repo/schema.ex       Enum.reduce embeds, Map.take(struct, fields), fn field, acc -&gt;</span>
+<span class='curline'><a href='../S/127.html#L364'>struct</a>            364 deps/ecto/lib/ecto/repo/schema.ex   defp assert_empty_relation!(struct, relation, types) do</span>
+<span class='curline'><a href='../S/127.html#L368'>struct</a>            368 deps/ecto/lib/ecto/repo/schema.ex           value = Map.get(struct, field)</span>
+<span class='curline'><a href='../S/127.html#L371'>struct</a>            371 deps/ecto/lib/ecto/repo/schema.ex             raise ArgumentError, "model #{inspect struct.__struct__} has value `#{inspect value}` " &lt;&gt;</span>
+<span class='curline'><a href='../S/127.html#L399'>struct</a>            399 deps/ecto/lib/ecto/repo/schema.ex   defp delete_assocs(%{model: model}, repo, struct, assocs) do</span>
+<span class='curline'><a href='../S/127.html#L401'>struct</a>            401 deps/ecto/lib/ecto/repo/schema.ex       case struct.__schema__(:association, assoc_name) do</span>
+<span class='curline'><a href='../S/127.html#L463'>struct</a>            463 deps/ecto/lib/ecto/repo/schema.ex   defp add_pk_filter!(filters, struct) do</span>
+<span class='curline'><a href='../S/127.html#L464'>struct</a>            464 deps/ecto/lib/ecto/repo/schema.ex     Enum.reduce Ecto.primary_key!(struct), filters, fn</span>
+<span class='curline'><a href='../S/127.html#L466'>struct</a>            466 deps/ecto/lib/ecto/repo/schema.ex         raise Ecto.NoPrimaryKeyValueError, struct: struct</span>
+<span class='curline'><a href='../S/130.html#L954'>struct</a>            954 deps/ecto/lib/ecto/schema.ex     struct = model.__struct__()</span>
+<span class='curline'><a href='../S/130.html#L957'>struct</a>            957 deps/ecto/lib/ecto/schema.ex     loaded = do_load(struct, fields, data, loader)</span>
+<span class='curline'><a href='../S/130.html#L963'>struct</a>            963 deps/ecto/lib/ecto/schema.ex   defp do_load(struct, fields, map, loader) when is_map(map) do</span>
+<span class='curline'><a href='../S/130.html#L964'>struct</a>            964 deps/ecto/lib/ecto/schema.ex     Enum.reduce(fields, struct, fn</span>
+<span class='curline'><a href='../S/130.html#L971'>struct</a>            971 deps/ecto/lib/ecto/schema.ex   defp do_load(struct, fields, list, loader) when is_list(list) do</span>
+<span class='curline'><a href='../S/130.html#L972'>struct</a>            972 deps/ecto/lib/ecto/schema.ex     Enum.reduce(fields, {struct, list}, fn</span>
+<span class='curline'><a href='../S/130.html#L1028'>struct</a>           1028 deps/ecto/lib/ecto/schema.ex       struct =</span>
+<span class='curline'><a href='../S/130.html#L1030'>struct</a>           1030 deps/ecto/lib/ecto/schema.ex       Module.put_attribute(mod, :changeset_fields, {name, {:assoc, struct}})</span>
+<span class='curline'><a href='../S/130.html#L1041'>struct</a>           1041 deps/ecto/lib/ecto/schema.ex       struct =</span>
+<span class='curline'><a href='../S/130.html#L1043'>struct</a>           1043 deps/ecto/lib/ecto/schema.ex       Module.put_attribute(mod, :changeset_fields, {name, {:assoc, struct}})</span>
+<span class='curline'><a href='../S/130.html#L1201'>struct</a>           1201 deps/ecto/lib/ecto/schema.ex     struct = association.struct(mod, name, opts)</span>
+<span class='curline'><a href='../S/130.html#L1202'>struct</a>           1202 deps/ecto/lib/ecto/schema.ex     Module.put_attribute(mod, :ecto_assocs, {name, struct})</span>
+<span class='curline'><a href='../S/130.html#L1204'>struct</a>           1204 deps/ecto/lib/ecto/schema.ex     struct</span>
+<span class='curline'><a href='../S/130.html#L1209'>struct</a>           1209 deps/ecto/lib/ecto/schema.ex     struct = Ecto.Embedded.struct(mod, name, opts)</span>
+<span class='curline'><a href='../S/130.html#L1211'>struct</a>           1211 deps/ecto/lib/ecto/schema.ex     __field__(mod, name, {:embed, struct}, false, opts)</span>
+<span class='curline'><a href='../S/130.html#L1212'>struct</a>           1212 deps/ecto/lib/ecto/schema.ex     Module.put_attribute(mod, :ecto_embeds, {name, struct})</span>
+<span class='curline'><a href='../S/132.html#L379'>struct</a>            379 deps/ecto/lib/ecto/type.ex     %{model: struct, changes: changes} = changeset</span>
+<span class='curline'><a href='../S/132.html#L385'>struct</a>            385 deps/ecto/lib/ecto/type.ex           :error        -&gt; Map.get(struct, field)</span>
+<span class='curline'><a href='../S/175.html#L11'>struct</a>             11 deps/postgrex/lib/postgrex/extensions/network.ex     struct = if type == "inet", do: Postgrex.INET, else: Postgrex.CIDR</span>
+<span class='curline'><a href='../S/175.html#L13'>struct</a>             13 deps/postgrex/lib/postgrex/extensions/network.ex       Postgrex.Utils.encode_msg(type_info, value, struct)</span>
+<span class='curline'><a href='../S/196.html#L78'>struct</a>             78 deps/postgrex/lib/postgrex/utils.ex   defp to_desc(struct) when is_atom(struct), do: "%#{inspect struct}{}"</span>
+</pre>
+</body>
+</html>

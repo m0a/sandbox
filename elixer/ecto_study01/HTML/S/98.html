@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/model.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/model.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L26'>[^]</a><a href='#L61'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L26' title='Defined at 26.'>__using__</a></li>
+<li><a href='#L41' title='Defined at 41.'>primary_key</a></li>
+<li><a href='#L46' title='Defined at 46.'>primary_key!</a></li>
+<li><a href='#L51' title='Defined at 51.'>build</a></li>
+<li><a href='#L56' title='Defined at 56.'>assoc</a></li>
+<li><a href='#L61' title='Defined at 61.'>put_source</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Model <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc """
+<a id='L3' name='L3'></a>  Warning: this module is currently deprecated. Instead
+<a id='L4' name='L4'></a>  `use Ecto.Schema` and the functions in the `Ecto` module.
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>  `Ecto.Model` is built on top of `Ecto.Schema`. See
+<a id='L7' name='L7'></a>  `Ecto.Schema` <strong class='reserved'>for</strong> documentation on the `schema/2` macro,
+<a id='L8' name='L8'></a>  as well which fields, associations, types are available.
+<a id='L9' name='L9'></a>
+<a id='L10' name='L10'></a><em class='sharp'>  #</em># Using
+<a id='L11' name='L11'></a>
+<a id='L12' name='L12'></a>  When used, `Ecto.Model` imports itself, as well as the functions
+<a id='L13' name='L13'></a>  in `Ecto.Changeset` and `Ecto.Query`.
+<a id='L14' name='L14'></a>
+<a id='L15' name='L15'></a>  All the modules existing in `Ecto.Model.*` are brought in too:
+<a id='L16' name='L16'></a>
+<a id='L17' name='L17'></a>    * `use Ecto.Model.Callbacks` - provides lifecycle callbacks
+<a id='L18' name='L18'></a>    * `use Ecto.Model.OptimisticLock` - makes the `optimistic_lock/1` macro
+<a id='L19' name='L19'></a>      available
+<a id='L20' name='L20'></a>
+<a id='L21' name='L21'></a>  However, you can avoid using `Ecto.Model` altogether in favor
+<a id='L22' name='L22'></a>  of cherry-picking any of the functionality above.
+<a id='L23' name='L23'></a>  """
+<a id='L24' name='L24'></a>
+<a id='L25' name='L25'></a>  @doc false
+<a id='L26' name='L26'></a>  defmacro __using__(_opts) <strong class='reserved'>do</strong>
+<a id='L27' name='L27'></a>    quote <strong class='reserved'>do</strong>
+<a id='L28' name='L28'></a>      use Ecto.Schema
+<a id='L29' name='L29'></a>      import Ecto.Model
+<a id='L30' name='L30'></a>      import Ecto.Changeset
+<a id='L31' name='L31'></a>      import Ecto.Query, only: [from: 2]
+<a id='L32' name='L32'></a>
+<a id='L33' name='L33'></a>      use Ecto.Model.OptimisticLock
+<a id='L34' name='L34'></a>      use Ecto.Model.Callbacks
+<a id='L35' name='L35'></a>    end
+<a id='L36' name='L36'></a>  end
+<a id='L37' name='L37'></a>
+<a id='L38' name='L38'></a>  @type t :: %<em class='brace'>{</em>__struct__: atom<em class='brace'>}</em>
+<a id='L39' name='L39'></a>
+<a id='L40' name='L40'></a>  @doc false
+<a id='L41' name='L41'></a>  def <a href='../R/753.html' title='Multiple referred from 15 places.'>primary_key</a>(<strong class='reserved'>struct</strong>) <strong class='reserved'>do</strong>
+<a id='L42' name='L42'></a>    <a href='../D/46.html' title='Multiple defined in 2 places.'>Ecto</a>.<a href='../D/903.html' title='Multiple defined in 2 places.'>primary_key</a>(<strong class='reserved'>struct</strong>)
+<a id='L43' name='L43'></a>  end
+<a id='L44' name='L44'></a>
+<a id='L45' name='L45'></a>  @doc false
+<a id='L46' name='L46'></a>  def primary_key!(<strong class='reserved'>struct</strong>) <strong class='reserved'>do</strong>
+<a id='L47' name='L47'></a>    <a href='../D/46.html' title='Multiple defined in 2 places.'>Ecto</a>.primary_key!(<strong class='reserved'>struct</strong>)
+<a id='L48' name='L48'></a>  end
+<a id='L49' name='L49'></a>
+<a id='L50' name='L50'></a>  @doc false
+<a id='L51' name='L51'></a>  def <a href='../R/195.html' title='Multiple referred from 29 places.'>build</a>(<strong class='reserved'>struct</strong>, <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>, attributes \\ %<em class='brace'>{</em><em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L52' name='L52'></a>    <a href='../D/46.html' title='Multiple defined in 2 places.'>Ecto</a>.<a href='../S/134.html#L467' title='Defined at 467 in deps/ecto/lib/ecto.ex.'>build_assoc</a>(<strong class='reserved'>struct</strong>, <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>, attributes)
+<a id='L53' name='L53'></a>  end
+<a id='L54' name='L54'></a>
+<a id='L55' name='L55'></a>  @doc false
+<a id='L56' name='L56'></a>  def <a href='../R/150.html' title='Multiple referred from 103 places.'>assoc</a>(model_or_models, assoc) <strong class='reserved'>do</strong>
+<a id='L57' name='L57'></a>    <a href='../D/46.html' title='Multiple defined in 2 places.'>Ecto</a>.<a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(model_or_models, assoc)
+<a id='L58' name='L58'></a>  end
+<a id='L59' name='L59'></a>
+<a id='L60' name='L60'></a>  @doc false
+<a id='L61' name='L61'></a>  def put_source(<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, new_source, new_prefix \\ nil) <strong class='reserved'>do</strong>
+<a id='L62' name='L62'></a>    put_in <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>.__meta__.source, <em class='brace'>{</em>new_prefix, new_source<em class='brace'>}</em>
+<a id='L63' name='L63'></a>  end
+<a id='L64' name='L64'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L26'>[^]</a><a href='#L61'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

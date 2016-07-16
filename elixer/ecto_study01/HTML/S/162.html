@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/postgrex/lib/postgrex/extension.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/252.html'>postgrex</a>/<a href='../files/253.html'>lib</a>/<a href='../files/254.html'>postgrex</a>/extension.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L20'>[^]</a><a href='#L48'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L20' title='Defined at 20.'>init</a></li>
+<li><a href='#L26' title='Defined at 26.'>matching</a></li>
+<li><a href='#L36' title='Defined at 36.'>format</a></li>
+<li><a href='#L42' title='Defined at 42.'>encode</a></li>
+<li><a href='#L48' title='Defined at 48.'>decode</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Postgrex.<a href='../R/24.html' title='Multiple referred from 2 places.'>Extension</a> <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc """
+<a id='L3' name='L3'></a>  An extension knows how to encode and decode Postgres types to and from Elixir
+<a id='L4' name='L4'></a>  values.
+<a id='L5' name='L5'></a>  """
+<a id='L6' name='L6'></a>
+<a id='L7' name='L7'></a>  use Behaviour
+<a id='L8' name='L8'></a>  alias Postgrex.Types
+<a id='L9' name='L9'></a>  alias Postgrex.TypeInfo
+<a id='L10' name='L10'></a>
+<a id='L11' name='L11'></a>  @type t :: module
+<a id='L12' name='L12'></a>  @type opts :: term
+<a id='L13' name='L13'></a>
+<a id='L14' name='L14'></a>  @doc """
+<a id='L15' name='L15'></a>  Should perform any initialization of the extension. The function receives the
+<a id='L16' name='L16'></a>  server parameters (http:<em class='comment'>//www.postgresql.org/docs/9.4/static/runtime-config.html)</em>
+<a id='L17' name='L17'></a>  and user options. The options returned from this function will be passed to
+<a id='L18' name='L18'></a>  all other callbacks.
+<a id='L19' name='L19'></a>  """
+<a id='L20' name='L20'></a>  defcallback <a href='../R/550.html' title='Multiple referred from 12 places.'>init</a>(Map.t, term) :: opts
+<a id='L21' name='L21'></a>
+<a id='L22' name='L22'></a>  @doc """
+<a id='L23' name='L23'></a>  Specifies the types the extension matches, see `Postgrex.TypeInfo` <strong class='reserved'>for</strong>
+<a id='L24' name='L24'></a>  specification of the fields.
+<a id='L25' name='L25'></a>  """
+<a id='L26' name='L26'></a>  defcallback <a href='../R/615.html' title='Multiple referred from 4 places.'>matching</a>(opts) :: [type: String.t,
+<a id='L27' name='L27'></a>                                 send: String.t,
+<a id='L28' name='L28'></a>                                 receive: String.t,
+<a id='L29' name='L29'></a>                                 input: String.t,
+<a id='L30' name='L30'></a>                                 output: String.t]
+<a id='L31' name='L31'></a>
+<a id='L32' name='L32'></a>  @doc """
+<a id='L33' name='L33'></a>  Returns the format the type should be encoded as. See
+<a id='L34' name='L34'></a>  http:<em class='comment'>//www.postgresql.org/docs/9.4/static/protocol-overview.html#PROTOCOL-FORMAT-CODES.</em>
+<a id='L35' name='L35'></a>  """
+<a id='L36' name='L36'></a>  defcallback <a href='../R/488.html' title='Multiple referred from 18 places.'>format</a>(opts) :: :binary | :text
+<a id='L37' name='L37'></a>
+<a id='L38' name='L38'></a>  @doc """
+<a id='L39' name='L39'></a>  Should encode an Elixir value to a binary in the specified Postgres protocol
+<a id='L40' name='L40'></a>  format.
+<a id='L41' name='L41'></a>  """
+<a id='L42' name='L42'></a>  defcallback <a href='../R/398.html' title='Multiple referred from 16 places.'>encode</a>(<a href='../S/193.html#L1' title='Defined at 1 in deps/postgrex/lib/postgrex/type_info.ex.'>TypeInfo</a>.t, term, <a href='../S/195.html#L1' title='Defined at 1 in deps/postgrex/lib/postgrex/types.ex.'>Types</a>.<a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>, opts) :: iodata
+<a id='L43' name='L43'></a>
+<a id='L44' name='L44'></a>  @doc """
+<a id='L45' name='L45'></a>  Should decode a binary in the specified Postgres protocol format to an Elixir
+<a id='L46' name='L46'></a>  value.
+<a id='L47' name='L47'></a>  """
+<a id='L48' name='L48'></a>  defcallback <a href='../R/289.html' title='Multiple referred from 21 places.'>decode</a>(<a href='../S/193.html#L1' title='Defined at 1 in deps/postgrex/lib/postgrex/type_info.ex.'>TypeInfo</a>.t, <a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>, <a href='../S/195.html#L1' title='Defined at 1 in deps/postgrex/lib/postgrex/types.ex.'>Types</a>.<a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>, opts) :: term
+<a id='L49' name='L49'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L20'>[^]</a><a href='#L48'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

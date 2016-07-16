@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>pool</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/44.html#L716'>pool</a>              716 deps/db_connection/lib/db_connection.ex   def run(pool, fun, opts) do</span>
+<span class='curline'><a href='../S/44.html#L717'>pool</a>              717 deps/db_connection/lib/db_connection.ex     {conn, conn_state} = checkout(pool, opts)</span>
+<span class='curline'><a href='../S/44.html#L809'>pool</a>              809 deps/db_connection/lib/db_connection.ex   defp checkout(pool, opts) do</span>
+<span class='curline'><a href='../S/44.html#L811'>pool</a>              811 deps/db_connection/lib/db_connection.ex     case apply(pool_mod, :checkout, [pool, opts]) do</span>
+<span class='curline'><a href='../S/44.html#L954'>pool</a>              954 deps/db_connection/lib/db_connection.ex   defp run_meter(pool, fun, opts) do</span>
+<span class='curline'><a href='../S/44.html#L957'>pool</a>              957 deps/db_connection/lib/db_connection.ex         {run(pool, fun, opts), nil}</span>
+<span class='curline'><a href='../S/44.html#L959'>pool</a>              959 deps/db_connection/lib/db_connection.ex         run_meter(pool, log, [checkout: time()], fun, opts)</span>
+<span class='curline'><a href='../S/44.html#L1036'>pool</a>             1036 deps/db_connection/lib/db_connection.ex   defp transaction_meter(pool, fun, opts) do</span>
+<span class='curline'><a href='../S/44.html#L1039'>pool</a>             1039 deps/db_connection/lib/db_connection.ex         run(pool, &amp;begin(&amp;1, nil, [], fun, opts), opts)</span>
+<span class='curline'><a href='../S/44.html#L1042'>pool</a>             1042 deps/db_connection/lib/db_connection.ex         run(pool, &amp;begin(&amp;1, log, times, fun, opts), opts)</span>
+<span class='curline'><a href='../S/23.html#L32'>pool</a>               32 deps/db_connection/lib/db_connection/connection.ex   def checkout(pool, opts) do</span>
+<span class='curline'><a href='../S/23.html#L39'>pool</a>               39 deps/db_connection/lib/db_connection/connection.ex       Connection.call(pool, {:checkout, ref, queue?, timeout}, pool_timeout)</span>
+<span class='curline'><a href='../S/23.html#L41'>pool</a>               41 deps/db_connection/lib/db_connection/connection.ex       :exit, {_, {_, :call, [pool | _]}} = reason -&gt;</span>
+<span class='curline'><a href='../S/23.html#L42'>pool</a>               42 deps/db_connection/lib/db_connection/connection.ex         cancel(pool, ref)</span>
+<span class='curline'><a href='../S/23.html#L362'>pool</a>              362 deps/db_connection/lib/db_connection/connection.ex   defp cancel(pool, ref) do</span>
+<span class='curline'><a href='../S/23.html#L364'>pool</a>              364 deps/db_connection/lib/db_connection/connection.ex       Connection.cast(pool, {:cancel, ref})</span>
+<span class='curline'><a href='../S/26.html#L80'>pool</a>               80 deps/db_connection/lib/db_connection/ownership/manager.ex     {:ok, pool, owner_sup} = PoolSupervisor.start_pool(module, pool_opts)</span>
+<span class='curline'><a href='../S/26.html#L82'>pool</a>               82 deps/db_connection/lib/db_connection/ownership/manager.ex     {:ok, %{pool: pool, owner_sup: owner_sup, checkouts: %{}, owners: %{},</span>
+<span class='curline'><a href='../S/26.html#L175'>pool</a>              175 deps/db_connection/lib/db_connection/ownership/manager.ex     %{pool: pool, owner_sup: owner_sup, checkouts: checkouts, owners: owners,</span>
+<span class='curline'><a href='../S/26.html#L177'>pool</a>              177 deps/db_connection/lib/db_connection/ownership/manager.ex     {:ok, owner} = OwnerSupervisor.start_owner(owner_sup, caller, pool, opts)</span>
+<span class='curline'><a href='../S/27.html#L8'>pool</a>                8 deps/db_connection/lib/db_connection/ownership/owner.ex   def start_link(manager, caller, pool, pool_opts) do</span>
+<span class='curline'><a href='../S/27.html#L9'>pool</a>                9 deps/db_connection/lib/db_connection/ownership/owner.ex     GenServer.start_link(__MODULE__, {manager, caller, pool, pool_opts}, [])</span>
+<span class='curline'><a href='../S/27.html#L19'>pool</a>               19 deps/db_connection/lib/db_connection/ownership/owner.ex   def checkout(pool, opts) do</span>
+<span class='curline'><a href='../S/27.html#L26'>pool</a>               26 deps/db_connection/lib/db_connection/ownership/owner.ex       GenServer.call(pool, {:checkout, ref, queue?, timeout}, pool_timeout)</span>
+<span class='curline'><a href='../S/27.html#L28'>pool</a>               28 deps/db_connection/lib/db_connection/ownership/owner.ex       :exit, {_, {_, :call, [pool | _]}} = reason -&gt;</span>
+<span class='curline'><a href='../S/27.html#L29'>pool</a>               29 deps/db_connection/lib/db_connection/ownership/owner.ex         GenServer.cast(pool, {:cancel, ref})</span>
+<span class='curline'><a href='../S/27.html#L52'>pool</a>               52 deps/db_connection/lib/db_connection/ownership/owner.ex   def init({_manager, caller, pool, pool_opts}) do</span>
+<span class='curline'><a href='../S/27.html#L57'>pool</a>               57 deps/db_connection/lib/db_connection/ownership/owner.ex               owner_ref: owner_ref, pool: pool, pool_mod: pool_mod,</span>
+<span class='curline'><a href='../S/27.html#L80'>pool</a>               80 deps/db_connection/lib/db_connection/ownership/owner.ex     %{pool: pool, pool_mod: pool_mod, pool_opts: pool_opts} = state</span>
+<span class='curline'><a href='../S/27.html#L83'>pool</a>               83 deps/db_connection/lib/db_connection/ownership/owner.ex       pool_mod.checkout(pool, pool_opts)</span>
+<span class='curline'><a href='../S/28.html#L10'>pool</a>               10 deps/db_connection/lib/db_connection/ownership/owner_supervisor.ex   def start_owner(sup, from, pool, opts) do</span>
+<span class='curline'><a href='../S/28.html#L11'>pool</a>               11 deps/db_connection/lib/db_connection/ownership/owner_supervisor.ex     Supervisor.start_child(sup, [self(), from, pool, opts])</span>
+<span class='curline'><a href='../S/29.html#L15'>pool</a>               15 deps/db_connection/lib/db_connection/ownership/pool.ex   def pool_pid(pool) do</span>
+<span class='curline'><a href='../S/29.html#L16'>pool</a>               16 deps/db_connection/lib/db_connection/ownership/pool.ex     fetch_pid(pool, :pool)</span>
+<span class='curline'><a href='../S/29.html#L19'>pool</a>               19 deps/db_connection/lib/db_connection/ownership/pool.ex   def owner_sup_pid(pool) do</span>
+<span class='curline'><a href='../S/29.html#L20'>pool</a>               20 deps/db_connection/lib/db_connection/ownership/pool.ex     fetch_pid(pool, :owner_sup)</span>
+<span class='curline'><a href='../S/29.html#L25'>pool</a>               25 deps/db_connection/lib/db_connection/ownership/pool.ex   defp fetch_pid(pool, key) do</span>
+<span class='curline'><a href='../S/29.html#L26'>pool</a>               26 deps/db_connection/lib/db_connection/ownership/pool.ex     children = Supervisor.which_children(pool)</span>
+<span class='curline'><a href='../S/29.html#L28'>pool</a>               28 deps/db_connection/lib/db_connection/ownership/pool.ex       {_, pool, _, _} when is_pid(pool) -&gt;</span>
+<span class='curline'><a href='../S/29.html#L29'>pool</a>               29 deps/db_connection/lib/db_connection/ownership/pool.ex         pool</span>
+<span class='curline'><a href='../S/30.html#L8'>pool</a>                8 deps/db_connection/lib/db_connection/ownership/pool_supervisor.ex     pool = supervisor(Pool, [], [restart: :temporary])</span>
+<span class='curline'><a href='../S/30.html#L10'>pool</a>               10 deps/db_connection/lib/db_connection/ownership/pool_supervisor.ex     Supervisor.start_link([pool], sup_opts)</span>
+<span class='curline'><a href='../S/32.html#L28'>pool</a>               28 deps/db_connection/lib/db_connection/pool.ex   @callback checkout(pool :: GenServer.server, opts :: Keyword.t) ::</span>
+<span class='curline'><a href='../S/34.html#L32'>pool</a>               32 deps/db_connection/lib/db_connection/poolboy.ex   def checkout(pool, opts) do</span>
+<span class='curline'><a href='../S/34.html#L36'>pool</a>               36 deps/db_connection/lib/db_connection/poolboy.ex     case :poolboy.checkout(pool, queue?, pool_timeout) do</span>
+<span class='curline'><a href='../S/34.html#L41'>pool</a>               41 deps/db_connection/lib/db_connection/poolboy.ex         checkout(pool, worker, opts)</span>
+<span class='curline'><a href='../S/34.html#L46'>pool</a>               46 deps/db_connection/lib/db_connection/poolboy.ex   def checkin({pool, worker, worker_ref}, state, opts) do</span>
+<span class='curline'><a href='../S/34.html#L47'>pool</a>               47 deps/db_connection/lib/db_connection/poolboy.ex     :poolboy.checkin(pool, worker)</span>
+<span class='curline'><a href='../S/34.html#L52'>pool</a>               52 deps/db_connection/lib/db_connection/poolboy.ex   def disconnect({pool, worker, worker_ref}, err, state, opts) do</span>
+<span class='curline'><a href='../S/34.html#L53'>pool</a>               53 deps/db_connection/lib/db_connection/poolboy.ex     :poolboy.checkin(pool, worker)</span>
+<span class='curline'><a href='../S/34.html#L58'>pool</a>               58 deps/db_connection/lib/db_connection/poolboy.ex   def stop({pool, worker, worker_ref}, reason, state, opts) do</span>
+<span class='curline'><a href='../S/34.html#L65'>pool</a>               65 deps/db_connection/lib/db_connection/poolboy.ex       :poolboy.checkin(pool, worker)</span>
+<span class='curline'><a href='../S/34.html#L94'>pool</a>               94 deps/db_connection/lib/db_connection/poolboy.ex   defp checkout(pool, worker, opts) do</span>
+<span class='curline'><a href='../S/34.html#L99'>pool</a>               99 deps/db_connection/lib/db_connection/poolboy.ex         {:ok, {pool, worker, worker_ref}, mod, state}</span>
+<span class='curline'><a href='../S/34.html#L101'>pool</a>              101 deps/db_connection/lib/db_connection/poolboy.ex         :poolboy.checkin(pool, worker)</span>
+<span class='curline'><a href='../S/34.html#L105'>pool</a>              105 deps/db_connection/lib/db_connection/poolboy.ex         :poolboy.checkin(pool, worker)</span>
+<span class='curline'><a href='../S/36.html#L12'>pool</a>               12 deps/db_connection/lib/db_connection/sojourn/broker.ex     opts = Keyword.put(opts, :pool_sup, pool(mod, opts))</span>
+<span class='curline'><a href='../S/42.html#L22'>pool</a>               22 deps/db_connection/lib/db_connection/task.ex         pool = {:via, __MODULE__, {{conn, mon}, mod, state}}</span>
+<span class='curline'><a href='../S/42.html#L23'>pool</a>               23 deps/db_connection/lib/db_connection/task.ex         _ = DBConnection.run(pool, make(fun), [pool: __MODULE__] ++ opts)</span>
+<span class='curline'><a href='../S/45.html#L54'>pool</a>               54 deps/db_connection/mix.exs   defp test_paths(pool) when pool in @pools, do: ["integration_test/#{pool}"]</span>
+<span class='curline'><a href='../S/54.html#L6'>pool</a>                6 deps/ecto/integration_test/cases/pool.exs   pool =</span>
+<span class='curline'><a href='../S/54.html#L16'>pool</a>               16 deps/ecto/integration_test/cases/pool.exs                       [pool: pool, pool_size: 1] ++ repo)</span>
+<span class='curline'><a href='../S/62.html#L84'>pool</a>               84 deps/ecto/integration_test/sql/test_transaction.exs     {_, pool_mod, pool} = @ref</span>
+<span class='curline'><a href='../S/62.html#L86'>pool</a>               86 deps/ecto/integration_test/sql/test_transaction.exs       Pool.run(pool_mod, pool, @timeout, fn(conn, _) -&gt;</span>
+<span class='curline'><a href='../S/62.html#L131'>pool</a>              131 deps/ecto/integration_test/sql/test_transaction.exs       {_, pool_mod, pool} = @ref</span>
+<span class='curline'><a href='../S/62.html#L132'>pool</a>              132 deps/ecto/integration_test/sql/test_transaction.exs       Pool.run(pool_mod, pool, @timeout, fn(conn, _) -&gt;</span>
+<span class='curline'><a href='../S/62.html#L194'>pool</a>              194 deps/ecto/integration_test/sql/test_transaction.exs       {_, pool_mod, pool} = @ref</span>
+<span class='curline'><a href='../S/62.html#L195'>pool</a>              195 deps/ecto/integration_test/sql/test_transaction.exs       Pool.run(pool_mod, pool, @timeout, fn(conn, _) -&gt;</span>
+<span class='curline'><a href='../S/62.html#L214'>pool</a>              214 deps/ecto/integration_test/sql/test_transaction.exs       {_, pool, _, _} = TestRepo.__pool__</span>
+<span class='curline'><a href='../S/62.html#L215'>pool</a>              215 deps/ecto/integration_test/sql/test_transaction.exs       assert Ecto.Adapters.SQL.Sandbox.mode(pool) === mode</span>
+<span class='curline'><a href='../S/81.html#L238'>pool</a>              238 deps/ecto/lib/ecto/adapters/sql.ex     {pool_mod, pool, pool_timeout, timeout} = repo.__pool__</span>
+<span class='curline'><a href='../S/81.html#L247'>pool</a>              247 deps/ecto/lib/ecto/adapters/sql.ex     case Pool.run(pool_mod, pool, pool_timeout, query_fun) do</span>
+<span class='curline'><a href='../S/81.html#L391'>pool</a>              391 deps/ecto/lib/ecto/adapters/sql.ex       {Sandbox, pool, pool_timeout, timeout} -&gt;</span>
+<span class='curline'><a href='../S/81.html#L394'>pool</a>              394 deps/ecto/lib/ecto/adapters/sql.ex         test_transaction(pool, fun, &amp;repo.log/1, opts, pool_timeout)</span>
+<span class='curline'><a href='../S/81.html#L406'>pool</a>              406 deps/ecto/lib/ecto/adapters/sql.ex   defp test_transaction(pool, fun, log, opts, pool_timeout) do</span>
+<span class='curline'><a href='../S/81.html#L407'>pool</a>              407 deps/ecto/lib/ecto/adapters/sql.ex     case apply(Sandbox, fun, [pool, log, opts, pool_timeout]) do</span>
+<span class='curline'><a href='../S/81.html#L433'>pool</a>              433 deps/ecto/lib/ecto/adapters/sql.ex     {pool, opts} = Keyword.pop(opts, :pool)</span>
+<span class='curline'><a href='../S/81.html#L434'>pool</a>              434 deps/ecto/lib/ecto/adapters/sql.ex     pool.start_link(connection, opts)</span>
+<span class='curline'><a href='../S/81.html#L539'>pool</a>              539 deps/ecto/lib/ecto/adapters/sql.ex     {pool_mod, pool, pool_timeout, timeout} = repo.__pool__</span>
+<span class='curline'><a href='../S/81.html#L545'>pool</a>              545 deps/ecto/lib/ecto/adapters/sql.ex         mode = transaction_mode(pool_mod, pool, pool_timeout)</span>
+<span class='curline'><a href='../S/81.html#L551'>pool</a>              551 deps/ecto/lib/ecto/adapters/sql.ex     case Pool.transaction(pool_mod, pool, pool_timeout, transaction) do</span>
+<span class='curline'><a href='../S/81.html#L571'>pool</a>              571 deps/ecto/lib/ecto/adapters/sql.ex     {pool_mod, pool, _pool_timeout, _timeout} = repo.__pool__</span>
+<span class='curline'><a href='../S/81.html#L572'>pool</a>              572 deps/ecto/lib/ecto/adapters/sql.ex     Pool.rollback(pool_mod, pool, value)</span>
+<span class='curline'><a href='../S/81.html#L575'>pool</a>              575 deps/ecto/lib/ecto/adapters/sql.ex   defp transaction_mode(Sandbox, pool, pool_timeout), do: Sandbox.mode(pool, pool_timeout)</span>
+<span class='curline'><a href='../S/80.html#L36'>pool</a>               36 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   @spec begin(pool, log, Keyword.t, timeout) ::</span>
+<span class='curline'><a href='../S/80.html#L38'>pool</a>               38 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   def begin(pool, log, opts, timeout) do</span>
+<span class='curline'><a href='../S/80.html#L39'>pool</a>               39 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     query(pool, :begin, log, opts, timeout)</span>
+<span class='curline'><a href='../S/80.html#L43'>pool</a>               43 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   @spec restart(pool, log, Keyword.t, timeout) :: :ok when pool: pid | atom</span>
+<span class='curline'><a href='../S/80.html#L44'>pool</a>               44 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   def restart(pool, log, opts, timeout) do</span>
+<span class='curline'><a href='../S/80.html#L45'>pool</a>               45 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     query(pool, :restart, log, opts, timeout)</span>
+<span class='curline'><a href='../S/80.html#L49'>pool</a>               49 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   @spec rollback(pool, log, Keyword.t, timeout) :: :ok when pool: pid | atom</span>
+<span class='curline'><a href='../S/80.html#L50'>pool</a>               50 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   def rollback(pool, log, opts, timeout) do</span>
+<span class='curline'><a href='../S/80.html#L51'>pool</a>               51 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     query(pool, :rollback, log, opts, timeout)</span>
+<span class='curline'><a href='../S/80.html#L55'>pool</a>               55 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   @spec mode(pool, timeout) :: :raw | :sandbox when pool: pid | atom</span>
+<span class='curline'><a href='../S/80.html#L56'>pool</a>               56 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   def mode(pool, timeout \\ 5_000) do</span>
+<span class='curline'><a href='../S/80.html#L57'>pool</a>               57 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     GenServer.call(pool, :mode, timeout)</span>
+<span class='curline'><a href='../S/80.html#L61'>pool</a>               61 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   def checkout(pool, timeout) do</span>
+<span class='curline'><a href='../S/80.html#L62'>pool</a>               62 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     checkout(pool, :run, timeout)</span>
+<span class='curline'><a href='../S/80.html#L66'>pool</a>               66 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   def checkin(pool, ref, _) do</span>
+<span class='curline'><a href='../S/80.html#L67'>pool</a>               67 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     GenServer.cast(pool, {:checkin, ref})</span>
+<span class='curline'><a href='../S/80.html#L71'>pool</a>               71 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   def open_transaction(pool, timeout) do</span>
+<span class='curline'><a href='../S/80.html#L72'>pool</a>               72 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     checkout(pool, :transaction, timeout)</span>
+<span class='curline'><a href='../S/80.html#L76'>pool</a>               76 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   def close_transaction(pool, ref, _) do</span>
+<span class='curline'><a href='../S/80.html#L77'>pool</a>               77 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     GenServer.cast(pool, {:checkin, ref})</span>
+<span class='curline'><a href='../S/80.html#L81'>pool</a>               81 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   def break(pool, ref, timeout) do</span>
+<span class='curline'><a href='../S/80.html#L82'>pool</a>               82 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     GenServer.call(pool, {:break, ref}, timeout)</span>
+<span class='curline'><a href='../S/80.html#L215'>pool</a>              215 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   defp checkout(pool, fun, timeout) do</span>
+<span class='curline'><a href='../S/80.html#L217'>pool</a>              217 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     case :timer.tc(fn() -&gt; do_checkout(pool, ref, fun, timeout) end) do</span>
+<span class='curline'><a href='../S/80.html#L225'>pool</a>              225 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   defp do_checkout(pool, ref, fun, timeout) do</span>
+<span class='curline'><a href='../S/80.html#L227'>pool</a>              227 deps/ecto/lib/ecto/adapters/sql/sandbox.ex       GenServer.call(pool, {:checkout, ref, fun}, timeout)</span>
+<span class='curline'><a href='../S/80.html#L230'>pool</a>              230 deps/ecto/lib/ecto/adapters/sql/sandbox.ex         GenServer.cast(pool, {:cancel, ref})</span>
+<span class='curline'><a href='../S/80.html#L237'>pool</a>              237 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   defp query(pool, query, log, opts, timeout) do</span>
+<span class='curline'><a href='../S/80.html#L238'>pool</a>              238 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     GenServer.call(pool, {:query, query, log, opts}, timeout)</span>
+<span class='curline'><a href='../S/100.html#L143'>pool</a>              143 deps/ecto/lib/ecto/pool.ex   def run(pool_mod, pool, timeout, fun) do</span>
+<span class='curline'><a href='../S/100.html#L144'>pool</a>              144 deps/ecto/lib/ecto/pool.ex     ref = {__MODULE__, pool_mod, pool}</span>
+<span class='curline'><a href='../S/100.html#L147'>pool</a>              147 deps/ecto/lib/ecto/pool.ex         do_run(pool_mod, pool, timeout, fun)</span>
+<span class='curline'><a href='../S/100.html#L155'>pool</a>              155 deps/ecto/lib/ecto/pool.ex   defp do_run(pool_mod, pool, timeout, fun) do</span>
+<span class='curline'><a href='../S/100.html#L156'>pool</a>              156 deps/ecto/lib/ecto/pool.ex     case checkout(pool_mod, pool, timeout) do</span>
+<span class='curline'><a href='../S/100.html#L161'>pool</a>              161 deps/ecto/lib/ecto/pool.ex           pool_mod.checkin(pool, worker, timeout)</span>
+<span class='curline'><a href='../S/100.html#L168'>pool</a>              168 deps/ecto/lib/ecto/pool.ex   defp checkout(pool_mod, pool, timeout) do</span>
+<span class='curline'><a href='../S/100.html#L169'>pool</a>              169 deps/ecto/lib/ecto/pool.ex     case pool_mod.checkout(pool, timeout) do</span>
+<span class='curline'><a href='../S/100.html#L223'>pool</a>              223 deps/ecto/lib/ecto/pool.ex   def transaction(pool_mod, pool, timeout, fun) do</span>
+<span class='curline'><a href='../S/100.html#L224'>pool</a>              224 deps/ecto/lib/ecto/pool.ex     ref = {__MODULE__, pool_mod, pool}</span>
+<span class='curline'><a href='../S/100.html#L227'>pool</a>              227 deps/ecto/lib/ecto/pool.ex         case pool_mod.open_transaction(pool, timeout) do</span>
+<span class='curline'><a href='../S/100.html#L271'>pool</a>              271 deps/ecto/lib/ecto/pool.ex   defp close_transaction({__MODULE__, pool_mod, pool}, %{conn: _, worker: worker}, timeout) do</span>
+<span class='curline'><a href='../S/100.html#L272'>pool</a>              272 deps/ecto/lib/ecto/pool.ex     pool_mod.close_transaction(pool, worker, timeout)</span>
+<span class='curline'><a href='../S/100.html#L323'>pool</a>              323 deps/ecto/lib/ecto/pool.ex   def rollback(pool_mod, pool, value) do</span>
+<span class='curline'><a href='../S/100.html#L324'>pool</a>              324 deps/ecto/lib/ecto/pool.ex     ref = {__MODULE__, pool_mod, pool}</span>
+<span class='curline'><a href='../S/100.html#L355'>pool</a>              355 deps/ecto/lib/ecto/pool.ex   def break({__MODULE__, pool_mod, pool} = ref, timeout) do</span>
+<span class='curline'><a href='../S/100.html#L359'>pool</a>              359 deps/ecto/lib/ecto/pool.ex         pool_mod.break(pool, worker, timeout)</span>
+<span class='curline'><a href='../S/102.html#L34'>pool</a>               34 deps/ecto/lib/ecto/pools/poolboy.ex   def checkout(pool, timeout) do</span>
+<span class='curline'><a href='../S/102.html#L35'>pool</a>               35 deps/ecto/lib/ecto/pools/poolboy.ex     checkout(pool, :run, timeout)</span>
+<span class='curline'><a href='../S/102.html#L39'>pool</a>               39 deps/ecto/lib/ecto/pools/poolboy.ex   def checkin(pool, worker, _) do</span>
+<span class='curline'><a href='../S/102.html#L40'>pool</a>               40 deps/ecto/lib/ecto/pools/poolboy.ex     :poolboy.checkin(pool, worker)</span>
+<span class='curline'><a href='../S/102.html#L44'>pool</a>               44 deps/ecto/lib/ecto/pools/poolboy.ex   def open_transaction(pool, timeout) do</span>
+<span class='curline'><a href='../S/102.html#L45'>pool</a>               45 deps/ecto/lib/ecto/pools/poolboy.ex     checkout(pool, :transaction, timeout)</span>
+<span class='curline'><a href='../S/102.html#L49'>pool</a>               49 deps/ecto/lib/ecto/pools/poolboy.ex   def close_transaction(pool, worker, _) do</span>
+<span class='curline'><a href='../S/102.html#L53'>pool</a>               53 deps/ecto/lib/ecto/pools/poolboy.ex       :poolboy.checkin(pool, worker)</span>
+<span class='curline'><a href='../S/102.html#L58'>pool</a>               58 deps/ecto/lib/ecto/pools/poolboy.ex   def break(pool, worker, timeout) do</span>
+<span class='curline'><a href='../S/102.html#L62'>pool</a>               62 deps/ecto/lib/ecto/pools/poolboy.ex       :poolboy.checkin(pool, worker)</span>
+<span class='curline'><a href='../S/102.html#L84'>pool</a>               84 deps/ecto/lib/ecto/pools/poolboy.ex   defp checkout(pool, fun, timeout) do</span>
+<span class='curline'><a href='../S/102.html#L85'>pool</a>               85 deps/ecto/lib/ecto/pools/poolboy.ex     case :timer.tc(fn() -&gt; do_checkout(pool, fun, timeout) end) do</span>
+<span class='curline'><a href='../S/102.html#L93'>pool</a>               93 deps/ecto/lib/ecto/pools/poolboy.ex   defp do_checkout(pool, fun, timeout) do</span>
+<span class='curline'><a href='../S/102.html#L95'>pool</a>               95 deps/ecto/lib/ecto/pools/poolboy.ex       :poolboy.checkout(pool, :true, timeout)</span>
+<span class='curline'><a href='../S/102.html#L101'>pool</a>              101 deps/ecto/lib/ecto/pools/poolboy.ex         do_checkout(pool, worker, fun, timeout)</span>
+<span class='curline'><a href='../S/102.html#L105'>pool</a>              105 deps/ecto/lib/ecto/pools/poolboy.ex   defp do_checkout(pool, worker, fun, timeout) do</span>
+<span class='curline'><a href='../S/102.html#L111'>pool</a>              111 deps/ecto/lib/ecto/pools/poolboy.ex         :poolboy.checkin(pool, worker)</span>
+<span class='curline'><a href='../S/102.html#L117'>pool</a>              117 deps/ecto/lib/ecto/pools/poolboy.ex         :poolboy.checkin(pool, worker)</span>
+<span class='curline'><a href='../S/106.html#L48'>pool</a>               48 deps/ecto/lib/ecto/pools/sojourn_broker.ex   def checkout(pool, timeout) do</span>
+<span class='curline'><a href='../S/106.html#L49'>pool</a>               49 deps/ecto/lib/ecto/pools/sojourn_broker.ex     ask(pool, :run, timeout)</span>
+<span class='curline'><a href='../S/106.html#L58'>pool</a>               58 deps/ecto/lib/ecto/pools/sojourn_broker.ex   def open_transaction(pool, timeout) do</span>
+<span class='curline'><a href='../S/106.html#L59'>pool</a>               59 deps/ecto/lib/ecto/pools/sojourn_broker.ex     ask(pool, :transaction, timeout)</span>
+<span class='curline'><a href='../S/106.html#L74'>pool</a>               74 deps/ecto/lib/ecto/pools/sojourn_broker.ex   defp ask(pool, fun, timeout) do</span>
+<span class='curline'><a href='../S/106.html#L75'>pool</a>               75 deps/ecto/lib/ecto/pools/sojourn_broker.ex     case :sbroker.ask(pool, {fun, self()}) do</span>
+<span class='curline'><a href='../S/129.html#L64'>pool</a>               64 deps/ecto/lib/ecto/repo.ex       {otp_app, adapter, pool, config} = Ecto.Repo.Supervisor.parse_config(__MODULE__, opts)</span>
+<span class='curline'><a href='../S/129.html#L68'>pool</a>               68 deps/ecto/lib/ecto/repo.ex       @pool pool</span>
+<span class='curline'><a href='../S/129.html#L207'>pool</a>              207 deps/ecto/lib/ecto/repo.ex   defcallback __pool__ :: {pool :: module, name :: atom,</span>
+<span class='curline'><a href='../S/128.html#L46'>pool</a>               46 deps/ecto/lib/ecto/repo/supervisor.ex     {otp_app, adapter, pool(repo, config), config}</span>
+<span class='curline'><a href='../S/128.html#L50'>pool</a>               50 deps/ecto/lib/ecto/repo/supervisor.ex     pool         = Keyword.get(config, :pool, Ecto.Pools.Poolboy)</span>
+<span class='curline'><a href='../S/128.html#L54'>pool</a>               54 deps/ecto/lib/ecto/repo/supervisor.ex     {pool, name, pool_timeout, timeout}</span>
+<span class='curline'><a href='../S/142.html#L51'>pool</a>               51 deps/ecto/mix.exs   defp test_paths(pool) when pool in @pools, do: ["test/pool/#{pool(pool)}"]</span>
+<span class='curline'><a href='../S/149.html#L11'>pool</a>               11 deps/poolboy/src/poolboy.erl -export_type([pool/0]).</span>
+<span class='curline'><a href='../S/149.html#L21'>pool</a>               21 deps/poolboy/src/poolboy.erl -type pool() ::</span>
+<span class='curline'><a href='../S/149.html#L42'>pool</a>               42 deps/poolboy/src/poolboy.erl -spec checkout(Pool :: pool()) -&gt; pid().</span>
+<span class='curline'><a href='../S/149.html#L46'>pool</a>               46 deps/poolboy/src/poolboy.erl -spec checkout(Pool :: pool(), Block :: boolean()) -&gt; pid() | full.</span>
+<span class='curline'><a href='../S/149.html#L50'>pool</a>               50 deps/poolboy/src/poolboy.erl -spec checkout(Pool :: pool(), Block :: boolean(), Timeout :: timeout())</span>
+<span class='curline'><a href='../S/149.html#L62'>pool</a>               62 deps/poolboy/src/poolboy.erl -spec checkin(Pool :: pool(), Worker :: pid()) -&gt; ok.</span>
+<span class='curline'><a href='../S/149.html#L66'>pool</a>               66 deps/poolboy/src/poolboy.erl -spec transaction(Pool :: pool(), Fun :: fun((Worker :: pid()) -&gt; any()))</span>
+<span class='curline'><a href='../S/149.html#L71'>pool</a>               71 deps/poolboy/src/poolboy.erl -spec transaction(Pool :: pool(), Fun :: fun((Worker :: pid()) -&gt; any()),</span>
+<span class='curline'><a href='../S/149.html#L117'>pool</a>              117 deps/poolboy/src/poolboy.erl -spec stop(Pool :: pool()) -&gt; ok.</span>
+<span class='curline'><a href='../S/149.html#L121'>pool</a>              121 deps/poolboy/src/poolboy.erl -spec status(Pool :: pool()) -&gt; {atom(), integer(), integer(), integer()}.</span>
+</pre>
+</body>
+</html>

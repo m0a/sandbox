@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>split_binary</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/119.html#L231'>split_binary</a>      231 deps/ecto/lib/ecto/query/builder.ex defp split_binary(query), do: split_binary(query, "")</span>
+<span class='curline'><a href='../S/119.html#L232'>split_binary</a>      232 deps/ecto/lib/ecto/query/builder.ex defp split_binary(&lt;&lt;&gt;&gt;, consumed), do: [consumed]</span>
+<span class='curline'><a href='../S/119.html#L233'>split_binary</a>      233 deps/ecto/lib/ecto/query/builder.ex defp split_binary(&lt;&lt;??, rest :: binary &gt;&gt;, consumed), do: [consumed | split_binary(rest, "")]</span>
+<span class='curline'><a href='../S/119.html#L234'>split_binary</a>      234 deps/ecto/lib/ecto/query/builder.ex defp split_binary(&lt;&lt;?\\, ??, rest :: binary &gt;&gt;, consumed), do: split_binary(rest, consumed &lt;&gt; &lt;&lt;??&gt;&gt;)</span>
+<span class='curline'><a href='../S/119.html#L235'>split_binary</a>      235 deps/ecto/lib/ecto/query/builder.ex defp split_binary(&lt;&lt;first :: utf8, rest :: binary&gt;&gt;, consumed), do: split_binary(rest, consumed &lt;&gt; &lt;&lt;first&gt;&gt;)</span>
+</pre>
+</body>
+</html>

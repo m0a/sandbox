@@ -1,0 +1,352 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/integration_test/cases/joins.exs</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/228.html'>integration_test</a>/<a href='../files/229.html'>cases</a>/joins.exs</h2>
+<em class='comment'>/* [&lt;][&gt;][^][v][top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Integration.JoinsTest <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  use Ecto.Integration.Case
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>  alias Ecto.Integration.TestRepo
+<a id='L5' name='L5'></a>  import Ecto.Query
+<a id='L6' name='L6'></a>
+<a id='L7' name='L7'></a>  alias Ecto.Integration.Post
+<a id='L8' name='L8'></a>  alias Ecto.Integration.Comment
+<a id='L9' name='L9'></a>  alias Ecto.Integration.Permalink
+<a id='L10' name='L10'></a>  alias Ecto.Integration.User
+<a id='L11' name='L11'></a>
+<a id='L12' name='L12'></a>  @tag :update_with_join
+<a id='L13' name='L13'></a>  test "update all with joins" <strong class='reserved'>do</strong>
+<a id='L14' name='L14'></a>    <a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a> = TestRepo.insert!(%<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>name: "Tester"<em class='brace'>}</em>)
+<a id='L15' name='L15'></a>    post = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "foo"<em class='brace'>}</em>)
+<a id='L16' name='L16'></a>    <a href='../D/373.html' title='Multiple defined in 2 places.'>comment</a> = TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "hey", author_id: <a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a>.id, post_id: post.id<em class='brace'>}</em>)
+<a id='L17' name='L17'></a>
+<a id='L18' name='L18'></a>    another_post = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "bar"<em class='brace'>}</em>)
+<a id='L19' name='L19'></a>    another_comment = TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "another", author_id: <a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a>.id, post_id: another_post.id<em class='brace'>}</em>)
+<a id='L20' name='L20'></a>
+<a id='L21' name='L21'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(c in <a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a>, join: u in <a href='../D/193.html' title='Multiple defined in 5 places.'>User</a>, on: u.id == c.author_id,
+<a id='L22' name='L22'></a>                               where: c.post_id in ^[post.id])
+<a id='L23' name='L23'></a>
+<a id='L24' name='L24'></a>    assert <em class='brace'>{</em>1, nil<em class='brace'>}</em> = TestRepo.<a href='../D/1173.html' title='Multiple defined in 8 places.'>update_all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, set: [text: "hoo"])
+<a id='L25' name='L25'></a>    assert %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "hoo"<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Comment, <a href='../D/373.html' title='Multiple defined in 2 places.'>comment</a>.id)
+<a id='L26' name='L26'></a>    assert %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "another"<em class='brace'>}</em> = TestRepo.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(Comment, another_comment.id)
+<a id='L27' name='L27'></a>  end
+<a id='L28' name='L28'></a>
+<a id='L29' name='L29'></a>  @tag :delete_with_join
+<a id='L30' name='L30'></a>  test "delete all with joins" <strong class='reserved'>do</strong>
+<a id='L31' name='L31'></a>    <a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a> = TestRepo.insert!(%<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>name: "Tester"<em class='brace'>}</em>)
+<a id='L32' name='L32'></a>    post = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "foo"<em class='brace'>}</em>)
+<a id='L33' name='L33'></a>    TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "hey", author_id: <a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a>.id, post_id: post.id<em class='brace'>}</em>)
+<a id='L34' name='L34'></a>    TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "foo", author_id: <a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a>.id, post_id: post.id<em class='brace'>}</em>)
+<a id='L35' name='L35'></a>    TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "bar", author_id: <a href='../D/1183.html' title='Multiple defined in 2 places.'>user</a>.id<em class='brace'>}</em>)
+<a id='L36' name='L36'></a>
+<a id='L37' name='L37'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(c in <a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a>, join: u in <a href='../D/193.html' title='Multiple defined in 5 places.'>User</a>, on: u.id == c.author_id,
+<a id='L38' name='L38'></a>                               where: c.post_id in ^[post.id])
+<a id='L39' name='L39'></a>    assert <em class='brace'>{</em>2, nil<em class='brace'>}</em> = TestRepo.<a href='../D/446.html' title='Multiple defined in 6 places.'>delete_all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L40' name='L40'></a>    assert [%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em>] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(Comment)
+<a id='L41' name='L41'></a>  end
+<a id='L42' name='L42'></a>
+<a id='L43' name='L43'></a>  test "joins" <strong class='reserved'>do</strong>
+<a id='L44' name='L44'></a>    p1 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L45' name='L45'></a>    p2 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L46' name='L46'></a>    c1 = TestRepo.insert!(%<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>url: "1", post_id: p2.id<em class='brace'>}</em>)
+<a id='L47' name='L47'></a>
+<a id='L48' name='L48'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, join: c in <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(p, :permalink), order_by: p.id, select: <em class='brace'>{</em>p, c<em class='brace'>}</em>)
+<a id='L49' name='L49'></a>    assert [<em class='brace'>{</em>^p2, ^c1<em class='brace'>}</em>] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L50' name='L50'></a>
+<a id='L51' name='L51'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, left_join: c in <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(p, :permalink), order_by: p.id, select: <em class='brace'>{</em>p, c<em class='brace'>}</em>)
+<a id='L52' name='L52'></a>    assert [<em class='brace'>{</em>^p1, nil<em class='brace'>}</em>, <em class='brace'>{</em>^p2, ^c1<em class='brace'>}</em>] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L53' name='L53'></a>  end
+<a id='L54' name='L54'></a>
+<a id='L55' name='L55'></a>  @tag :right_join
+<a id='L56' name='L56'></a>  test "right joins with missing entries" <strong class='reserved'>do</strong>
+<a id='L57' name='L57'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid1<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L58' name='L58'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid2<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L59' name='L59'></a>
+<a id='L60' name='L60'></a>    %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>id: plid1<em class='brace'>}</em> = TestRepo.insert!(%Permalink<em class='brace'>{</em>url: "1", post_id: pid2<em class='brace'>}</em>)
+<a id='L61' name='L61'></a>
+<a id='L62' name='L62'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: _<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "1", post_id: pid1<em class='brace'>}</em>)
+<a id='L63' name='L63'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: _<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "2", post_id: pid2<em class='brace'>}</em>)
+<a id='L64' name='L64'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: _<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "3", post_id: nil<em class='brace'>}</em>)
+<a id='L65' name='L65'></a>
+<a id='L66' name='L66'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, right_join: c in <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(p, :comments),
+<a id='L67' name='L67'></a>                 preload: :permalink, order_by: c.id)
+<a id='L68' name='L68'></a>    assert [p1, p2, nil] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L69' name='L69'></a>    assert p1.id == pid1
+<a id='L70' name='L70'></a>    assert p2.id == pid2
+<a id='L71' name='L71'></a>
+<a id='L72' name='L72'></a>    assert p1.permalink == nil
+<a id='L73' name='L73'></a>    assert p2.permalink.id == plid1
+<a id='L74' name='L74'></a>  end
+<a id='L75' name='L75'></a>
+<a id='L76' name='L76'></a>  test "has_many association join" <strong class='reserved'>do</strong>
+<a id='L77' name='L77'></a>    post = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1", text: "hi"<em class='brace'>}</em>)
+<a id='L78' name='L78'></a>    c1 = TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "hey", post_id: post.id<em class='brace'>}</em>)
+<a id='L79' name='L79'></a>    c2 = TestRepo.insert!(%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>text: "heya", post_id: post.id<em class='brace'>}</em>)
+<a id='L80' name='L80'></a>
+<a id='L81' name='L81'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, join: c in <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(p, :comments), select: <em class='brace'>{</em>p, c<em class='brace'>}</em>, order_by: p.id)
+<a id='L82' name='L82'></a>    [<em class='brace'>{</em>^post, ^c1<em class='brace'>}</em>, <em class='brace'>{</em>^post, ^c2<em class='brace'>}</em>] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L83' name='L83'></a>  end
+<a id='L84' name='L84'></a>
+<a id='L85' name='L85'></a>  test "has_one association join" <strong class='reserved'>do</strong>
+<a id='L86' name='L86'></a>    post = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1", text: "hi"<em class='brace'>}</em>)
+<a id='L87' name='L87'></a>    p1 = TestRepo.insert!(%<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>url: "hey", post_id: post.id<em class='brace'>}</em>)
+<a id='L88' name='L88'></a>    p2 = TestRepo.insert!(%<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>url: "heya", post_id: post.id<em class='brace'>}</em>)
+<a id='L89' name='L89'></a>
+<a id='L90' name='L90'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, join: c in <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(p, :permalink), select: <em class='brace'>{</em>p, c<em class='brace'>}</em>, order_by: c.id)
+<a id='L91' name='L91'></a>    [<em class='brace'>{</em>^post, ^p1<em class='brace'>}</em>, <em class='brace'>{</em>^post, ^p2<em class='brace'>}</em>] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L92' name='L92'></a>  end
+<a id='L93' name='L93'></a>
+<a id='L94' name='L94'></a>  test "belongs_to association join" <strong class='reserved'>do</strong>
+<a id='L95' name='L95'></a>    post = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L96' name='L96'></a>    p1 = TestRepo.insert!(%<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>url: "hey", post_id: post.id<em class='brace'>}</em>)
+<a id='L97' name='L97'></a>    p2 = TestRepo.insert!(%<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>url: "heya", post_id: post.id<em class='brace'>}</em>)
+<a id='L98' name='L98'></a>
+<a id='L99' name='L99'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a>, join: c in <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(p, :post), select: <em class='brace'>{</em>p, c<em class='brace'>}</em>, order_by: p.id)
+<a id='L100' name='L100'></a>    [<em class='brace'>{</em>^p1, ^post<em class='brace'>}</em>, <em class='brace'>{</em>^p2, ^post<em class='brace'>}</em>] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L101' name='L101'></a>  end
+<a id='L102' name='L102'></a>
+<a id='L103' name='L103'></a>  test "has_many through assoc" <strong class='reserved'>do</strong>
+<a id='L104' name='L104'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid1<em class='brace'>}</em> = p1 = TestRepo.insert!(%Post<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L105' name='L105'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid2<em class='brace'>}</em> = p2 = TestRepo.insert!(%Post<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L106' name='L106'></a>
+<a id='L107' name='L107'></a>    %<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>id: uid1<em class='brace'>}</em> = TestRepo.insert!(%User<em class='brace'>{</em>name: "zzz"<em class='brace'>}</em>)
+<a id='L108' name='L108'></a>    %<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>id: uid2<em class='brace'>}</em> = TestRepo.insert!(%User<em class='brace'>{</em>name: "aaa"<em class='brace'>}</em>)
+<a id='L109' name='L109'></a>
+<a id='L110' name='L110'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1, author_id: uid1<em class='brace'>}</em>)
+<a id='L111' name='L111'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1, author_id: uid1<em class='brace'>}</em>)
+<a id='L112' name='L112'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1, author_id: uid2<em class='brace'>}</em>)
+<a id='L113' name='L113'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid2, author_id: uid2<em class='brace'>}</em>)
+<a id='L114' name='L114'></a>
+<a id='L115' name='L115'></a>    [u2, u1] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a> <a href='../D/46.html' title='Multiple defined in 2 places.'>Ecto</a>.<a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>([p1, p2], :comments_authors)
+<a id='L116' name='L116'></a>                            |&gt; <a href='../D/839.html' title='Multiple defined in 3 places.'>order_by</a>([a], a.name)
+<a id='L117' name='L117'></a>    assert u1.id == uid1
+<a id='L118' name='L118'></a>    assert u2.id == uid2
+<a id='L119' name='L119'></a>  end
+<a id='L120' name='L120'></a>
+<a id='L121' name='L121'></a><em class='sharp'>  #</em># Preload assocs
+<a id='L122' name='L122'></a>
+<a id='L123' name='L123'></a>  test "has_many assoc selector" <strong class='reserved'>do</strong>
+<a id='L124' name='L124'></a>    p1 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L125' name='L125'></a>    p2 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L126' name='L126'></a>
+<a id='L127' name='L127'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid1<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "1", post_id: p1.id<em class='brace'>}</em>)
+<a id='L128' name='L128'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid2<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "2", post_id: p1.id<em class='brace'>}</em>)
+<a id='L129' name='L129'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid3<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "3", post_id: p2.id<em class='brace'>}</em>)
+<a id='L130' name='L130'></a>
+<a id='L131' name='L131'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, join: c in <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(p, :comments), preload: [comments: c])
+<a id='L132' name='L132'></a>    assert [post1, post2] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L133' name='L133'></a>    assert [%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: ^cid1<em class='brace'>}</em>, %Comment<em class='brace'>{</em>id: ^cid2<em class='brace'>}</em>] = post1.comments
+<a id='L134' name='L134'></a>    assert [%<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: ^cid3<em class='brace'>}</em>] = post2.comments
+<a id='L135' name='L135'></a>  end
+<a id='L136' name='L136'></a>
+<a id='L137' name='L137'></a>  test "has_one assoc selector" <strong class='reserved'>do</strong>
+<a id='L138' name='L138'></a>    p1 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L139' name='L139'></a>    p2 = TestRepo.insert!(%<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L140' name='L140'></a>
+<a id='L141' name='L141'></a>    %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>id: pid1<em class='brace'>}</em> = TestRepo.insert!(%Permalink<em class='brace'>{</em>url: "1", post_id: p1.id<em class='brace'>}</em>)
+<a id='L142' name='L142'></a>    %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em><em class='brace'>}</em>         = TestRepo.insert!(%Permalink<em class='brace'>{</em>url: "2"<em class='brace'>}</em>)
+<a id='L143' name='L143'></a>    %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>id: pid3<em class='brace'>}</em> = TestRepo.insert!(%Permalink<em class='brace'>{</em>url: "3", post_id: p2.id<em class='brace'>}</em>)
+<a id='L144' name='L144'></a>
+<a id='L145' name='L145'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, join: pl in <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(p, :permalink), preload: [permalink: pl])
+<a id='L146' name='L146'></a>    assert [post1, post3] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L147' name='L147'></a>
+<a id='L148' name='L148'></a>    assert %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>id: ^pid1<em class='brace'>}</em> = post1.permalink
+<a id='L149' name='L149'></a>    assert %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>id: ^pid3<em class='brace'>}</em> = post3.permalink
+<a id='L150' name='L150'></a>  end
+<a id='L151' name='L151'></a>
+<a id='L152' name='L152'></a>  test "belongs_to assoc selector" <strong class='reserved'>do</strong>
+<a id='L153' name='L153'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid1<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L154' name='L154'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid2<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L155' name='L155'></a>
+<a id='L156' name='L156'></a>    TestRepo.insert!(%<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>url: "1", post_id: pid1<em class='brace'>}</em>)
+<a id='L157' name='L157'></a>    TestRepo.insert!(%<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>url: "2"<em class='brace'>}</em>)
+<a id='L158' name='L158'></a>    TestRepo.insert!(%<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>url: "3", post_id: pid2<em class='brace'>}</em>)
+<a id='L159' name='L159'></a>
+<a id='L160' name='L160'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(pl in <a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a>, left_join: p in <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(pl, :post), preload: [post: p], order_by: pl.id)
+<a id='L161' name='L161'></a>    assert [p1, p2, p3] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L162' name='L162'></a>
+<a id='L163' name='L163'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: ^pid1<em class='brace'>}</em> = p1.post
+<a id='L164' name='L164'></a>    refute p2.post
+<a id='L165' name='L165'></a>    assert %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: ^pid2<em class='brace'>}</em> = p3.post
+<a id='L166' name='L166'></a>  end
+<a id='L167' name='L167'></a>
+<a id='L168' name='L168'></a>  test "has_many through assoc selector" <strong class='reserved'>do</strong>
+<a id='L169' name='L169'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid1<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L170' name='L170'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid2<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L171' name='L171'></a>
+<a id='L172' name='L172'></a>    %<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>id: uid1<em class='brace'>}</em> = TestRepo.insert!(%User<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L173' name='L173'></a>    %<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>id: uid2<em class='brace'>}</em> = TestRepo.insert!(%User<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L174' name='L174'></a>
+<a id='L175' name='L175'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1, author_id: uid1<em class='brace'>}</em>)
+<a id='L176' name='L176'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1, author_id: uid1<em class='brace'>}</em>)
+<a id='L177' name='L177'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1, author_id: uid2<em class='brace'>}</em>)
+<a id='L178' name='L178'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid2, author_id: uid2<em class='brace'>}</em>)
+<a id='L179' name='L179'></a>
+<a id='L180' name='L180'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>, left_join: ca in <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(p, :comments_authors),
+<a id='L181' name='L181'></a>                            preload: [comments_authors: ca])
+<a id='L182' name='L182'></a>    [p1, p2] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L183' name='L183'></a>
+<a id='L184' name='L184'></a>    [u1, u2] = p1.comments_authors
+<a id='L185' name='L185'></a>    assert u1.id == uid1
+<a id='L186' name='L186'></a>    assert u2.id == uid2
+<a id='L187' name='L187'></a>
+<a id='L188' name='L188'></a>    [u2] = p2.comments_authors
+<a id='L189' name='L189'></a>    assert u2.id == uid2
+<a id='L190' name='L190'></a>  end
+<a id='L191' name='L191'></a>
+<a id='L192' name='L192'></a>  test "has_many through-through assoc selector" <strong class='reserved'>do</strong>
+<a id='L193' name='L193'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid1<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L194' name='L194'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid2<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L195' name='L195'></a>
+<a id='L196' name='L196'></a>    %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Permalink<em class='brace'>{</em>post_id: pid1<em class='brace'>}</em>)
+<a id='L197' name='L197'></a>    %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Permalink<em class='brace'>{</em>post_id: pid2<em class='brace'>}</em>)
+<a id='L198' name='L198'></a>
+<a id='L199' name='L199'></a>    %<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>id: uid1<em class='brace'>}</em> = TestRepo.insert!(%User<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L200' name='L200'></a>    %<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>id: uid2<em class='brace'>}</em> = TestRepo.insert!(%User<em class='brace'>{</em><em class='brace'>}</em>)
+<a id='L201' name='L201'></a>
+<a id='L202' name='L202'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1, author_id: uid1<em class='brace'>}</em>)
+<a id='L203' name='L203'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1, author_id: uid1<em class='brace'>}</em>)
+<a id='L204' name='L204'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid1, author_id: uid2<em class='brace'>}</em>)
+<a id='L205' name='L205'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em><em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>post_id: pid2, author_id: uid2<em class='brace'>}</em>)
+<a id='L206' name='L206'></a>
+<a id='L207' name='L207'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a>, left_join: ca in <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(p, :post_comments_authors),
+<a id='L208' name='L208'></a>                                 preload: [post_comments_authors: ca], order_by: ca.id)
+<a id='L209' name='L209'></a>
+<a id='L210' name='L210'></a>    [l1, l2] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L211' name='L211'></a>    [u1, u2] = l1.post_comments_authors
+<a id='L212' name='L212'></a>    assert u1.id == uid1
+<a id='L213' name='L213'></a>    assert u2.id == uid2
+<a id='L214' name='L214'></a>
+<a id='L215' name='L215'></a>    [u2] = l2.post_comments_authors
+<a id='L216' name='L216'></a>    assert u2.id == uid2
+<a id='L217' name='L217'></a>
+<a id='L218' name='L218'></a>    # Insert some intermediary joins to check indexes won't be shuffled
+<a id='L219' name='L219'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(p in <a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a>,
+<a id='L220' name='L220'></a>                    left_join: <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(p, :post),
+<a id='L221' name='L221'></a>                    left_join: ca in <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(p, :post_comments_authors),
+<a id='L222' name='L222'></a>                    left_join: <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(p, :post),
+<a id='L223' name='L223'></a>                    left_join: <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(p, :post),
+<a id='L224' name='L224'></a>                    preload: [post_comments_authors: ca], order_by: ca.id)
+<a id='L225' name='L225'></a>
+<a id='L226' name='L226'></a>    [l1, l2] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L227' name='L227'></a>    [u1, u2] = l1.post_comments_authors
+<a id='L228' name='L228'></a>    assert u1.id == uid1
+<a id='L229' name='L229'></a>    assert u2.id == uid2
+<a id='L230' name='L230'></a>
+<a id='L231' name='L231'></a>    [u2] = l2.post_comments_authors
+<a id='L232' name='L232'></a>    assert u2.id == uid2
+<a id='L233' name='L233'></a>  end
+<a id='L234' name='L234'></a>
+<a id='L235' name='L235'></a>  test "nested assoc" <strong class='reserved'>do</strong>
+<a id='L236' name='L236'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid1<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L237' name='L237'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid2<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L238' name='L238'></a>
+<a id='L239' name='L239'></a>    %<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>id: uid1<em class='brace'>}</em> = TestRepo.insert!(%User<em class='brace'>{</em>name: "1"<em class='brace'>}</em>)
+<a id='L240' name='L240'></a>    %<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>id: uid2<em class='brace'>}</em> = TestRepo.insert!(%User<em class='brace'>{</em>name: "2"<em class='brace'>}</em>)
+<a id='L241' name='L241'></a>
+<a id='L242' name='L242'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid1<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "1", post_id: pid1, author_id: uid1<em class='brace'>}</em>)
+<a id='L243' name='L243'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid2<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "2", post_id: pid1, author_id: uid2<em class='brace'>}</em>)
+<a id='L244' name='L244'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid3<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "3", post_id: pid2, author_id: uid2<em class='brace'>}</em>)
+<a id='L245' name='L245'></a>
+<a id='L246' name='L246'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>,
+<a id='L247' name='L247'></a>      left_join: c in <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(p, :comments),
+<a id='L248' name='L248'></a>      left_join: u in <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(c, :author),
+<a id='L249' name='L249'></a>      order_by: [p.id, c.id, u.id],
+<a id='L250' name='L250'></a>      preload: [comments: <em class='brace'>{</em>c, author: u<em class='brace'>}</em>],
+<a id='L251' name='L251'></a>      select: <em class='brace'>{</em>0, [p], 1, 2<em class='brace'>}</em>
+<a id='L252' name='L252'></a>
+<a id='L253' name='L253'></a>    posts = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L254' name='L254'></a>    assert [p1, p2] = Enum.map(posts, fn <em class='brace'>{</em>0, [p], 1, 2<em class='brace'>}</em> -&gt; p end)
+<a id='L255' name='L255'></a>    assert p1.id == pid1
+<a id='L256' name='L256'></a>    assert p2.id == pid2
+<a id='L257' name='L257'></a>
+<a id='L258' name='L258'></a>    assert [c1, c2] = p1.comments
+<a id='L259' name='L259'></a>    assert [c3] = p2.comments
+<a id='L260' name='L260'></a>    assert c1.id == cid1
+<a id='L261' name='L261'></a>    assert c2.id == cid2
+<a id='L262' name='L262'></a>    assert c3.id == cid3
+<a id='L263' name='L263'></a>
+<a id='L264' name='L264'></a>    assert c1.author.id == uid1
+<a id='L265' name='L265'></a>    assert c2.author.id == uid2
+<a id='L266' name='L266'></a>    assert c3.author.id == uid2
+<a id='L267' name='L267'></a>  end
+<a id='L268' name='L268'></a>
+<a id='L269' name='L269'></a>  test "nested assoc with missing entries" <strong class='reserved'>do</strong>
+<a id='L270' name='L270'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid1<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L271' name='L271'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid2<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L272' name='L272'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid3<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L273' name='L273'></a>
+<a id='L274' name='L274'></a>    %<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>id: uid1<em class='brace'>}</em> = TestRepo.insert!(%User<em class='brace'>{</em>name: "1"<em class='brace'>}</em>)
+<a id='L275' name='L275'></a>    %<a href='../D/193.html' title='Multiple defined in 5 places.'>User</a><em class='brace'>{</em>id: uid2<em class='brace'>}</em> = TestRepo.insert!(%User<em class='brace'>{</em>name: "2"<em class='brace'>}</em>)
+<a id='L276' name='L276'></a>
+<a id='L277' name='L277'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid1<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "1", post_id: pid1, author_id: uid1<em class='brace'>}</em>)
+<a id='L278' name='L278'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid2<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "2", post_id: pid1, author_id: nil<em class='brace'>}</em>)
+<a id='L279' name='L279'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid3<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "3", post_id: pid3, author_id: uid2<em class='brace'>}</em>)
+<a id='L280' name='L280'></a>
+<a id='L281' name='L281'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>,
+<a id='L282' name='L282'></a>      left_join: c in <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(p, :comments),
+<a id='L283' name='L283'></a>      left_join: u in <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(c, :author),
+<a id='L284' name='L284'></a>      order_by: [p.id, c.id, u.id],
+<a id='L285' name='L285'></a>      preload: [comments: <em class='brace'>{</em>c, author: u<em class='brace'>}</em>]
+<a id='L286' name='L286'></a>
+<a id='L287' name='L287'></a>    assert [p1, p2, p3] = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L288' name='L288'></a>    assert p1.id == pid1
+<a id='L289' name='L289'></a>    assert p2.id == pid2
+<a id='L290' name='L290'></a>    assert p3.id == pid3
+<a id='L291' name='L291'></a>
+<a id='L292' name='L292'></a>    assert [c1, c2] = p1.comments
+<a id='L293' name='L293'></a>    assert [] = p2.comments
+<a id='L294' name='L294'></a>    assert [c3] = p3.comments
+<a id='L295' name='L295'></a>    assert c1.id == cid1
+<a id='L296' name='L296'></a>    assert c2.id == cid2
+<a id='L297' name='L297'></a>    assert c3.id == cid3
+<a id='L298' name='L298'></a>
+<a id='L299' name='L299'></a>    assert c1.author.id == uid1
+<a id='L300' name='L300'></a>    assert c2.author == nil
+<a id='L301' name='L301'></a>    assert c3.author.id == uid2
+<a id='L302' name='L302'></a>  end
+<a id='L303' name='L303'></a>
+<a id='L304' name='L304'></a>  test "assoc with preload" <strong class='reserved'>do</strong>
+<a id='L305' name='L305'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid1<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "1"<em class='brace'>}</em>)
+<a id='L306' name='L306'></a>    %<a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a><em class='brace'>{</em>id: pid2<em class='brace'>}</em> = TestRepo.insert!(%Post<em class='brace'>{</em>title: "2"<em class='brace'>}</em>)
+<a id='L307' name='L307'></a>
+<a id='L308' name='L308'></a>    %<a href='../D/123.html' title='Multiple defined in 3 places.'>Permalink</a><em class='brace'>{</em>id: plid1<em class='brace'>}</em> = TestRepo.insert!(%Permalink<em class='brace'>{</em>url: "1", post_id: pid2<em class='brace'>}</em>)
+<a id='L309' name='L309'></a>
+<a id='L310' name='L310'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid1<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "1", post_id: pid1<em class='brace'>}</em>)
+<a id='L311' name='L311'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: cid2<em class='brace'>}</em> = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "2", post_id: pid2<em class='brace'>}</em>)
+<a id='L312' name='L312'></a>    %<a href='../D/27.html' title='Multiple defined in 7 places.'>Comment</a><em class='brace'>{</em>id: _<em class='brace'>}</em>    = TestRepo.insert!(%Comment<em class='brace'>{</em>text: "3", post_id: pid2<em class='brace'>}</em>)
+<a id='L313' name='L313'></a>
+<a id='L314' name='L314'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> p in <a href='../D/130.html' title='Multiple defined in 8 places.'>Post</a>,
+<a id='L315' name='L315'></a>      left_join: c in <a href='../D/263.html' title='Multiple defined in 9 places.'>assoc</a>(p, :comments),
+<a id='L316' name='L316'></a>      where: c.text in ~w(1 2),
+<a id='L317' name='L317'></a>      preload: [:permalink, comments: c],
+<a id='L318' name='L318'></a>      select: <em class='brace'>{</em>0, [p], 1, 2<em class='brace'>}</em>
+<a id='L319' name='L319'></a>
+<a id='L320' name='L320'></a>    posts = TestRepo.<a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L321' name='L321'></a>    assert [p1, p2] = Enum.map(posts, fn <em class='brace'>{</em>0, [p], 1, 2<em class='brace'>}</em> -&gt; p end)
+<a id='L322' name='L322'></a>    assert p1.id == pid1
+<a id='L323' name='L323'></a>    assert p2.id == pid2
+<a id='L324' name='L324'></a>
+<a id='L325' name='L325'></a>    assert p2.permalink.id == plid1
+<a id='L326' name='L326'></a>
+<a id='L327' name='L327'></a>    assert [c1] = p1.comments
+<a id='L328' name='L328'></a>    assert [c2] = p2.comments
+<a id='L329' name='L329'></a>    assert c1.id == cid1
+<a id='L330' name='L330'></a>    assert c2.id == cid2
+<a id='L331' name='L331'></a>  end
+<a id='L332' name='L332'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;][^][v]<a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

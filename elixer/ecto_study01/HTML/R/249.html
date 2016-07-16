@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>columns</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/74.html#L466'>columns</a>           466 deps/ecto/lib/ecto/adapters/mysql/connection.ex     def execute_ddl({command, %Table{} = table, columns}) when command in [:create, :create_if_not_exists] do</span>
+<span class='curline'><a href='../S/74.html#L472'>columns</a>           472 deps/ecto/lib/ecto/adapters/mysql/connection.ex         " #{quote_table(table.prefix, table.name)} (#{column_definitions(table, columns)})" &lt;&gt; engine &lt;&gt; options</span>
+<span class='curline'><a href='../S/74.html#L493'>columns</a>           493 deps/ecto/lib/ecto/adapters/mysql/connection.ex                 "(#{Enum.map_join(index.columns, ", ", &amp;index_expr/1)})",</span>
+<span class='curline'><a href='../S/74.html#L529'>columns</a>           529 deps/ecto/lib/ecto/adapters/mysql/connection.ex     defp column_definitions(table, columns) do</span>
+<span class='curline'><a href='../S/74.html#L530'>columns</a>           530 deps/ecto/lib/ecto/adapters/mysql/connection.ex       Enum.map_join(columns, ", ", &amp;column_definition(table, &amp;1))</span>
+<span class='curline'><a href='../S/74.html#L542'>columns</a>           542 deps/ecto/lib/ecto/adapters/mysql/connection.ex     defp column_changes(table, columns) do</span>
+<span class='curline'><a href='../S/74.html#L543'>columns</a>           543 deps/ecto/lib/ecto/adapters/mysql/connection.ex       Enum.map_join(columns, ", ", &amp;column_change(table, &amp;1))</span>
+<span class='curline'><a href='../S/76.html#L544'>columns</a>           544 deps/ecto/lib/ecto/adapters/postgres/connection.ex     def execute_ddl({command, %Table{}=table, columns}) when command in [:create, :create_if_not_exists] do</span>
+<span class='curline'><a href='../S/76.html#L549'>columns</a>           549 deps/ecto/lib/ecto/adapters/postgres/connection.ex         " #{quote_table(table.prefix, table.name)} (#{column_definitions(table, columns)})" &lt;&gt; options</span>
+<span class='curline'><a href='../S/76.html#L563'>columns</a>           563 deps/ecto/lib/ecto/adapters/postgres/connection.ex       fields = Enum.map_join(index.columns, ", ", &amp;index_expr/1)</span>
+<span class='curline'><a href='../S/76.html#L606'>columns</a>           606 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp column_definitions(table, columns) do</span>
+<span class='curline'><a href='../S/76.html#L607'>columns</a>           607 deps/ecto/lib/ecto/adapters/postgres/connection.ex       Enum.map_join(columns, ", ", &amp;column_definition(table, &amp;1))</span>
+<span class='curline'><a href='../S/76.html#L621'>columns</a>           621 deps/ecto/lib/ecto/adapters/postgres/connection.ex     defp column_changes(table, columns) do</span>
+<span class='curline'><a href='../S/76.html#L622'>columns</a>           622 deps/ecto/lib/ecto/adapters/postgres/connection.ex       Enum.map_join(columns, ", ", &amp;column_change(table, &amp;1))</span>
+<span class='curline'><a href='../S/94.html#L297'>columns</a>           297 deps/ecto/lib/ecto/migration.ex     columns =</span>
+<span class='curline'><a href='../S/94.html#L304'>columns</a>           304 deps/ecto/lib/ecto/migration.ex     Runner.execute {command, __prefix__(table), columns}</span>
+<span class='curline'><a href='../S/94.html#L423'>columns</a>           423 deps/ecto/lib/ecto/migration.ex   def index(table, columns, opts \\ []) when is_atom(table) and is_list(columns) do</span>
+<span class='curline'><a href='../S/94.html#L424'>columns</a>           424 deps/ecto/lib/ecto/migration.ex     index = struct(%Index{table: table, columns: columns}, opts)</span>
+<span class='curline'><a href='../S/94.html#L433'>columns</a>           433 deps/ecto/lib/ecto/migration.ex   def unique_index(table, columns, opts \\ []) when is_atom(table) and is_list(columns) do</span>
+<span class='curline'><a href='../S/94.html#L434'>columns</a>           434 deps/ecto/lib/ecto/migration.ex     index(table, columns, [unique: true] ++ opts)</span>
+<span class='curline'><a href='../S/94.html#L438'>columns</a>           438 deps/ecto/lib/ecto/migration.ex     [index.table, index.columns, "index"]</span>
+<span class='curline'><a href='../S/190.html#L613'>columns</a>           613 deps/postgrex/lib/postgrex/protocol.ex         {col_oids, col_names} = columns(fields)</span>
+</pre>
+</body>
+</html>

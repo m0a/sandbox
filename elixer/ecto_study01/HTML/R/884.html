@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>skip?</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/84.html#L315'>skip?</a>             315 deps/ecto/lib/ecto/changeset/relation.ex   defp map_changes([], _pks, fun, current, acc, valid?, skip?) do</span>
+<span class='curline'><a href='../S/84.html#L317'>skip?</a>             317 deps/ecto/lib/ecto/changeset/relation.ex     reduce_delete_changesets(current_models, fun, Enum.reverse(acc), valid?, skip?)</span>
+<span class='curline'><a href='../S/84.html#L320'>skip?</a>             320 deps/ecto/lib/ecto/changeset/relation.ex   defp map_changes([map | rest], pks, fun, current, acc, valid?, skip?) when is_map(map) do</span>
+<span class='curline'><a href='../S/84.html#L334'>skip?</a>             334 deps/ecto/lib/ecto/changeset/relation.ex                     valid? &amp;&amp; changeset.valid?, skip? &amp;&amp; skip?(changeset))</span>
+<span class='curline'><a href='../S/84.html#L344'>skip?</a>             344 deps/ecto/lib/ecto/changeset/relation.ex   defp reduce_delete_changesets([], _fun, acc, valid?, skip?) do</span>
+<span class='curline'><a href='../S/84.html#L345'>skip?</a>             345 deps/ecto/lib/ecto/changeset/relation.ex     {:ok, acc, valid?, skip?}</span>
+<span class='curline'><a href='../S/84.html#L348'>skip?</a>             348 deps/ecto/lib/ecto/changeset/relation.ex   defp reduce_delete_changesets([model | rest], fun, acc, valid?, skip?) do</span>
+<span class='curline'><a href='../S/84.html#L353'>skip?</a>             353 deps/ecto/lib/ecto/changeset/relation.ex                                  skip? &amp;&amp; skip?(changeset))</span>
+<span class='curline'><a href='../S/84.html#L385'>skip?</a>             385 deps/ecto/lib/ecto/changeset/relation.ex         {:ok, changeset, changeset.valid?, skip?(changeset)}</span>
+</pre>
+</body>
+</html>

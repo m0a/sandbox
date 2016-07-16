@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>decoder</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/163.html#L64'>decoder</a>            64 deps/postgrex/lib/postgrex/extensions/array.ex     decoder = &amp;Types.decode(oid, &amp;1, types)</span>
+<span class='curline'><a href='../S/163.html#L66'>decoder</a>            66 deps/postgrex/lib/postgrex/extensions/array.ex     {array, ""} = decode_array(rest, lengths, decoder)</span>
+<span class='curline'><a href='../S/163.html#L74'>decoder</a>            74 deps/postgrex/lib/postgrex/extensions/array.ex   defp decode_array(rest, [len], decoder) do</span>
+<span class='curline'><a href='../S/163.html#L75'>decoder</a>            75 deps/postgrex/lib/postgrex/extensions/array.ex     array_elements(rest, len, [], decoder)</span>
+<span class='curline'><a href='../S/163.html#L78'>decoder</a>            78 deps/postgrex/lib/postgrex/extensions/array.ex   defp decode_array(rest, [len|lens], decoder) do</span>
+<span class='curline'><a href='../S/163.html#L80'>decoder</a>            80 deps/postgrex/lib/postgrex/extensions/array.ex       decode_array(rest, lens, decoder)</span>
+<span class='curline'><a href='../S/163.html#L88'>decoder</a>            88 deps/postgrex/lib/postgrex/extensions/array.ex   defp array_elements(&lt;&lt;-1 :: int32, rest :: binary&gt;&gt;, count, acc, decoder) do</span>
+<span class='curline'><a href='../S/163.html#L89'>decoder</a>            89 deps/postgrex/lib/postgrex/extensions/array.ex     array_elements(rest, count-1, [nil|acc], decoder)</span>
+<span class='curline'><a href='../S/163.html#L93'>decoder</a>            93 deps/postgrex/lib/postgrex/extensions/array.ex                        count, acc, decoder) do</span>
+<span class='curline'><a href='../S/163.html#L94'>decoder</a>            94 deps/postgrex/lib/postgrex/extensions/array.ex     value = decoder.(elem)</span>
+<span class='curline'><a href='../S/163.html#L95'>decoder</a>            95 deps/postgrex/lib/postgrex/extensions/array.ex     array_elements(rest, count-1, [value|acc], decoder)</span>
+<span class='curline'><a href='../S/181.html#L37'>decoder</a>            37 deps/postgrex/lib/postgrex/extensions/record.ex     decoder = &amp;Types.decode(&amp;1, &amp;2, types)</span>
+<span class='curline'><a href='../S/181.html#L38'>decoder</a>            38 deps/postgrex/lib/postgrex/extensions/record.ex     record_elements(rest, num, decoder) |&gt; List.to_tuple</span>
+<span class='curline'><a href='../S/181.html#L45'>decoder</a>            45 deps/postgrex/lib/postgrex/extensions/record.ex   defp record_elements(&lt;&lt;_oid :: uint32, -1 :: int32, rest :: binary&gt;&gt;, num, decoder) do</span>
+<span class='curline'><a href='../S/181.html#L46'>decoder</a>            46 deps/postgrex/lib/postgrex/extensions/record.ex     [nil | record_elements(rest, num-1, decoder)]</span>
+<span class='curline'><a href='../S/181.html#L50'>decoder</a>            50 deps/postgrex/lib/postgrex/extensions/record.ex                        num, decoder) do</span>
+<span class='curline'><a href='../S/181.html#L51'>decoder</a>            51 deps/postgrex/lib/postgrex/extensions/record.ex     value = decoder.(oid, elem)</span>
+<span class='curline'><a href='../S/181.html#L52'>decoder</a>            52 deps/postgrex/lib/postgrex/extensions/record.ex     [value | record_elements(rest, num-1, decoder)]</span>
+<span class='curline'><a href='../S/191.html#L91'>decoder</a>            91 deps/postgrex/lib/postgrex/query.ex     |&gt; Enum.map(&amp;Postgrex.Types.decoder(&amp;1, types))</span>
+</pre>
+</body>
+</html>

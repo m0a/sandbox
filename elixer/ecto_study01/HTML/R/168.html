@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>backoff</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/17.html#L445'>backoff</a>           445 deps/connection/lib/connection.ex         backoff = start_backoff(backoff_timeout)</span>
+<span class='curline'><a href='../S/17.html#L447'>backoff</a>           447 deps/connection/lib/connection.ex         enter_loop(mod, backoff, mod_state, name, opts, :infinity)</span>
+<span class='curline'><a href='../S/17.html#L449'>backoff</a>           449 deps/connection/lib/connection.ex         backoff = start_backoff(backoff_timeout)</span>
+<span class='curline'><a href='../S/17.html#L451'>backoff</a>           451 deps/connection/lib/connection.ex         enter_loop(mod, backoff, mod_state, name, opts, timeout)</span>
+<span class='curline'><a href='../S/17.html#L465'>backoff</a>           465 deps/connection/lib/connection.ex   def enter_loop(mod, backoff, mod_state, name, opts, :hibernate) do</span>
+<span class='curline'><a href='../S/17.html#L466'>backoff</a>           466 deps/connection/lib/connection.ex     args = [mod, backoff, mod_state, name, opts, :infinity]</span>
+<span class='curline'><a href='../S/17.html#L469'>backoff</a>           469 deps/connection/lib/connection.ex   def enter_loop(mod, backoff, mod_state, name, opts, timeout)</span>
+<span class='curline'><a href='../S/17.html#L471'>backoff</a>           471 deps/connection/lib/connection.ex     s = %Connection{mod: mod, backoff: backoff, mod_state: mod_state,</span>
+<span class='curline'><a href='../S/17.html#L475'>backoff</a>           475 deps/connection/lib/connection.ex   def enter_loop(mod, backoff, mod_state, name, opts, timeout) do</span>
+<span class='curline'><a href='../S/17.html#L476'>backoff</a>           476 deps/connection/lib/connection.ex     s = %Connection{mod: mod, backoff: backoff, mod_state: mod_state,</span>
+<span class='curline'><a href='../S/17.html#L527'>backoff</a>           527 deps/connection/lib/connection.ex   def handle_info({:timeout, backoff, __MODULE__},</span>
+<span class='curline'><a href='../S/17.html#L528'>backoff</a>           528 deps/connection/lib/connection.ex   %{backoff: backoff, mod_state: mod_state} = s) do</span>
+<span class='curline'><a href='../S/17.html#L640'>backoff</a>           640 deps/connection/lib/connection.ex         backoff = start_backoff(backoff_timeout)</span>
+<span class='curline'><a href='../S/17.html#L641'>backoff</a>           641 deps/connection/lib/connection.ex         enter_loop(mod, backoff, mod_state, name, opts, :infinity)</span>
+<span class='curline'><a href='../S/17.html#L643'>backoff</a>           643 deps/connection/lib/connection.ex         backoff = start_backoff(backoff_timeout)</span>
+<span class='curline'><a href='../S/17.html#L644'>backoff</a>           644 deps/connection/lib/connection.ex         enter_loop(mod, backoff, mod_state, name, opts, timeout)</span>
+<span class='curline'><a href='../S/17.html#L717'>backoff</a>           717 deps/connection/lib/connection.ex   defp cancel_backoff(%{backoff: backoff} = s) do</span>
+<span class='curline'><a href='../S/17.html#L718'>backoff</a>           718 deps/connection/lib/connection.ex     case :erlang.cancel_timer(backoff) do</span>
+<span class='curline'><a href='../S/17.html#L720'>backoff</a>           720 deps/connection/lib/connection.ex         flush_backoff(backoff)</span>
+<span class='curline'><a href='../S/17.html#L727'>backoff</a>           727 deps/connection/lib/connection.ex   defp flush_backoff(backoff) do</span>
+<span class='curline'><a href='../S/17.html#L729'>backoff</a>           729 deps/connection/lib/connection.ex       {:timeout, ^backoff, __MODULE__} -&gt;</span>
+<span class='curline'><a href='../S/17.html#L753'>backoff</a>           753 deps/connection/lib/connection.ex         backoff = start_backoff(backoff_timeout)</span>
+<span class='curline'><a href='../S/17.html#L754'>backoff</a>           754 deps/connection/lib/connection.ex         {:noreply, %{s | backoff: backoff, mod_state: mod_state}}</span>
+<span class='curline'><a href='../S/17.html#L756'>backoff</a>           756 deps/connection/lib/connection.ex         backoff = start_backoff(backoff_timeout)</span>
+<span class='curline'><a href='../S/17.html#L757'>backoff</a>           757 deps/connection/lib/connection.ex         {:noreply, %{s | backoff: backoff, mod_state: mod_state}, timeout}</span>
+<span class='curline'><a href='../S/17.html#L781'>backoff</a>           781 deps/connection/lib/connection.ex         backoff = start_backoff(backoff_timeout)</span>
+<span class='curline'><a href='../S/17.html#L782'>backoff</a>           782 deps/connection/lib/connection.ex         {:noreply, %{s | backoff: backoff, mod_state: mod_state}}</span>
+<span class='curline'><a href='../S/17.html#L784'>backoff</a>           784 deps/connection/lib/connection.ex         backoff = start_backoff(backoff_timeout)</span>
+<span class='curline'><a href='../S/17.html#L785'>backoff</a>           785 deps/connection/lib/connection.ex         {:noreply, %{s | backoff: backoff, mod_state: mod_state}, timeout}</span>
+<span class='curline'><a href='../S/22.html#L23'>backoff</a>            23 deps/db_connection/lib/db_connection/backoff.ex     {backoff, state} = rand(state, min, max)</span>
+<span class='curline'><a href='../S/22.html#L24'>backoff</a>            24 deps/db_connection/lib/db_connection/backoff.ex     {backoff, %Backoff{s | state: state}}</span>
+<span class='curline'><a href='../S/23.html#L112'>backoff</a>           112 deps/db_connection/lib/db_connection/connection.ex     %{mod: mod, opts: opts, backoff: backoff, after_connect: after_connect,</span>
+<span class='curline'><a href='../S/23.html#L120'>backoff</a>           120 deps/db_connection/lib/db_connection/connection.ex         backoff = backoff &amp;&amp; Backoff.reset(backoff)</span>
+<span class='curline'><a href='../S/23.html#L123'>backoff</a>           123 deps/db_connection/lib/db_connection/connection.ex         {:ok, %{s | state: state, client: {ref, :connect}, backoff: backoff}}</span>
+<span class='curline'><a href='../S/23.html#L125'>backoff</a>           125 deps/db_connection/lib/db_connection/connection.ex         backoff = backoff &amp;&amp; Backoff.reset(backoff)</span>
+<span class='curline'><a href='../S/23.html#L126'>backoff</a>           126 deps/db_connection/lib/db_connection/connection.ex         {:ok, %{s | state: state, client: nil, backoff: backoff}, idle_timeout}</span>
+<span class='curline'><a href='../S/23.html#L127'>backoff</a>           127 deps/db_connection/lib/db_connection/connection.ex       {:error, err} when is_nil(backoff) -&gt;</span>
+<span class='curline'><a href='../S/23.html#L134'>backoff</a>           134 deps/db_connection/lib/db_connection/connection.ex         {timeout, backoff} = Backoff.backoff(backoff)</span>
+<span class='curline'><a href='../S/23.html#L135'>backoff</a>           135 deps/db_connection/lib/db_connection/connection.ex         {:backoff, timeout, %{s | backoff: backoff}}</span>
+<span class='curline'><a href='../S/23.html#L146'>backoff</a>           146 deps/db_connection/lib/db_connection/connection.ex       backoff: backoff} = s</span>
+<span class='curline'><a href='../S/23.html#L153'>backoff</a>           153 deps/db_connection/lib/db_connection/connection.ex       _ when backoff == :nil -&gt;</span>
+<span class='curline'><a href='../S/23.html#L156'>backoff</a>           156 deps/db_connection/lib/db_connection/connection.ex         {timeout, backoff} = Backoff.backoff(backoff)</span>
+<span class='curline'><a href='../S/23.html#L157'>backoff</a>           157 deps/db_connection/lib/db_connection/connection.ex         {:backoff, timeout, %{s | backoff: backoff}}</span>
+<span class='curline'><a href='../S/23.html#L396'>backoff</a>           396 deps/db_connection/lib/db_connection/connection.ex     %{backoff: backoff} = s</span>
+<span class='curline'><a href='../S/23.html#L397'>backoff</a>           397 deps/db_connection/lib/db_connection/connection.ex     backoff = backoff &amp;&amp; Backoff.reset(backoff)</span>
+<span class='curline'><a href='../S/23.html#L399'>backoff</a>           399 deps/db_connection/lib/db_connection/connection.ex     handle_next(state, %{s | client: nil, backoff: backoff})</span>
+<span class='curline'><a href='../S/105.html#L187'>backoff</a>           187 deps/ecto/lib/ecto/pools/sojourn_broker/worker.ex         backoff(s)</span>
+<span class='curline'><a href='../S/105.html#L221'>backoff</a>           221 deps/ecto/lib/ecto/pools/sojourn_broker/worker.ex     backoff = get_backoff(s)</span>
+<span class='curline'><a href='../S/105.html#L222'>backoff</a>           222 deps/ecto/lib/ecto/pools/sojourn_broker/worker.ex     :erlang.send_after(backoff, self(), {tag, :connect})</span>
+<span class='curline'><a href='../S/105.html#L223'>backoff</a>           223 deps/ecto/lib/ecto/pools/sojourn_broker/worker.ex     %{s | backoff: backoff}</span>
+<span class='curline'><a href='../S/105.html#L231'>backoff</a>           231 deps/ecto/lib/ecto/pools/sojourn_broker/worker.ex   defp get_backoff(%{backoff: backoff, backoff_threshold: threshold})</span>
+<span class='curline'><a href='../S/105.html#L232'>backoff</a>           232 deps/ecto/lib/ecto/pools/sojourn_broker/worker.ex   when backoff &gt; threshold do</span>
+<span class='curline'><a href='../S/105.html#L235'>backoff</a>           235 deps/ecto/lib/ecto/pools/sojourn_broker/worker.ex   defp get_backoff(%{backoff: backoff}) do</span>
+<span class='curline'><a href='../S/105.html#L236'>backoff</a>           236 deps/ecto/lib/ecto/pools/sojourn_broker/worker.ex     next_backoff(backoff)</span>
+<span class='curline'><a href='../S/105.html#L239'>backoff</a>           239 deps/ecto/lib/ecto/pools/sojourn_broker/worker.ex   defp next_backoff(backoff) do</span>
+<span class='curline'><a href='../S/105.html#L240'>backoff</a>           240 deps/ecto/lib/ecto/pools/sojourn_broker/worker.ex     width = backoff &gt;&gt;&gt; 1</span>
+<span class='curline'><a href='../S/105.html#L241'>backoff</a>           241 deps/ecto/lib/ecto/pools/sojourn_broker/worker.ex     backoff + :random.uniform(width + 1) - 1</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,776 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/type.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/type.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L29'>[^]</a><a href='#L657'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L29' title='Defined at 29.'>cast</a></li>
+<li><a href='#L37' title='Defined at 37.'>cast</a></li>
+<li><a href='#L40' title='Defined at 40.'>cast</a></li>
+<li><a href='#L45' title='Defined at 45.'>load</a></li>
+<li><a href='#L50' title='Defined at 50.'>dump</a></li>
+<li><a href='#L51' title='Defined at 51.'>dump</a></li>
+<li><a href='#L129' title='Defined at 129.'>cast</a></li>
+<li><a href='#L139' title='Defined at 139.'>load</a></li>
+<li><a href='#L147' title='Defined at 147.'>dump</a></li>
+<li><a href='#L166' title='Defined at 166.'>primitive?</a></li>
+<li><a href='#L167' title='Defined at 167.'>primitive?</a></li>
+<li><a href='#L168' title='Defined at 168.'>primitive?</a></li>
+<li><a href='#L180' title='Defined at 180.'>composite?</a></li>
+<li><a href='#L194' title='Defined at 194.'>base?</a></li>
+<li><a href='#L211' title='Defined at 211.'>type</a></li>
+<li><a href='#L213' title='Defined at 213.'>type</a></li>
+<li><a href='#L215' title='Defined at 215.'>type</a></li>
+<li><a href='#L244' title='Defined at 244.'>match?</a></li>
+<li><a href='#L252' title='Defined at 252.'>do_match?</a></li>
+<li><a href='#L253' title='Defined at 253.'>do_match?</a></li>
+<li><a href='#L254' title='Defined at 254.'>do_match?</a></li>
+<li><a href='#L255' title='Defined at 255.'>do_match?</a></li>
+<li><a href='#L256' title='Defined at 256.'>do_match?</a></li>
+<li><a href='#L257' title='Defined at 257.'>do_match?</a></li>
+<li><a href='#L258' title='Defined at 258.'>do_match?</a></li>
+<li><a href='#L259' title='Defined at 259.'>do_match?</a></li>
+<li><a href='#L260' title='Defined at 260.'>do_match?</a></li>
+<li><a href='#L294' title='Defined at 294.'>dump</a></li>
+<li><a href='#L296' title='Defined at 296.'>dump</a></li>
+<li><a href='#L300' title='Defined at 300.'>dump</a></li>
+<li><a href='#L304' title='Defined at 304.'>dump</a></li>
+<li><a href='#L308' title='Defined at 308.'>dump</a></li>
+<li><a href='#L316' title='Defined at 316.'>dump</a></li>
+<li><a href='#L327' title='Defined at 327.'>tag</a></li>
+<li><a href='#L329' title='Defined at 329.'>tag</a></li>
+<li><a href='#L332' title='Defined at 332.'>dump_array</a></li>
+<li><a href='#L343' title='Defined at 343.'>dump_array</a></li>
+<li><a href='#L347' title='Defined at 347.'>dump_array</a></li>
+<li><a href='#L351' title='Defined at 351.'>dump_embed</a></li>
+<li><a href='#L355' title='Defined at 355.'>dump_embed</a></li>
+<li><a href='#L361' title='Defined at 361.'>dump_embed</a></li>
+<li><a href='#L370' title='Defined at 370.'>dump_embed</a></li>
+<li><a href='#L374' title='Defined at 374.'>dump_embed</a></li>
+<li><a href='#L378' title='Defined at 378.'>dump_embed</a></li>
+<li><a href='#L395' title='Defined at 395.'>dump_embed</a></li>
+<li><a href='#L415' title='Defined at 415.'>load</a></li>
+<li><a href='#L417' title='Defined at 417.'>load</a></li>
+<li><a href='#L421' title='Defined at 421.'>load</a></li>
+<li><a href='#L423' title='Defined at 423.'>load</a></li>
+<li><a href='#L427' title='Defined at 427.'>load</a></li>
+<li><a href='#L435' title='Defined at 435.'>load</a></li>
+<li><a href='#L446' title='Defined at 446.'>load_embed</a></li>
+<li><a href='#L448' title='Defined at 448.'>load_embed</a></li>
+<li><a href='#L454' title='Defined at 454.'>load_embed</a></li>
+<li><a href='#L456' title='Defined at 456.'>load_embed</a></li>
+<li><a href='#L462' title='Defined at 462.'>load_embed</a></li>
+<li><a href='#L466' title='Defined at 466.'>load_embed</a></li>
+<li><a href='#L470' title='Defined at 470.'>load_embed</a></li>
+<li><a href='#L549' title='Defined at 549.'>cast</a></li>
+<li><a href='#L553' title='Defined at 553.'>cast</a></li>
+<li><a href='#L555' title='Defined at 555.'>cast</a></li>
+<li><a href='#L559' title='Defined at 559.'>cast</a></li>
+<li><a href='#L565' title='Defined at 565.'>cast</a></li>
+<li><a href='#L567' title='Defined at 567.'>cast</a></li>
+<li><a href='#L568' title='Defined at 568.'>cast</a></li>
+<li><a href='#L570' title='Defined at 570.'>cast</a></li>
+<li><a href='#L576' title='Defined at 576.'>cast</a></li>
+<li><a href='#L585' title='Defined at 585.'>cast</a></li>
+<li><a href='#L586' title='Defined at 586.'>cast</a></li>
+<li><a href='#L587' title='Defined at 587.'>cast</a></li>
+<li><a href='#L589' title='Defined at 589.'>cast</a></li>
+<li><a href='#L596' title='Defined at 596.'>try_cast</a></li>
+<li><a href='#L610' title='Defined at 610.'>of_base_type?</a></li>
+<li><a href='#L611' title='Defined at 611.'>of_base_type?</a></li>
+<li><a href='#L612' title='Defined at 612.'>of_base_type?</a></li>
+<li><a href='#L613' title='Defined at 613.'>of_base_type?</a></li>
+<li><a href='#L614' title='Defined at 614.'>of_base_type?</a></li>
+<li><a href='#L615' title='Defined at 615.'>of_base_type?</a></li>
+<li><a href='#L616' title='Defined at 616.'>of_base_type?</a></li>
+<li><a href='#L617' title='Defined at 617.'>of_base_type?</a></li>
+<li><a href='#L618' title='Defined at 618.'>of_base_type?</a></li>
+<li><a href='#L619' title='Defined at 619.'>of_base_type?</a></li>
+<li><a href='#L620' title='Defined at 620.'>of_base_type?</a></li>
+<li><a href='#L622' title='Defined at 622.'>of_base_type?</a></li>
+<li><a href='#L629' title='Defined at 629.'>of_base_type?</a></li>
+<li><a href='#L637' title='Defined at 637.'>of_base_type?</a></li>
+<li><a href='#L645' title='Defined at 645.'>array</a></li>
+<li><a href='#L652' title='Defined at 652.'>array</a></li>
+<li><a href='#L656' title='Defined at 656.'>assert_replace_strategy!</a></li>
+<li><a href='#L657' title='Defined at 657.'>assert_replace_strategy!</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Type <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc """
+<a id='L3' name='L3'></a>  Defines functions and the `Ecto.Type` behaviour <strong class='reserved'>for</strong> implementing
+<a id='L4' name='L4'></a>  custom types.
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>  A custom type expects 4 functions to be implemented, all documented
+<a id='L7' name='L7'></a>  and described below. We also provide two examples of how custom
+<a id='L8' name='L8'></a>  types can be used in Ecto to augment existing types or providing
+<a id='L9' name='L9'></a>  your own types.
+<a id='L10' name='L10'></a>
+<a id='L11' name='L11'></a><em class='sharp'>  #</em># Augmenting types
+<a id='L12' name='L12'></a>
+<a id='L13' name='L13'></a>  Imagine you want to support your id field to be looked up as a
+<a id='L14' name='L14'></a>  permalink. For example, you want the following query to work:
+<a id='L15' name='L15'></a>
+<a id='L16' name='L16'></a>      permalink = "10-how-to-be-productive-with-elixir"
+<a id='L17' name='L17'></a>      from p in Post, where: p.id == ^permalink
+<a id='L18' name='L18'></a>
+<a id='L19' name='L19'></a>  If `id` is an integer field, Ecto will fail in the query above
+<a id='L20' name='L20'></a>  because it cannot cast the string to an integer. By using a
+<a id='L21' name='L21'></a>  custom type, we can provide special casting behaviour <strong class='reserved'>while</strong>
+<a id='L22' name='L22'></a>  still keeping the underlying Ecto type the same:
+<a id='L23' name='L23'></a>
+<a id='L24' name='L24'></a>      defmodule <a href='../R/53.html' title='Multiple referred from 49 places.'>Permalink</a> <strong class='reserved'>do</strong>
+<a id='L25' name='L25'></a>        @behaviour Ecto.Type
+<a id='L26' name='L26'></a>        def <a href='../R/981.html' title='Multiple referred from 375 places.'>type</a>, <strong class='reserved'>do</strong>: :integer
+<a id='L27' name='L27'></a>
+<a id='L28' name='L28'></a>        # Provide our own casting rules.
+<a id='L29' name='L29'></a>        def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(string) when is_binary(string) <strong class='reserved'>do</strong>
+<a id='L30' name='L30'></a>          <strong class='reserved'>case</strong> Integer.parse(string) <strong class='reserved'>do</strong>
+<a id='L31' name='L31'></a>            <em class='brace'>{</em><strong class='reserved'>int</strong>, _<em class='brace'>}</em> -&gt; <em class='brace'>{</em>:ok, <strong class='reserved'>int</strong><em class='brace'>}</em>
+<a id='L32' name='L32'></a>            :error   -&gt; :error
+<a id='L33' name='L33'></a>          end
+<a id='L34' name='L34'></a>        end
+<a id='L35' name='L35'></a>
+<a id='L36' name='L36'></a>        # We should still accept integers
+<a id='L37' name='L37'></a>        def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(integer) when is_integer(integer), <strong class='reserved'>do</strong>: <em class='brace'>{</em>:ok, integer<em class='brace'>}</em>
+<a id='L38' name='L38'></a>
+<a id='L39' name='L39'></a>        # Everything <strong class='reserved'>else</strong> is a failure though
+<a id='L40' name='L40'></a>        def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(_), <strong class='reserved'>do</strong>: :error
+<a id='L41' name='L41'></a>
+<a id='L42' name='L42'></a>        # When loading data from the database, we are guaranteed to
+<a id='L43' name='L43'></a>        # receive an integer (as databases are strict) and we will
+<a id='L44' name='L44'></a>        # just <strong class='reserved'>return</strong> it to be stored in the model <strong class='reserved'>struct</strong>.
+<a id='L45' name='L45'></a>        def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(integer) when is_integer(integer), <strong class='reserved'>do</strong>: <em class='brace'>{</em>:ok, integer<em class='brace'>}</em>
+<a id='L46' name='L46'></a>
+<a id='L47' name='L47'></a>        # When dumping data to the database, we *expect* an integer
+<a id='L48' name='L48'></a>        # but any value could be inserted into the <strong class='reserved'>struct</strong>, so we need
+<a id='L49' name='L49'></a>        # guard against them.
+<a id='L50' name='L50'></a>        def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(integer) when is_integer(integer), <strong class='reserved'>do</strong>: <em class='brace'>{</em>:ok, integer<em class='brace'>}</em>
+<a id='L51' name='L51'></a>        def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(_), <strong class='reserved'>do</strong>: :error
+<a id='L52' name='L52'></a>      end
+<a id='L53' name='L53'></a>
+<a id='L54' name='L54'></a>  Now, we can use our new field above as our primary key type in models:
+<a id='L55' name='L55'></a>
+<a id='L56' name='L56'></a>      defmodule <a href='../R/57.html' title='Multiple referred from 397 places.'>Post</a> <strong class='reserved'>do</strong>
+<a id='L57' name='L57'></a>        use Ecto.Schema
+<a id='L58' name='L58'></a>
+<a id='L59' name='L59'></a>        @primary_key <em class='brace'>{</em>:id, Permalink, autogenerate: true<em class='brace'>}</em>
+<a id='L60' name='L60'></a>        schema "posts" <strong class='reserved'>do</strong>
+<a id='L61' name='L61'></a>          ...
+<a id='L62' name='L62'></a>        end
+<a id='L63' name='L63'></a>      end
+<a id='L64' name='L64'></a>
+<a id='L65' name='L65'></a><em class='sharp'>  #</em># New types
+<a id='L66' name='L66'></a>
+<a id='L67' name='L67'></a>  In the previous example, we say we were augmenting an existing type
+<a id='L68' name='L68'></a>  because we were keeping the underlying representation the same, the
+<a id='L69' name='L69'></a>  value stored in the <strong class='reserved'>struct</strong> and the database was always an integer.
+<a id='L70' name='L70'></a>
+<a id='L71' name='L71'></a>  Ecto types also allow developers to create completely new types as
+<a id='L72' name='L72'></a>  <strong class='reserved'>long</strong> as they can be encoded by the database. `Ecto.DateTime` and
+<a id='L73' name='L73'></a>  `Ecto.UUID` are such examples.
+<a id='L74' name='L74'></a>
+<a id='L75' name='L75'></a>  In order <strong class='reserved'>for</strong> this to work, callbacks should take care of encoding your custom
+<a id='L76' name='L76'></a>  Ecto type into its db representation, as well as decoding it from the db back
+<a id='L77' name='L77'></a>  into the Ecto type. Each callback should behave as follows.
+<a id='L78' name='L78'></a>
+<a id='L79' name='L79'></a>    * `type` should output the name of the db type
+<a id='L80' name='L80'></a>    * `cast` should receive any type and output your custom Ecto type
+<a id='L81' name='L81'></a>    * `load` should receive the db type and output your custom Ecto type
+<a id='L82' name='L82'></a>    * `dump` should receive your custom Ecto type and output the db type
+<a id='L83' name='L83'></a>  """
+<a id='L84' name='L84'></a>
+<a id='L85' name='L85'></a>  import Kernel, except: [match?: 2]
+<a id='L86' name='L86'></a>
+<a id='L87' name='L87'></a>  use Behaviour
+<a id='L88' name='L88'></a>
+<a id='L89' name='L89'></a>  @typedoc "An Ecto type, primitive or custom."
+<a id='L90' name='L90'></a>  @type t         :: primitive | custom
+<a id='L91' name='L91'></a>
+<a id='L92' name='L92'></a>  @typedoc "Primitive Ecto types (handled by Ecto)."
+<a id='L93' name='L93'></a>  @type primitive :: base | composite
+<a id='L94' name='L94'></a>
+<a id='L95' name='L95'></a>  @typedoc "Custom types are represented by user-defined modules."
+<a id='L96' name='L96'></a>  @type custom    :: atom
+<a id='L97' name='L97'></a>
+<a id='L98' name='L98'></a>  @typep base      :: :integer | :<strong class='reserved'>float</strong> | :boolean | :string | :map |
+<a id='L99' name='L99'></a>                      :binary | :decimal | :id | :binary_id |
+<a id='L100' name='L100'></a>                      :datetime | :date | :time | :any
+<a id='L101' name='L101'></a>  @typep composite :: <em class='brace'>{</em>:array, base<em class='brace'>}</em> | <em class='brace'>{</em>:embed, Ecto.Embedded.t<em class='brace'>}</em>
+<a id='L102' name='L102'></a>
+<a id='L103' name='L103'></a>  @base      ~w(integer <strong class='reserved'>float</strong> boolean string binary decimal datetime date time id binary_id map any)a
+<a id='L104' name='L104'></a>  @composite ~w(array embed)a
+<a id='L105' name='L105'></a>
+<a id='L106' name='L106'></a>  @doc """
+<a id='L107' name='L107'></a>  Returns the underlying schema type <strong class='reserved'>for</strong> the custom type.
+<a id='L108' name='L108'></a>
+<a id='L109' name='L109'></a>  For example, <strong class='reserved'>if</strong> you want to provide your own datetime
+<a id='L110' name='L110'></a>  structures, the type function should <strong class='reserved'>return</strong> `:datetime`.
+<a id='L111' name='L111'></a>
+<a id='L112' name='L112'></a>  Note this function is not required to <strong class='reserved'>return</strong> Ecto primitive
+<a id='L113' name='L113'></a>  types, the type is only required to be known by the adapter.
+<a id='L114' name='L114'></a>  """
+<a id='L115' name='L115'></a>  defcallback <a href='../R/981.html' title='Multiple referred from 375 places.'>type</a> :: t
+<a id='L116' name='L116'></a>
+<a id='L117' name='L117'></a>  @doc """
+<a id='L118' name='L118'></a>  Casts the given input to the custom type.
+<a id='L119' name='L119'></a>
+<a id='L120' name='L120'></a>  This callback is called on external input and can <strong class='reserved'>return</strong> any type,
+<a id='L121' name='L121'></a>  as <strong class='reserved'>long</strong> as the `dump/1` function is able to convert the returned
+<a id='L122' name='L122'></a>  value back into an Ecto native type. There are two situations where
+<a id='L123' name='L123'></a>  this callback is called:
+<a id='L124' name='L124'></a>
+<a id='L125' name='L125'></a>    1. When casting values by `Ecto.Changeset`
+<a id='L126' name='L126'></a>    2. When passing arguments to `Ecto.Query`
+<a id='L127' name='L127'></a>
+<a id='L128' name='L128'></a>  """
+<a id='L129' name='L129'></a>  defcallback <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(term) :: <em class='brace'>{</em>:ok, term<em class='brace'>}</em> | :error
+<a id='L130' name='L130'></a>
+<a id='L131' name='L131'></a>  @doc """
+<a id='L132' name='L132'></a>  Loads the given term into a custom type.
+<a id='L133' name='L133'></a>
+<a id='L134' name='L134'></a>  This callback is called when loading data from the database and
+<a id='L135' name='L135'></a>  receive an Ecto native type. It can <strong class='reserved'>return</strong> any type, as <strong class='reserved'>long</strong> as
+<a id='L136' name='L136'></a>  the `dump/1` function is able to convert the returned value back
+<a id='L137' name='L137'></a>  into an Ecto native type.
+<a id='L138' name='L138'></a>  """
+<a id='L139' name='L139'></a>  defcallback <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(term) :: <em class='brace'>{</em>:ok, term<em class='brace'>}</em> | :error
+<a id='L140' name='L140'></a>
+<a id='L141' name='L141'></a>  @doc """
+<a id='L142' name='L142'></a>  Dumps the given term into an Ecto native type.
+<a id='L143' name='L143'></a>
+<a id='L144' name='L144'></a>  This callback is called with any term that was stored in the <strong class='reserved'>struct</strong>
+<a id='L145' name='L145'></a>  and it needs to validate them and convert it to an Ecto native type.
+<a id='L146' name='L146'></a>  """
+<a id='L147' name='L147'></a>  defcallback <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(term) :: <em class='brace'>{</em>:ok, term<em class='brace'>}</em> | :error
+<a id='L148' name='L148'></a>
+<a id='L149' name='L149'></a><em class='sharp'>  #</em># Functions
+<a id='L150' name='L150'></a>
+<a id='L151' name='L151'></a>  @doc """
+<a id='L152' name='L152'></a>  Checks <strong class='reserved'>if</strong> we have a primitive type.
+<a id='L153' name='L153'></a>
+<a id='L154' name='L154'></a>      iex&gt; primitive?(:string)
+<a id='L155' name='L155'></a>      true
+<a id='L156' name='L156'></a>      iex&gt; primitive?(Another)
+<a id='L157' name='L157'></a>      false
+<a id='L158' name='L158'></a>
+<a id='L159' name='L159'></a>      iex&gt; primitive?(<em class='brace'>{</em>:array, :string<em class='brace'>}</em>)
+<a id='L160' name='L160'></a>      true
+<a id='L161' name='L161'></a>      iex&gt; primitive?(<em class='brace'>{</em>:array, Another<em class='brace'>}</em>)
+<a id='L162' name='L162'></a>      true
+<a id='L163' name='L163'></a>
+<a id='L164' name='L164'></a>  """
+<a id='L165' name='L165'></a>  @spec primitive?(t) :: <a href='../D/305.html' title='Multiple defined in 4 places.'>boolean</a>
+<a id='L166' name='L166'></a>  def primitive?(<em class='brace'>{</em>composite, _<em class='brace'>}</em>) when composite in @composite, <strong class='reserved'>do</strong>: true
+<a id='L167' name='L167'></a>  def primitive?(base) when base in @base, <strong class='reserved'>do</strong>: true
+<a id='L168' name='L168'></a>  def primitive?(_), <strong class='reserved'>do</strong>: false
+<a id='L169' name='L169'></a>
+<a id='L170' name='L170'></a>  @doc """
+<a id='L171' name='L171'></a>  Checks <strong class='reserved'>if</strong> the given atom can be used as composite type.
+<a id='L172' name='L172'></a>
+<a id='L173' name='L173'></a>      iex&gt; composite?(:array)
+<a id='L174' name='L174'></a>      true
+<a id='L175' name='L175'></a>      iex&gt; composite?(:string)
+<a id='L176' name='L176'></a>      false
+<a id='L177' name='L177'></a>
+<a id='L178' name='L178'></a>  """
+<a id='L179' name='L179'></a>  @spec composite?(atom) :: <a href='../D/305.html' title='Multiple defined in 4 places.'>boolean</a>
+<a id='L180' name='L180'></a>  def composite?(atom), <strong class='reserved'>do</strong>: atom in @composite
+<a id='L181' name='L181'></a>
+<a id='L182' name='L182'></a>  @doc """
+<a id='L183' name='L183'></a>  Checks <strong class='reserved'>if</strong> the given atom can be used as base type.
+<a id='L184' name='L184'></a>
+<a id='L185' name='L185'></a>      iex&gt; base?(:string)
+<a id='L186' name='L186'></a>      true
+<a id='L187' name='L187'></a>      iex&gt; base?(:array)
+<a id='L188' name='L188'></a>      false
+<a id='L189' name='L189'></a>      iex&gt; base?(Custom)
+<a id='L190' name='L190'></a>      false
+<a id='L191' name='L191'></a>
+<a id='L192' name='L192'></a>  """
+<a id='L193' name='L193'></a>  @spec base?(atom) :: <a href='../D/305.html' title='Multiple defined in 4 places.'>boolean</a>
+<a id='L194' name='L194'></a>  def base?(atom), <strong class='reserved'>do</strong>: atom in @base
+<a id='L195' name='L195'></a>
+<a id='L196' name='L196'></a>  @doc """
+<a id='L197' name='L197'></a>  Retrieves the underlying type of a given type.
+<a id='L198' name='L198'></a>
+<a id='L199' name='L199'></a>      iex&gt; type(:string)
+<a id='L200' name='L200'></a>      :string
+<a id='L201' name='L201'></a>      iex&gt; type(Ecto.DateTime)
+<a id='L202' name='L202'></a>      :datetime
+<a id='L203' name='L203'></a>
+<a id='L204' name='L204'></a>      iex&gt; type(<em class='brace'>{</em>:array, :string<em class='brace'>}</em>)
+<a id='L205' name='L205'></a>      <em class='brace'>{</em>:array, :string<em class='brace'>}</em>
+<a id='L206' name='L206'></a>      iex&gt; type(<em class='brace'>{</em>:array, Ecto.DateTime<em class='brace'>}</em>)
+<a id='L207' name='L207'></a>      <em class='brace'>{</em>:array, :datetime<em class='brace'>}</em>
+<a id='L208' name='L208'></a>
+<a id='L209' name='L209'></a>  """
+<a id='L210' name='L210'></a>  @spec <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>(t) :: t
+<a id='L211' name='L211'></a>  def <a href='../R/981.html' title='Multiple referred from 375 places.'>type</a>(type)
+<a id='L212' name='L212'></a>
+<a id='L213' name='L213'></a>  def <a href='../R/981.html' title='Multiple referred from 375 places.'>type</a>(<em class='brace'>{</em>:array, type<em class='brace'>}</em>), <strong class='reserved'>do</strong>: <em class='brace'>{</em>:array, type(type)<em class='brace'>}</em>
+<a id='L214' name='L214'></a>
+<a id='L215' name='L215'></a>  def <a href='../R/981.html' title='Multiple referred from 375 places.'>type</a>(type) <strong class='reserved'>do</strong>
+<a id='L216' name='L216'></a>    <strong class='reserved'>if</strong> primitive?(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>) <strong class='reserved'>do</strong>
+<a id='L217' name='L217'></a>      <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>
+<a id='L218' name='L218'></a>    <strong class='reserved'>else</strong>
+<a id='L219' name='L219'></a>      <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>.type
+<a id='L220' name='L220'></a>    end
+<a id='L221' name='L221'></a>  end
+<a id='L222' name='L222'></a>
+<a id='L223' name='L223'></a>  @doc """
+<a id='L224' name='L224'></a>  Checks <strong class='reserved'>if</strong> a given type matches with a primitive type
+<a id='L225' name='L225'></a>  that can be found in queries.
+<a id='L226' name='L226'></a>
+<a id='L227' name='L227'></a>      iex&gt; match?(:string, :any)
+<a id='L228' name='L228'></a>      true
+<a id='L229' name='L229'></a>      iex&gt; match?(:any, :string)
+<a id='L230' name='L230'></a>      true
+<a id='L231' name='L231'></a>      iex&gt; match?(:string, :string)
+<a id='L232' name='L232'></a>      true
+<a id='L233' name='L233'></a>
+<a id='L234' name='L234'></a>      iex&gt; match?(<em class='brace'>{</em>:array, :string<em class='brace'>}</em>, <em class='brace'>{</em>:array, :any<em class='brace'>}</em>)
+<a id='L235' name='L235'></a>      true
+<a id='L236' name='L236'></a>
+<a id='L237' name='L237'></a>      iex&gt; match?(Ecto.DateTime, :datetime)
+<a id='L238' name='L238'></a>      true
+<a id='L239' name='L239'></a>      iex&gt; match?(Ecto.DateTime, :string)
+<a id='L240' name='L240'></a>      false
+<a id='L241' name='L241'></a>
+<a id='L242' name='L242'></a>  """
+<a id='L243' name='L243'></a>  @spec match?(t, primitive) :: <a href='../D/305.html' title='Multiple defined in 4 places.'>boolean</a>
+<a id='L244' name='L244'></a>  def match?(schema_type, query_type) <strong class='reserved'>do</strong>
+<a id='L245' name='L245'></a>    <strong class='reserved'>if</strong> primitive?(schema_type) <strong class='reserved'>do</strong>
+<a id='L246' name='L246'></a>      do_match?(schema_type, query_type)
+<a id='L247' name='L247'></a>    <strong class='reserved'>else</strong>
+<a id='L248' name='L248'></a>      do_match?(schema_type.<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, query_type)
+<a id='L249' name='L249'></a>    end
+<a id='L250' name='L250'></a>  end
+<a id='L251' name='L251'></a>
+<a id='L252' name='L252'></a>  defp do_match?(_left, :any),  <strong class='reserved'>do</strong>: true
+<a id='L253' name='L253'></a>  defp do_match?(:any, _right), <strong class='reserved'>do</strong>: true
+<a id='L254' name='L254'></a>  defp do_match?(<em class='brace'>{</em>outer, <a href='../D/720.html' title='Multiple defined in 9 places.'>left</a><em class='brace'>}</em>, <em class='brace'>{</em>outer, right<em class='brace'>}</em>), <strong class='reserved'>do</strong>: match?(left, right)
+<a id='L255' name='L255'></a>  defp do_match?(<em class='brace'>{</em>:array, :any<em class='brace'>}</em>, <em class='brace'>{</em>:embed, %<em class='brace'>{</em>cardinality: :many<em class='brace'>}</em><em class='brace'>}</em>), <strong class='reserved'>do</strong>: true
+<a id='L256' name='L256'></a>  defp do_match?(:decimal, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>) when type in [:<strong class='reserved'>float</strong>, :integer], <strong class='reserved'>do</strong>: true
+<a id='L257' name='L257'></a>  defp do_match?(:binary_id, :binary), <strong class='reserved'>do</strong>: true
+<a id='L258' name='L258'></a>  defp do_match?(:id, :integer), <strong class='reserved'>do</strong>: true
+<a id='L259' name='L259'></a>  defp do_match?(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, type), <strong class='reserved'>do</strong>: true
+<a id='L260' name='L260'></a>  defp do_match?(_, _), <strong class='reserved'>do</strong>: false
+<a id='L261' name='L261'></a>
+<a id='L262' name='L262'></a>  @doc """
+<a id='L263' name='L263'></a>  Dumps a value to the given type.
+<a id='L264' name='L264'></a>
+<a id='L265' name='L265'></a>  Opposite to casting, dumping requires the returned value
+<a id='L266' name='L266'></a>  to be a valid Ecto type, as it will be sent to the
+<a id='L267' name='L267'></a>  underlying data store.
+<a id='L268' name='L268'></a>
+<a id='L269' name='L269'></a>      iex&gt; dump(:string, nil)
+<a id='L270' name='L270'></a>      <em class='brace'>{</em>:ok, %Ecto.Query.Tagged<em class='brace'>{</em>value: nil, type: :string<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L271' name='L271'></a>      iex&gt; dump(:string, "foo")
+<a id='L272' name='L272'></a>      <em class='brace'>{</em>:ok, "foo"<em class='brace'>}</em>
+<a id='L273' name='L273'></a>
+<a id='L274' name='L274'></a>      iex&gt; dump(:integer, 1)
+<a id='L275' name='L275'></a>      <em class='brace'>{</em>:ok, 1<em class='brace'>}</em>
+<a id='L276' name='L276'></a>      iex&gt; dump(:integer, "10")
+<a id='L277' name='L277'></a>      :error
+<a id='L278' name='L278'></a>
+<a id='L279' name='L279'></a>      iex&gt; dump(:binary, "foo")
+<a id='L280' name='L280'></a>      <em class='brace'>{</em>:ok, %Ecto.Query.Tagged<em class='brace'>{</em>value: "foo", type: :binary<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L281' name='L281'></a>      iex&gt; dump(:binary, 1)
+<a id='L282' name='L282'></a>      :error
+<a id='L283' name='L283'></a>
+<a id='L284' name='L284'></a>      iex&gt; dump(<em class='brace'>{</em>:array, :integer<em class='brace'>}</em>, [1, 2, 3])
+<a id='L285' name='L285'></a>      <em class='brace'>{</em>:ok, [1, 2, 3]<em class='brace'>}</em>
+<a id='L286' name='L286'></a>      iex&gt; dump(<em class='brace'>{</em>:array, :integer<em class='brace'>}</em>, [1, "2", 3])
+<a id='L287' name='L287'></a>      :error
+<a id='L288' name='L288'></a>      iex&gt; dump(<em class='brace'>{</em>:array, :binary<em class='brace'>}</em>, ["1", "2", "3"])
+<a id='L289' name='L289'></a>      <em class='brace'>{</em>:ok, %Ecto.Query.Tagged<em class='brace'>{</em>value: ["1", "2", "3"], type: <em class='brace'>{</em>:array, :binary<em class='brace'>}</em><em class='brace'>}</em><em class='brace'>}</em>
+<a id='L290' name='L290'></a>
+<a id='L291' name='L291'></a>  A `dumper` function may be given <strong class='reserved'>for</strong> handling recursive types.
+<a id='L292' name='L292'></a>  """
+<a id='L293' name='L293'></a>  @spec <a href='../D/512.html' title='Multiple defined in 28 places.'>dump</a>(t, term, (t, term -&gt; <em class='brace'>{</em>:ok, term<em class='brace'>}</em> | :error)) :: <em class='brace'>{</em>:ok, term<em class='brace'>}</em> | :error
+<a id='L294' name='L294'></a>  def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, dumper \\ &amp;dump/2)
+<a id='L295' name='L295'></a>
+<a id='L296' name='L296'></a>  def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(<em class='brace'>{</em>:<a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>, embed<em class='brace'>}</em>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, dumper) <strong class='reserved'>do</strong>
+<a id='L297' name='L297'></a>    <a href='../D/515.html' title='Multiple defined in 7 places.'>dump_embed</a>(<a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, dumper)
+<a id='L298' name='L298'></a>  end
+<a id='L299' name='L299'></a>
+<a id='L300' name='L300'></a>  def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, nil, _dumper) <strong class='reserved'>do</strong>
+<a id='L301' name='L301'></a>    <em class='brace'>{</em>:ok, %Ecto.Query.Tagged<em class='brace'>{</em>value: nil, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>: type(type)<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L302' name='L302'></a>  end
+<a id='L303' name='L303'></a>
+<a id='L304' name='L304'></a>  def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(:binary_id, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, _dumper) <strong class='reserved'>do</strong>
+<a id='L305' name='L305'></a>    raise ":binary_id type must be dumped by the adapter, attempted value: #{inspect value}"
+<a id='L306' name='L306'></a>  end
+<a id='L307' name='L307'></a>
+<a id='L308' name='L308'></a>  def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(<em class='brace'>{</em>:array, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a><em class='brace'>}</em>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, dumper) <strong class='reserved'>do</strong>
+<a id='L309' name='L309'></a>    <strong class='reserved'>if</strong> is_list(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) <strong class='reserved'>do</strong>
+<a id='L310' name='L310'></a>      <a href='../D/513.html' title='Multiple defined in 3 places.'>dump_array</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, dumper, [], false)
+<a id='L311' name='L311'></a>    <strong class='reserved'>else</strong>
+<a id='L312' name='L312'></a>      :error
+<a id='L313' name='L313'></a>    end
+<a id='L314' name='L314'></a>  end
+<a id='L315' name='L315'></a>
+<a id='L316' name='L316'></a>  def <a href='../R/386.html' title='Multiple referred from 14 places.'>dump</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, _dumper) <strong class='reserved'>do</strong>
+<a id='L317' name='L317'></a>    cond <strong class='reserved'>do</strong>
+<a id='L318' name='L318'></a>      not primitive?(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>) -&gt;
+<a id='L319' name='L319'></a>        <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>.<a href='../D/512.html' title='Multiple defined in 28 places.'>dump</a>(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>)
+<a id='L320' name='L320'></a>      of_base_type?(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) -&gt;
+<a id='L321' name='L321'></a>        <em class='brace'>{</em>:ok, <a href='../D/1091.html' title='Multiple defined in 4 places.'>tag</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>)<em class='brace'>}</em>
+<a id='L322' name='L322'></a>      true -&gt;
+<a id='L323' name='L323'></a>        :error
+<a id='L324' name='L324'></a>    end
+<a id='L325' name='L325'></a>  end
+<a id='L326' name='L326'></a>
+<a id='L327' name='L327'></a>  defp <a href='../R/930.html' title='Multiple referred from 69 places.'>tag</a>(:binary, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>),
+<a id='L328' name='L328'></a>    <strong class='reserved'>do</strong>: %Ecto.Query.Tagged<em class='brace'>{</em>type: :binary, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>: value<em class='brace'>}</em>
+<a id='L329' name='L329'></a>  defp <a href='../R/930.html' title='Multiple referred from 69 places.'>tag</a>(_type, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>),
+<a id='L330' name='L330'></a>    <strong class='reserved'>do</strong>: <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>
+<a id='L331' name='L331'></a>
+<a id='L332' name='L332'></a>  defp <a href='../R/387.html' title='Multiple referred from 3 places.'>dump_array</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, [h|t], dumper, acc, tagged) <strong class='reserved'>do</strong>
+<a id='L333' name='L333'></a>    <strong class='reserved'>case</strong> dumper.(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, h) <strong class='reserved'>do</strong>
+<a id='L334' name='L334'></a>      <em class='brace'>{</em>:ok, %Ecto.Query.Tagged<em class='brace'>{</em>value: h<em class='brace'>}</em><em class='brace'>}</em> -&gt;
+<a id='L335' name='L335'></a>        <a href='../D/513.html' title='Multiple defined in 3 places.'>dump_array</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, t, dumper, [h|acc], true)
+<a id='L336' name='L336'></a>      <em class='brace'>{</em>:ok, h<em class='brace'>}</em> -&gt;
+<a id='L337' name='L337'></a>        <a href='../D/513.html' title='Multiple defined in 3 places.'>dump_array</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, t, dumper, [h|acc], tagged)
+<a id='L338' name='L338'></a>      :error -&gt;
+<a id='L339' name='L339'></a>        :error
+<a id='L340' name='L340'></a>    end
+<a id='L341' name='L341'></a>  end
+<a id='L342' name='L342'></a>
+<a id='L343' name='L343'></a>  defp <a href='../R/387.html' title='Multiple referred from 3 places.'>dump_array</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, [], _dumper, acc, true) <strong class='reserved'>do</strong>
+<a id='L344' name='L344'></a>    <em class='brace'>{</em>:ok, %Ecto.Query.Tagged<em class='brace'>{</em>value: Enum.<a href='../D/991.html' title='Multiple defined in 5 places.'>reverse</a>(acc), <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>: type(<em class='brace'>{</em>:array, type<em class='brace'>}</em>)<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L345' name='L345'></a>  end
+<a id='L346' name='L346'></a>
+<a id='L347' name='L347'></a>  defp <a href='../R/387.html' title='Multiple referred from 3 places.'>dump_array</a>(_type, [], _dumper, acc, false) <strong class='reserved'>do</strong>
+<a id='L348' name='L348'></a>    <em class='brace'>{</em>:ok, Enum.<a href='../D/991.html' title='Multiple defined in 5 places.'>reverse</a>(acc)<em class='brace'>}</em>
+<a id='L349' name='L349'></a>  end
+<a id='L350' name='L350'></a>
+<a id='L351' name='L351'></a>  defp <a href='../R/389.html' title='Multiple referred from 3 places.'>dump_embed</a>(%<em class='brace'>{</em>cardinality: :one<em class='brace'>}</em> = <a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>, nil, _fun) <strong class='reserved'>do</strong>
+<a id='L352' name='L352'></a>    <em class='brace'>{</em>:ok, %Ecto.Query.Tagged<em class='brace'>{</em>value: nil, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>: type(<em class='brace'>{</em>:<a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>, embed<em class='brace'>}</em>)<em class='brace'>}</em><em class='brace'>}</em>
+<a id='L353' name='L353'></a>  end
+<a id='L354' name='L354'></a>
+<a id='L355' name='L355'></a>  defp <a href='../R/389.html' title='Multiple referred from 3 places.'>dump_embed</a>(%<em class='brace'>{</em>cardinality: :one, related: <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>: field<em class='brace'>}</em> = <a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>,
+<a id='L356' name='L356'></a>                  <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, fun) when is_map(value) <strong class='reserved'>do</strong>
+<a id='L357' name='L357'></a>    assert_replace_strategy!(<a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>)
+<a id='L358' name='L358'></a>    <em class='brace'>{</em>:ok, <a href='../D/515.html' title='Multiple defined in 7 places.'>dump_embed</a>(<a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, model.<a href='../D/220.html' title='Multiple defined in 18 places.'>__schema__</a>(:types), fun)<em class='brace'>}</em>
+<a id='L359' name='L359'></a>  end
+<a id='L360' name='L360'></a>
+<a id='L361' name='L361'></a>  defp <a href='../R/389.html' title='Multiple referred from 3 places.'>dump_embed</a>(%<em class='brace'>{</em>cardinality: :many, related: <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>: field<em class='brace'>}</em> = <a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>,
+<a id='L362' name='L362'></a>                  <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, fun) when is_list(value) <strong class='reserved'>do</strong>
+<a id='L363' name='L363'></a>    assert_replace_strategy!(<a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>)
+<a id='L364' name='L364'></a>    <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a> = <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>.<a href='../D/220.html' title='Multiple defined in 18 places.'>__schema__</a>(:types)
+<a id='L365' name='L365'></a>    <em class='brace'>{</em>:ok, <strong class='reserved'>for</strong>(<a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a> &lt;- <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>,
+<a id='L366' name='L366'></a>              <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a> = <a href='../D/515.html' title='Multiple defined in 7 places.'>dump_embed</a>(<a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, model, <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>, fun),
+<a id='L367' name='L367'></a>              <strong class='reserved'>do</strong>: <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>)<em class='brace'>}</em>
+<a id='L368' name='L368'></a>  end
+<a id='L369' name='L369'></a>
+<a id='L370' name='L370'></a>  defp <a href='../R/389.html' title='Multiple referred from 3 places.'>dump_embed</a>(_embed, _value, _fun) <strong class='reserved'>do</strong>
+<a id='L371' name='L371'></a>    :error
+<a id='L372' name='L372'></a>  end
+<a id='L373' name='L373'></a>
+<a id='L374' name='L374'></a>  defp <a href='../R/389.html' title='Multiple referred from 3 places.'>dump_embed</a>(_field, _model, %Ecto.Changeset<em class='brace'>{</em>action: :delete<em class='brace'>}</em>, _types, _fun) <strong class='reserved'>do</strong>
+<a id='L375' name='L375'></a>    nil
+<a id='L376' name='L376'></a>  end
+<a id='L377' name='L377'></a>
+<a id='L378' name='L378'></a>  defp <a href='../R/389.html' title='Multiple referred from 3 places.'>dump_embed</a>(_field, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, %Ecto.Changeset<em class='brace'>{</em>model: %<em class='brace'>{</em>__struct__: model<em class='brace'>}</em><em class='brace'>}</em> = <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>, <a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>, dumper) <strong class='reserved'>do</strong>
+<a id='L379' name='L379'></a>    %<em class='brace'>{</em>model: <strong class='reserved'>struct</strong>, changes: changes<em class='brace'>}</em> = <a href='../D/344.html' title='Multiple defined in 8 places.'>changeset</a>
+<a id='L380' name='L380'></a>
+<a id='L381' name='L381'></a>    Enum.<a href='../D/959.html' title='Multiple defined in 4 places.'>reduce</a>(<a href='../D/1150.html' title='Multiple defined in 3 places.'>types</a>, %<em class='brace'>{</em><em class='brace'>}</em>, fn <em class='brace'>{</em><a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a><em class='brace'>}</em>, acc -&gt;
+<a id='L382' name='L382'></a>      <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a> =
+<a id='L383' name='L383'></a>        <strong class='reserved'>case</strong> Map.<a href='../D/597.html' title='Multiple defined in 2 places.'>fetch</a>(changes, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>) <strong class='reserved'>do</strong>
+<a id='L384' name='L384'></a>          <em class='brace'>{</em>:ok, <a href='../D/342.html' title='Multiple defined in 18 places.'>change</a><em class='brace'>}</em> -&gt; change
+<a id='L385' name='L385'></a>          :error        -&gt; Map.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(<strong class='reserved'>struct</strong>, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>)
+<a id='L386' name='L386'></a>        end
+<a id='L387' name='L387'></a>
+<a id='L388' name='L388'></a>      <strong class='reserved'>case</strong> dumper.(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) <strong class='reserved'>do</strong>
+<a id='L389' name='L389'></a>        <em class='brace'>{</em>:ok, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a><em class='brace'>}</em> -&gt; Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(acc, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, value)
+<a id='L390' name='L390'></a>        :error       -&gt; raise ArgumentError, "cannot dump `#{inspect value}` as type #{inspect type}"
+<a id='L391' name='L391'></a>      end
+<a id='L392' name='L392'></a>    end)
+<a id='L393' name='L393'></a>  end
+<a id='L394' name='L394'></a>
+<a id='L395' name='L395'></a>  defp <a href='../R/389.html' title='Multiple referred from 3 places.'>dump_embed</a>(<a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, _model, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, _types, _fun) <strong class='reserved'>do</strong>
+<a id='L396' name='L396'></a>    raise ArgumentError, "cannot dump embed `#{field}`, invalid value: #{inspect value}"
+<a id='L397' name='L397'></a>  end
+<a id='L398' name='L398'></a>
+<a id='L399' name='L399'></a>  @doc """
+<a id='L400' name='L400'></a>  Loads a value with the given type.
+<a id='L401' name='L401'></a>
+<a id='L402' name='L402'></a>      iex&gt; load(:string, nil)
+<a id='L403' name='L403'></a>      <em class='brace'>{</em>:ok, nil<em class='brace'>}</em>
+<a id='L404' name='L404'></a>      iex&gt; load(:string, "foo")
+<a id='L405' name='L405'></a>      <em class='brace'>{</em>:ok, "foo"<em class='brace'>}</em>
+<a id='L406' name='L406'></a>
+<a id='L407' name='L407'></a>      iex&gt; load(:integer, 1)
+<a id='L408' name='L408'></a>      <em class='brace'>{</em>:ok, 1<em class='brace'>}</em>
+<a id='L409' name='L409'></a>      iex&gt; load(:integer, "10")
+<a id='L410' name='L410'></a>      :error
+<a id='L411' name='L411'></a>
+<a id='L412' name='L412'></a>  A `loader` function may be given <strong class='reserved'>for</strong> handling recursive types.
+<a id='L413' name='L413'></a>  """
+<a id='L414' name='L414'></a>  @spec <a href='../D/727.html' title='Multiple defined in 36 places.'>load</a>(t, term, (t, term -&gt; <em class='brace'>{</em>:ok, term<em class='brace'>}</em> | :error)) :: <em class='brace'>{</em>:ok, term<em class='brace'>}</em> | :error
+<a id='L415' name='L415'></a>  def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, loader \\ &amp;load/2)
+<a id='L416' name='L416'></a>
+<a id='L417' name='L417'></a>  def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(<em class='brace'>{</em>:<a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>, embed<em class='brace'>}</em>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, loader) <strong class='reserved'>do</strong>
+<a id='L418' name='L418'></a>    <a href='../D/733.html' title='Multiple defined in 7 places.'>load_embed</a>(<a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, loader)
+<a id='L419' name='L419'></a>  end
+<a id='L420' name='L420'></a>
+<a id='L421' name='L421'></a>  def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(_type, nil, _loader), <strong class='reserved'>do</strong>: <em class='brace'>{</em>:ok, nil<em class='brace'>}</em>
+<a id='L422' name='L422'></a>
+<a id='L423' name='L423'></a>  def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(:binary_id, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, _loader) <strong class='reserved'>do</strong>
+<a id='L424' name='L424'></a>    raise ":binary_id type must be loaded by the adapter, attempted value: #{inspect value}"
+<a id='L425' name='L425'></a>  end
+<a id='L426' name='L426'></a>
+<a id='L427' name='L427'></a>  def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(<em class='brace'>{</em>:array, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a><em class='brace'>}</em>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, loader) <strong class='reserved'>do</strong>
+<a id='L428' name='L428'></a>    <strong class='reserved'>if</strong> is_list(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) <strong class='reserved'>do</strong>
+<a id='L429' name='L429'></a>      <a href='../D/247.html' title='Multiple defined in 2 places.'>array</a>(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, &amp;loader.(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, &amp;1), [])
+<a id='L430' name='L430'></a>    <strong class='reserved'>else</strong>
+<a id='L431' name='L431'></a>      :error
+<a id='L432' name='L432'></a>    end
+<a id='L433' name='L433'></a>  end
+<a id='L434' name='L434'></a>
+<a id='L435' name='L435'></a>  def <a href='../R/590.html' title='Multiple referred from 9 places.'>load</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, _loader) <strong class='reserved'>do</strong>
+<a id='L436' name='L436'></a>    cond <strong class='reserved'>do</strong>
+<a id='L437' name='L437'></a>      not primitive?(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>) -&gt;
+<a id='L438' name='L438'></a>        <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>.<a href='../D/727.html' title='Multiple defined in 36 places.'>load</a>(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>)
+<a id='L439' name='L439'></a>      of_base_type?(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) -&gt;
+<a id='L440' name='L440'></a>        <em class='brace'>{</em>:ok, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a><em class='brace'>}</em>
+<a id='L441' name='L441'></a>      true -&gt;
+<a id='L442' name='L442'></a>        :error
+<a id='L443' name='L443'></a>    end
+<a id='L444' name='L444'></a>  end
+<a id='L445' name='L445'></a>
+<a id='L446' name='L446'></a>  defp <a href='../R/596.html' title='Multiple referred from 3 places.'>load_embed</a>(%<em class='brace'>{</em>cardinality: :one<em class='brace'>}</em>, nil, _fun), <strong class='reserved'>do</strong>: <em class='brace'>{</em>:ok, nil<em class='brace'>}</em>
+<a id='L447' name='L447'></a>
+<a id='L448' name='L448'></a>  defp <a href='../R/596.html' title='Multiple referred from 3 places.'>load_embed</a>(%<em class='brace'>{</em>cardinality: :one, related: <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>: field<em class='brace'>}</em> = <a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>,
+<a id='L449' name='L449'></a>                  <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, fun) when is_map(value) <strong class='reserved'>do</strong>
+<a id='L450' name='L450'></a>    assert_replace_strategy!(<a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>)
+<a id='L451' name='L451'></a>    <em class='brace'>{</em>:ok, <a href='../D/733.html' title='Multiple defined in 7 places.'>load_embed</a>(<a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, fun)<em class='brace'>}</em>
+<a id='L452' name='L452'></a>  end
+<a id='L453' name='L453'></a>
+<a id='L454' name='L454'></a>  defp <a href='../R/596.html' title='Multiple referred from 3 places.'>load_embed</a>(%<em class='brace'>{</em>cardinality: :many<em class='brace'>}</em>, nil, _fun), <strong class='reserved'>do</strong>: <em class='brace'>{</em>:ok, []<em class='brace'>}</em>
+<a id='L455' name='L455'></a>
+<a id='L456' name='L456'></a>  defp <a href='../R/596.html' title='Multiple referred from 3 places.'>load_embed</a>(%<em class='brace'>{</em>cardinality: :many, related: <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>: field<em class='brace'>}</em> = <a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>,
+<a id='L457' name='L457'></a>                  <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, fun) when is_list(value) <strong class='reserved'>do</strong>
+<a id='L458' name='L458'></a>    assert_replace_strategy!(<a href='../S/130.html#L1207' title='Defined at 1207 in deps/ecto/lib/ecto/schema.ex.'>embed</a>)
+<a id='L459' name='L459'></a>    <em class='brace'>{</em>:ok, Enum.map(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, &amp;<a href='../D/733.html' title='Multiple defined in 7 places.'>load_embed</a>(<a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, &amp;1, fun))<em class='brace'>}</em>
+<a id='L460' name='L460'></a>  end
+<a id='L461' name='L461'></a>
+<a id='L462' name='L462'></a>  defp <a href='../R/596.html' title='Multiple referred from 3 places.'>load_embed</a>(_embed, _value, _fun) <strong class='reserved'>do</strong>
+<a id='L463' name='L463'></a>    :error
+<a id='L464' name='L464'></a>  end
+<a id='L465' name='L465'></a>
+<a id='L466' name='L466'></a>  defp <a href='../R/596.html' title='Multiple referred from 3 places.'>load_embed</a>(_field, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, loader) when is_map(value) <strong class='reserved'>do</strong>
+<a id='L467' name='L467'></a>    Ecto.Schema.<a href='../S/130.html#L952' title='Defined at 952 in deps/ecto/lib/ecto/schema.ex.'>__load__</a>(<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, nil, nil, nil, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, loader)
+<a id='L468' name='L468'></a>  end
+<a id='L469' name='L469'></a>
+<a id='L470' name='L470'></a>  defp <a href='../R/596.html' title='Multiple referred from 3 places.'>load_embed</a>(<a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>, _model, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, _fun) <strong class='reserved'>do</strong>
+<a id='L471' name='L471'></a>    raise ArgumentError, "cannot load embed `#{field}`, invalid value: #{inspect value}"
+<a id='L472' name='L472'></a>  end
+<a id='L473' name='L473'></a>
+<a id='L474' name='L474'></a>  @doc """
+<a id='L475' name='L475'></a>  Casts a value to the given type.
+<a id='L476' name='L476'></a>
+<a id='L477' name='L477'></a>  `cast/2` is used by the finder queries and changesets
+<a id='L478' name='L478'></a>  to cast outside values to specific types.
+<a id='L479' name='L479'></a>
+<a id='L480' name='L480'></a>  Note that nil can be cast to all primitive types as data
+<a id='L481' name='L481'></a>  stores allow nil to be set on any column. Custom data types
+<a id='L482' name='L482'></a>  may want to handle nil specially though.
+<a id='L483' name='L483'></a>
+<a id='L484' name='L484'></a>      iex&gt; cast(:any, "whatever")
+<a id='L485' name='L485'></a>      <em class='brace'>{</em>:ok, "whatever"<em class='brace'>}</em>
+<a id='L486' name='L486'></a>
+<a id='L487' name='L487'></a>      iex&gt; cast(:any, nil)
+<a id='L488' name='L488'></a>      <em class='brace'>{</em>:ok, nil<em class='brace'>}</em>
+<a id='L489' name='L489'></a>      iex&gt; cast(:string, nil)
+<a id='L490' name='L490'></a>      <em class='brace'>{</em>:ok, nil<em class='brace'>}</em>
+<a id='L491' name='L491'></a>
+<a id='L492' name='L492'></a>      iex&gt; cast(:integer, 1)
+<a id='L493' name='L493'></a>      <em class='brace'>{</em>:ok, 1<em class='brace'>}</em>
+<a id='L494' name='L494'></a>      iex&gt; cast(:integer, "1")
+<a id='L495' name='L495'></a>      <em class='brace'>{</em>:ok, 1<em class='brace'>}</em>
+<a id='L496' name='L496'></a>      iex&gt; cast(:integer, "1.0")
+<a id='L497' name='L497'></a>      :error
+<a id='L498' name='L498'></a>
+<a id='L499' name='L499'></a>      iex&gt; cast(:id, 1)
+<a id='L500' name='L500'></a>      <em class='brace'>{</em>:ok, 1<em class='brace'>}</em>
+<a id='L501' name='L501'></a>      iex&gt; cast(:id, "1")
+<a id='L502' name='L502'></a>      <em class='brace'>{</em>:ok, 1<em class='brace'>}</em>
+<a id='L503' name='L503'></a>      iex&gt; cast(:id, "1.0")
+<a id='L504' name='L504'></a>      :error
+<a id='L505' name='L505'></a>
+<a id='L506' name='L506'></a>      iex&gt; cast(:<strong class='reserved'>float</strong>, 1.0)
+<a id='L507' name='L507'></a>      <em class='brace'>{</em>:ok, 1.0<em class='brace'>}</em>
+<a id='L508' name='L508'></a>      iex&gt; cast(:<strong class='reserved'>float</strong>, 1)
+<a id='L509' name='L509'></a>      <em class='brace'>{</em>:ok, 1.0<em class='brace'>}</em>
+<a id='L510' name='L510'></a>      iex&gt; cast(:<strong class='reserved'>float</strong>, "1")
+<a id='L511' name='L511'></a>      <em class='brace'>{</em>:ok, 1.0<em class='brace'>}</em>
+<a id='L512' name='L512'></a>      iex&gt; cast(:<strong class='reserved'>float</strong>, "1.0")
+<a id='L513' name='L513'></a>      <em class='brace'>{</em>:ok, 1.0<em class='brace'>}</em>
+<a id='L514' name='L514'></a>      iex&gt; cast(:<strong class='reserved'>float</strong>, "1-foo")
+<a id='L515' name='L515'></a>      :error
+<a id='L516' name='L516'></a>
+<a id='L517' name='L517'></a>      iex&gt; cast(:boolean, true)
+<a id='L518' name='L518'></a>      <em class='brace'>{</em>:ok, true<em class='brace'>}</em>
+<a id='L519' name='L519'></a>      iex&gt; cast(:boolean, false)
+<a id='L520' name='L520'></a>      <em class='brace'>{</em>:ok, false<em class='brace'>}</em>
+<a id='L521' name='L521'></a>      iex&gt; cast(:boolean, "1")
+<a id='L522' name='L522'></a>      <em class='brace'>{</em>:ok, true<em class='brace'>}</em>
+<a id='L523' name='L523'></a>      iex&gt; cast(:boolean, "0")
+<a id='L524' name='L524'></a>      <em class='brace'>{</em>:ok, false<em class='brace'>}</em>
+<a id='L525' name='L525'></a>      iex&gt; cast(:boolean, "whatever")
+<a id='L526' name='L526'></a>      :error
+<a id='L527' name='L527'></a>
+<a id='L528' name='L528'></a>      iex&gt; cast(:string, "beef")
+<a id='L529' name='L529'></a>      <em class='brace'>{</em>:ok, "beef"<em class='brace'>}</em>
+<a id='L530' name='L530'></a>      iex&gt; cast(:binary, "beef")
+<a id='L531' name='L531'></a>      <em class='brace'>{</em>:ok, "beef"<em class='brace'>}</em>
+<a id='L532' name='L532'></a>
+<a id='L533' name='L533'></a>      iex&gt; cast(:decimal, Decimal.new(1.0))
+<a id='L534' name='L534'></a>      <em class='brace'>{</em>:ok, Decimal.new(1.0)<em class='brace'>}</em>
+<a id='L535' name='L535'></a>      iex&gt; cast(:decimal, Decimal.new("1.0"))
+<a id='L536' name='L536'></a>      <em class='brace'>{</em>:ok, Decimal.new(1.0)<em class='brace'>}</em>
+<a id='L537' name='L537'></a>
+<a id='L538' name='L538'></a>      iex&gt; cast(<em class='brace'>{</em>:array, :integer<em class='brace'>}</em>, [1, 2, 3])
+<a id='L539' name='L539'></a>      <em class='brace'>{</em>:ok, [1, 2, 3]<em class='brace'>}</em>
+<a id='L540' name='L540'></a>      iex&gt; cast(<em class='brace'>{</em>:array, :integer<em class='brace'>}</em>, ["1", "2", "3"])
+<a id='L541' name='L541'></a>      <em class='brace'>{</em>:ok, [1, 2, 3]<em class='brace'>}</em>
+<a id='L542' name='L542'></a>      iex&gt; cast(<em class='brace'>{</em>:array, :string<em class='brace'>}</em>, [1, 2, 3])
+<a id='L543' name='L543'></a>      :error
+<a id='L544' name='L544'></a>      iex&gt; cast(:string, [1, 2, 3])
+<a id='L545' name='L545'></a>      :error
+<a id='L546' name='L546'></a>
+<a id='L547' name='L547'></a>  """
+<a id='L548' name='L548'></a>  @spec <a href='../D/331.html' title='Multiple defined in 58 places.'>cast</a>(t, term) :: <em class='brace'>{</em>:ok, term<em class='brace'>}</em> | :error
+<a id='L549' name='L549'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(<em class='brace'>{</em>:embed, _<em class='brace'>}</em>, _) <strong class='reserved'>do</strong>
+<a id='L550' name='L550'></a>    :error
+<a id='L551' name='L551'></a>  end
+<a id='L552' name='L552'></a>
+<a id='L553' name='L553'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(_type, nil), <strong class='reserved'>do</strong>: <em class='brace'>{</em>:ok, nil<em class='brace'>}</em>
+<a id='L554' name='L554'></a>
+<a id='L555' name='L555'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(<em class='brace'>{</em>:array, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a><em class='brace'>}</em>, term) when is_list(term) <strong class='reserved'>do</strong>
+<a id='L556' name='L556'></a>    <a href='../D/247.html' title='Multiple defined in 2 places.'>array</a>(term, &amp;<a href='../D/331.html' title='Multiple defined in 58 places.'>cast</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, &amp;1), [])
+<a id='L557' name='L557'></a>  end
+<a id='L558' name='L558'></a>
+<a id='L559' name='L559'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(:<strong class='reserved'>float</strong>, term) when is_binary(term) <strong class='reserved'>do</strong>
+<a id='L560' name='L560'></a>    <strong class='reserved'>case</strong> Float.<a href='../D/856.html' title='Multiple defined in 25 places.'>parse</a>(term) <strong class='reserved'>do</strong>
+<a id='L561' name='L561'></a>      <em class='brace'>{</em><strong class='reserved'>float</strong>, ""<em class='brace'>}</em> -&gt; <em class='brace'>{</em>:ok, <strong class='reserved'>float</strong><em class='brace'>}</em>
+<a id='L562' name='L562'></a>      _           -&gt; :error
+<a id='L563' name='L563'></a>    end
+<a id='L564' name='L564'></a>  end
+<a id='L565' name='L565'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(:<strong class='reserved'>float</strong>, term) when is_integer(term), <strong class='reserved'>do</strong>: <em class='brace'>{</em>:ok, term + 0.0<em class='brace'>}</em>
+<a id='L566' name='L566'></a>
+<a id='L567' name='L567'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(:boolean, term) when term in ~w(true 1),  <strong class='reserved'>do</strong>: <em class='brace'>{</em>:ok, true<em class='brace'>}</em>
+<a id='L568' name='L568'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(:boolean, term) when term in ~w(false 0), <strong class='reserved'>do</strong>: <em class='brace'>{</em>:ok, false<em class='brace'>}</em>
+<a id='L569' name='L569'></a>
+<a id='L570' name='L570'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(:decimal, term) when is_binary(term) or is_number(term) <strong class='reserved'>do</strong>
+<a id='L571' name='L571'></a>    <em class='brace'>{</em>:ok, <a href='../S/47.html#L1' title='Defined at 1 in deps/decimal/lib/decimal.ex.'>Decimal</a>.<a href='../D/805.html' title='Multiple defined in 14 places.'>new</a>(term)<em class='brace'>}</em> # TODO: Add Decimal.parse/1
+<a id='L572' name='L572'></a>  rescue
+<a id='L573' name='L573'></a>    Decimal.Error -&gt; :error
+<a id='L574' name='L574'></a>  end
+<a id='L575' name='L575'></a>
+<a id='L576' name='L576'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, term) when type in [:id, :integer] and is_binary(term) <strong class='reserved'>do</strong>
+<a id='L577' name='L577'></a>    <strong class='reserved'>case</strong> Integer.<a href='../D/856.html' title='Multiple defined in 25 places.'>parse</a>(term) <strong class='reserved'>do</strong>
+<a id='L578' name='L578'></a>      <em class='brace'>{</em><strong class='reserved'>int</strong>, ""<em class='brace'>}</em> -&gt; <em class='brace'>{</em>:ok, <strong class='reserved'>int</strong><em class='brace'>}</em>
+<a id='L579' name='L579'></a>      _         -&gt; :error
+<a id='L580' name='L580'></a>    end
+<a id='L581' name='L581'></a>  end
+<a id='L582' name='L582'></a>
+<a id='L583' name='L583'></a>  # This would be equivalent to implementing Ecto.DataType
+<a id='L584' name='L584'></a>  # for those types. We skip the protocol <strong class='reserved'>for</strong> performance.
+<a id='L585' name='L585'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(:datetime, %<em class='brace'>{</em>__struct__: Ecto.DateTime<em class='brace'>}</em> = datetime), <strong class='reserved'>do</strong>: Ecto.DateTime.<a href='../D/512.html' title='Multiple defined in 28 places.'>dump</a>(datetime)
+<a id='L586' name='L586'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(:date, %<em class='brace'>{</em>__struct__: Ecto.Date<em class='brace'>}</em> = date), <strong class='reserved'>do</strong>: Ecto.Date.<a href='../D/512.html' title='Multiple defined in 28 places.'>dump</a>(date)
+<a id='L587' name='L587'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(:<a href='../D/1100.html' title='Multiple defined in 3 places.'>time</a>, %<em class='brace'>{</em>__struct__: Ecto.Time<em class='brace'>}</em> = time), <strong class='reserved'>do</strong>: Ecto.Time.<a href='../D/512.html' title='Multiple defined in 28 places.'>dump</a>(time)
+<a id='L588' name='L588'></a>
+<a id='L589' name='L589'></a>  def <a href='../R/211.html' title='Multiple referred from 53 places.'>cast</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, term) <strong class='reserved'>do</strong>
+<a id='L590' name='L590'></a>    <strong class='reserved'>case</strong> <a href='../S/132.html#L596' title='Defined at 596 in deps/ecto/lib/ecto/type.ex.'>try_cast</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, term) <strong class='reserved'>do</strong>
+<a id='L591' name='L591'></a>      <em class='brace'>{</em>:<a href='../D/828.html' title='Multiple defined in 6 places.'>ok</a>, _<em class='brace'>}</em> = ok -&gt; ok
+<a id='L592' name='L592'></a>      :error -&gt; Ecto.DataType.<a href='../D/331.html' title='Multiple defined in 58 places.'>cast</a>(term, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>)
+<a id='L593' name='L593'></a>    end
+<a id='L594' name='L594'></a>  end
+<a id='L595' name='L595'></a>
+<a id='L596' name='L596'></a>  defp <a href='../S/132.html#L590' title='Referred from 590 in deps/ecto/lib/ecto/type.ex.'>try_cast</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) <strong class='reserved'>do</strong>
+<a id='L597' name='L597'></a>    cond <strong class='reserved'>do</strong>
+<a id='L598' name='L598'></a>      not primitive?(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>) -&gt;
+<a id='L599' name='L599'></a>        <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>.<a href='../D/331.html' title='Multiple defined in 58 places.'>cast</a>(<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>)
+<a id='L600' name='L600'></a>      of_base_type?(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) -&gt;
+<a id='L601' name='L601'></a>        <em class='brace'>{</em>:ok, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a><em class='brace'>}</em>
+<a id='L602' name='L602'></a>      true -&gt;
+<a id='L603' name='L603'></a>        :error
+<a id='L604' name='L604'></a>    end
+<a id='L605' name='L605'></a>  end
+<a id='L606' name='L606'></a>
+<a id='L607' name='L607'></a><em class='sharp'>  #</em># Helpers
+<a id='L608' name='L608'></a>
+<a id='L609' name='L609'></a>  # Checks <strong class='reserved'>if</strong> a value is of the given primitive type.
+<a id='L610' name='L610'></a>  defp of_base_type?(:any, _),           <strong class='reserved'>do</strong>: true
+<a id='L611' name='L611'></a>  defp of_base_type?(<em class='brace'>{</em>:array, _<em class='brace'>}</em>, _),    <strong class='reserved'>do</strong>: false # Always handled explicitly.
+<a id='L612' name='L612'></a>  defp of_base_type?(:id, term),         <strong class='reserved'>do</strong>: is_integer(term)
+<a id='L613' name='L613'></a>  defp of_base_type?(:<strong class='reserved'>float</strong>, term),      <strong class='reserved'>do</strong>: is_float(term)
+<a id='L614' name='L614'></a>  defp of_base_type?(:integer, term),    <strong class='reserved'>do</strong>: is_integer(term)
+<a id='L615' name='L615'></a>  defp of_base_type?(:boolean, term),    <strong class='reserved'>do</strong>: is_boolean(term)
+<a id='L616' name='L616'></a>  defp of_base_type?(:binary_id, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>), <strong class='reserved'>do</strong>: is_binary(value)
+<a id='L617' name='L617'></a>  defp of_base_type?(:binary, term),     <strong class='reserved'>do</strong>: is_binary(term)
+<a id='L618' name='L618'></a>  defp of_base_type?(:string, term),     <strong class='reserved'>do</strong>: is_binary(term)
+<a id='L619' name='L619'></a>  defp of_base_type?(:map, term),        <strong class='reserved'>do</strong>: is_map(term) and not Map.has_key?(term, :__struct__)
+<a id='L620' name='L620'></a>  defp of_base_type?(:decimal, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>),   <strong class='reserved'>do</strong>: Kernel.match?(%<em class='brace'>{</em>__struct__: <a href='../S/47.html#L1' title='Defined at 1 in deps/decimal/lib/decimal.ex.'>Decimal</a><em class='brace'>}</em>, value)
+<a id='L621' name='L621'></a>
+<a id='L622' name='L622'></a>  defp of_base_type?(:date, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) <strong class='reserved'>do</strong>
+<a id='L623' name='L623'></a>    <strong class='reserved'>case</strong> <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a> <strong class='reserved'>do</strong>
+<a id='L624' name='L624'></a>      <em class='brace'>{</em>_, _, _<em class='brace'>}</em> -&gt; true
+<a id='L625' name='L625'></a>      _ -&gt; false
+<a id='L626' name='L626'></a>    end
+<a id='L627' name='L627'></a>  end
+<a id='L628' name='L628'></a>
+<a id='L629' name='L629'></a>  defp of_base_type?(:time, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) <strong class='reserved'>do</strong>
+<a id='L630' name='L630'></a>    <strong class='reserved'>case</strong> <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a> <strong class='reserved'>do</strong>
+<a id='L631' name='L631'></a>      <em class='brace'>{</em>_, _, _, _<em class='brace'>}</em> -&gt; true
+<a id='L632' name='L632'></a>      <em class='brace'>{</em>_, _, _<em class='brace'>}</em> -&gt; true
+<a id='L633' name='L633'></a>      _ -&gt; false
+<a id='L634' name='L634'></a>    end
+<a id='L635' name='L635'></a>  end
+<a id='L636' name='L636'></a>
+<a id='L637' name='L637'></a>  defp of_base_type?(:datetime, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) <strong class='reserved'>do</strong>
+<a id='L638' name='L638'></a>    <strong class='reserved'>case</strong> <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a> <strong class='reserved'>do</strong>
+<a id='L639' name='L639'></a>      <em class='brace'>{</em><em class='brace'>{</em>_, _, _<em class='brace'>}</em>, <em class='brace'>{</em>_, _, _, _<em class='brace'>}</em><em class='brace'>}</em> -&gt; true
+<a id='L640' name='L640'></a>      <em class='brace'>{</em><em class='brace'>{</em>_, _, _<em class='brace'>}</em>, <em class='brace'>{</em>_, _, _<em class='brace'>}</em><em class='brace'>}</em> -&gt; true
+<a id='L641' name='L641'></a>      _ -&gt; false
+<a id='L642' name='L642'></a>    end
+<a id='L643' name='L643'></a>  end
+<a id='L644' name='L644'></a>
+<a id='L645' name='L645'></a>  defp <a href='../R/134.html' title='Multiple referred from 5 places.'>array</a>([h|t], fun, acc) <strong class='reserved'>do</strong>
+<a id='L646' name='L646'></a>    <strong class='reserved'>case</strong> fun.(h) <strong class='reserved'>do</strong>
+<a id='L647' name='L647'></a>      <em class='brace'>{</em>:ok, h<em class='brace'>}</em> -&gt; <a href='../D/247.html' title='Multiple defined in 2 places.'>array</a>(t, fun, [h|acc])
+<a id='L648' name='L648'></a>      :error   -&gt; :error
+<a id='L649' name='L649'></a>    end
+<a id='L650' name='L650'></a>  end
+<a id='L651' name='L651'></a>
+<a id='L652' name='L652'></a>  defp <a href='../R/134.html' title='Multiple referred from 5 places.'>array</a>([], _fun, acc) <strong class='reserved'>do</strong>
+<a id='L653' name='L653'></a>    <em class='brace'>{</em>:ok, Enum.<a href='../D/991.html' title='Multiple defined in 5 places.'>reverse</a>(acc)<em class='brace'>}</em>
+<a id='L654' name='L654'></a>  end
+<a id='L655' name='L655'></a>
+<a id='L656' name='L656'></a>  defp assert_replace_strategy!(%<em class='brace'>{</em>strategy: :replace<em class='brace'>}</em>), <strong class='reserved'>do</strong>: :ok
+<a id='L657' name='L657'></a>  defp assert_replace_strategy!(%<em class='brace'>{</em><a href='../S/34.html#L79' title='Defined at 79 in deps/db_connection/lib/db_connection/poolboy.ex.'>strategy</a>: strategy, <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>: field<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L658' name='L658'></a>    raise ArgumentError, "could not load/dump embed `#{field}` because the current adapter " &lt;&gt;
+<a id='L659' name='L659'></a>                         "does not support strategy `#{strategy}`"
+<a id='L660' name='L660'></a>  end
+<a id='L661' name='L661'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L29'>[^]</a><a href='#L657'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

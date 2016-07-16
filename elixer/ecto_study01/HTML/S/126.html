@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/repo/queryable.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/<a href='../files/247.html'>repo</a>/queryable.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L14'>[^]</a><a href='#L206'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L14' title='Defined at 14.'>all</a></li>
+<li><a href='#L21' title='Defined at 21.'>get</a></li>
+<li><a href='#L28' title='Defined at 28.'>get!</a></li>
+<li><a href='#L32' title='Defined at 32.'>get_by</a></li>
+<li><a href='#L36' title='Defined at 36.'>get_by!</a></li>
+<li><a href='#L43' title='Defined at 43.'>one</a></li>
+<li><a href='#L54' title='Defined at 54.'>one!</a></li>
+<li><a href='#L65' title='Defined at 65.'>update_all</a></li>
+<li><a href='#L69' title='Defined at 69.'>update_all</a></li>
+<li><a href='#L74' title='Defined at 74.'>update_all</a></li>
+<li><a href='#L81' title='Defined at 81.'>delete_all</a></li>
+<li><a href='#L87' title='Defined at 87.'>execute</a></li>
+<li><a href='#L105' title='Defined at 105.'>preprocess</a></li>
+<li><a href='#L109' title='Defined at 109.'>preprocess</a></li>
+<li><a href='#L114' title='Defined at 114.'>preprocess</a></li>
+<li><a href='#L121' title='Defined at 121.'>preprocess</a></li>
+<li><a href='#L125' title='Defined at 125.'>preprocess</a></li>
+<li><a href='#L129' title='Defined at 129.'>load!</a></li>
+<li><a href='#L136' title='Defined at 136.'>postprocess</a></li>
+<li><a href='#L145' title='Defined at 145.'>postprocess</a></li>
+<li><a href='#L147' title='Defined at 147.'>postprocess</a></li>
+<li><a href='#L150' title='Defined at 150.'>transform_row</a></li>
+<li><a href='#L155' title='Defined at 155.'>transform_row</a></li>
+<li><a href='#L160' title='Defined at 160.'>transform_row</a></li>
+<li><a href='#L167' title='Defined at 167.'>transform_row</a></li>
+<li><a href='#L171' title='Defined at 171.'>transform_row</a></li>
+<li><a href='#L175' title='Defined at 175.'>transform_row</a></li>
+<li><a href='#L180' title='Defined at 180.'>query_for_get</a></li>
+<li><a href='#L184' title='Defined at 184.'>query_for_get</a></li>
+<li><a href='#L191' title='Defined at 191.'>query_for_get_by</a></li>
+<li><a href='#L195' title='Defined at 195.'>assert_model!</a></li>
+<li><a href='#L206' title='Defined at 206.'>primary_key_field!</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Repo.<a href='../R/65.html' title='Multiple referred from 2 places.'>Queryable</a> <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  # The module invoked by user defined repos
+<a id='L3' name='L3'></a>  # for query related functionality.
+<a id='L4' name='L4'></a>  @moduledoc false
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>  alias Ecto.Queryable
+<a id='L7' name='L7'></a>  alias Ecto.Query.Planner
+<a id='L8' name='L8'></a>
+<a id='L9' name='L9'></a>  require Ecto.Query
+<a id='L10' name='L10'></a>
+<a id='L11' name='L11'></a>  @doc """
+<a id='L12' name='L12'></a>  Implementation <strong class='reserved'>for</strong> `Ecto.Repo.all/2`
+<a id='L13' name='L13'></a>  """
+<a id='L14' name='L14'></a>  def <a href='../R/126.html' title='Multiple referred from 243 places.'>all</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, queryable, opts) when is_list(opts) <strong class='reserved'>do</strong>
+<a id='L15' name='L15'></a>    <a href='../D/581.html' title='Multiple defined in 10 places.'>execute</a>(:all, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, queryable, opts) |&gt; elem(1)
+<a id='L16' name='L16'></a>  end
+<a id='L17' name='L17'></a>
+<a id='L18' name='L18'></a>  @doc """
+<a id='L19' name='L19'></a>  Implementation <strong class='reserved'>for</strong> `Ecto.Repo.get/3`
+<a id='L20' name='L20'></a>  """
+<a id='L21' name='L21'></a>  def <a href='../R/497.html' title='Multiple referred from 222 places.'>get</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, queryable, id, opts) <strong class='reserved'>do</strong>
+<a id='L22' name='L22'></a>    <a href='../D/832.html' title='Multiple defined in 6 places.'>one</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, <a href='../D/936.html' title='Multiple defined in 2 places.'>query_for_get</a>(repo, queryable, id), opts)
+<a id='L23' name='L23'></a>  end
+<a id='L24' name='L24'></a>
+<a id='L25' name='L25'></a>  @doc """
+<a id='L26' name='L26'></a>  Implementation <strong class='reserved'>for</strong> `Ecto.Repo.get!/3`
+<a id='L27' name='L27'></a>  """
+<a id='L28' name='L28'></a>  def get!(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, queryable, id, opts) <strong class='reserved'>do</strong>
+<a id='L29' name='L29'></a>    one!(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, <a href='../D/936.html' title='Multiple defined in 2 places.'>query_for_get</a>(repo, queryable, id), opts)
+<a id='L30' name='L30'></a>  end
+<a id='L31' name='L31'></a>
+<a id='L32' name='L32'></a>  def <a href='../R/502.html' title='Multiple referred from 9 places.'>get_by</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, queryable, clauses, opts) <strong class='reserved'>do</strong>
+<a id='L33' name='L33'></a>    <a href='../D/832.html' title='Multiple defined in 6 places.'>one</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, <a href='../S/126.html#L191' title='Defined at 191 in deps/ecto/lib/ecto/repo/queryable.ex.'>query_for_get_by</a>(repo, queryable, clauses), opts)
+<a id='L34' name='L34'></a>  end
+<a id='L35' name='L35'></a>
+<a id='L36' name='L36'></a>  def get_by!(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, queryable, clauses, opts) <strong class='reserved'>do</strong>
+<a id='L37' name='L37'></a>    one!(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, <a href='../S/126.html#L191' title='Defined at 191 in deps/ecto/lib/ecto/repo/queryable.ex.'>query_for_get_by</a>(repo, queryable, clauses), opts)
+<a id='L38' name='L38'></a>  end
+<a id='L39' name='L39'></a>
+<a id='L40' name='L40'></a>  @doc """
+<a id='L41' name='L41'></a>  Implementation <strong class='reserved'>for</strong> `Ecto.Repo.one/2`
+<a id='L42' name='L42'></a>  """
+<a id='L43' name='L43'></a>  def <a href='../R/684.html' title='Multiple referred from 10 places.'>one</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, queryable, opts) <strong class='reserved'>do</strong>
+<a id='L44' name='L44'></a>    <strong class='reserved'>case</strong> <a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, queryable, opts) <strong class='reserved'>do</strong>
+<a id='L45' name='L45'></a>      [<a href='../D/832.html' title='Multiple defined in 6 places.'>one</a>] -&gt; one
+<a id='L46' name='L46'></a>      []    -&gt; nil
+<a id='L47' name='L47'></a>      other -&gt; raise Ecto.MultipleResultsError, queryable: queryable, count: length(other)
+<a id='L48' name='L48'></a>    end
+<a id='L49' name='L49'></a>  end
+<a id='L50' name='L50'></a>
+<a id='L51' name='L51'></a>  @doc """
+<a id='L52' name='L52'></a>  Implementation <strong class='reserved'>for</strong> `Ecto.Repo.one!/2`
+<a id='L53' name='L53'></a>  """
+<a id='L54' name='L54'></a>  def one!(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, queryable, opts) <strong class='reserved'>do</strong>
+<a id='L55' name='L55'></a>    <strong class='reserved'>case</strong> <a href='../D/238.html' title='Multiple defined in 10 places.'>all</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, queryable, opts) <strong class='reserved'>do</strong>
+<a id='L56' name='L56'></a>      [<a href='../D/832.html' title='Multiple defined in 6 places.'>one</a>] -&gt; one
+<a id='L57' name='L57'></a>      []    -&gt; raise Ecto.NoResultsError, queryable: queryable
+<a id='L58' name='L58'></a>      other -&gt; raise Ecto.MultipleResultsError, queryable: queryable, count: length(other)
+<a id='L59' name='L59'></a>    end
+<a id='L60' name='L60'></a>  end
+<a id='L61' name='L61'></a>
+<a id='L62' name='L62'></a>  @doc """
+<a id='L63' name='L63'></a>  Runtime callback <strong class='reserved'>for</strong> `Ecto.Repo.update_all/3`
+<a id='L64' name='L64'></a>  """
+<a id='L65' name='L65'></a>  def <a href='../R/1006.html' title='Multiple referred from 20 places.'>update_all</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, queryable, [], opts) when is_list(opts) <strong class='reserved'>do</strong>
+<a id='L66' name='L66'></a>    <a href='../D/1173.html' title='Multiple defined in 8 places.'>update_all</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, queryable, opts)
+<a id='L67' name='L67'></a>  end
+<a id='L68' name='L68'></a>
+<a id='L69' name='L69'></a>  def <a href='../R/1006.html' title='Multiple referred from 20 places.'>update_all</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, queryable, updates, opts) when is_list(opts) <strong class='reserved'>do</strong>
+<a id='L70' name='L70'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = Ecto.Query.<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> q in queryable, update: ^updates
+<a id='L71' name='L71'></a>    <a href='../D/1173.html' title='Multiple defined in 8 places.'>update_all</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, opts)
+<a id='L72' name='L72'></a>  end
+<a id='L73' name='L73'></a>
+<a id='L74' name='L74'></a>  defp <a href='../R/1006.html' title='Multiple referred from 20 places.'>update_all</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, queryable, opts) <strong class='reserved'>do</strong>
+<a id='L75' name='L75'></a>    <a href='../D/581.html' title='Multiple defined in 10 places.'>execute</a>(:update_all, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, queryable, opts)
+<a id='L76' name='L76'></a>  end
+<a id='L77' name='L77'></a>
+<a id='L78' name='L78'></a>  @doc """
+<a id='L79' name='L79'></a>  Implementation <strong class='reserved'>for</strong> `Ecto.Repo.delete_all/2`
+<a id='L80' name='L80'></a>  """
+<a id='L81' name='L81'></a>  def <a href='../R/322.html' title='Multiple referred from 12 places.'>delete_all</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, queryable, opts) when is_list(opts) <strong class='reserved'>do</strong>
+<a id='L82' name='L82'></a>    <a href='../D/581.html' title='Multiple defined in 10 places.'>execute</a>(:delete_all, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, queryable, opts)
+<a id='L83' name='L83'></a>  end
+<a id='L84' name='L84'></a>
+<a id='L85' name='L85'></a><em class='sharp'>  #</em># Helpers
+<a id='L86' name='L86'></a>
+<a id='L87' name='L87'></a>  def <a href='../R/451.html' title='Multiple referred from 31 places.'>execute</a>(operation, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter, queryable, opts) when is_list(opts) <strong class='reserved'>do</strong>
+<a id='L88' name='L88'></a>    <em class='brace'>{</em>meta, prepared, params<em class='brace'>}</em> =
+<a id='L89' name='L89'></a>      queryable
+<a id='L90' name='L90'></a>      |&gt; <a href='../D/143.html' title='Multiple defined in 6 places.'>Queryable</a>.<a href='../D/1117.html' title='Multiple defined in 5 places.'>to_query</a>()
+<a id='L91' name='L91'></a>      |&gt; <a href='../S/121.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/planner.ex.'>Planner</a>.<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>(operation, <a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, adapter)
+<a id='L92' name='L92'></a>
+<a id='L93' name='L93'></a>    <strong class='reserved'>if</strong> meta.<a href='../D/1031.html' title='Multiple defined in 4 places.'>select</a> <strong class='reserved'>do</strong>
+<a id='L94' name='L94'></a>      <a href='../D/902.html' title='Multiple defined in 5 places.'>preprocess</a> = preprocess(meta.<a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>, meta.sources, adapter)
+<a id='L95' name='L95'></a>      <em class='brace'>{</em><a href='../D/394.html' title='Multiple defined in 2 places.'>count</a>, rows<em class='brace'>}</em> = adapter.<a href='../D/581.html' title='Multiple defined in 10 places.'>execute</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, meta, prepared, params, <a href='../D/902.html' title='Multiple defined in 5 places.'>preprocess</a>, opts)
+<a id='L96' name='L96'></a>      <em class='brace'>{</em><a href='../D/394.html' title='Multiple defined in 2 places.'>count</a>,
+<a id='L97' name='L97'></a>        rows
+<a id='L98' name='L98'></a>        |&gt; Ecto.Repo.Assoc.<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>(meta.<a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a>, meta.sources)
+<a id='L99' name='L99'></a>        |&gt; Ecto.Repo.Preloader.<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, meta.<a href='../D/890.html' title='Multiple defined in 2 places.'>preloads</a>, meta.<a href='../D/273.html' title='Multiple defined in 5 places.'>assocs</a>, <a href='../D/883.html' title='Multiple defined in 3 places.'>postprocess</a>(meta.<a href='../D/1031.html' title='Multiple defined in 4 places.'>select</a>))<em class='brace'>}</em>
+<a id='L100' name='L100'></a>    <strong class='reserved'>else</strong>
+<a id='L101' name='L101'></a>      adapter.<a href='../D/581.html' title='Multiple defined in 10 places.'>execute</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, meta, prepared, params, nil, opts)
+<a id='L102' name='L102'></a>    end
+<a id='L103' name='L103'></a>  end
+<a id='L104' name='L104'></a>
+<a id='L105' name='L105'></a>  defp <a href='../R/752.html' title='Multiple referred from 12 places.'>preprocess</a>(<a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>, sources, adapter) <strong class='reserved'>do</strong>
+<a id='L106' name='L106'></a>    &amp;<a href='../D/902.html' title='Multiple defined in 5 places.'>preprocess</a>(&amp;1, &amp;2, <a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>, &amp;3, sources, adapter)
+<a id='L107' name='L107'></a>  end
+<a id='L108' name='L108'></a>
+<a id='L109' name='L109'></a>  defp <a href='../R/752.html' title='Multiple referred from 12 places.'>preprocess</a>(<em class='brace'>{</em>:&amp;, _, [ix]<em class='brace'>}</em>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, <a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>, <a href='../S/47.html#L1060' title='Defined at 1060 in deps/decimal/lib/decimal.ex.'>context</a>, sources, adapter) <strong class='reserved'>do</strong>
+<a id='L110' name='L110'></a>    <em class='brace'>{</em>source, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a><em class='brace'>}</em> = elem(sources, ix)
+<a id='L111' name='L111'></a>    Ecto.Schema.<a href='../S/130.html#L952' title='Defined at 952 in deps/ecto/lib/ecto/schema.ex.'>__load__</a>(<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>, <a href='../D/885.html' title='Multiple defined in 3 places.'>prefix</a>, source, <a href='../S/47.html#L1060' title='Defined at 1060 in deps/decimal/lib/decimal.ex.'>context</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, &amp;adapter.<a href='../D/727.html' title='Multiple defined in 36 places.'>load</a>/2)
+<a id='L112' name='L112'></a>  end
+<a id='L113' name='L113'></a>
+<a id='L114' name='L114'></a>  defp <a href='../R/752.html' title='Multiple referred from 12 places.'>preprocess</a>(<em class='brace'>{</em><em class='brace'>{</em>:., _, [<em class='brace'>{</em>:&amp;, _, [_]<em class='brace'>}</em>, _]<em class='brace'>}</em>, meta, []<em class='brace'>}</em>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, _prefix, _context, _sources, adapter) <strong class='reserved'>do</strong>
+<a id='L115' name='L115'></a>    <strong class='reserved'>case</strong> Keyword.<a href='../D/597.html' title='Multiple defined in 2 places.'>fetch</a>(meta, :ecto_type) <strong class='reserved'>do</strong>
+<a id='L116' name='L116'></a>      <em class='brace'>{</em>:ok, <a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a><em class='brace'>}</em> -&gt; load!(type, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, adapter)
+<a id='L117' name='L117'></a>      :error      -&gt; <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>
+<a id='L118' name='L118'></a>    end
+<a id='L119' name='L119'></a>  end
+<a id='L120' name='L120'></a>
+<a id='L121' name='L121'></a>  defp <a href='../R/752.html' title='Multiple referred from 12 places.'>preprocess</a>(%Ecto.Query.Tagged<em class='brace'>{</em><a href='../D/1091.html' title='Multiple defined in 4 places.'>tag</a>: tag<em class='brace'>}</em>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, _prefix, _context, _sources, adapter) <strong class='reserved'>do</strong>
+<a id='L122' name='L122'></a>    load!(<a href='../D/1091.html' title='Multiple defined in 4 places.'>tag</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, adapter)
+<a id='L123' name='L123'></a>  end
+<a id='L124' name='L124'></a>
+<a id='L125' name='L125'></a>  defp <a href='../R/752.html' title='Multiple referred from 12 places.'>preprocess</a>(_key, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, _prefix, _context, _sources, _adapter) <strong class='reserved'>do</strong>
+<a id='L126' name='L126'></a>    <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>
+<a id='L127' name='L127'></a>  end
+<a id='L128' name='L128'></a>
+<a id='L129' name='L129'></a>  defp load!(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, adapter) <strong class='reserved'>do</strong>
+<a id='L130' name='L130'></a>    <strong class='reserved'>case</strong> adapter.<a href='../D/727.html' title='Multiple defined in 36 places.'>load</a>(<a href='../D/1146.html' title='Multiple defined in 18 places.'>type</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) <strong class='reserved'>do</strong>
+<a id='L131' name='L131'></a>      <em class='brace'>{</em>:ok, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a><em class='brace'>}</em> -&gt; value
+<a id='L132' name='L132'></a>      :error -&gt; raise ArgumentError, "cannot load `#{inspect value}` as type #{inspect type}"
+<a id='L133' name='L133'></a>    end
+<a id='L134' name='L134'></a>  end
+<a id='L135' name='L135'></a>
+<a id='L136' name='L136'></a>  defp <a href='../R/733.html' title='Multiple referred from 2 places.'>postprocess</a>(%<em class='brace'>{</em><a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>: expr, <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>: fields<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L137' name='L137'></a>    # The planner always put the from as the first
+<a id='L138' name='L138'></a>    # entry in the query, avoiding fetching it multiple
+<a id='L139' name='L139'></a>    # times even <strong class='reserved'>if</strong> it appears multiple times in the query.
+<a id='L140' name='L140'></a>    # So we always need to handle it specially.
+<a id='L141' name='L141'></a>    from? = match?([<em class='brace'>{</em>:&amp;, _, [0]<em class='brace'>}</em>|_], <a href='../S/121.html#L15' title='Defined at 15 in deps/ecto/lib/ecto/query/planner.ex.'>fields</a>)
+<a id='L142' name='L142'></a>    &amp;<a href='../D/883.html' title='Multiple defined in 3 places.'>postprocess</a>(&amp;1, <a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>, from?)
+<a id='L143' name='L143'></a>  end
+<a id='L144' name='L144'></a>
+<a id='L145' name='L145'></a>  defp <a href='../R/733.html' title='Multiple referred from 2 places.'>postprocess</a>(row, <a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>, true),
+<a id='L146' name='L146'></a>    <strong class='reserved'>do</strong>: <a href='../D/1137.html' title='Multiple defined in 6 places.'>transform_row</a>(<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>, hd(row), tl(row)) |&gt; elem(0)
+<a id='L147' name='L147'></a>  defp <a href='../R/733.html' title='Multiple referred from 2 places.'>postprocess</a>(row, <a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>, false),
+<a id='L148' name='L148'></a>    <strong class='reserved'>do</strong>: <a href='../D/1137.html' title='Multiple defined in 6 places.'>transform_row</a>(<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>, nil, row) |&gt; elem(0)
+<a id='L149' name='L149'></a>
+<a id='L150' name='L150'></a>  defp <a href='../R/973.html' title='Multiple referred from 6 places.'>transform_row</a>(<em class='brace'>{</em>:<em class='brace'>{</em><em class='brace'>}</em>, _, list<em class='brace'>}</em>, <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>, values) <strong class='reserved'>do</strong>
+<a id='L151' name='L151'></a>    <em class='brace'>{</em>result, values<em class='brace'>}</em> = <a href='../D/1137.html' title='Multiple defined in 6 places.'>transform_row</a>(list, <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>, values)
+<a id='L152' name='L152'></a>    <em class='brace'>{</em>List.to_tuple(result), values<em class='brace'>}</em>
+<a id='L153' name='L153'></a>  end
+<a id='L154' name='L154'></a>
+<a id='L155' name='L155'></a>  defp <a href='../R/973.html' title='Multiple referred from 6 places.'>transform_row</a>(<em class='brace'>{</em><a href='../D/720.html' title='Multiple defined in 9 places.'>left</a>, right<em class='brace'>}</em>, <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>, values) <strong class='reserved'>do</strong>
+<a id='L156' name='L156'></a>    <em class='brace'>{</em>[<a href='../D/720.html' title='Multiple defined in 9 places.'>left</a>, right], values<em class='brace'>}</em> = <a href='../D/1137.html' title='Multiple defined in 6 places.'>transform_row</a>([left, right], <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>, values)
+<a id='L157' name='L157'></a>    <em class='brace'>{</em><em class='brace'>{</em><a href='../D/720.html' title='Multiple defined in 9 places.'>left</a>, right<em class='brace'>}</em>, values<em class='brace'>}</em>
+<a id='L158' name='L158'></a>  end
+<a id='L159' name='L159'></a>
+<a id='L160' name='L160'></a>  defp <a href='../R/973.html' title='Multiple referred from 6 places.'>transform_row</a>(<em class='brace'>{</em>:%<em class='brace'>{</em><em class='brace'>}</em>, _, pairs<em class='brace'>}</em>, <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>, values) <strong class='reserved'>do</strong>
+<a id='L161' name='L161'></a>    Enum.<a href='../D/959.html' title='Multiple defined in 4 places.'>reduce</a> pairs, <em class='brace'>{</em>%<em class='brace'>{</em><em class='brace'>}</em>, values<em class='brace'>}</em>, fn(<em class='brace'>{</em><a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a><em class='brace'>}</em>, <em class='brace'>{</em>map, values_acc<em class='brace'>}</em>) -&gt;
+<a id='L162' name='L162'></a>      <em class='brace'>{</em><a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, new_values<em class='brace'>}</em> = <a href='../D/1137.html' title='Multiple defined in 6 places.'>transform_row</a>(value, <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>, values_acc)
+<a id='L163' name='L163'></a>      <em class='brace'>{</em>Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(map, <a href='../D/712.html' title='Multiple defined in 3 places.'>key</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>), new_values<em class='brace'>}</em>
+<a id='L164' name='L164'></a>    end
+<a id='L165' name='L165'></a>  end
+<a id='L166' name='L166'></a>
+<a id='L167' name='L167'></a>  defp <a href='../R/973.html' title='Multiple referred from 6 places.'>transform_row</a>(list, <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>, values) when is_list(list) <strong class='reserved'>do</strong>
+<a id='L168' name='L168'></a>    Enum.map_reduce(list, values, &amp;<a href='../D/1137.html' title='Multiple defined in 6 places.'>transform_row</a>(&amp;1, <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>, &amp;2))
+<a id='L169' name='L169'></a>  end
+<a id='L170' name='L170'></a>
+<a id='L171' name='L171'></a>  defp <a href='../R/973.html' title='Multiple referred from 6 places.'>transform_row</a>(<em class='brace'>{</em>:&amp;, _, [0]<em class='brace'>}</em>, <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>, values) <strong class='reserved'>do</strong>
+<a id='L172' name='L172'></a>    <em class='brace'>{</em><a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>, values<em class='brace'>}</em>
+<a id='L173' name='L173'></a>  end
+<a id='L174' name='L174'></a>
+<a id='L175' name='L175'></a>  defp <a href='../R/973.html' title='Multiple referred from 6 places.'>transform_row</a>(_, _from, values) <strong class='reserved'>do</strong>
+<a id='L176' name='L176'></a>    [<a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>|values] = values
+<a id='L177' name='L177'></a>    <em class='brace'>{</em><a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>, values<em class='brace'>}</em>
+<a id='L178' name='L178'></a>  end
+<a id='L179' name='L179'></a>
+<a id='L180' name='L180'></a>  defp <a href='../R/782.html' title='Multiple referred from 2 places.'>query_for_get</a>(<a href='../S/63.html#L131' title='Defined at 131 in deps/ecto/integration_test/sql/transaction.exs.'>repo</a>, _queryable, nil) <strong class='reserved'>do</strong>
+<a id='L181' name='L181'></a>    raise ArgumentError, "cannot perform #{inspect repo}.get/2 because the given value is nil"
+<a id='L182' name='L182'></a>  end
+<a id='L183' name='L183'></a>
+<a id='L184' name='L184'></a>  defp <a href='../R/782.html' title='Multiple referred from 2 places.'>query_for_get</a>(_repo, queryable, id) <strong class='reserved'>do</strong>
+<a id='L185' name='L185'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = <a href='../D/143.html' title='Multiple defined in 6 places.'>Queryable</a>.<a href='../D/1117.html' title='Multiple defined in 5 places.'>to_query</a>(queryable)
+<a id='L186' name='L186'></a>    <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a> = assert_model!(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>)
+<a id='L187' name='L187'></a>    <a href='../D/903.html' title='Multiple defined in 2 places.'>primary_key</a> = primary_key_field!(<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>)
+<a id='L188' name='L188'></a>    Ecto.Query.<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(x in <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, where: <a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>(x, ^<a href='../D/903.html' title='Multiple defined in 2 places.'>primary_key</a>) == ^id)
+<a id='L189' name='L189'></a>  end
+<a id='L190' name='L190'></a>
+<a id='L191' name='L191'></a>  defp <a href='../R/783.html' title='Multiple referred from 2 places.'>query_for_get_by</a>(_repo, queryable, clauses) <strong class='reserved'>do</strong>
+<a id='L192' name='L192'></a>    Ecto.Query.<a href='../D/1205.html' title='Multiple defined in 4 places.'>where</a>(queryable, [], ^Enum.<a href='../S/120.html#L27' title='Defined at 27 in deps/ecto/lib/ecto/query/inspect.ex.'>to_list</a>(clauses))
+<a id='L193' name='L193'></a>  end
+<a id='L194' name='L194'></a>
+<a id='L195' name='L195'></a>  defp assert_model!(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>) <strong class='reserved'>do</strong>
+<a id='L196' name='L196'></a>    <strong class='reserved'>case</strong> <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>.<a href='../D/622.html' title='Multiple defined in 9 places.'>from</a> <strong class='reserved'>do</strong>
+<a id='L197' name='L197'></a>      <em class='brace'>{</em>_source, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a><em class='brace'>}</em> when model != nil -&gt;
+<a id='L198' name='L198'></a>        <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>
+<a id='L199' name='L199'></a>      _ -&gt;
+<a id='L200' name='L200'></a>        raise Ecto.QueryError,
+<a id='L201' name='L201'></a>          <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>: query,
+<a id='L202' name='L202'></a>          message: "expected a from expression with a model"
+<a id='L203' name='L203'></a>    end
+<a id='L204' name='L204'></a>  end
+<a id='L205' name='L205'></a>
+<a id='L206' name='L206'></a>  defp primary_key_field!(<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>) when is_atom(model) <strong class='reserved'>do</strong>
+<a id='L207' name='L207'></a>    <strong class='reserved'>case</strong> <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>.<a href='../D/220.html' title='Multiple defined in 18 places.'>__schema__</a>(:primary_key) <strong class='reserved'>do</strong>
+<a id='L208' name='L208'></a>      [<a href='../D/604.html' title='Multiple defined in 4 places.'>field</a>] -&gt; field
+<a id='L209' name='L209'></a>      _ -&gt; raise Ecto.NoPrimaryKeyFieldError, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>: model
+<a id='L210' name='L210'></a>    end
+<a id='L211' name='L211'></a>  end
+<a id='L212' name='L212'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L14'>[^]</a><a href='#L206'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

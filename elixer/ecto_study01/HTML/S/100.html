@@ -1,0 +1,408 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/pool.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/pool.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L49'>[^]</a><a href='#L355'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L49' title='Defined at 49.'>start_link</a></li>
+<li><a href='#L66' title='Defined at 66.'>checkout</a></li>
+<li><a href='#L76' title='Defined at 76.'>checkin</a></li>
+<li><a href='#L84' title='Defined at 84.'>break</a></li>
+<li><a href='#L100' title='Defined at 100.'>open_transaction</a></li>
+<li><a href='#L111' title='Defined at 111.'>close_transaction</a></li>
+<li><a href='#L143' title='Defined at 143.'>run</a></li>
+<li><a href='#L155' title='Defined at 155.'>do_run</a></li>
+<li><a href='#L168' title='Defined at 168.'>checkout</a></li>
+<li><a href='#L223' title='Defined at 223.'>transaction</a></li>
+<li><a href='#L240' title='Defined at 240.'>outer_transaction</a></li>
+<li><a href='#L260' title='Defined at 260.'>inner_transaction</a></li>
+<li><a href='#L271' title='Defined at 271.'>close_transaction</a></li>
+<li><a href='#L276' title='Defined at 276.'>close_transaction</a></li>
+<li><a href='#L290' title='Defined at 290.'>with_rollback</a></li>
+<li><a href='#L308' title='Defined at 308.'>with_rollback</a></li>
+<li><a href='#L323' title='Defined at 323.'>rollback</a></li>
+<li><a href='#L332' title='Defined at 332.'>tainted</a></li>
+<li><a href='#L355' title='Defined at 355.'>break</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.<a href='../R/55.html' title='Multiple referred from 43 places.'>Pool</a> <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc """
+<a id='L3' name='L3'></a>  Behaviour <strong class='reserved'>for</strong> using a pool of connections.
+<a id='L4' name='L4'></a>  """
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>  use Behaviour
+<a id='L7' name='L7'></a>
+<a id='L8' name='L8'></a>  @typedoc """
+<a id='L9' name='L9'></a>  A pool process
+<a id='L10' name='L10'></a>  """
+<a id='L11' name='L11'></a>  @type t :: atom | pid
+<a id='L12' name='L12'></a>
+<a id='L13' name='L13'></a>  @typedoc """
+<a id='L14' name='L14'></a>  Opaque connection reference.
+<a id='L15' name='L15'></a>
+<a id='L16' name='L16'></a>  Use inside `run/4` and `transaction/4` to retrieve the connection module and
+<a id='L17' name='L17'></a>  pid or <strong class='reserved'>break</strong> the transaction.
+<a id='L18' name='L18'></a>  """
+<a id='L19' name='L19'></a>  @opaque ref :: <em class='brace'>{</em>__MODULE__, module, t<em class='brace'>}</em>
+<a id='L20' name='L20'></a>
+<a id='L21' name='L21'></a>  @typedoc """
+<a id='L22' name='L22'></a>  The depth of nested transactions.
+<a id='L23' name='L23'></a>  """
+<a id='L24' name='L24'></a>  @type depth :: non_neg_integer
+<a id='L25' name='L25'></a>
+<a id='L26' name='L26'></a>  @typedoc """
+<a id='L27' name='L27'></a>  The time in microseconds spent waiting <strong class='reserved'>for</strong> a connection from the pool.
+<a id='L28' name='L28'></a>  """
+<a id='L29' name='L29'></a>  @type queue_time :: non_neg_integer
+<a id='L30' name='L30'></a>
+<a id='L31' name='L31'></a>  @doc """
+<a id='L32' name='L32'></a>  Start a pool of connections.
+<a id='L33' name='L33'></a>
+<a id='L34' name='L34'></a>  `module` is the connection module, which should define the
+<a id='L35' name='L35'></a>  `Ecto.Adapters.Connection` callbacks, and `opts` are its (and the pool's)
+<a id='L36' name='L36'></a>  options.
+<a id='L37' name='L37'></a>
+<a id='L38' name='L38'></a>  A pool should support the following options:
+<a id='L39' name='L39'></a>
+<a id='L40' name='L40'></a>    * `:name` - The name of the pool
+<a id='L41' name='L41'></a>    * `:pool_size` - The number of connections to keep in the pool
+<a id='L42' name='L42'></a>
+<a id='L43' name='L43'></a>  Returns `<em class='brace'>{</em>:ok, pid<em class='brace'>}</em>` on starting the pool.
+<a id='L44' name='L44'></a>
+<a id='L45' name='L45'></a>  Returns `<em class='brace'>{</em>:error, reason<em class='brace'>}</em>` <strong class='reserved'>if</strong> the pool could not be started. If the `reason`
+<a id='L46' name='L46'></a>  is  <em class='brace'>{</em>:already_started, pid<em class='brace'>}</em><em class='brace'>}</em>` a pool with the same name has already been
+<a id='L47' name='L47'></a>  started.
+<a id='L48' name='L48'></a>  """
+<a id='L49' name='L49'></a>  defcallback <a href='../R/900.html' title='Multiple referred from 71 places.'>start_link</a>(module, opts) ::
+<a id='L50' name='L50'></a>    <em class='brace'>{</em>:ok, pid<em class='brace'>}</em> | <em class='brace'>{</em>:error, any<em class='brace'>}</em> when opts: Keyword.t
+<a id='L51' name='L51'></a>
+<a id='L52' name='L52'></a>  @doc """
+<a id='L53' name='L53'></a>  Checkout a worker/connection from the pool.
+<a id='L54' name='L54'></a>
+<a id='L55' name='L55'></a>  The connection should not be closed <strong class='reserved'>if</strong> the calling process exits without
+<a id='L56' name='L56'></a>  returning the connection.
+<a id='L57' name='L57'></a>
+<a id='L58' name='L58'></a>  Returns `<em class='brace'>{</em>:ok, worker, conn, queue_time<em class='brace'>}</em>` on success, where `worker` is the
+<a id='L59' name='L59'></a>  worker term and conn is a 2-tuple contain the connection's module and
+<a id='L60' name='L60'></a>  pid. The `conn` tuple can be retrieved inside a `transaction/4` with
+<a id='L61' name='L61'></a>  `connection/1`.
+<a id='L62' name='L62'></a>
+<a id='L63' name='L63'></a>  Returns `<em class='brace'>{</em>:error, :noproc<em class='brace'>}</em>` <strong class='reserved'>if</strong> the pool is not alive and
+<a id='L64' name='L64'></a>  `<em class='brace'>{</em>:error, :noconnect<em class='brace'>}</em>` <strong class='reserved'>if</strong> a connection is not available.
+<a id='L65' name='L65'></a>  """
+<a id='L66' name='L66'></a>  defcallback <a href='../R/229.html' title='Multiple referred from 37 places.'>checkout</a>(t, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>) ::
+<a id='L67' name='L67'></a>    <em class='brace'>{</em>:ok, worker, conn, queue_time<em class='brace'>}</em> |
+<a id='L68' name='L68'></a>    <em class='brace'>{</em>:error, :noproc | :noconnect<em class='brace'>}</em> when worker: any, conn: <em class='brace'>{</em>module, pid<em class='brace'>}</em>
+<a id='L69' name='L69'></a>
+<a id='L70' name='L70'></a>  @doc """
+<a id='L71' name='L71'></a>  Checkin a worker/connection to the pool.
+<a id='L72' name='L72'></a>
+<a id='L73' name='L73'></a>  Called when the top level `run/4` finishes, <strong class='reserved'>if</strong> `<strong class='reserved'>break</strong>/2` was not called
+<a id='L74' name='L74'></a>  inside the fun.
+<a id='L75' name='L75'></a>  """
+<a id='L76' name='L76'></a>  defcallback <a href='../R/228.html' title='Multiple referred from 28 places.'>checkin</a>(t, worker, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>) :: :ok when worker: any
+<a id='L77' name='L77'></a>
+<a id='L78' name='L78'></a>  @doc """
+<a id='L79' name='L79'></a>  Break the current transaction or run.
+<a id='L80' name='L80'></a>
+<a id='L81' name='L81'></a>  Called when the function has failed and the connection should no longer be
+<a id='L82' name='L82'></a>  available to to the calling process.
+<a id='L83' name='L83'></a>  """
+<a id='L84' name='L84'></a>  defcallback <strong class='reserved'>break</strong>(t, worker, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>) :: :ok when worker: any
+<a id='L85' name='L85'></a>
+<a id='L86' name='L86'></a>  @doc """
+<a id='L87' name='L87'></a>  Open a transaction with a connection from the pool.
+<a id='L88' name='L88'></a>
+<a id='L89' name='L89'></a>  The connection should be closed <strong class='reserved'>if</strong> the calling process exits without
+<a id='L90' name='L90'></a>  returning the connection.
+<a id='L91' name='L91'></a>
+<a id='L92' name='L92'></a>  Returns `<em class='brace'>{</em>:ok, worker, conn, queue_time<em class='brace'>}</em>` on success, where `worker` is the
+<a id='L93' name='L93'></a>  worker term and conn is a 2-tuple contain the connection's module and
+<a id='L94' name='L94'></a>  pid. The `conn` tuple can be retrieved inside a `transaction/4` with
+<a id='L95' name='L95'></a>  `connection/2`.
+<a id='L96' name='L96'></a>
+<a id='L97' name='L97'></a>  Returns `<em class='brace'>{</em>:error, :noproc<em class='brace'>}</em>` <strong class='reserved'>if</strong> the pool is not alive and
+<a id='L98' name='L98'></a>  `<em class='brace'>{</em>:error, :noconnect<em class='brace'>}</em>` <strong class='reserved'>if</strong> a connection is not available.
+<a id='L99' name='L99'></a>  """
+<a id='L100' name='L100'></a>  defcallback <a href='../S/100.html#L227' title='Referred from 227 in deps/ecto/lib/ecto/pool.ex.'>open_transaction</a>(t, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>) ::
+<a id='L101' name='L101'></a>    <em class='brace'>{</em>:ok, worker, conn, queue_time<em class='brace'>}</em> |
+<a id='L102' name='L102'></a>    <em class='brace'>{</em>:error, :noproc | :noconnect<em class='brace'>}</em> when worker: any, conn: <em class='brace'>{</em>module, pid<em class='brace'>}</em>
+<a id='L103' name='L103'></a>
+<a id='L104' name='L104'></a>  @doc """
+<a id='L105' name='L105'></a>  Close the transaction and signal to the worker the work with the connection
+<a id='L106' name='L106'></a>  is complete.
+<a id='L107' name='L107'></a>
+<a id='L108' name='L108'></a>  Called once the transaction at `depth` `1` is finished, <strong class='reserved'>if</strong> the transaction
+<a id='L109' name='L109'></a>  is not broken with `<strong class='reserved'>break</strong>/2`.
+<a id='L110' name='L110'></a>  """
+<a id='L111' name='L111'></a>  defcallback <a href='../R/235.html' title='Multiple referred from 2 places.'>close_transaction</a>(t, worker, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>) :: :ok when worker: any
+<a id='L112' name='L112'></a>
+<a id='L113' name='L113'></a>  @doc """
+<a id='L114' name='L114'></a>  Runs a fun using a connection from a pool.
+<a id='L115' name='L115'></a>
+<a id='L116' name='L116'></a>  The connection will be taken from the pool unless we are inside
+<a id='L117' name='L117'></a>  a `transaction/4` which, in this <strong class='reserved'>case</strong>, would already have a conn
+<a id='L118' name='L118'></a>  attached to it.
+<a id='L119' name='L119'></a>
+<a id='L120' name='L120'></a>  Returns the value returned by the function wrapped in a tuple
+<a id='L121' name='L121'></a>  as `<em class='brace'>{</em>:ok, value<em class='brace'>}</em>`.
+<a id='L122' name='L122'></a>
+<a id='L123' name='L123'></a>  Returns `<em class='brace'>{</em>:error, :noproc<em class='brace'>}</em>` <strong class='reserved'>if</strong> the pool is not alive or
+<a id='L124' name='L124'></a>  `<em class='brace'>{</em>:error, :noconnect<em class='brace'>}</em>` <strong class='reserved'>if</strong> no connection is available.
+<a id='L125' name='L125'></a>
+<a id='L126' name='L126'></a><em class='sharp'>  #</em># Examples
+<a id='L127' name='L127'></a>
+<a id='L128' name='L128'></a>      Pool.run(mod, pool, timeout,
+<a id='L129' name='L129'></a>        fn(_conn, queue_time) -&gt; queue_time end)
+<a id='L130' name='L130'></a>
+<a id='L131' name='L131'></a>      Pool.transaction(mod, pool, timeout,
+<a id='L132' name='L132'></a>        fn(:opened, _ref, _conn, _queue_time) -&gt;
+<a id='L133' name='L133'></a>          <em class='brace'>{</em>:ok, :nested<em class='brace'>}</em> =
+<a id='L134' name='L134'></a>            Pool.run(mod, pool, timeout, fn(_conn, nil) -&gt;
+<a id='L135' name='L135'></a>              :nested
+<a id='L136' name='L136'></a>            end)
+<a id='L137' name='L137'></a>        end)
+<a id='L138' name='L138'></a>
+<a id='L139' name='L139'></a>  """
+<a id='L140' name='L140'></a>  @spec <a href='../D/1001.html' title='Multiple defined in 11 places.'>run</a>(module, t, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>, ((conn, queue_time | nil) -&gt; result)) ::
+<a id='L141' name='L141'></a>        <em class='brace'>{</em>:ok, result<em class='brace'>}</em> | <em class='brace'>{</em>:error, :noproc | :noconnect<em class='brace'>}</em>
+<a id='L142' name='L142'></a>        when result: var, conn: <em class='brace'>{</em>module, pid<em class='brace'>}</em>
+<a id='L143' name='L143'></a>  def <a href='../R/845.html' title='Multiple referred from 26 places.'>run</a>(pool_mod, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>, fun) <strong class='reserved'>do</strong>
+<a id='L144' name='L144'></a>    ref = <em class='brace'>{</em>__MODULE__, pool_mod, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a><em class='brace'>}</em>
+<a id='L145' name='L145'></a>    <strong class='reserved'>case</strong> Process.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(ref) <strong class='reserved'>do</strong>
+<a id='L146' name='L146'></a>      nil -&gt;
+<a id='L147' name='L147'></a>        <a href='../S/100.html#L155' title='Defined at 155 in deps/ecto/lib/ecto/pool.ex.'>do_run</a>(pool_mod, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>, fun)
+<a id='L148' name='L148'></a>      %<em class='brace'>{</em>conn: conn, tainted: false<em class='brace'>}</em> -&gt;
+<a id='L149' name='L149'></a>        <em class='brace'>{</em>:ok, fun.(conn, nil)<em class='brace'>}</em>
+<a id='L150' name='L150'></a>      %<em class='brace'>{</em><em class='brace'>}</em> -&gt;
+<a id='L151' name='L151'></a>        <em class='brace'>{</em>:error, :noconnect<em class='brace'>}</em>
+<a id='L152' name='L152'></a>    end
+<a id='L153' name='L153'></a>  end
+<a id='L154' name='L154'></a>
+<a id='L155' name='L155'></a>  defp <a href='../S/100.html#L147' title='Referred from 147 in deps/ecto/lib/ecto/pool.ex.'>do_run</a>(pool_mod, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>, fun) <strong class='reserved'>do</strong>
+<a id='L156' name='L156'></a>    <strong class='reserved'>case</strong> <a href='../D/351.html' title='Multiple defined in 24 places.'>checkout</a>(pool_mod, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>) <strong class='reserved'>do</strong>
+<a id='L157' name='L157'></a>      <em class='brace'>{</em>:ok, worker, conn, <a href='../D/1100.html' title='Multiple defined in 3 places.'>time</a><em class='brace'>}</em> -&gt;
+<a id='L158' name='L158'></a>        try <strong class='reserved'>do</strong>
+<a id='L159' name='L159'></a>          <em class='brace'>{</em>:ok, fun.(conn, <a href='../D/1100.html' title='Multiple defined in 3 places.'>time</a>)<em class='brace'>}</em>
+<a id='L160' name='L160'></a>        after
+<a id='L161' name='L161'></a>          pool_mod.<a href='../D/350.html' title='Multiple defined in 18 places.'>checkin</a>(<a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, worker, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>)
+<a id='L162' name='L162'></a>        end
+<a id='L163' name='L163'></a>      <em class='brace'>{</em>:<a href='../D/560.html' title='Multiple defined in 2 places.'>error</a>, _<em class='brace'>}</em> = error -&gt;
+<a id='L164' name='L164'></a>        <a href='../D/560.html' title='Multiple defined in 2 places.'>error</a>
+<a id='L165' name='L165'></a>    end
+<a id='L166' name='L166'></a>  end
+<a id='L167' name='L167'></a>
+<a id='L168' name='L168'></a>  defp <a href='../R/229.html' title='Multiple referred from 37 places.'>checkout</a>(pool_mod, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>) <strong class='reserved'>do</strong>
+<a id='L169' name='L169'></a>    <strong class='reserved'>case</strong> pool_mod.<a href='../D/351.html' title='Multiple defined in 24 places.'>checkout</a>(<a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>) <strong class='reserved'>do</strong>
+<a id='L170' name='L170'></a>      <em class='brace'>{</em>:<a href='../D/828.html' title='Multiple defined in 6 places.'>ok</a>, _worker, _conn, _time<em class='brace'>}</em> = ok -&gt;
+<a id='L171' name='L171'></a>        <a href='../D/828.html' title='Multiple defined in 6 places.'>ok</a>
+<a id='L172' name='L172'></a>      <em class='brace'>{</em>:<a href='../D/560.html' title='Multiple defined in 2 places.'>error</a>, <a href='../D/954.html' title='Multiple defined in 3 places.'>reason</a><em class='brace'>}</em> = error when reason in [:noproc, :noconnect] -&gt;
+<a id='L173' name='L173'></a>        <a href='../D/560.html' title='Multiple defined in 2 places.'>error</a>
+<a id='L174' name='L174'></a>      <em class='brace'>{</em>:error, err<em class='brace'>}</em> -&gt;
+<a id='L175' name='L175'></a>        raise err
+<a id='L176' name='L176'></a>    end
+<a id='L177' name='L177'></a>  end
+<a id='L178' name='L178'></a>
+<a id='L179' name='L179'></a>  @doc """
+<a id='L180' name='L180'></a>  Carries out a transaction using a connection from a pool.
+<a id='L181' name='L181'></a>
+<a id='L182' name='L182'></a>  Once a transaction is opened, all following calls to `run/4` or
+<a id='L183' name='L183'></a>  `transaction/4` will use the same connection/worker. If `<strong class='reserved'>break</strong>/2` is invoked,
+<a id='L184' name='L184'></a>  all operations will <strong class='reserved'>return</strong> `<em class='brace'>{</em>:error, :noconnect<em class='brace'>}</em>` until the end of the
+<a id='L185' name='L185'></a>  top level transaction.
+<a id='L186' name='L186'></a>
+<a id='L187' name='L187'></a>  Nested calls to pool transaction will "flatten out" transactions. This means
+<a id='L188' name='L188'></a>  nested calls are mostly no-op and just execute the given function passing
+<a id='L189' name='L189'></a>  `:already_opened` as first argument. If there is any failure in a nested
+<a id='L190' name='L190'></a>  transaction, the whole transaction is marked as tainted, ensuring the outer
+<a id='L191' name='L191'></a>  most call fails.
+<a id='L192' name='L192'></a>
+<a id='L193' name='L193'></a>  Returns `<em class='brace'>{</em>:error, :noproc<em class='brace'>}</em>` <strong class='reserved'>if</strong> the pool is not alive, `<em class='brace'>{</em>:error, :noconnect<em class='brace'>}</em>`
+<a id='L194' name='L194'></a>  <strong class='reserved'>if</strong> no connection is available. Otherwise just returns the given function value
+<a id='L195' name='L195'></a>  without wrapping.
+<a id='L196' name='L196'></a>
+<a id='L197' name='L197'></a><em class='sharp'>  #</em># Examples
+<a id='L198' name='L198'></a>
+<a id='L199' name='L199'></a>      Pool.transaction(mod, pool, timeout,
+<a id='L200' name='L200'></a>        fn(:opened, _ref, _conn, queue_time) -&gt; queue_time end)
+<a id='L201' name='L201'></a>
+<a id='L202' name='L202'></a>      Pool.transaction(mod, pool, timeout,
+<a id='L203' name='L203'></a>        fn(:opened, ref, _conn, _queue_time) -&gt;
+<a id='L204' name='L204'></a>          :nested =
+<a id='L205' name='L205'></a>            Pool.transaction(mod, pool, timeout, fn(:already_opened, _ref, _conn, nil) -&gt;
+<a id='L206' name='L206'></a>              :nested
+<a id='L207' name='L207'></a>            end)
+<a id='L208' name='L208'></a>        end)
+<a id='L209' name='L209'></a>
+<a id='L210' name='L210'></a>      Pool.transaction(mod, :pool1, timeout,
+<a id='L211' name='L211'></a>        fn(:opened, _ref1, _conn1, _queue_time1) -&gt;
+<a id='L212' name='L212'></a>          :different_pool =
+<a id='L213' name='L213'></a>            Pool.transaction(mod, :pool2, timeout,
+<a id='L214' name='L214'></a>              fn(:opened, _ref2, _conn2, _queue_time2) -&gt; :different_pool end)
+<a id='L215' name='L215'></a>        end)
+<a id='L216' name='L216'></a>
+<a id='L217' name='L217'></a>  """
+<a id='L218' name='L218'></a>  @spec <a href='../D/1123.html' title='Multiple defined in 12 places.'>transaction</a>(module, t, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>, fun) ::
+<a id='L219' name='L219'></a>        <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a> | <em class='brace'>{</em>:error, :noproc<em class='brace'>}</em> | <em class='brace'>{</em>:error, :noconnect<em class='brace'>}</em> | no_return
+<a id='L220' name='L220'></a>        when fun: (:opened | :already_open, ref, conn, queue_time | nil -&gt; <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>),
+<a id='L221' name='L221'></a>             conn: <em class='brace'>{</em>module, pid<em class='brace'>}</em>,
+<a id='L222' name='L222'></a>             value: var
+<a id='L223' name='L223'></a>  def <a href='../R/959.html' title='Multiple referred from 52 places.'>transaction</a>(pool_mod, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>, fun) <strong class='reserved'>do</strong>
+<a id='L224' name='L224'></a>    ref = <em class='brace'>{</em>__MODULE__, pool_mod, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a><em class='brace'>}</em>
+<a id='L225' name='L225'></a>    <strong class='reserved'>case</strong> Process.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(ref) <strong class='reserved'>do</strong>
+<a id='L226' name='L226'></a>      nil -&gt;
+<a id='L227' name='L227'></a>        <strong class='reserved'>case</strong> pool_mod.<a href='../D/836.html' title='Multiple defined in 4 places.'>open_transaction</a>(<a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>) <strong class='reserved'>do</strong>
+<a id='L228' name='L228'></a>          <em class='brace'>{</em>:ok, worker, conn, <a href='../D/1100.html' title='Multiple defined in 3 places.'>time</a><em class='brace'>}</em> -&gt;
+<a id='L229' name='L229'></a>            <a href='../S/100.html#L240' title='Defined at 240 in deps/ecto/lib/ecto/pool.ex.'>outer_transaction</a>(ref, worker, conn, <a href='../D/1100.html' title='Multiple defined in 3 places.'>time</a>, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>, fun)
+<a id='L230' name='L230'></a>          <em class='brace'>{</em>:<a href='../D/560.html' title='Multiple defined in 2 places.'>error</a>, <a href='../D/954.html' title='Multiple defined in 3 places.'>reason</a><em class='brace'>}</em> = error when reason in [:noproc, :noconnect] -&gt;
+<a id='L231' name='L231'></a>            <a href='../D/560.html' title='Multiple defined in 2 places.'>error</a>
+<a id='L232' name='L232'></a>          <em class='brace'>{</em>:error, err<em class='brace'>}</em> -&gt;
+<a id='L233' name='L233'></a>            raise err
+<a id='L234' name='L234'></a>        end
+<a id='L235' name='L235'></a>      %<em class='brace'>{</em>conn: conn<em class='brace'>}</em> -&gt;
+<a id='L236' name='L236'></a>        <a href='../S/100.html#L260' title='Defined at 260 in deps/ecto/lib/ecto/pool.ex.'>inner_transaction</a>(ref, conn, fun)
+<a id='L237' name='L237'></a>    end
+<a id='L238' name='L238'></a>  end
+<a id='L239' name='L239'></a>
+<a id='L240' name='L240'></a>  defp <a href='../S/100.html#L229' title='Referred from 229 in deps/ecto/lib/ecto/pool.ex.'>outer_transaction</a>(ref, worker, conn, <a href='../D/1100.html' title='Multiple defined in 3 places.'>time</a>, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>, fun) <strong class='reserved'>do</strong>
+<a id='L241' name='L241'></a>    Process.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(ref, %<em class='brace'>{</em>worker: worker, conn: conn, tainted: false<em class='brace'>}</em>)
+<a id='L242' name='L242'></a>
+<a id='L243' name='L243'></a>    try <strong class='reserved'>do</strong>
+<a id='L244' name='L244'></a>      fun.(:opened, ref, conn, <a href='../D/1100.html' title='Multiple defined in 3 places.'>time</a>)
+<a id='L245' name='L245'></a>    catch
+<a id='L246' name='L246'></a>      # If any error leaked, it should be a bug in Ecto.
+<a id='L247' name='L247'></a>      kind, <a href='../D/954.html' title='Multiple defined in 3 places.'>reason</a> -&gt;
+<a id='L248' name='L248'></a>        stack = System.stacktrace()
+<a id='L249' name='L249'></a>        <strong class='reserved'>break</strong>(ref, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>)
+<a id='L250' name='L250'></a>        :erlang.raise(kind, <a href='../D/954.html' title='Multiple defined in 3 places.'>reason</a>, stack)
+<a id='L251' name='L251'></a>    <strong class='reserved'>else</strong>
+<a id='L252' name='L252'></a>      res -&gt;
+<a id='L253' name='L253'></a>        <a href='../D/357.html' title='Multiple defined in 6 places.'>close_transaction</a>(ref, Process.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(ref), <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>)
+<a id='L254' name='L254'></a>        res
+<a id='L255' name='L255'></a>    after
+<a id='L256' name='L256'></a>      Process.<a href='../D/444.html' title='Multiple defined in 10 places.'>delete</a>(ref)
+<a id='L257' name='L257'></a>    end
+<a id='L258' name='L258'></a>  end
+<a id='L259' name='L259'></a>
+<a id='L260' name='L260'></a>  defp <a href='../S/100.html#L236' title='Referred from 236 in deps/ecto/lib/ecto/pool.ex.'>inner_transaction</a>(ref, conn, fun) <strong class='reserved'>do</strong>
+<a id='L261' name='L261'></a>    try <strong class='reserved'>do</strong>
+<a id='L262' name='L262'></a>      fun.(:already_open, ref, conn, nil)
+<a id='L263' name='L263'></a>    catch
+<a id='L264' name='L264'></a>      kind, <a href='../D/954.html' title='Multiple defined in 3 places.'>reason</a> -&gt;
+<a id='L265' name='L265'></a>        stack = System.stacktrace()
+<a id='L266' name='L266'></a>        <a href='../S/100.html#L332' title='Defined at 332 in deps/ecto/lib/ecto/pool.ex.'>tainted</a>(ref, true)
+<a id='L267' name='L267'></a>        :erlang.raise(kind, <a href='../D/954.html' title='Multiple defined in 3 places.'>reason</a>, stack)
+<a id='L268' name='L268'></a>    end
+<a id='L269' name='L269'></a>  end
+<a id='L270' name='L270'></a>
+<a id='L271' name='L271'></a>  defp <a href='../R/235.html' title='Multiple referred from 2 places.'>close_transaction</a>(<em class='brace'>{</em>__MODULE__, pool_mod, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a><em class='brace'>}</em>, %<em class='brace'>{</em>conn: _, worker: worker<em class='brace'>}</em>, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>) <strong class='reserved'>do</strong>
+<a id='L272' name='L272'></a>    pool_mod.<a href='../D/357.html' title='Multiple defined in 6 places.'>close_transaction</a>(<a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, worker, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>)
+<a id='L273' name='L273'></a>    :ok
+<a id='L274' name='L274'></a>  end
+<a id='L275' name='L275'></a>
+<a id='L276' name='L276'></a>  defp <a href='../R/235.html' title='Multiple referred from 2 places.'>close_transaction</a>(_, %<em class='brace'>{</em><em class='brace'>}</em>, _) <strong class='reserved'>do</strong>
+<a id='L277' name='L277'></a>    :ok
+<a id='L278' name='L278'></a>  end
+<a id='L279' name='L279'></a>
+<a id='L280' name='L280'></a>  @doc """
+<a id='L281' name='L281'></a>  Executes the given function giving it the ability to rollback.
+<a id='L282' name='L282'></a>
+<a id='L283' name='L283'></a>  Returns `<em class='brace'>{</em>:ok, value<em class='brace'>}</em>` <strong class='reserved'>if</strong> no transaction ocurred,
+<a id='L284' name='L284'></a>  `<em class='brace'>{</em>:error, value<em class='brace'>}</em>` <strong class='reserved'>if</strong> the user rolled back or
+<a id='L285' name='L285'></a>  `<em class='brace'>{</em>:raise, kind, error, stack<em class='brace'>}</em>` in <strong class='reserved'>case</strong> there was a failure.
+<a id='L286' name='L286'></a>  """
+<a id='L287' name='L287'></a>  @spec <a href='../D/1208.html' title='Multiple defined in 2 places.'>with_rollback</a>(:opened | :already_open, ref, (() -&gt; <strong class='reserved'>return</strong>)) ::
+<a id='L288' name='L288'></a>        <em class='brace'>{</em>:ok, <strong class='reserved'>return</strong><em class='brace'>}</em> | <em class='brace'>{</em>:error, term<em class='brace'>}</em> | <em class='brace'>{</em>:raise, atom, term, Exception.stacktrace<em class='brace'>}</em>
+<a id='L289' name='L289'></a>        when <strong class='reserved'>return</strong>: var
+<a id='L290' name='L290'></a>  def <a href='../R/1039.html' title='Multiple referred from 3 places.'>with_rollback</a>(:opened, ref, fun) <strong class='reserved'>do</strong>
+<a id='L291' name='L291'></a>    try <strong class='reserved'>do</strong>
+<a id='L292' name='L292'></a>      <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a> = fun.()
+<a id='L293' name='L293'></a>      <strong class='reserved'>case</strong> Process.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(ref) <strong class='reserved'>do</strong>
+<a id='L294' name='L294'></a>        %<em class='brace'>{</em>tainted: true<em class='brace'>}</em>  -&gt; <em class='brace'>{</em>:error, :rollback<em class='brace'>}</em>
+<a id='L295' name='L295'></a>        %<em class='brace'>{</em>tainted: false<em class='brace'>}</em> -&gt; <em class='brace'>{</em>:ok, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a><em class='brace'>}</em>
+<a id='L296' name='L296'></a>      end
+<a id='L297' name='L297'></a>    catch
+<a id='L298' name='L298'></a>      :throw, <em class='brace'>{</em>:ecto_rollback, ^ref, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a><em class='brace'>}</em> -&gt;
+<a id='L299' name='L299'></a>        <em class='brace'>{</em>:error, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a><em class='brace'>}</em>
+<a id='L300' name='L300'></a>      kind, <a href='../D/954.html' title='Multiple defined in 3 places.'>reason</a> -&gt;
+<a id='L301' name='L301'></a>        stack = System.stacktrace()
+<a id='L302' name='L302'></a>        <em class='brace'>{</em>:raise, kind, <a href='../D/954.html' title='Multiple defined in 3 places.'>reason</a>, stack<em class='brace'>}</em>
+<a id='L303' name='L303'></a>    after
+<a id='L304' name='L304'></a>      <a href='../S/100.html#L332' title='Defined at 332 in deps/ecto/lib/ecto/pool.ex.'>tainted</a>(ref, false)
+<a id='L305' name='L305'></a>    end
+<a id='L306' name='L306'></a>  end
+<a id='L307' name='L307'></a>
+<a id='L308' name='L308'></a>  def <a href='../R/1039.html' title='Multiple referred from 3 places.'>with_rollback</a>(:already_open, ref, fun) <strong class='reserved'>do</strong>
+<a id='L309' name='L309'></a>    try <strong class='reserved'>do</strong>
+<a id='L310' name='L310'></a>      <em class='brace'>{</em>:ok, fun.()<em class='brace'>}</em>
+<a id='L311' name='L311'></a>    catch
+<a id='L312' name='L312'></a>      :throw, <em class='brace'>{</em>:ecto_rollback, ^ref, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a><em class='brace'>}</em> -&gt;
+<a id='L313' name='L313'></a>        <a href='../S/100.html#L332' title='Defined at 332 in deps/ecto/lib/ecto/pool.ex.'>tainted</a>(ref, true)
+<a id='L314' name='L314'></a>        <em class='brace'>{</em>:error, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a><em class='brace'>}</em>
+<a id='L315' name='L315'></a>    end
+<a id='L316' name='L316'></a>  end
+<a id='L317' name='L317'></a>
+<a id='L318' name='L318'></a>  @doc """
+<a id='L319' name='L319'></a>  Triggers a rollback that is handled by `with_rollback/2`.
+<a id='L320' name='L320'></a>
+<a id='L321' name='L321'></a>  Raises <strong class='reserved'>if</strong> outside a transaction.
+<a id='L322' name='L322'></a>  """
+<a id='L323' name='L323'></a>  def <a href='../R/839.html' title='Multiple referred from 19 places.'>rollback</a>(pool_mod, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) <strong class='reserved'>do</strong>
+<a id='L324' name='L324'></a>    ref = <em class='brace'>{</em>__MODULE__, pool_mod, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a><em class='brace'>}</em>
+<a id='L325' name='L325'></a>    <strong class='reserved'>if</strong> Process.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(ref) <strong class='reserved'>do</strong>
+<a id='L326' name='L326'></a>      throw <em class='brace'>{</em>:ecto_rollback, ref, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a><em class='brace'>}</em>
+<a id='L327' name='L327'></a>    <strong class='reserved'>else</strong>
+<a id='L328' name='L328'></a>      raise "cannot call rollback outside of transaction"
+<a id='L329' name='L329'></a>    end
+<a id='L330' name='L330'></a>  end
+<a id='L331' name='L331'></a>
+<a id='L332' name='L332'></a>  defp <a href='../R/931.html' title='Multiple referred from 3 places.'>tainted</a>(ref, bool) <strong class='reserved'>do</strong>
+<a id='L333' name='L333'></a>    map = Process.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(ref)
+<a id='L334' name='L334'></a>    Process.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(ref, %<em class='brace'>{</em>map | tainted: bool<em class='brace'>}</em>)
+<a id='L335' name='L335'></a>    :ok
+<a id='L336' name='L336'></a>  end
+<a id='L337' name='L337'></a>
+<a id='L338' name='L338'></a>  @doc """
+<a id='L339' name='L339'></a>  Breaks the active connection.
+<a id='L340' name='L340'></a>
+<a id='L341' name='L341'></a>  Any attempt to use it inside the same transaction
+<a id='L342' name='L342'></a>  Calling `run/1` inside the same transaction or run (at any depth) will
+<a id='L343' name='L343'></a>  <strong class='reserved'>return</strong> `<em class='brace'>{</em>:error, :noconnect<em class='brace'>}</em>`.
+<a id='L344' name='L344'></a>
+<a id='L345' name='L345'></a><em class='sharp'>  #</em># Examples
+<a id='L346' name='L346'></a>
+<a id='L347' name='L347'></a>      Pool.transaction(mod, pool, timout,
+<a id='L348' name='L348'></a>        fn(:opened, ref, conn, _queue_time) -&gt;
+<a id='L349' name='L349'></a>          :ok = Pool.<strong class='reserved'>break</strong>(ref, timeout)
+<a id='L350' name='L350'></a>          <em class='brace'>{</em>:error, :noconnect<em class='brace'>}</em> = Pool.run(mod, pool, timeout, fn _, _ -&gt; end)
+<a id='L351' name='L351'></a>        end)
+<a id='L352' name='L352'></a>
+<a id='L353' name='L353'></a>  """
+<a id='L354' name='L354'></a>  @spec <strong class='reserved'>break</strong>(ref, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>) :: :ok
+<a id='L355' name='L355'></a>  def <strong class='reserved'>break</strong>(<em class='brace'>{</em>__MODULE__, pool_mod, <a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a><em class='brace'>}</em> = ref, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>) <strong class='reserved'>do</strong>
+<a id='L356' name='L356'></a>    <strong class='reserved'>case</strong> Process.<a href='../D/631.html' title='Multiple defined in 5 places.'>get</a>(ref) <strong class='reserved'>do</strong>
+<a id='L357' name='L357'></a>      %<em class='brace'>{</em>conn: _, worker: worker<em class='brace'>}</em> = info -&gt;
+<a id='L358' name='L358'></a>        _ = Process.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(ref, Map.<a href='../D/444.html' title='Multiple defined in 10 places.'>delete</a>(info, :conn))
+<a id='L359' name='L359'></a>        pool_mod.<strong class='reserved'>break</strong>(<a href='../D/875.html' title='Multiple defined in 6 places.'>pool</a>, worker, <a href='../D/1101.html' title='Multiple defined in 3 places.'>timeout</a>)
+<a id='L360' name='L360'></a>      %<em class='brace'>{</em><em class='brace'>}</em> -&gt;
+<a id='L361' name='L361'></a>        :ok
+<a id='L362' name='L362'></a>    end
+<a id='L363' name='L363'></a>  end
+<a id='L364' name='L364'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L49'>[^]</a><a href='#L355'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

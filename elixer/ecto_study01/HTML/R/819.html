@@ -1,0 +1,377 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>repo</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/54.html#L12'>repo</a>               12 deps/ecto/integration_test/cases/pool.exs   repo = Application.get_env(:ecto, Ecto.Integration.TestRepo) ||</span>
+<span class='curline'><a href='../S/54.html#L16'>repo</a>               16 deps/ecto/integration_test/cases/pool.exs                       [pool: pool, pool_size: 1] ++ repo)</span>
+<span class='curline'><a href='../S/72.html#L25'>repo</a>               25 deps/ecto/lib/ecto/adapter.ex   @typep repo :: Ecto.Repo.t</span>
+<span class='curline'><a href='../S/72.html#L107'>repo</a>              107 deps/ecto/lib/ecto/adapter.ex   defcallback start_link(repo, options) ::</span>
+<span class='curline'><a href='../S/72.html#L116'>repo</a>              116 deps/ecto/lib/ecto/adapter.ex   defcallback stop(repo, pid, timeout) :: :ok</span>
+<span class='curline'><a href='../S/72.html#L141'>repo</a>              141 deps/ecto/lib/ecto/adapter.ex   defcallback execute(repo, query_meta :: map, prepared, params :: list(), preprocess | nil, options) ::</span>
+<span class='curline'><a href='../S/72.html#L160'>repo</a>              160 deps/ecto/lib/ecto/adapter.ex   defcallback insert(repo, schema_meta, fields, autogenerate_id, returning, options) ::</span>
+<span class='curline'><a href='../S/72.html#L184'>repo</a>              184 deps/ecto/lib/ecto/adapter.ex   defcallback update(repo, schema_meta, fields, filters, autogenerate_id, returning, options) ::</span>
+<span class='curline'><a href='../S/72.html#L205'>repo</a>              205 deps/ecto/lib/ecto/adapter.ex   defcallback delete(repo, schema_meta, filters, autogenerate_id, options) ::</span>
+<span class='curline'><a href='../S/73.html#L36'>repo</a>               36 deps/ecto/lib/ecto/adapters/connection.ex     repo = opts[:repo]</span>
+<span class='curline'><a href='../S/73.html#L37'>repo</a>               37 deps/ecto/lib/ecto/adapters/connection.ex     if function_exported?(repo, :after_connect, 1) do</span>
+<span class='curline'><a href='../S/73.html#L39'>repo</a>               39 deps/ecto/lib/ecto/adapters/connection.ex         Task.async(fn -&gt; repo.after_connect(conn) end)</span>
+<span class='curline'><a href='../S/75.html#L166'>repo</a>              166 deps/ecto/lib/ecto/adapters/mysql.ex   def insert(repo, %{source: {prefix, source}}, params, {pk, :id, nil}, [], opts) do</span>
+<span class='curline'><a href='../S/75.html#L169'>repo</a>              169 deps/ecto/lib/ecto/adapters/mysql.ex     case Ecto.Adapters.SQL.query(repo, sql, values, opts) do</span>
+<span class='curline'><a href='../S/75.html#L180'>repo</a>              180 deps/ecto/lib/ecto/adapters/mysql.ex   def insert(repo, model_meta, params, autogen, [], opts) do</span>
+<span class='curline'><a href='../S/75.html#L181'>repo</a>              181 deps/ecto/lib/ecto/adapters/mysql.ex     super(repo, model_meta, params, autogen, [], opts)</span>
+<span class='curline'><a href='../S/81.html#L36'>repo</a>               36 deps/ecto/lib/ecto/adapters/sql.ex       def start_link(repo, opts) do</span>
+<span class='curline'><a href='../S/81.html#L38'>repo</a>               38 deps/ecto/lib/ecto/adapters/sql.ex         Ecto.Adapters.SQL.start_link(@conn, @adapter, repo, opts)</span>
+<span class='curline'><a href='../S/81.html#L68'>repo</a>               68 deps/ecto/lib/ecto/adapters/sql.ex       def execute(repo, meta, prepared, params, preprocess, opts) do</span>
+<span class='curline'><a href='../S/81.html#L69'>repo</a>               69 deps/ecto/lib/ecto/adapters/sql.ex         Ecto.Adapters.SQL.execute(repo, meta, prepared, params, preprocess, opts)</span>
+<span class='curline'><a href='../S/81.html#L74'>repo</a>               74 deps/ecto/lib/ecto/adapters/sql.ex       def insert(repo, model_meta, params, {key, :id, nil}, returning, opts) do</span>
+<span class='curline'><a href='../S/81.html#L75'>repo</a>               75 deps/ecto/lib/ecto/adapters/sql.ex         insert(repo, model_meta, params, nil, [key|returning], opts)</span>
+<span class='curline'><a href='../S/81.html#L79'>repo</a>               79 deps/ecto/lib/ecto/adapters/sql.ex       def insert(repo, model_meta, params, {key, :binary_id, nil}, returning, opts) do</span>
+<span class='curline'><a href='../S/81.html#L81'>repo</a>               81 deps/ecto/lib/ecto/adapters/sql.ex         case insert(repo, model_meta, req ++ params, nil, returning, opts) do</span>
+<span class='curline'><a href='../S/81.html#L88'>repo</a>               88 deps/ecto/lib/ecto/adapters/sql.ex       def insert(repo, %{source: {prefix, source}}, params, _autogenerate, returning, opts) do</span>
+<span class='curline'><a href='../S/81.html#L91'>repo</a>               91 deps/ecto/lib/ecto/adapters/sql.ex         Ecto.Adapters.SQL.model(repo, @conn, sql, values, returning, opts)</span>
+<span class='curline'><a href='../S/81.html#L95'>repo</a>               95 deps/ecto/lib/ecto/adapters/sql.ex       def update(repo, %{source: {prefix, source}}, fields, filter, _autogenerate, returning, opts) do</span>
+<span class='curline'><a href='../S/81.html#L99'>repo</a>               99 deps/ecto/lib/ecto/adapters/sql.ex         Ecto.Adapters.SQL.model(repo, @conn, sql, values1 ++ values2, returning, opts)</span>
+<span class='curline'><a href='../S/81.html#L103'>repo</a>              103 deps/ecto/lib/ecto/adapters/sql.ex       def delete(repo, %{source: {prefix, source}}, filter, _autogenarate, opts) do</span>
+<span class='curline'><a href='../S/81.html#L106'>repo</a>              106 deps/ecto/lib/ecto/adapters/sql.ex         Ecto.Adapters.SQL.model(repo, @conn, sql, values, [], opts)</span>
+<span class='curline'><a href='../S/81.html#L112'>repo</a>              112 deps/ecto/lib/ecto/adapters/sql.ex       def transaction(repo, opts, fun) do</span>
+<span class='curline'><a href='../S/81.html#L113'>repo</a>              113 deps/ecto/lib/ecto/adapters/sql.ex         Ecto.Adapters.SQL.transaction(repo, opts, fun)</span>
+<span class='curline'><a href='../S/81.html#L117'>repo</a>              117 deps/ecto/lib/ecto/adapters/sql.ex       def rollback(repo, value) do</span>
+<span class='curline'><a href='../S/81.html#L118'>repo</a>              118 deps/ecto/lib/ecto/adapters/sql.ex         Ecto.Adapters.SQL.rollback(repo, value)</span>
+<span class='curline'><a href='../S/81.html#L124'>repo</a>              124 deps/ecto/lib/ecto/adapters/sql.ex       def execute_ddl(repo, definition, opts) do</span>
+<span class='curline'><a href='../S/81.html#L128'>repo</a>              128 deps/ecto/lib/ecto/adapters/sql.ex           Ecto.Adapters.SQL.query!(repo, sql, [], opts)</span>
+<span class='curline'><a href='../S/81.html#L163'>repo</a>              163 deps/ecto/lib/ecto/adapters/sql.ex   def to_sql(kind, repo, queryable) do</span>
+<span class='curline'><a href='../S/81.html#L164'>repo</a>              164 deps/ecto/lib/ecto/adapters/sql.ex     adapter = repo.__adapter__</span>
+<span class='curline'><a href='../S/81.html#L168'>repo</a>              168 deps/ecto/lib/ecto/adapters/sql.ex       |&gt; Ecto.Query.Planner.query(kind, repo, adapter)</span>
+<span class='curline'><a href='../S/81.html#L178'>repo</a>              178 deps/ecto/lib/ecto/adapters/sql.ex   def query!(repo, sql, params, opts \\ []) do</span>
+<span class='curline'><a href='../S/81.html#L179'>repo</a>              179 deps/ecto/lib/ecto/adapters/sql.ex     query!(repo, sql, params, nil, opts)</span>
+<span class='curline'><a href='../S/81.html#L182'>repo</a>              182 deps/ecto/lib/ecto/adapters/sql.ex   defp query!(repo, sql, params, mapper, opts) do</span>
+<span class='curline'><a href='../S/81.html#L183'>repo</a>              183 deps/ecto/lib/ecto/adapters/sql.ex     case query(repo, sql, params, mapper, opts) do</span>
+<span class='curline'><a href='../S/81.html#L220'>repo</a>              220 deps/ecto/lib/ecto/adapters/sql.ex   def query(repo, sql, params, opts \\ []) do</span>
+<span class='curline'><a href='../S/81.html#L221'>repo</a>              221 deps/ecto/lib/ecto/adapters/sql.ex     query(repo, sql, params, nil, opts)</span>
+<span class='curline'><a href='../S/81.html#L224'>repo</a>              224 deps/ecto/lib/ecto/adapters/sql.ex   defp query(repo, sql, params, mapper, opts) do</span>
+<span class='curline'><a href='../S/81.html#L225'>repo</a>              225 deps/ecto/lib/ecto/adapters/sql.ex     case query(repo, sql, params, nil, mapper, opts) do</span>
+<span class='curline'><a href='../S/81.html#L227'>repo</a>              227 deps/ecto/lib/ecto/adapters/sql.ex         log(repo, entry)</span>
+<span class='curline'><a href='../S/81.html#L233'>repo</a>              233 deps/ecto/lib/ecto/adapters/sql.ex         exit({:noconnect, {__MODULE__, :query, [repo, sql, params, opts]}})</span>
+<span class='curline'><a href='../S/81.html#L237'>repo</a>              237 deps/ecto/lib/ecto/adapters/sql.ex   defp query(repo, sql, params, outer_queue_time, mapper, opts) do</span>
+<span class='curline'><a href='../S/81.html#L238'>repo</a>              238 deps/ecto/lib/ecto/adapters/sql.ex     {pool_mod, pool, pool_timeout, timeout} = repo.__pool__</span>
+<span class='curline'><a href='../S/81.html#L253'>repo</a>              253 deps/ecto/lib/ecto/adapters/sql.ex         raise ArgumentError, "repo #{inspect repo} is not started, " &lt;&gt;</span>
+<span class='curline'><a href='../S/81.html#L290'>repo</a>              290 deps/ecto/lib/ecto/adapters/sql.ex   defp log(repo, entry), do: repo.log(entry)</span>
+<span class='curline'><a href='../S/81.html#L372'>repo</a>              372 deps/ecto/lib/ecto/adapters/sql.ex   def begin_test_transaction(repo, opts \\ []) do</span>
+<span class='curline'><a href='../S/81.html#L373'>repo</a>              373 deps/ecto/lib/ecto/adapters/sql.ex     test_transaction(:begin, repo, opts)</span>
+<span class='curline'><a href='../S/81.html#L380'>repo</a>              380 deps/ecto/lib/ecto/adapters/sql.ex   def restart_test_transaction(repo, opts \\ []) do</span>
+<span class='curline'><a href='../S/81.html#L381'>repo</a>              381 deps/ecto/lib/ecto/adapters/sql.ex     test_transaction(:restart, repo, opts)</span>
+<span class='curline'><a href='../S/81.html#L385'>repo</a>              385 deps/ecto/lib/ecto/adapters/sql.ex   def rollback_test_transaction(repo, opts \\ []) do</span>
+<span class='curline'><a href='../S/81.html#L386'>repo</a>              386 deps/ecto/lib/ecto/adapters/sql.ex     test_transaction(:rollback, repo, opts)</span>
+<span class='curline'><a href='../S/81.html#L389'>repo</a>              389 deps/ecto/lib/ecto/adapters/sql.ex   defp test_transaction(fun, repo, opts) do</span>
+<span class='curline'><a href='../S/81.html#L390'>repo</a>              390 deps/ecto/lib/ecto/adapters/sql.ex     case repo.__pool__ do</span>
+<span class='curline'><a href='../S/81.html#L394'>repo</a>              394 deps/ecto/lib/ecto/adapters/sql.ex         test_transaction(pool, fun, &amp;repo.log/1, opts, pool_timeout)</span>
+<span class='curline'><a href='../S/81.html#L473'>repo</a>              473 deps/ecto/lib/ecto/adapters/sql.ex   def execute(repo, _meta, prepared, params, nil, opts) do</span>
+<span class='curline'><a href='../S/81.html#L474'>repo</a>              474 deps/ecto/lib/ecto/adapters/sql.ex     %{rows: rows, num_rows: num} = query!(repo, prepared, params, nil, opts)</span>
+<span class='curline'><a href='../S/81.html#L478'>repo</a>              478 deps/ecto/lib/ecto/adapters/sql.ex   def execute(repo, meta, prepared, params, preprocess, opts) do</span>
+<span class='curline'><a href='../S/81.html#L481'>repo</a>              481 deps/ecto/lib/ecto/adapters/sql.ex     %{rows: rows, num_rows: num} = query!(repo, prepared, params, mapper, opts)</span>
+<span class='curline'><a href='../S/81.html#L486'>repo</a>              486 deps/ecto/lib/ecto/adapters/sql.ex   def model(repo, conn, sql, values, returning, opts) do</span>
+<span class='curline'><a href='../S/81.html#L487'>repo</a>              487 deps/ecto/lib/ecto/adapters/sql.ex     case query(repo, sql, values, nil, opts) do</span>
+<span class='curline'><a href='../S/81.html#L538'>repo</a>              538 deps/ecto/lib/ecto/adapters/sql.ex   def transaction(repo, opts, fun) do</span>
+<span class='curline'><a href='../S/81.html#L539'>repo</a>              539 deps/ecto/lib/ecto/adapters/sql.ex     {pool_mod, pool, pool_timeout, timeout} = repo.__pool__</span>
+<span class='curline'><a href='../S/81.html#L546'>repo</a>              546 deps/ecto/lib/ecto/adapters/sql.ex         transaction(repo, ref, mod, mode, queue_time, pool_timeout, opts, fun)</span>
+<span class='curline'><a href='../S/81.html#L553'>repo</a>              553 deps/ecto/lib/ecto/adapters/sql.ex         log(repo, entry)</span>
+<span class='curline'><a href='../S/81.html#L556'>repo</a>              556 deps/ecto/lib/ecto/adapters/sql.ex         log(repo, entry)</span>
+<span class='curline'><a href='../S/81.html#L559'>repo</a>              559 deps/ecto/lib/ecto/adapters/sql.ex         log(repo, entry)</span>
+<span class='curline'><a href='../S/81.html#L562'>repo</a>              562 deps/ecto/lib/ecto/adapters/sql.ex         exit({:noconnect, {__MODULE__, :transaction, [repo, opts, fun]}})</span>
+<span class='curline'><a href='../S/81.html#L564'>repo</a>              564 deps/ecto/lib/ecto/adapters/sql.ex         raise ArgumentError, "repo #{inspect repo} is not started, " &lt;&gt;</span>
+<span class='curline'><a href='../S/81.html#L570'>repo</a>              570 deps/ecto/lib/ecto/adapters/sql.ex   def rollback(repo, value) do</span>
+<span class='curline'><a href='../S/81.html#L571'>repo</a>              571 deps/ecto/lib/ecto/adapters/sql.ex     {pool_mod, pool, _pool_timeout, _timeout} = repo.__pool__</span>
+<span class='curline'><a href='../S/81.html#L578'>repo</a>              578 deps/ecto/lib/ecto/adapters/sql.ex   defp transaction(repo, ref, mod, mode, queue_time, pool_timeout, opts, fun) do</span>
+<span class='curline'><a href='../S/81.html#L579'>repo</a>              579 deps/ecto/lib/ecto/adapters/sql.ex     case begin(repo, mod, mode, queue_time, opts) do</span>
+<span class='curline'><a href='../S/81.html#L581'>repo</a>              581 deps/ecto/lib/ecto/adapters/sql.ex         safe = fn -&gt; log(repo, entry); fun.() end</span>
+<span class='curline'><a href='../S/81.html#L584'>repo</a>              584 deps/ecto/lib/ecto/adapters/sql.ex             commit(repo, ref, mod, mode, pool_timeout, opts, {:return, ok})</span>
+<span class='curline'><a href='../S/81.html#L586'>repo</a>              586 deps/ecto/lib/ecto/adapters/sql.ex             rollback(repo, ref, mod, mode, pool_timeout, opts, {:return, error})</span>
+<span class='curline'><a href='../S/81.html#L588'>repo</a>              588 deps/ecto/lib/ecto/adapters/sql.ex             rollback(repo, ref, mod, mode, pool_timeout, opts, raise)</span>
+<span class='curline'><a href='../S/81.html#L598'>repo</a>              598 deps/ecto/lib/ecto/adapters/sql.ex   defp begin(repo, mod, mode, queue_time, opts) do</span>
+<span class='curline'><a href='../S/81.html#L600'>repo</a>              600 deps/ecto/lib/ecto/adapters/sql.ex     query(repo, sql, [], queue_time, nil, opts)</span>
+<span class='curline'><a href='../S/81.html#L606'>repo</a>              606 deps/ecto/lib/ecto/adapters/sql.ex   defp commit(repo, ref, mod, :raw, pool_timeout, opts, result) do</span>
+<span class='curline'><a href='../S/81.html#L607'>repo</a>              607 deps/ecto/lib/ecto/adapters/sql.ex     case query(repo, mod.commit, [], nil, nil, opts) do</span>
+<span class='curline'><a href='../S/81.html#L622'>repo</a>              622 deps/ecto/lib/ecto/adapters/sql.ex   defp rollback(repo, ref, mod, mode, pool_timeout, opts, result) do</span>
+<span class='curline'><a href='../S/81.html#L625'>repo</a>              625 deps/ecto/lib/ecto/adapters/sql.ex     case query(repo, sql, [], nil, nil, opts) do</span>
+<span class='curline'><a href='../S/83.html#L349'>repo</a>              349 deps/ecto/lib/ecto/association.ex   def on_repo_action(assoc, changeset, parent, _adapter, repo, repo_action, opts) do</span>
+<span class='curline'><a href='../S/83.html#L356'>repo</a>              356 deps/ecto/lib/ecto/association.ex     case apply(repo, action, [changeset, opts]) do</span>
+<span class='curline'><a href='../S/83.html#L358'>repo</a>              358 deps/ecto/lib/ecto/association.ex         maybe_replace_one!(assoc, changeset, parent, repo, opts)</span>
+<span class='curline'><a href='../S/83.html#L380'>repo</a>              380 deps/ecto/lib/ecto/association.ex                           %{action: :insert}, parent, repo, opts) do</span>
+<span class='curline'><a href='../S/83.html#L390'>repo</a>              390 deps/ecto/lib/ecto/association.ex         case apply(repo, changeset.action, [changeset, opts]) do</span>
+<span class='curline'><a href='../S/85.html#L665'>repo</a>              665 deps/ecto/lib/ecto/changeset.ex     new_repo        = merge_identical(cs1.repo, cs2.repo, "repos")</span>
+<span class='curline'><a href='../S/84.html#L57'>repo</a>               57 deps/ecto/lib/ecto/changeset/relation.ex   def on_repo_action(changeset, related, adapter, repo, opts) do</span>
+<span class='curline'><a href='../S/84.html#L64'>repo</a>               64 deps/ecto/lib/ecto/changeset/relation.ex             on_repo_action(related, field, changeset, adapter, repo, action, opts, acc)</span>
+<span class='curline'><a href='../S/84.html#L85'>repo</a>               85 deps/ecto/lib/ecto/changeset/relation.ex                       adapter, repo, action, opts, {parent, changes, valid?}) do</span>
+<span class='curline'><a href='../S/84.html#L86'>repo</a>               86 deps/ecto/lib/ecto/changeset/relation.ex     case meta.__struct__.on_repo_action(meta, changeset, parent, adapter, repo, action, opts) do</span>
+<span class='curline'><a href='../S/84.html#L95'>repo</a>               95 deps/ecto/lib/ecto/changeset/relation.ex                       adapter, repo, action, opts, {parent, changes, valid?}) do</span>
+<span class='curline'><a href='../S/84.html#L98'>repo</a>               98 deps/ecto/lib/ecto/changeset/relation.ex         case meta.__struct__.on_repo_action(meta, changeset, parent, adapter, repo, action, opts) do</span>
+<span class='curline'><a href='../S/88.html#L181'>repo</a>              181 deps/ecto/lib/ecto/embedded.ex                      changeset, parent, adapter, repo, _repo_action, opts) do</span>
+<span class='curline'><a href='../S/88.html#L182'>repo</a>              182 deps/ecto/lib/ecto/embedded.ex     changeset = on_repo_action(changeset, model, adapter, repo, opts)</span>
+<span class='curline'><a href='../S/88.html#L194'>repo</a>              194 deps/ecto/lib/ecto/embedded.ex                       model, adapter, repo, opts) do</span>
+<span class='curline'><a href='../S/88.html#L198'>repo</a>              198 deps/ecto/lib/ecto/embedded.ex       Ecto.Changeset.Relation.on_repo_action(changeset, related, adapter, repo, opts)</span>
+<span class='curline'><a href='../S/91.html#L17'>repo</a>               17 deps/ecto/lib/ecto/migration/runner.ex   def run(repo, module, direction, operation, migrator_direction, opts) do</span>
+<span class='curline'><a href='../S/91.html#L19'>repo</a>               19 deps/ecto/lib/ecto/migration/runner.ex     args  = [self, repo, direction, migrator_direction, level]</span>
+<span class='curline'><a href='../S/91.html#L36'>repo</a>               36 deps/ecto/lib/ecto/migration/runner.ex   def start_link(parent, repo, direction, migrator_direction, level) do</span>
+<span class='curline'><a href='../S/91.html#L39'>repo</a>               39 deps/ecto/lib/ecto/migration/runner.ex       %{direction: direction, repo: repo, migrator_direction: migrator_direction,</span>
+<span class='curline'><a href='../S/91.html#L88'>repo</a>               88 deps/ecto/lib/ecto/migration/runner.ex       {repo, direction, level} = repo_and_direction_and_level()</span>
+<span class='curline'><a href='../S/91.html#L89'>repo</a>               89 deps/ecto/lib/ecto/migration/runner.ex       execute_in_direction(repo, direction, level, command)</span>
+<span class='curline'><a href='../S/91.html#L146'>repo</a>              146 deps/ecto/lib/ecto/migration/runner.ex   defp execute_in_direction(repo, :forward, level, command) do</span>
+<span class='curline'><a href='../S/91.html#L147'>repo</a>              147 deps/ecto/lib/ecto/migration/runner.ex     log_and_execute_ddl(repo, level, command)</span>
+<span class='curline'><a href='../S/91.html#L150'>repo</a>              150 deps/ecto/lib/ecto/migration/runner.ex   defp execute_in_direction(repo, :backward, level, {command, %Index{}=index}) when command in @creates do</span>
+<span class='curline'><a href='../S/91.html#L151'>repo</a>              151 deps/ecto/lib/ecto/migration/runner.ex     log_and_execute_ddl(repo, level, {:drop, index})</span>
+<span class='curline'><a href='../S/91.html#L154'>repo</a>              154 deps/ecto/lib/ecto/migration/runner.ex   defp execute_in_direction(repo, :backward, level, {:drop, %Index{}=index}) do</span>
+<span class='curline'><a href='../S/91.html#L155'>repo</a>              155 deps/ecto/lib/ecto/migration/runner.ex     log_and_execute_ddl(repo, level, {:create, index})</span>
+<span class='curline'><a href='../S/91.html#L158'>repo</a>              158 deps/ecto/lib/ecto/migration/runner.ex   defp execute_in_direction(repo, :backward, level, command) do</span>
+<span class='curline'><a href='../S/91.html#L160'>repo</a>              160 deps/ecto/lib/ecto/migration/runner.ex       log_and_execute_ddl(repo, level, reversed)</span>
+<span class='curline'><a href='../S/91.html#L201'>repo</a>              201 deps/ecto/lib/ecto/migration/runner.ex     Agent.get(runner(), fn %{repo: repo, direction: direction, level: level} -&gt;</span>
+<span class='curline'><a href='../S/91.html#L202'>repo</a>              202 deps/ecto/lib/ecto/migration/runner.ex       {repo, direction, level}</span>
+<span class='curline'><a href='../S/91.html#L206'>repo</a>              206 deps/ecto/lib/ecto/migration/runner.ex   defp log_and_execute_ddl(repo, level, command) do</span>
+<span class='curline'><a href='../S/91.html#L208'>repo</a>              208 deps/ecto/lib/ecto/migration/runner.ex     repo.__adapter__.execute_ddl(repo, command, @opts)</span>
+<span class='curline'><a href='../S/92.html#L16'>repo</a>               16 deps/ecto/lib/ecto/migration/schema_migration.ex   def ensure_schema_migrations_table!(repo, prefix) do</span>
+<span class='curline'><a href='../S/92.html#L17'>repo</a>               17 deps/ecto/lib/ecto/migration/schema_migration.ex     adapter = repo.__adapter__</span>
+<span class='curline'><a href='../S/92.html#L18'>repo</a>               18 deps/ecto/lib/ecto/migration/schema_migration.ex     create_migrations_table(adapter, repo, prefix)</span>
+<span class='curline'><a href='../S/92.html#L21'>repo</a>               21 deps/ecto/lib/ecto/migration/schema_migration.ex   def migrated_versions(repo, prefix) do</span>
+<span class='curline'><a href='../S/92.html#L22'>repo</a>               22 deps/ecto/lib/ecto/migration/schema_migration.ex     repo.all from(p in __MODULE__, select: p.version) |&gt; Map.put(:prefix, prefix), @opts</span>
+<span class='curline'><a href='../S/92.html#L25'>repo</a>               25 deps/ecto/lib/ecto/migration/schema_migration.ex   def up(repo, version, prefix) do</span>
+<span class='curline'><a href='../S/92.html#L26'>repo</a>               26 deps/ecto/lib/ecto/migration/schema_migration.ex     repo.insert! %__MODULE__{version: version} |&gt; Ecto.put_meta(prefix: prefix), @opts</span>
+<span class='curline'><a href='../S/92.html#L29'>repo</a>               29 deps/ecto/lib/ecto/migration/schema_migration.ex   def down(repo, version, prefix) do</span>
+<span class='curline'><a href='../S/92.html#L30'>repo</a>               30 deps/ecto/lib/ecto/migration/schema_migration.ex     repo.delete_all from(p in __MODULE__, where: p.version == ^version) |&gt; Map.put(:prefix, prefix), @opts</span>
+<span class='curline'><a href='../S/92.html#L33'>repo</a>               33 deps/ecto/lib/ecto/migration/schema_migration.ex   defp create_migrations_table(adapter, repo, prefix) do</span>
+<span class='curline'><a href='../S/92.html#L37'>repo</a>               37 deps/ecto/lib/ecto/migration/schema_migration.ex     adapter.execute_ddl(repo,</span>
+<span class='curline'><a href='../S/95.html#L42'>repo</a>               42 deps/ecto/lib/ecto/migrator.ex   def migrated_versions(repo, opts \\ []) do</span>
+<span class='curline'><a href='../S/95.html#L43'>repo</a>               43 deps/ecto/lib/ecto/migrator.ex     SchemaMigration.ensure_schema_migrations_table!(repo, opts[:prefix])</span>
+<span class='curline'><a href='../S/95.html#L44'>repo</a>               44 deps/ecto/lib/ecto/migrator.ex     SchemaMigration.migrated_versions(repo, opts[:prefix])</span>
+<span class='curline'><a href='../S/95.html#L57'>repo</a>               57 deps/ecto/lib/ecto/migrator.ex   def up(repo, version, module, opts \\ []) do</span>
+<span class='curline'><a href='../S/95.html#L58'>repo</a>               58 deps/ecto/lib/ecto/migrator.ex     versions = migrated_versions(repo, opts)</span>
+<span class='curline'><a href='../S/95.html#L63'>repo</a>               63 deps/ecto/lib/ecto/migrator.ex       do_up(repo, version, module, opts)</span>
+<span class='curline'><a href='../S/95.html#L68'>repo</a>               68 deps/ecto/lib/ecto/migrator.ex   defp do_up(repo, version, module, opts) do</span>
+<span class='curline'><a href='../S/95.html#L69'>repo</a>               69 deps/ecto/lib/ecto/migrator.ex     run_maybe_in_transaction repo, module, fn -&gt;</span>
+<span class='curline'><a href='../S/95.html#L70'>repo</a>               70 deps/ecto/lib/ecto/migrator.ex       attempt(repo, module, :forward, :up, :up, opts)</span>
+<span class='curline'><a href='../S/95.html#L71'>repo</a>               71 deps/ecto/lib/ecto/migrator.ex         || attempt(repo, module, :forward, :change, :up, opts)</span>
+<span class='curline'><a href='../S/95.html#L73'>repo</a>               73 deps/ecto/lib/ecto/migrator.ex       SchemaMigration.up(repo, version, opts[:prefix])</span>
+<span class='curline'><a href='../S/95.html#L87'>repo</a>               87 deps/ecto/lib/ecto/migrator.ex   def down(repo, version, module, opts \\ []) do</span>
+<span class='curline'><a href='../S/95.html#L88'>repo</a>               88 deps/ecto/lib/ecto/migrator.ex     versions = migrated_versions(repo, opts)</span>
+<span class='curline'><a href='../S/95.html#L91'>repo</a>               91 deps/ecto/lib/ecto/migrator.ex       do_down(repo, version, module, opts)</span>
+<span class='curline'><a href='../S/95.html#L98'>repo</a>               98 deps/ecto/lib/ecto/migrator.ex   defp do_down(repo, version, module, opts) do</span>
+<span class='curline'><a href='../S/95.html#L99'>repo</a>               99 deps/ecto/lib/ecto/migrator.ex     run_maybe_in_transaction repo, module, fn -&gt;</span>
+<span class='curline'><a href='../S/95.html#L100'>repo</a>              100 deps/ecto/lib/ecto/migrator.ex       attempt(repo, module, :forward, :down, :down, opts)</span>
+<span class='curline'><a href='../S/95.html#L101'>repo</a>              101 deps/ecto/lib/ecto/migrator.ex         || attempt(repo, module, :backward, :change, :down, opts)</span>
+<span class='curline'><a href='../S/95.html#L103'>repo</a>              103 deps/ecto/lib/ecto/migrator.ex       SchemaMigration.down(repo, version, opts[:prefix])</span>
+<span class='curline'><a href='../S/95.html#L107'>repo</a>              107 deps/ecto/lib/ecto/migrator.ex   defp run_maybe_in_transaction(repo, module, fun) do</span>
+<span class='curline'><a href='../S/95.html#L111'>repo</a>              111 deps/ecto/lib/ecto/migrator.ex       repo.__adapter__.supports_ddl_transaction? -&gt;</span>
+<span class='curline'><a href='../S/95.html#L112'>repo</a>              112 deps/ecto/lib/ecto/migrator.ex         repo.transaction [log: false, timeout: :infinity], fun</span>
+<span class='curline'><a href='../S/95.html#L118'>repo</a>              118 deps/ecto/lib/ecto/migrator.ex   defp attempt(repo, module, direction, operation, reference, opts) do</span>
+<span class='curline'><a href='../S/95.html#L121'>repo</a>              121 deps/ecto/lib/ecto/migrator.ex       Runner.run(repo, module, direction, operation, reference, opts)</span>
+<span class='curline'><a href='../S/95.html#L141'>repo</a>              141 deps/ecto/lib/ecto/migrator.ex   def run(repo, directory, direction, opts) do</span>
+<span class='curline'><a href='../S/95.html#L142'>repo</a>              142 deps/ecto/lib/ecto/migrator.ex     versions = migrated_versions(repo, opts)</span>
+<span class='curline'><a href='../S/95.html#L146'>repo</a>              146 deps/ecto/lib/ecto/migrator.ex         run_all(repo, versions, directory, direction, opts)</span>
+<span class='curline'><a href='../S/95.html#L148'>repo</a>              148 deps/ecto/lib/ecto/migrator.ex         run_to(repo, versions, directory, direction, to, opts)</span>
+<span class='curline'><a href='../S/95.html#L150'>repo</a>              150 deps/ecto/lib/ecto/migrator.ex         run_step(repo, versions, directory, direction, step, opts)</span>
+<span class='curline'><a href='../S/95.html#L156'>repo</a>              156 deps/ecto/lib/ecto/migrator.ex   defp run_to(repo, versions, directory, direction, target, opts) do</span>
+<span class='curline'><a href='../S/95.html#L166'>repo</a>              166 deps/ecto/lib/ecto/migrator.ex     |&gt; migrate(direction, repo, opts)</span>
+<span class='curline'><a href='../S/95.html#L169'>repo</a>              169 deps/ecto/lib/ecto/migrator.ex   defp run_step(repo, versions, directory, direction, count, opts) do</span>
+<span class='curline'><a href='../S/95.html#L172'>repo</a>              172 deps/ecto/lib/ecto/migrator.ex     |&gt; migrate(direction, repo, opts)</span>
+<span class='curline'><a href='../S/95.html#L175'>repo</a>              175 deps/ecto/lib/ecto/migrator.ex   defp run_all(repo, versions, directory, direction, opts) do</span>
+<span class='curline'><a href='../S/95.html#L177'>repo</a>              177 deps/ecto/lib/ecto/migrator.ex     |&gt; migrate(direction, repo, opts)</span>
+<span class='curline'><a href='../S/95.html#L211'>repo</a>              211 deps/ecto/lib/ecto/migrator.ex   defp migrate(migrations, direction, repo, opts) do</span>
+<span class='curline'><a href='../S/95.html#L226'>repo</a>              226 deps/ecto/lib/ecto/migrator.ex         :up   -&gt; do_up(repo, version, mod, opts)</span>
+<span class='curline'><a href='../S/95.html#L227'>repo</a>              227 deps/ecto/lib/ecto/migrator.ex         :down -&gt; do_down(repo, version, mod, opts)</span>
+<span class='curline'><a href='../S/121.html#L65'>repo</a>               65 deps/ecto/lib/ecto/query/planner.ex   def query(query, operation, repo, adapter) do</span>
+<span class='curline'><a href='../S/121.html#L71'>repo</a>               71 deps/ecto/lib/ecto/query/planner.ex       table = repo.__query_cache__</span>
+<span class='curline'><a href='../S/121.html#L72'>repo</a>               72 deps/ecto/lib/ecto/query/planner.ex       case cache_lookup(repo, table, key) do</span>
+<span class='curline'><a href='../S/121.html#L87'>repo</a>               87 deps/ecto/lib/ecto/query/planner.ex   defp cache_lookup(repo, table, key) do</span>
+<span class='curline'><a href='../S/121.html#L92'>repo</a>               92 deps/ecto/lib/ecto/query/planner.ex         "repo #{inspect repo} is not started, please ensure it is part of your supervision tree"</span>
+<span class='curline'><a href='../S/125.html#L16'>repo</a>               16 deps/ecto/lib/ecto/repo/preloader.ex   def query(rows, repo, preloads, assocs, fun) do</span>
+<span class='curline'><a href='../S/125.html#L19'>repo</a>               19 deps/ecto/lib/ecto/repo/preloader.ex     |&gt; do_preload(repo, preloads, assocs)</span>
+<span class='curline'><a href='../S/125.html#L35'>repo</a>               35 deps/ecto/lib/ecto/repo/preloader.ex   def preload(structs, repo, preloads) when is_list(structs) do</span>
+<span class='curline'><a href='../S/125.html#L36'>repo</a>               36 deps/ecto/lib/ecto/repo/preloader.ex     do_preload(structs, repo, preloads, nil)</span>
+<span class='curline'><a href='../S/125.html#L39'>repo</a>               39 deps/ecto/lib/ecto/repo/preloader.ex   def preload(struct, repo, preloads) when is_map(struct) do</span>
+<span class='curline'><a href='../S/125.html#L40'>repo</a>               40 deps/ecto/lib/ecto/repo/preloader.ex     do_preload([struct], repo, preloads, nil) |&gt; hd()</span>
+<span class='curline'><a href='../S/125.html#L43'>repo</a>               43 deps/ecto/lib/ecto/repo/preloader.ex   defp do_preload(structs, repo, preloads, assocs) do</span>
+<span class='curline'><a href='../S/125.html#L45'>repo</a>               45 deps/ecto/lib/ecto/repo/preloader.ex     preload_each(structs, repo, preloads)</span>
+<span class='curline'><a href='../S/125.html#L56'>repo</a>               56 deps/ecto/lib/ecto/repo/preloader.ex   defp preload_each([sample|_] = structs, repo, preloads) do</span>
+<span class='curline'><a href='../S/125.html#L64'>repo</a>               64 deps/ecto/lib/ecto/repo/preloader.ex           preload_assoc(structs, module, repo, prefix, assoc, related_key, sub_preloads)</span>
+<span class='curline'><a href='../S/125.html#L85'>repo</a>               85 deps/ecto/lib/ecto/repo/preloader.ex   defp preload_assoc(structs, module, repo, prefix, assoc, related_key, {query, preloads}) do</span>
+<span class='curline'><a href='../S/125.html#L96'>repo</a>               96 deps/ecto/lib/ecto/repo/preloader.ex         preload_assoc(repo, query, prefix, assoc, related_key, preloads)</span>
+<span class='curline'><a href='../S/125.html#L100'>repo</a>              100 deps/ecto/lib/ecto/repo/preloader.ex   defp preload_assoc(repo, query, prefix, %{cardinality: card} = assoc, related_key, preloads) do</span>
+<span class='curline'><a href='../S/125.html#L108'>repo</a>              108 deps/ecto/lib/ecto/repo/preloader.ex     loaded = preload_each(repo.all(%{query | prefix: prefix}), repo, preloads)</span>
+<span class='curline'><a href='../S/126.html#L14'>repo</a>               14 deps/ecto/lib/ecto/repo/queryable.ex   def all(repo, adapter, queryable, opts) when is_list(opts) do</span>
+<span class='curline'><a href='../S/126.html#L15'>repo</a>               15 deps/ecto/lib/ecto/repo/queryable.ex     execute(:all, repo, adapter, queryable, opts) |&gt; elem(1)</span>
+<span class='curline'><a href='../S/126.html#L21'>repo</a>               21 deps/ecto/lib/ecto/repo/queryable.ex   def get(repo, adapter, queryable, id, opts) do</span>
+<span class='curline'><a href='../S/126.html#L22'>repo</a>               22 deps/ecto/lib/ecto/repo/queryable.ex     one(repo, adapter, query_for_get(repo, queryable, id), opts)</span>
+<span class='curline'><a href='../S/126.html#L28'>repo</a>               28 deps/ecto/lib/ecto/repo/queryable.ex   def get!(repo, adapter, queryable, id, opts) do</span>
+<span class='curline'><a href='../S/126.html#L29'>repo</a>               29 deps/ecto/lib/ecto/repo/queryable.ex     one!(repo, adapter, query_for_get(repo, queryable, id), opts)</span>
+<span class='curline'><a href='../S/126.html#L32'>repo</a>               32 deps/ecto/lib/ecto/repo/queryable.ex   def get_by(repo, adapter, queryable, clauses, opts) do</span>
+<span class='curline'><a href='../S/126.html#L33'>repo</a>               33 deps/ecto/lib/ecto/repo/queryable.ex     one(repo, adapter, query_for_get_by(repo, queryable, clauses), opts)</span>
+<span class='curline'><a href='../S/126.html#L36'>repo</a>               36 deps/ecto/lib/ecto/repo/queryable.ex   def get_by!(repo, adapter, queryable, clauses, opts) do</span>
+<span class='curline'><a href='../S/126.html#L37'>repo</a>               37 deps/ecto/lib/ecto/repo/queryable.ex     one!(repo, adapter, query_for_get_by(repo, queryable, clauses), opts)</span>
+<span class='curline'><a href='../S/126.html#L43'>repo</a>               43 deps/ecto/lib/ecto/repo/queryable.ex   def one(repo, adapter, queryable, opts) do</span>
+<span class='curline'><a href='../S/126.html#L44'>repo</a>               44 deps/ecto/lib/ecto/repo/queryable.ex     case all(repo, adapter, queryable, opts) do</span>
+<span class='curline'><a href='../S/126.html#L54'>repo</a>               54 deps/ecto/lib/ecto/repo/queryable.ex   def one!(repo, adapter, queryable, opts) do</span>
+<span class='curline'><a href='../S/126.html#L55'>repo</a>               55 deps/ecto/lib/ecto/repo/queryable.ex     case all(repo, adapter, queryable, opts) do</span>
+<span class='curline'><a href='../S/126.html#L65'>repo</a>               65 deps/ecto/lib/ecto/repo/queryable.ex   def update_all(repo, adapter, queryable, [], opts) when is_list(opts) do</span>
+<span class='curline'><a href='../S/126.html#L66'>repo</a>               66 deps/ecto/lib/ecto/repo/queryable.ex     update_all(repo, adapter, queryable, opts)</span>
+<span class='curline'><a href='../S/126.html#L69'>repo</a>               69 deps/ecto/lib/ecto/repo/queryable.ex   def update_all(repo, adapter, queryable, updates, opts) when is_list(opts) do</span>
+<span class='curline'><a href='../S/126.html#L71'>repo</a>               71 deps/ecto/lib/ecto/repo/queryable.ex     update_all(repo, adapter, query, opts)</span>
+<span class='curline'><a href='../S/126.html#L74'>repo</a>               74 deps/ecto/lib/ecto/repo/queryable.ex   defp update_all(repo, adapter, queryable, opts) do</span>
+<span class='curline'><a href='../S/126.html#L75'>repo</a>               75 deps/ecto/lib/ecto/repo/queryable.ex     execute(:update_all, repo, adapter, queryable, opts)</span>
+<span class='curline'><a href='../S/126.html#L81'>repo</a>               81 deps/ecto/lib/ecto/repo/queryable.ex   def delete_all(repo, adapter, queryable, opts) when is_list(opts) do</span>
+<span class='curline'><a href='../S/126.html#L82'>repo</a>               82 deps/ecto/lib/ecto/repo/queryable.ex     execute(:delete_all, repo, adapter, queryable, opts)</span>
+<span class='curline'><a href='../S/126.html#L87'>repo</a>               87 deps/ecto/lib/ecto/repo/queryable.ex   def execute(operation, repo, adapter, queryable, opts) when is_list(opts) do</span>
+<span class='curline'><a href='../S/126.html#L91'>repo</a>               91 deps/ecto/lib/ecto/repo/queryable.ex       |&gt; Planner.query(operation, repo, adapter)</span>
+<span class='curline'><a href='../S/126.html#L95'>repo</a>               95 deps/ecto/lib/ecto/repo/queryable.ex       {count, rows} = adapter.execute(repo, meta, prepared, params, preprocess, opts)</span>
+<span class='curline'><a href='../S/126.html#L99'>repo</a>               99 deps/ecto/lib/ecto/repo/queryable.ex         |&gt; Ecto.Repo.Preloader.query(repo, meta.preloads, meta.assocs, postprocess(meta.select))}</span>
+<span class='curline'><a href='../S/126.html#L101'>repo</a>              101 deps/ecto/lib/ecto/repo/queryable.ex       adapter.execute(repo, meta, prepared, params, nil, opts)</span>
+<span class='curline'><a href='../S/126.html#L180'>repo</a>              180 deps/ecto/lib/ecto/repo/queryable.ex   defp query_for_get(repo, _queryable, nil) do</span>
+<span class='curline'><a href='../S/126.html#L181'>repo</a>              181 deps/ecto/lib/ecto/repo/queryable.ex     raise ArgumentError, "cannot perform #{inspect repo}.get/2 because the given value is nil"</span>
+<span class='curline'><a href='../S/127.html#L13'>repo</a>               13 deps/ecto/lib/ecto/repo/schema.ex   def insert!(repo, adapter, model_or_changeset, opts) do</span>
+<span class='curline'><a href='../S/127.html#L14'>repo</a>               14 deps/ecto/lib/ecto/repo/schema.ex     case insert(repo, adapter, model_or_changeset, opts) do</span>
+<span class='curline'><a href='../S/127.html#L24'>repo</a>               24 deps/ecto/lib/ecto/repo/schema.ex   def update!(repo, adapter, model_or_changeset, opts) do</span>
+<span class='curline'><a href='../S/127.html#L25'>repo</a>               25 deps/ecto/lib/ecto/repo/schema.ex     case update(repo, adapter, model_or_changeset, opts) do</span>
+<span class='curline'><a href='../S/127.html#L35'>repo</a>               35 deps/ecto/lib/ecto/repo/schema.ex   def delete!(repo, adapter, model_or_changeset, opts) do</span>
+<span class='curline'><a href='../S/127.html#L36'>repo</a>               36 deps/ecto/lib/ecto/repo/schema.ex     case delete(repo, adapter, model_or_changeset, opts) do</span>
+<span class='curline'><a href='../S/127.html#L46'>repo</a>               46 deps/ecto/lib/ecto/repo/schema.ex   def insert(repo, adapter, %Changeset{} = changeset, opts) when is_list(opts) do</span>
+<span class='curline'><a href='../S/127.html#L47'>repo</a>               47 deps/ecto/lib/ecto/repo/schema.ex     do_insert(repo, adapter, changeset, opts)</span>
+<span class='curline'><a href='../S/127.html#L50'>repo</a>               50 deps/ecto/lib/ecto/repo/schema.ex   def insert(repo, adapter, %{__struct__: _} = struct, opts) when is_list(opts) do</span>
+<span class='curline'><a href='../S/127.html#L52'>repo</a>               52 deps/ecto/lib/ecto/repo/schema.ex     do_insert(repo, adapter, changeset, opts)</span>
+<span class='curline'><a href='../S/127.html#L55'>repo</a>               55 deps/ecto/lib/ecto/repo/schema.ex   defp do_insert(repo, adapter, %Changeset{valid?: true, prepare: prepare} = changeset, opts) do</span>
+<span class='curline'><a href='../S/127.html#L66'>repo</a>               66 deps/ecto/lib/ecto/repo/schema.ex     changeset = update_changeset(changeset, :insert, repo)</span>
+<span class='curline'><a href='../S/127.html#L69'>repo</a>               69 deps/ecto/lib/ecto/repo/schema.ex     wrap_in_transaction(repo, adapter, model, opts, embeds, assocs, prepare,</span>
+<span class='curline'><a href='../S/127.html#L80'>repo</a>               80 deps/ecto/lib/ecto/repo/schema.ex       args = [repo, metadata(struct), changes, autogen, return, opts]</span>
+<span class='curline'><a href='../S/127.html#L85'>repo</a>               85 deps/ecto/lib/ecto/repo/schema.ex           |&gt; process_embeds(embed_changes, adapter, repo, opts)</span>
+<span class='curline'><a href='../S/127.html#L86'>repo</a>               86 deps/ecto/lib/ecto/repo/schema.ex           |&gt; process_assocs(assoc_changes, adapter, repo, opts)</span>
+<span class='curline'><a href='../S/127.html#L94'>repo</a>               94 deps/ecto/lib/ecto/repo/schema.ex   defp do_insert(repo, _adapter, %Changeset{valid?: false} = changeset, _opts) do</span>
+<span class='curline'><a href='../S/127.html#L95'>repo</a>               95 deps/ecto/lib/ecto/repo/schema.ex     {:error, update_changeset(changeset, :insert, repo)}</span>
+<span class='curline'><a href='../S/127.html#L101'>repo</a>              101 deps/ecto/lib/ecto/repo/schema.ex   def update(repo, adapter, %Changeset{} = changeset, opts) when is_list(opts) do</span>
+<span class='curline'><a href='../S/127.html#L102'>repo</a>              102 deps/ecto/lib/ecto/repo/schema.ex     do_update(repo, adapter, changeset, opts)</span>
+<span class='curline'><a href='../S/127.html#L105'>repo</a>              105 deps/ecto/lib/ecto/repo/schema.ex   def update(repo, adapter, %{__struct__: model} = struct, opts) when is_list(opts) do</span>
+<span class='curline'><a href='../S/127.html#L106'>repo</a>              106 deps/ecto/lib/ecto/repo/schema.ex     IO.puts :stderr, "warning: giving a struct to #{inspect repo}.update/2 is deprecated. " &lt;&gt;</span>
+<span class='curline'><a href='../S/127.html#L121'>repo</a>              121 deps/ecto/lib/ecto/repo/schema.ex     do_update(repo, adapter, changeset, opts)</span>
+<span class='curline'><a href='../S/127.html#L124'>repo</a>              124 deps/ecto/lib/ecto/repo/schema.ex   defp do_update(repo, adapter, %Changeset{valid?: true, prepare: prepare} = changeset, opts) do</span>
+<span class='curline'><a href='../S/127.html#L135'>repo</a>              135 deps/ecto/lib/ecto/repo/schema.ex     changeset = update_changeset(changeset, :update, repo)</span>
+<span class='curline'><a href='../S/127.html#L138'>repo</a>              138 deps/ecto/lib/ecto/repo/schema.ex       wrap_in_transaction(repo, adapter, model, opts, embeds, assocs, prepare,</span>
+<span class='curline'><a href='../S/127.html#L152'>repo</a>              152 deps/ecto/lib/ecto/repo/schema.ex         args   = [repo, metadata(struct), changes, filters, autogen, return, opts]</span>
+<span class='curline'><a href='../S/127.html#L158'>repo</a>              158 deps/ecto/lib/ecto/repo/schema.ex             |&gt; process_embeds(embed_changes, adapter, repo, opts)</span>
+<span class='curline'><a href='../S/127.html#L159'>repo</a>              159 deps/ecto/lib/ecto/repo/schema.ex             |&gt; process_assocs(assoc_changes, adapter, repo, opts)</span>
+<span class='curline'><a href='../S/127.html#L170'>repo</a>              170 deps/ecto/lib/ecto/repo/schema.ex   defp do_update(repo, _adapter, %Changeset{valid?: false} = changeset, _opts) do</span>
+<span class='curline'><a href='../S/127.html#L171'>repo</a>              171 deps/ecto/lib/ecto/repo/schema.ex     {:error, update_changeset(changeset, :update, repo)}</span>
+<span class='curline'><a href='../S/127.html#L177'>repo</a>              177 deps/ecto/lib/ecto/repo/schema.ex   def insert_or_update(repo, adapter, changeset, opts) do</span>
+<span class='curline'><a href='../S/127.html#L179'>repo</a>              179 deps/ecto/lib/ecto/repo/schema.ex       :built  -&gt; insert repo, adapter, changeset, opts</span>
+<span class='curline'><a href='../S/127.html#L180'>repo</a>              180 deps/ecto/lib/ecto/repo/schema.ex       :loaded -&gt; update repo, adapter, changeset, opts</span>
+<span class='curline'><a href='../S/127.html#L189'>repo</a>              189 deps/ecto/lib/ecto/repo/schema.ex   def insert_or_update!(repo, adapter, changeset, opts) do</span>
+<span class='curline'><a href='../S/127.html#L191'>repo</a>              191 deps/ecto/lib/ecto/repo/schema.ex       :built  -&gt; insert! repo, adapter, changeset, opts</span>
+<span class='curline'><a href='../S/127.html#L192'>repo</a>              192 deps/ecto/lib/ecto/repo/schema.ex       :loaded -&gt; update! repo, adapter, changeset, opts</span>
+<span class='curline'><a href='../S/127.html#L208'>repo</a>              208 deps/ecto/lib/ecto/repo/schema.ex   def delete(repo, adapter, %Changeset{} = changeset, opts) when is_list(opts) do</span>
+<span class='curline'><a href='../S/127.html#L209'>repo</a>              209 deps/ecto/lib/ecto/repo/schema.ex     do_delete(repo, adapter, changeset, opts)</span>
+<span class='curline'><a href='../S/127.html#L212'>repo</a>              212 deps/ecto/lib/ecto/repo/schema.ex   def delete(repo, adapter, %{__struct__: _} = struct, opts) when is_list(opts) do</span>
+<span class='curline'><a href='../S/127.html#L214'>repo</a>              214 deps/ecto/lib/ecto/repo/schema.ex     do_delete(repo, adapter, changeset, opts)</span>
+<span class='curline'><a href='../S/127.html#L217'>repo</a>              217 deps/ecto/lib/ecto/repo/schema.ex   defp do_delete(repo, adapter, %Changeset{valid?: true, prepare: prepare} = changeset, opts) do</span>
+<span class='curline'><a href='../S/127.html#L223'>repo</a>              223 deps/ecto/lib/ecto/repo/schema.ex     changeset = update_changeset(changeset, :delete, repo)</span>
+<span class='curline'><a href='../S/127.html#L227'>repo</a>              227 deps/ecto/lib/ecto/repo/schema.ex     wrap_in_transaction(repo, adapter, model, opts, embeds, assocs, prepare,</span>
+<span class='curline'><a href='../S/127.html#L230'>repo</a>              230 deps/ecto/lib/ecto/repo/schema.ex       delete_assocs(changeset, repo, model, assocs)</span>
+<span class='curline'><a href='../S/127.html#L244'>repo</a>              244 deps/ecto/lib/ecto/repo/schema.ex       args = [repo, metadata(struct), filters, autogen, opts]</span>
+<span class='curline'><a href='../S/127.html#L251'>repo</a>              251 deps/ecto/lib/ecto/repo/schema.ex           _ = process_embeds(changeset, embeds, adapter, repo, opts)</span>
+<span class='curline'><a href='../S/127.html#L259'>repo</a>              259 deps/ecto/lib/ecto/repo/schema.ex   defp do_delete(repo, _adapter, %Changeset{valid?: false} = changeset, _opts) do</span>
+<span class='curline'><a href='../S/127.html#L260'>repo</a>              260 deps/ecto/lib/ecto/repo/schema.ex     {:error, update_changeset(changeset, :delete, repo)}</span>
+<span class='curline'><a href='../S/127.html#L270'>repo</a>              270 deps/ecto/lib/ecto/repo/schema.ex   defp update_changeset(%{action: given}, action, repo) when given != nil and given != action,</span>
+<span class='curline'><a href='../S/127.html#L271'>repo</a>              271 deps/ecto/lib/ecto/repo/schema.ex     do: raise(ArgumentError, "a changeset with action #{inspect given} was given to #{inspect repo}.#{action}/2")</span>
+<span class='curline'><a href='../S/127.html#L272'>repo</a>              272 deps/ecto/lib/ecto/repo/schema.ex   defp update_changeset(changeset, action, repo),</span>
+<span class='curline'><a href='../S/127.html#L273'>repo</a>              273 deps/ecto/lib/ecto/repo/schema.ex     do: %{changeset | action: action, repo: repo}</span>
+<span class='curline'><a href='../S/127.html#L385'>repo</a>              385 deps/ecto/lib/ecto/repo/schema.ex   defp process_embeds(changeset, embeds, adapter, repo, opts) do</span>
+<span class='curline'><a href='../S/127.html#L387'>repo</a>              387 deps/ecto/lib/ecto/repo/schema.ex       Ecto.Changeset.Relation.on_repo_action(changeset, embeds, adapter, repo, opts)</span>
+<span class='curline'><a href='../S/127.html#L391'>repo</a>              391 deps/ecto/lib/ecto/repo/schema.ex   defp process_assocs(changeset, assocs, adapter, repo, opts) do</span>
+<span class='curline'><a href='../S/127.html#L392'>repo</a>              392 deps/ecto/lib/ecto/repo/schema.ex     Ecto.Changeset.Relation.on_repo_action(changeset, assocs, adapter, repo, opts)</span>
+<span class='curline'><a href='../S/127.html#L399'>repo</a>              399 deps/ecto/lib/ecto/repo/schema.ex   defp delete_assocs(%{model: model}, repo, struct, assocs) do</span>
+<span class='curline'><a href='../S/127.html#L404'>repo</a>              404 deps/ecto/lib/ecto/repo/schema.ex           assocs = repo.all Ecto.assoc(model, field)</span>
+<span class='curline'><a href='../S/127.html#L405'>repo</a>              405 deps/ecto/lib/ecto/repo/schema.ex           Enum.each assocs, &amp;repo.delete!(&amp;1)</span>
+<span class='curline'><a href='../S/127.html#L407'>repo</a>              407 deps/ecto/lib/ecto/repo/schema.ex           repo.delete_all Ecto.assoc(model, field)</span>
+<span class='curline'><a href='../S/127.html#L410'>repo</a>              410 deps/ecto/lib/ecto/repo/schema.ex           repo.update_all query, set: [{related_key, nil}]</span>
+<span class='curline'><a href='../S/127.html#L472'>repo</a>              472 deps/ecto/lib/ecto/repo/schema.ex   defp wrap_in_transaction(repo, adapter, model, opts, embeds, assocs, prepare, callbacks, fun) do</span>
+<span class='curline'><a href='../S/127.html#L476'>repo</a>              476 deps/ecto/lib/ecto/repo/schema.ex       adapter.transaction(repo, opts, fn -&gt;</span>
+<span class='curline'><a href='../S/127.html#L479'>repo</a>              479 deps/ecto/lib/ecto/repo/schema.ex           {:error, changeset} -&gt; adapter.rollback(repo, changeset)</span>
+<span class='curline'><a href='../S/128.html#L9'>repo</a>                9 deps/ecto/lib/ecto/repo/supervisor.ex   def start_link(repo, otp_app, adapter, opts) do</span>
+<span class='curline'><a href='../S/128.html#L10'>repo</a>               10 deps/ecto/lib/ecto/repo/supervisor.ex     name = opts[:name] || Application.get_env(otp_app, repo)[:name] || repo</span>
+<span class='curline'><a href='../S/128.html#L11'>repo</a>               11 deps/ecto/lib/ecto/repo/supervisor.ex     Supervisor.start_link(__MODULE__, {name, repo, otp_app, adapter, opts}, [name: name])</span>
+<span class='curline'><a href='../S/128.html#L17'>repo</a>               17 deps/ecto/lib/ecto/repo/supervisor.ex   def config(repo, otp_app, custom) do</span>
+<span class='curline'><a href='../S/128.html#L18'>repo</a>               18 deps/ecto/lib/ecto/repo/supervisor.ex     if config = Application.get_env(otp_app, repo) do</span>
+<span class='curline'><a href='../S/128.html#L21'>repo</a>               21 deps/ecto/lib/ecto/repo/supervisor.ex       [otp_app: otp_app, repo: repo] ++ Keyword.merge(config, parse_url(url || ""))</span>
+<span class='curline'><a href='../S/128.html#L24'>repo</a>               24 deps/ecto/lib/ecto/repo/supervisor.ex         "configuration for #{inspect repo} not specified in #{inspect otp_app} environment"</span>
+<span class='curline'><a href='../S/128.html#L31'>repo</a>               31 deps/ecto/lib/ecto/repo/supervisor.ex   def parse_config(repo, opts) do</span>
+<span class='curline'><a href='../S/128.html#L33'>repo</a>               33 deps/ecto/lib/ecto/repo/supervisor.ex     config  = Application.get_env(otp_app, repo, [])</span>
+<span class='curline'><a href='../S/128.html#L38'>repo</a>               38 deps/ecto/lib/ecto/repo/supervisor.ex                            "config #{inspect otp_app}, #{inspect repo}"</span>
+<span class='curline'><a href='../S/128.html#L46'>repo</a>               46 deps/ecto/lib/ecto/repo/supervisor.ex     {otp_app, adapter, pool(repo, config), config}</span>
+<span class='curline'><a href='../S/128.html#L49'>repo</a>               49 deps/ecto/lib/ecto/repo/supervisor.ex   defp pool(repo, config) do</span>
+<span class='curline'><a href='../S/128.html#L51'>repo</a>               51 deps/ecto/lib/ecto/repo/supervisor.ex     name         = Keyword.get(config, :pool_name, default_pool_name(repo, config))</span>
+<span class='curline'><a href='../S/128.html#L57'>repo</a>               57 deps/ecto/lib/ecto/repo/supervisor.ex   defp default_pool_name(repo, config) do</span>
+<span class='curline'><a href='../S/128.html#L58'>repo</a>               58 deps/ecto/lib/ecto/repo/supervisor.ex     Module.concat(Keyword.get(config, :name, repo), Pool)</span>
+<span class='curline'><a href='../S/128.html#L104'>repo</a>              104 deps/ecto/lib/ecto/repo/supervisor.ex   def init({name, repo, otp_app, adapter, opts}) do</span>
+<span class='curline'><a href='../S/128.html#L105'>repo</a>              105 deps/ecto/lib/ecto/repo/supervisor.ex     opts = config(repo, otp_app, opts)</span>
+<span class='curline'><a href='../S/128.html#L106'>repo</a>              106 deps/ecto/lib/ecto/repo/supervisor.ex     {default_pool, _, _, _} = repo.__pool__</span>
+<span class='curline'><a href='../S/128.html#L115'>repo</a>              115 deps/ecto/lib/ecto/repo/supervisor.ex       supervisor(adapter, [repo, opts])</span>
+<span class='curline'><a href='../S/128.html#L118'>repo</a>              118 deps/ecto/lib/ecto/repo/supervisor.ex     if Keyword.get(opts, :query_cache_owner, repo == repo.__query_cache__) do</span>
+<span class='curline'><a href='../S/128.html#L119'>repo</a>              119 deps/ecto/lib/ecto/repo/supervisor.ex       :ets.new(repo.__query_cache__, [:set, :public, :named_table, read_concurrency: true])</span>
+<span class='curline'><a href='../S/131.html#L14'>repo</a>               14 deps/ecto/lib/ecto/storage.ex   def up(repo) do</span>
+<span class='curline'><a href='../S/131.html#L15'>repo</a>               15 deps/ecto/lib/ecto/storage.ex     repo.__adapter__.storage_up(repo.config)</span>
+<span class='curline'><a href='../S/131.html#L26'>repo</a>               26 deps/ecto/lib/ecto/storage.ex   def down(repo) do</span>
+<span class='curline'><a href='../S/131.html#L27'>repo</a>               27 deps/ecto/lib/ecto/storage.ex     repo.__adapter__.storage_down(repo.config)</span>
+<span class='curline'><a href='../S/135.html#L31'>repo</a>               31 deps/ecto/lib/mix/ecto.ex         repo -&gt;</span>
+<span class='curline'><a href='../S/135.html#L32'>repo</a>               32 deps/ecto/lib/mix/ecto.ex           repo</span>
+<span class='curline'><a href='../S/135.html#L51'>repo</a>               51 deps/ecto/lib/mix/ecto.ex   def ensure_repo(repo, args) do</span>
+<span class='curline'><a href='../S/135.html#L59'>repo</a>               59 deps/ecto/lib/mix/ecto.ex     case Code.ensure_compiled(repo) do</span>
+<span class='curline'><a href='../S/135.html#L61'>repo</a>               61 deps/ecto/lib/mix/ecto.ex         if function_exported?(repo, :__repo__, 0) do</span>
+<span class='curline'><a href='../S/135.html#L62'>repo</a>               62 deps/ecto/lib/mix/ecto.ex           repo</span>
+<span class='curline'><a href='../S/135.html#L64'>repo</a>               64 deps/ecto/lib/mix/ecto.ex           Mix.raise "module #{inspect repo} is not a Ecto.Repo. " &lt;&gt;</span>
+<span class='curline'><a href='../S/135.html#L68'>repo</a>               68 deps/ecto/lib/mix/ecto.ex         Mix.raise "could not load #{inspect repo}, error: #{inspect error}. " &lt;&gt;</span>
+<span class='curline'><a href='../S/135.html#L77'>repo</a>               77 deps/ecto/lib/mix/ecto.ex   def ensure_started(repo) do</span>
+<span class='curline'><a href='../S/135.html#L80'>repo</a>               80 deps/ecto/lib/mix/ecto.ex     case repo.start_link do</span>
+<span class='curline'><a href='../S/135.html#L84'>repo</a>               84 deps/ecto/lib/mix/ecto.ex         Mix.raise "could not start repo #{inspect repo}, error: #{inspect error}"</span>
+<span class='curline'><a href='../S/135.html#L91'>repo</a>               91 deps/ecto/lib/mix/ecto.ex   def ensure_stopped(repo, pid) do</span>
+<span class='curline'><a href='../S/135.html#L94'>repo</a>               94 deps/ecto/lib/mix/ecto.ex     repo.stop(pid)</span>
+<span class='curline'><a href='../S/135.html#L103'>repo</a>              103 deps/ecto/lib/mix/ecto.ex   def migrations_path(repo) do</span>
+<span class='curline'><a href='../S/135.html#L104'>repo</a>              104 deps/ecto/lib/mix/ecto.ex     Path.join(repo_priv(repo), "migrations")</span>
+<span class='curline'><a href='../S/135.html#L110'>repo</a>              110 deps/ecto/lib/mix/ecto.ex   def repo_priv(repo) do</span>
+<span class='curline'><a href='../S/135.html#L111'>repo</a>              111 deps/ecto/lib/mix/ecto.ex     config = repo.config()</span>
+<span class='curline'><a href='../S/135.html#L114'>repo</a>              114 deps/ecto/lib/mix/ecto.ex       config[:priv] || "priv/#{repo |&gt; Module.split |&gt; List.last |&gt; Mix.Utils.underscore}")</span>
+<span class='curline'><a href='../S/136.html#L33'>repo</a>               33 deps/ecto/lib/mix/tasks/ecto.create.ex     Enum.each repos, fn repo -&gt;</span>
+<span class='curline'><a href='../S/136.html#L34'>repo</a>               34 deps/ecto/lib/mix/tasks/ecto.create.ex       case Ecto.Storage.up(repo) do</span>
+<span class='curline'><a href='../S/136.html#L37'>repo</a>               37 deps/ecto/lib/mix/tasks/ecto.create.ex             Mix.shell.info "The database for #{inspect repo} has been created."</span>
+<span class='curline'><a href='../S/136.html#L41'>repo</a>               41 deps/ecto/lib/mix/tasks/ecto.create.ex             Mix.shell.info "The database for #{inspect repo} has already been created."</span>
+<span class='curline'><a href='../S/136.html#L44'>repo</a>               44 deps/ecto/lib/mix/tasks/ecto.create.ex           Mix.raise "The database for #{inspect repo} couldn't be created, reason given: #{term}."</span>
+<span class='curline'><a href='../S/136.html#L46'>repo</a>               46 deps/ecto/lib/mix/tasks/ecto.create.ex           Mix.raise "The database for #{inspect repo} couldn't be created, reason given: #{inspect term}."</span>
+<span class='curline'><a href='../S/137.html#L32'>repo</a>               32 deps/ecto/lib/mix/tasks/ecto.drop.ex     Enum.each repos, fn repo -&gt;</span>
+<span class='curline'><a href='../S/137.html#L34'>repo</a>               34 deps/ecto/lib/mix/tasks/ecto.drop.ex          Mix.shell.yes?("Are you sure you want to drop the database for repo #{inspect repo}?") do</span>
+<span class='curline'><a href='../S/137.html#L35'>repo</a>               35 deps/ecto/lib/mix/tasks/ecto.drop.ex         drop_database(repo, opts)</span>
+<span class='curline'><a href='../S/137.html#L44'>repo</a>               44 deps/ecto/lib/mix/tasks/ecto.drop.ex   defp drop_database(repo, opts) do</span>
+<span class='curline'><a href='../S/137.html#L45'>repo</a>               45 deps/ecto/lib/mix/tasks/ecto.drop.ex     case Ecto.Storage.down(repo) do</span>
+<span class='curline'><a href='../S/137.html#L48'>repo</a>               48 deps/ecto/lib/mix/tasks/ecto.drop.ex           Mix.shell.info "The database for #{inspect repo} has been dropped."</span>
+<span class='curline'><a href='../S/137.html#L52'>repo</a>               52 deps/ecto/lib/mix/tasks/ecto.drop.ex           Mix.shell.info "The database for #{inspect repo} has already been dropped."</span>
+<span class='curline'><a href='../S/137.html#L55'>repo</a>               55 deps/ecto/lib/mix/tasks/ecto.drop.ex         Mix.raise "The database for #{inspect repo} couldn't be dropped, reason given: #{term}."</span>
+<span class='curline'><a href='../S/137.html#L57'>repo</a>               57 deps/ecto/lib/mix/tasks/ecto.drop.ex         Mix.raise "The database for #{inspect repo} couldn't be dropped, reason given: #{inspect term}."</span>
+<span class='curline'><a href='../S/138.html#L37'>repo</a>               37 deps/ecto/lib/mix/tasks/ecto.gen.migration.ex     Enum.each repos, fn repo -&gt;</span>
+<span class='curline'><a href='../S/138.html#L40'>repo</a>               40 deps/ecto/lib/mix/tasks/ecto.gen.migration.ex           ensure_repo(repo, args)</span>
+<span class='curline'><a href='../S/138.html#L41'>repo</a>               41 deps/ecto/lib/mix/tasks/ecto.gen.migration.ex           path = Path.relative_to(migrations_path(repo), Mix.Project.app_path)</span>
+<span class='curline'><a href='../S/138.html#L44'>repo</a>               44 deps/ecto/lib/mix/tasks/ecto.gen.migration.ex           create_file file, migration_template(mod: Module.concat([repo, Migrations, camelize(name)]))</span>
+<span class='curline'><a href='../S/138.html#L47'>repo</a>               47 deps/ecto/lib/mix/tasks/ecto.gen.migration.ex             Mix.Task.run "ecto.migrate", [repo]</span>
+<span class='curline'><a href='../S/139.html#L32'>repo</a>               32 deps/ecto/lib/mix/tasks/ecto.gen.repo.ex     [repo|other_repos] = parse_repo(args)</span>
+<span class='curline'><a href='../S/139.html#L39'>repo</a>               39 deps/ecto/lib/mix/tasks/ecto.gen.repo.ex     underscored = Mix.Utils.underscore(inspect(repo))</span>
+<span class='curline'><a href='../S/139.html#L44'>repo</a>               44 deps/ecto/lib/mix/tasks/ecto.gen.repo.ex     opts = [mod: repo, app: app, base: base]</span>
+<span class='curline'><a href='../S/139.html#L64'>repo</a>               64 deps/ecto/lib/mix/tasks/ecto.gen.repo.ex         supervisor(#{inspect repo}, [])</span>
+<span class='curline'><a href='../S/140.html#L59'>repo</a>               59 deps/ecto/lib/mix/tasks/ecto.migrate.ex     Enum.each repos, fn repo -&gt;</span>
+<span class='curline'><a href='../S/140.html#L60'>repo</a>               60 deps/ecto/lib/mix/tasks/ecto.migrate.ex       ensure_repo(repo, args)</span>
+<span class='curline'><a href='../S/140.html#L61'>repo</a>               61 deps/ecto/lib/mix/tasks/ecto.migrate.ex       {:ok, pid} = ensure_started(repo)</span>
+<span class='curline'><a href='../S/140.html#L63'>repo</a>               63 deps/ecto/lib/mix/tasks/ecto.migrate.ex       migrator.(repo, migrations_path(repo), :up, opts)</span>
+<span class='curline'><a href='../S/140.html#L64'>repo</a>               64 deps/ecto/lib/mix/tasks/ecto.migrate.ex       pid &amp;&amp; ensure_stopped(repo, pid)</span>
+<span class='curline'><a href='../S/141.html#L60'>repo</a>               60 deps/ecto/lib/mix/tasks/ecto.rollback.ex     Enum.each repos, fn repo -&gt;</span>
+<span class='curline'><a href='../S/141.html#L61'>repo</a>               61 deps/ecto/lib/mix/tasks/ecto.rollback.ex       ensure_repo(repo, args)</span>
+<span class='curline'><a href='../S/141.html#L62'>repo</a>               62 deps/ecto/lib/mix/tasks/ecto.rollback.ex       {:ok, pid} = ensure_started(repo)</span>
+<span class='curline'><a href='../S/141.html#L64'>repo</a>               64 deps/ecto/lib/mix/tasks/ecto.rollback.ex       migrator.(repo, migrations_path(repo), :down, opts)</span>
+<span class='curline'><a href='../S/141.html#L65'>repo</a>               65 deps/ecto/lib/mix/tasks/ecto.rollback.ex       pid &amp;&amp; ensure_stopped(repo, pid)</span>
+</pre>
+</body>
+</html>

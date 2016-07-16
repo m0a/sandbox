@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/lib/ecto/query/builder/from.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/232.html'>lib</a>/<a href='../files/233.html'>ecto</a>/<a href='../files/245.html'>query</a>/<a href='../files/246.html'>builder</a>/from.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L37'>[^]</a><a href='#L93'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L37' title='Defined at 37.'>escape</a></li>
+<li><a href='#L41' title='Defined at 41.'>escape</a></li>
+<li><a href='#L53' title='Defined at 53.'>build</a></li>
+<li><a href='#L79' title='Defined at 79.'>query</a></li>
+<li><a href='#L87' title='Defined at 87.'>apply</a></li>
+<li><a href='#L93' title='Defined at 93.'>check_binds</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Query.Builder.<a href='../R/26.html' title='Multiple referred from 13 places.'>From</a> <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc false
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>  alias Ecto.Query.Builder
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>  @doc """
+<a id='L7' name='L7'></a>  Handles from expressions.
+<a id='L8' name='L8'></a>
+<a id='L9' name='L9'></a>  The expressions may either contain an `in` expression or not.
+<a id='L10' name='L10'></a>  The right side is always expected to Queryable.
+<a id='L11' name='L11'></a>
+<a id='L12' name='L12'></a><em class='sharp'>  #</em># Examples
+<a id='L13' name='L13'></a>
+<a id='L14' name='L14'></a>      iex&gt; escape(quote <strong class='reserved'>do</strong>: MyModel)
+<a id='L15' name='L15'></a>      <em class='brace'>{</em>[], quote(<strong class='reserved'>do</strong>: MyModel)<em class='brace'>}</em>
+<a id='L16' name='L16'></a>
+<a id='L17' name='L17'></a>      iex&gt; escape(quote <strong class='reserved'>do</strong>: p in posts)
+<a id='L18' name='L18'></a>      <em class='brace'>{</em>[p: 0], quote(<strong class='reserved'>do</strong>: posts)<em class='brace'>}</em>
+<a id='L19' name='L19'></a>
+<a id='L20' name='L20'></a>      iex&gt; escape(quote <strong class='reserved'>do</strong>: p in <em class='brace'>{</em>"posts", MyModel<em class='brace'>}</em>)
+<a id='L21' name='L21'></a>      <em class='brace'>{</em>[p: 0], quote(<strong class='reserved'>do</strong>: <em class='brace'>{</em>"posts", MyModel<em class='brace'>}</em>)<em class='brace'>}</em>
+<a id='L22' name='L22'></a>
+<a id='L23' name='L23'></a>      iex&gt; escape(quote <strong class='reserved'>do</strong>: [p, q] in posts)
+<a id='L24' name='L24'></a>      <em class='brace'>{</em>[p: 0, q: 1], quote(<strong class='reserved'>do</strong>: posts)<em class='brace'>}</em>
+<a id='L25' name='L25'></a>
+<a id='L26' name='L26'></a>      iex&gt; escape(quote <strong class='reserved'>do</strong>: [_, _] in abc)
+<a id='L27' name='L27'></a>      <em class='brace'>{</em>[_: 0, _: 1], quote(<strong class='reserved'>do</strong>: abc)<em class='brace'>}</em>
+<a id='L28' name='L28'></a>
+<a id='L29' name='L29'></a>      iex&gt; escape(quote <strong class='reserved'>do</strong>: other)
+<a id='L30' name='L30'></a>      <em class='brace'>{</em>[], quote(<strong class='reserved'>do</strong>: other)<em class='brace'>}</em>
+<a id='L31' name='L31'></a>
+<a id='L32' name='L32'></a>      iex&gt; escape(quote <strong class='reserved'>do</strong>: x() in other)
+<a id='L33' name='L33'></a>      ** (Ecto.Query.CompileError) binding list should contain only variables, got: x()
+<a id='L34' name='L34'></a>
+<a id='L35' name='L35'></a>  """
+<a id='L36' name='L36'></a>  @spec <a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(Macro.t) :: <em class='brace'>{</em>Keyword.t, Macro.t<em class='brace'>}</em>
+<a id='L37' name='L37'></a>  def <a href='../R/435.html' title='Multiple referred from 76 places.'>escape</a>(<em class='brace'>{</em>:in, _, [var, <a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>]<em class='brace'>}</em>) <strong class='reserved'>do</strong>
+<a id='L38' name='L38'></a>    <em class='brace'>{</em><a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.<a href='../D/565.html' title='Multiple defined in 2 places.'>escape_binding</a>(List.<a href='../D/1209.html' title='Multiple defined in 3 places.'>wrap</a>(var)), <a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a><em class='brace'>}</em>
+<a id='L39' name='L39'></a>  end
+<a id='L40' name='L40'></a>
+<a id='L41' name='L41'></a>  def <a href='../R/435.html' title='Multiple referred from 76 places.'>escape</a>(<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>) <strong class='reserved'>do</strong>
+<a id='L42' name='L42'></a>    <em class='brace'>{</em>[], <a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a><em class='brace'>}</em>
+<a id='L43' name='L43'></a>  end
+<a id='L44' name='L44'></a>
+<a id='L45' name='L45'></a>  @doc """
+<a id='L46' name='L46'></a>  Builds a quoted expression.
+<a id='L47' name='L47'></a>
+<a id='L48' name='L48'></a>  The quoted expression should evaluate to a query at runtime.
+<a id='L49' name='L49'></a>  If possible, it does all calculations at compile time to avoid
+<a id='L50' name='L50'></a>  runtime work.
+<a id='L51' name='L51'></a>  """
+<a id='L52' name='L52'></a>  @spec <a href='../D/315.html' title='Multiple defined in 20 places.'>build</a>(Macro.t, Macro.Env.t) :: <em class='brace'>{</em>Macro.t, Keyword.t, non_neg_integer | nil<em class='brace'>}</em>
+<a id='L53' name='L53'></a>  def <a href='../R/195.html' title='Multiple referred from 29 places.'>build</a>(<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>, env) <strong class='reserved'>do</strong>
+<a id='L54' name='L54'></a>    <em class='brace'>{</em>binds, <a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a><em class='brace'>}</em> = <a href='../D/563.html' title='Multiple defined in 64 places.'>escape</a>(expr)
+<a id='L55' name='L55'></a>
+<a id='L56' name='L56'></a>    <em class='brace'>{</em>count_bind, quoted<em class='brace'>}</em> =
+<a id='L57' name='L57'></a>      <strong class='reserved'>case</strong> Macro.<a href='../S/125.html#L251' title='Defined at 251 in deps/ecto/lib/ecto/repo/preloader.ex.'>expand</a>(<a href='../D/591.html' title='Multiple defined in 51 places.'>expr</a>, env) <strong class='reserved'>do</strong>
+<a id='L58' name='L58'></a>        <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a> when is_atom(model) -&gt;
+<a id='L59' name='L59'></a>          # Get the source at runtime so no unnecessary compile time
+<a id='L60' name='L60'></a>          # dependencies between modules are added
+<a id='L61' name='L61'></a>          source = quote <strong class='reserved'>do</strong>: unquote(<a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>).<a href='../D/220.html' title='Multiple defined in 18 places.'>__schema__</a>(:source)
+<a id='L62' name='L62'></a>          <em class='brace'>{</em>1, <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>(source, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>)<em class='brace'>}</em>
+<a id='L63' name='L63'></a>
+<a id='L64' name='L64'></a>        source when is_binary(source) -&gt;
+<a id='L65' name='L65'></a>          # When a binary is used, there is no model
+<a id='L66' name='L66'></a>          <em class='brace'>{</em>1, <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>(source, nil)<em class='brace'>}</em>
+<a id='L67' name='L67'></a>
+<a id='L68' name='L68'></a>        <em class='brace'>{</em>source, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a><em class='brace'>}</em> when is_binary(source) -&gt;
+<a id='L69' name='L69'></a>          <em class='brace'>{</em>1, <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>(source, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>)<em class='brace'>}</em>
+<a id='L70' name='L70'></a>
+<a id='L71' name='L71'></a>        other -&gt;
+<a id='L72' name='L72'></a>          <em class='brace'>{</em>nil, other<em class='brace'>}</em>
+<a id='L73' name='L73'></a>      end
+<a id='L74' name='L74'></a>
+<a id='L75' name='L75'></a>    quoted = <a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.<a href='../S/119.html#L601' title='Defined at 601 in deps/ecto/lib/ecto/query/builder.ex.'>apply_query</a>(quoted, __MODULE__, [length(binds)], env)
+<a id='L76' name='L76'></a>    <em class='brace'>{</em>quoted, binds, count_bind<em class='brace'>}</em>
+<a id='L77' name='L77'></a>  end
+<a id='L78' name='L78'></a>
+<a id='L79' name='L79'></a>  defp <a href='../R/778.html' title='Multiple referred from 883 places.'>query</a>(source, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a>) <strong class='reserved'>do</strong>
+<a id='L80' name='L80'></a>    <em class='brace'>{</em>:%, [], [Ecto.Query, <em class='brace'>{</em>:%<em class='brace'>{</em><em class='brace'>}</em>, [], [from: <em class='brace'>{</em>source, <a href='../D/789.html' title='Multiple defined in 2 places.'>model</a><em class='brace'>}</em>]<em class='brace'>}</em>]<em class='brace'>}</em>
+<a id='L81' name='L81'></a>  end
+<a id='L82' name='L82'></a>
+<a id='L83' name='L83'></a>  @doc """
+<a id='L84' name='L84'></a>  The callback applied by `build/2` to build the query.
+<a id='L85' name='L85'></a>  """
+<a id='L86' name='L86'></a>  @spec <a href='../D/244.html' title='Multiple defined in 16 places.'>apply</a>(Ecto.Queryable.t, non_neg_integer) :: Ecto.Query.t
+<a id='L87' name='L87'></a>  def <a href='../R/131.html' title='Multiple referred from 62 places.'>apply</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, binds) <strong class='reserved'>do</strong>
+<a id='L88' name='L88'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a> = Ecto.Queryable.<a href='../D/1117.html' title='Multiple defined in 5 places.'>to_query</a>(query)
+<a id='L89' name='L89'></a>    <a href='../S/110.html#L93' title='Defined at 93 in deps/ecto/lib/ecto/query/builder/from.ex.'>check_binds</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, binds)
+<a id='L90' name='L90'></a>    <a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>
+<a id='L91' name='L91'></a>  end
+<a id='L92' name='L92'></a>
+<a id='L93' name='L93'></a>  defp <a href='../S/110.html#L89' title='Referred from 89 in deps/ecto/lib/ecto/query/builder/from.ex.'>check_binds</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, <a href='../D/394.html' title='Multiple defined in 2 places.'>count</a>) <strong class='reserved'>do</strong>
+<a id='L94' name='L94'></a>    <strong class='reserved'>if</strong> <a href='../D/394.html' title='Multiple defined in 2 places.'>count</a> &gt; 1 and count &gt; <a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.<a href='../S/119.html#L555' title='Defined at 555 in deps/ecto/lib/ecto/query/builder.ex.'>count_binds</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>) <strong class='reserved'>do</strong>
+<a id='L95' name='L95'></a>      <a href='../S/119.html#L1' title='Defined at 1 in deps/ecto/lib/ecto/query/builder.ex.'>Builder</a>.error! "`from` in query expression specified #{count} " &lt;&gt;
+<a id='L96' name='L96'></a>                     "binds but query contains #{Builder.count_binds(query)} binds"
+<a id='L97' name='L97'></a>    end
+<a id='L98' name='L98'></a>  end
+<a id='L99' name='L99'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L37'>[^]</a><a href='#L93'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

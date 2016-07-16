@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>log</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/44.html#L993'>log</a>               993 deps/db_connection/lib/db_connection.ex defp log(_, _, _, nil, result), do: result</span>
+<span class='curline'><a href='../S/44.html#L994'>log</a>               994 deps/db_connection/lib/db_connection.ex defp log(call, query, params, {log, times}, result) do</span>
+<span class='curline'><a href='../S/44.html#L998'>log</a>               998 deps/db_connection/lib/db_connection.ex defp log(call, query, params, log, times, result) do</span>
+<span class='curline'><a href='../S/44.html#L1004'>log</a>              1004 deps/db_connection/lib/db_connection.ex defp log({mod, fun, args}, entry), do: apply(mod, fun, [entry | args])</span>
+<span class='curline'><a href='../S/44.html#L1005'>log</a>              1005 deps/db_connection/lib/db_connection.ex defp log(fun, entry), do: fun.(entry)</span>
+<span class='curline'><a href='../S/67.html#L5'>log</a>                 5 deps/ecto/integration_test/support/repo.exs def log(cmd) do</span>
+<span class='curline'><a href='../S/81.html#L289'>log</a>               289 deps/ecto/lib/ecto/adapters/sql.ex defp log(_repo, nil), do: :ok</span>
+<span class='curline'><a href='../S/81.html#L290'>log</a>               290 deps/ecto/lib/ecto/adapters/sql.ex defp log(repo, entry), do: repo.log(entry)</span>
+<span class='curline'><a href='../S/91.html#L211'>log</a>               211 deps/ecto/lib/ecto/migration/runner.ex defp log(false, _msg), do: :ok</span>
+<span class='curline'><a href='../S/91.html#L212'>log</a>               212 deps/ecto/lib/ecto/migration/runner.ex defp log(level, msg), do: Logger.log(level, msg)</span>
+<span class='curline'><a href='../S/95.html#L255'>log</a>               255 deps/ecto/lib/ecto/migrator.ex defp log(false, _msg), do: :ok</span>
+<span class='curline'><a href='../S/95.html#L256'>log</a>               256 deps/ecto/lib/ecto/migrator.ex defp log(level, msg), do: Logger.log(level, msg)</span>
+<span class='curline'><a href='../S/129.html#L183'>log</a>               183 deps/ecto/lib/ecto/repo.ex def log(entry) do</span>
+<span class='curline'><a href='../S/129.html#L676'>log</a>               676 deps/ecto/lib/ecto/repo.ex def log(entry) do</span>
+<span class='curline'><a href='../S/129.html#L684'>log</a>               684 deps/ecto/lib/ecto/repo.ex defcallback log(Ecto.LogEntry.t) :: any</span>
+</pre>
+</body>
+</html>

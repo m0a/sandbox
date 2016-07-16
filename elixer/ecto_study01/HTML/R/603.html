@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>log</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/44.html#L426'>log</a>               426 deps/db_connection/lib/db_connection.ex         log(:query, query, params, meter, error)</span>
+<span class='curline'><a href='../S/44.html#L480'>log</a>               480 deps/db_connection/lib/db_connection.ex         log(:prepare, query, nil, meter, {:ok, query})</span>
+<span class='curline'><a href='../S/44.html#L482'>log</a>               482 deps/db_connection/lib/db_connection.ex         log(:prepare, query, nil, meter, error)</span>
+<span class='curline'><a href='../S/44.html#L540'>log</a>               540 deps/db_connection/lib/db_connection.ex         log(:prepare_execute, query, params, meter, error)</span>
+<span class='curline'><a href='../S/44.html#L662'>log</a>               662 deps/db_connection/lib/db_connection.ex     log(:close, query, nil, meter, result)</span>
+<span class='curline'><a href='../S/44.html#L918'>log</a>               918 deps/db_connection/lib/db_connection.ex         log(call, query, params, meter, error)</span>
+<span class='curline'><a href='../S/44.html#L950'>log</a>               950 deps/db_connection/lib/db_connection.ex       log -&gt;</span>
+<span class='curline'><a href='../S/44.html#L951'>log</a>               951 deps/db_connection/lib/db_connection.ex         run_meter(conn, log, [], fun, opts)</span>
+<span class='curline'><a href='../S/44.html#L958'>log</a>               958 deps/db_connection/lib/db_connection.ex       log -&gt;</span>
+<span class='curline'><a href='../S/44.html#L959'>log</a>               959 deps/db_connection/lib/db_connection.ex         run_meter(pool, log, [checkout: time()], fun, opts)</span>
+<span class='curline'><a href='../S/44.html#L963'>log</a>               963 deps/db_connection/lib/db_connection.ex   defp run_meter(conn, log, times, fun, opts) do</span>
+<span class='curline'><a href='../S/44.html#L968'>log</a>               968 deps/db_connection/lib/db_connection.ex       meter = {log, [stop: stop, start: start] ++ times}</span>
+<span class='curline'><a href='../S/44.html#L975'>log</a>               975 deps/db_connection/lib/db_connection.ex   defp decode_log(call, query, params, {log, times}, result) do</span>
+<span class='curline'><a href='../S/44.html#L976'>log</a>               976 deps/db_connection/lib/db_connection.ex    log(call, query, params, log, [decode: time()] ++ times, result)</span>
+<span class='curline'><a href='../S/44.html#L980'>log</a>               980 deps/db_connection/lib/db_connection.ex   defp transaction_log({log, times, callback, result}) do</span>
+<span class='curline'><a href='../S/44.html#L983'>log</a>               983 deps/db_connection/lib/db_connection.ex     log(:transaction, call, nil, log, times, result)</span>
+<span class='curline'><a href='../S/44.html#L995'>log</a>               995 deps/db_connection/lib/db_connection.ex     log(call, query, params, log, times, result)</span>
+<span class='curline'><a href='../S/44.html#L1000'>log</a>              1000 deps/db_connection/lib/db_connection.ex     log(log, entry)</span>
+<span class='curline'><a href='../S/44.html#L1032'>log</a>              1032 deps/db_connection/lib/db_connection.ex         log = Keyword.get(opts, :log)</span>
+<span class='curline'><a href='../S/44.html#L1033'>log</a>              1033 deps/db_connection/lib/db_connection.ex         begin_meter(conn, conn_state, log, [], fun, opts)</span>
+<span class='curline'><a href='../S/44.html#L1040'>log</a>              1040 deps/db_connection/lib/db_connection.ex       log -&gt;</span>
+<span class='curline'><a href='../S/44.html#L1042'>log</a>              1042 deps/db_connection/lib/db_connection.ex         run(pool, &amp;begin(&amp;1, log, times, fun, opts), opts)</span>
+<span class='curline'><a href='../S/44.html#L1046'>log</a>              1046 deps/db_connection/lib/db_connection.ex   defp begin(conn, log, times, fun, opts) do</span>
+<span class='curline'><a href='../S/44.html#L1048'>log</a>              1048 deps/db_connection/lib/db_connection.ex     begin_meter(conn, conn_state, log, times, fun, opts)</span>
+<span class='curline'><a href='../S/44.html#L1059'>log</a>              1059 deps/db_connection/lib/db_connection.ex   defp begin_meter(conn, conn_state, log, times, fun, opts) do</span>
+<span class='curline'><a href='../S/44.html#L1063'>log</a>              1063 deps/db_connection/lib/db_connection.ex     log_info = {log, [stop: stop, start: start] ++ times, :handle_begin, result}</span>
+<span class='curline'><a href='../S/44.html#L1070'>log</a>              1070 deps/db_connection/lib/db_connection.ex         transaction_run(conn, log, fun, opts)</span>
+<span class='curline'><a href='../S/44.html#L1076'>log</a>              1076 deps/db_connection/lib/db_connection.ex   defp transaction_run(conn, log, fun, opts) do</span>
+<span class='curline'><a href='../S/44.html#L1083'>log</a>              1083 deps/db_connection/lib/db_connection.ex         commit(conn, log, opts, result)</span>
+<span class='curline'><a href='../S/44.html#L1087'>log</a>              1087 deps/db_connection/lib/db_connection.ex         rollback(conn, log, opts, result)</span>
+<span class='curline'><a href='../S/44.html#L1090'>log</a>              1090 deps/db_connection/lib/db_connection.ex         rollback(conn, log, opts, result)</span>
+<span class='curline'><a href='../S/44.html#L1094'>log</a>              1094 deps/db_connection/lib/db_connection.ex   defp commit(conn, log, opts, result) do</span>
+<span class='curline'><a href='../S/44.html#L1097'>log</a>              1097 deps/db_connection/lib/db_connection.ex         conclude_meter(conn, conn_state, log, :handle_commit, opts, result)</span>
+<span class='curline'><a href='../S/44.html#L1100'>log</a>              1100 deps/db_connection/lib/db_connection.ex         conclude_meter(conn, conn_state, log, :handle_rollback, opts, result)</span>
+<span class='curline'><a href='../S/44.html#L1106'>log</a>              1106 deps/db_connection/lib/db_connection.ex   defp rollback(conn, log, opts, result) do</span>
+<span class='curline'><a href='../S/44.html#L1109'>log</a>              1109 deps/db_connection/lib/db_connection.ex         conclude_meter(conn, conn_state, log, :handle_rollback, opts, result)</span>
+<span class='curline'><a href='../S/44.html#L1123'>log</a>              1123 deps/db_connection/lib/db_connection.ex   defp conclude_meter(conn, conn_state, log, callback, opts, result) do</span>
+<span class='curline'><a href='../S/44.html#L1130'>log</a>              1130 deps/db_connection/lib/db_connection.ex         {result, {log, times, callback, cb_result}}</span>
+<span class='curline'><a href='../S/44.html#L1132'>log</a>              1132 deps/db_connection/lib/db_connection.ex         {cb_result, {log, times, callback, cb_result}}</span>
+<span class='curline'><a href='../S/81.html#L227'>log</a>               227 deps/ecto/lib/ecto/adapters/sql.ex         log(repo, entry)</span>
+<span class='curline'><a href='../S/81.html#L394'>log</a>               394 deps/ecto/lib/ecto/adapters/sql.ex         test_transaction(pool, fun, &amp;repo.log/1, opts, pool_timeout)</span>
+<span class='curline'><a href='../S/81.html#L406'>log</a>               406 deps/ecto/lib/ecto/adapters/sql.ex   defp test_transaction(pool, fun, log, opts, pool_timeout) do</span>
+<span class='curline'><a href='../S/81.html#L407'>log</a>               407 deps/ecto/lib/ecto/adapters/sql.ex     case apply(Sandbox, fun, [pool, log, opts, pool_timeout]) do</span>
+<span class='curline'><a href='../S/81.html#L553'>log</a>               553 deps/ecto/lib/ecto/adapters/sql.ex         log(repo, entry)</span>
+<span class='curline'><a href='../S/81.html#L556'>log</a>               556 deps/ecto/lib/ecto/adapters/sql.ex         log(repo, entry)</span>
+<span class='curline'><a href='../S/81.html#L559'>log</a>               559 deps/ecto/lib/ecto/adapters/sql.ex         log(repo, entry)</span>
+<span class='curline'><a href='../S/81.html#L581'>log</a>               581 deps/ecto/lib/ecto/adapters/sql.ex         safe = fn -&gt; log(repo, entry); fun.() end</span>
+<span class='curline'><a href='../S/80.html#L14'>log</a>                14 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   @typep log :: (%Ecto.LogEntry{} -&gt; any())</span>
+<span class='curline'><a href='../S/80.html#L36'>log</a>                36 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   @spec begin(pool, log, Keyword.t, timeout) ::</span>
+<span class='curline'><a href='../S/80.html#L38'>log</a>                38 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   def begin(pool, log, opts, timeout) do</span>
+<span class='curline'><a href='../S/80.html#L39'>log</a>                39 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     query(pool, :begin, log, opts, timeout)</span>
+<span class='curline'><a href='../S/80.html#L43'>log</a>                43 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   @spec restart(pool, log, Keyword.t, timeout) :: :ok when pool: pid | atom</span>
+<span class='curline'><a href='../S/80.html#L44'>log</a>                44 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   def restart(pool, log, opts, timeout) do</span>
+<span class='curline'><a href='../S/80.html#L45'>log</a>                45 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     query(pool, :restart, log, opts, timeout)</span>
+<span class='curline'><a href='../S/80.html#L49'>log</a>                49 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   @spec rollback(pool, log, Keyword.t, timeout) :: :ok when pool: pid | atom</span>
+<span class='curline'><a href='../S/80.html#L50'>log</a>                50 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   def rollback(pool, log, opts, timeout) do</span>
+<span class='curline'><a href='../S/80.html#L51'>log</a>                51 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     query(pool, :rollback, log, opts, timeout)</span>
+<span class='curline'><a href='../S/80.html#L139'>log</a>               139 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   def handle_call({:query, query, log, opts}, _, %{ref: nil} = s) do</span>
+<span class='curline'><a href='../S/80.html#L140'>log</a>               140 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     {reply, s} = handle_query(query, log, opts, s)</span>
+<span class='curline'><a href='../S/80.html#L144'>log</a>               144 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   def handle_call({:query, query, log, opts}, from, %{queue: q} = s) do</span>
+<span class='curline'><a href='../S/80.html#L145'>log</a>               145 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     {:noreply, %{s | queue: :queue.in({query, log, opts, from}, q)}}</span>
+<span class='curline'><a href='../S/80.html#L237'>log</a>               237 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   defp query(pool, query, log, opts, timeout) do</span>
+<span class='curline'><a href='../S/80.html#L238'>log</a>               238 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     GenServer.call(pool, {:query, query, log, opts}, timeout)</span>
+<span class='curline'><a href='../S/80.html#L267'>log</a>               267 deps/ecto/lib/ecto/adapters/sql/sandbox.ex       {{:value, {query, log, opts, from}}, q} -&gt;</span>
+<span class='curline'><a href='../S/80.html#L268'>log</a>               268 deps/ecto/lib/ecto/adapters/sql/sandbox.ex         {reply, s} = handle_query(query, log, opts, %{s | queue: q})</span>
+<span class='curline'><a href='../S/80.html#L276'>log</a>               276 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   def handle_query(query, log, opts, s) do</span>
+<span class='curline'><a href='../S/80.html#L277'>log</a>               277 deps/ecto/lib/ecto/adapters/sql/sandbox.ex     query! = &amp;query!(&amp;1, &amp;2, log, opts)</span>
+<span class='curline'><a href='../S/80.html#L310'>log</a>               310 deps/ecto/lib/ecto/adapters/sql/sandbox.ex   defp query!(%{module: module, conn: conn}, sql, log, opts) do</span>
+<span class='curline'><a href='../S/80.html#L316'>log</a>               316 deps/ecto/lib/ecto/adapters/sql/sandbox.ex       log.(entry)</span>
+<span class='curline'><a href='../S/91.html#L24'>log</a>                24 deps/ecto/lib/ecto/migration/runner.ex     log(level, "== Running #{inspect module}.#{operation}/0 #{direction}")</span>
+<span class='curline'><a href='../S/91.html#L28'>log</a>                28 deps/ecto/lib/ecto/migration/runner.ex     log(level, "== Migrated in #{inspect(div(time, 10000) / 10)}s")</span>
+<span class='curline'><a href='../S/91.html#L207'>log</a>               207 deps/ecto/lib/ecto/migration/runner.ex     log(level, command(command))</span>
+<span class='curline'><a href='../S/95.html#L214'>log</a>               214 deps/ecto/lib/ecto/migrator.ex       log(level, "Already #{direction}")</span>
+</pre>
+</body>
+</html>

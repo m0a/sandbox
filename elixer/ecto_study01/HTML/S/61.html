@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/ecto/integration_test/sql/sql.exs</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/227.html'>ecto</a>/<a href='../files/228.html'>integration_test</a>/<a href='../files/230.html'>sql</a>/sql.exs</h2>
+<em class='comment'>/* [&lt;][&gt;][^][v][top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Ecto.Integration.SQLTest <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  use ExUnit.Case, async: true
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>  alias Ecto.Integration.PoolRepo, as: <a href='../D/153.html' title='Multiple defined in 6 places.'>Repo</a>
+<a id='L5' name='L5'></a>  alias Ecto.Integration.Barebone
+<a id='L6' name='L6'></a>  import Ecto.Query, only: [from: 2]
+<a id='L7' name='L7'></a>
+<a id='L8' name='L8'></a>  test "query!/4" <strong class='reserved'>do</strong>
+<a id='L9' name='L9'></a>    result = Ecto.Adapters.SQL.query!(<a href='../D/153.html' title='Multiple defined in 6 places.'>Repo</a>, "SELECT 1", [])
+<a id='L10' name='L10'></a>    assert result.rows == [[1]]
+<a id='L11' name='L11'></a>  end
+<a id='L12' name='L12'></a>
+<a id='L13' name='L13'></a>  test "to_sql/3" <strong class='reserved'>do</strong>
+<a id='L14' name='L14'></a>    <em class='brace'>{</em>sql, []<em class='brace'>}</em> = Ecto.Adapters.SQL.<a href='../D/1118.html' title='Multiple defined in 2 places.'>to_sql</a>(:all, <a href='../D/153.html' title='Multiple defined in 6 places.'>Repo</a>, <a href='../S/66.html#L146' title='Defined at 146 in deps/ecto/integration_test/support/models.exs.'>Barebone</a>)
+<a id='L15' name='L15'></a>    assert sql =~ "SELECT"
+<a id='L16' name='L16'></a>    assert sql =~ "barebones"
+<a id='L17' name='L17'></a>
+<a id='L18' name='L18'></a>    <em class='brace'>{</em>sql, [0]<em class='brace'>}</em> = Ecto.Adapters.SQL.<a href='../D/1118.html' title='Multiple defined in 2 places.'>to_sql</a>(:update_all, <a href='../D/153.html' title='Multiple defined in 6 places.'>Repo</a>,
+<a id='L19' name='L19'></a>                                          <a href='../D/622.html' title='Multiple defined in 9 places.'>from</a>(b in <a href='../S/66.html#L146' title='Defined at 146 in deps/ecto/integration_test/support/models.exs.'>Barebone</a>, update: [set: [num: ^0]]))
+<a id='L20' name='L20'></a>    assert sql =~ "UPDATE"
+<a id='L21' name='L21'></a>    assert sql =~ "barebones"
+<a id='L22' name='L22'></a>    assert sql =~ "SET"
+<a id='L23' name='L23'></a>
+<a id='L24' name='L24'></a>    <em class='brace'>{</em>sql, []<em class='brace'>}</em> = Ecto.Adapters.SQL.<a href='../D/1118.html' title='Multiple defined in 2 places.'>to_sql</a>(:delete_all, <a href='../D/153.html' title='Multiple defined in 6 places.'>Repo</a>, <a href='../S/66.html#L146' title='Defined at 146 in deps/ecto/integration_test/support/models.exs.'>Barebone</a>)
+<a id='L25' name='L25'></a>    assert sql =~ "DELETE"
+<a id='L26' name='L26'></a>    assert sql =~ "barebones"
+<a id='L27' name='L27'></a>  end
+<a id='L28' name='L28'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;][^][v]<a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>prepare</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<pre>
+<span class='curline'><a href='../S/44.html#L473'>prepare</a>           473 deps/db_connection/lib/db_connection.ex   @spec prepare(conn, query, opts :: Keyword.t) ::</span>
+<span class='curline'><a href='../S/44.html#L494'>prepare</a>           494 deps/db_connection/lib/db_connection.ex     case prepare(conn, query, opts) do</span>
+<span class='curline'><a href='../S/85.html#L1501'>prepare</a>          1501 deps/ecto/lib/ecto/changeset.ex     update_in changeset.prepare, &amp;[function|&amp;1]</span>
+<span class='curline'><a href='../S/88.html#L108'>prepare</a>           108 deps/ecto/lib/ecto/embedded.ex     |&gt; prepare(model.__schema__(:embeds), adapter, action)</span>
+<span class='curline'><a href='../S/121.html#L66'>prepare</a>            66 deps/ecto/lib/ecto/query/planner.ex     {query, params, key} = prepare(query, operation, adapter)</span>
+<span class='curline'><a href='../S/121.html#L97'>prepare</a>            97 deps/ecto/lib/ecto/query/planner.ex     {cache, prepared} = adapter.prepare(operation, query)</span>
+<span class='curline'><a href='../S/127.html#L55'>prepare</a>            55 deps/ecto/lib/ecto/repo/schema.ex   defp do_insert(repo, adapter, %Changeset{valid?: true, prepare: prepare} = changeset, opts) do</span>
+<span class='curline'><a href='../S/127.html#L69'>prepare</a>            69 deps/ecto/lib/ecto/repo/schema.ex     wrap_in_transaction(repo, adapter, model, opts, embeds, assocs, prepare,</span>
+<span class='curline'><a href='../S/127.html#L71'>prepare</a>            71 deps/ecto/lib/ecto/repo/schema.ex       changeset = run_prepare(changeset, prepare)</span>
+<span class='curline'><a href='../S/127.html#L74'>prepare</a>            74 deps/ecto/lib/ecto/repo/schema.ex       changeset = Ecto.Embedded.prepare(user_changeset, embeds, adapter, :insert)</span>
+<span class='curline'><a href='../S/127.html#L124'>prepare</a>           124 deps/ecto/lib/ecto/repo/schema.ex   defp do_update(repo, adapter, %Changeset{valid?: true, prepare: prepare} = changeset, opts) do</span>
+<span class='curline'><a href='../S/127.html#L138'>prepare</a>           138 deps/ecto/lib/ecto/repo/schema.ex       wrap_in_transaction(repo, adapter, model, opts, embeds, assocs, prepare,</span>
+<span class='curline'><a href='../S/127.html#L140'>prepare</a>           140 deps/ecto/lib/ecto/repo/schema.ex         changeset = run_prepare(changeset, prepare)</span>
+<span class='curline'><a href='../S/127.html#L143'>prepare</a>           143 deps/ecto/lib/ecto/repo/schema.ex         changeset = Ecto.Embedded.prepare(user_changeset, embeds, adapter, :update)</span>
+<span class='curline'><a href='../S/127.html#L217'>prepare</a>           217 deps/ecto/lib/ecto/repo/schema.ex   defp do_delete(repo, adapter, %Changeset{valid?: true, prepare: prepare} = changeset, opts) do</span>
+<span class='curline'><a href='../S/127.html#L227'>prepare</a>           227 deps/ecto/lib/ecto/repo/schema.ex     wrap_in_transaction(repo, adapter, model, opts, embeds, assocs, prepare,</span>
+<span class='curline'><a href='../S/127.html#L229'>prepare</a>           229 deps/ecto/lib/ecto/repo/schema.ex       changeset = run_prepare(changeset, prepare)</span>
+<span class='curline'><a href='../S/127.html#L237'>prepare</a>           237 deps/ecto/lib/ecto/repo/schema.ex         |&gt; Ecto.Embedded.prepare(embeds, adapter, :delete)</span>
+<span class='curline'><a href='../S/127.html#L275'>prepare</a>           275 deps/ecto/lib/ecto/repo/schema.ex   defp run_prepare(changeset, prepare) do</span>
+<span class='curline'><a href='../S/127.html#L276'>prepare</a>           276 deps/ecto/lib/ecto/repo/schema.ex     Enum.reduce(Enum.reverse(prepare), changeset, fn fun, acc -&gt;</span>
+<span class='curline'><a href='../S/127.html#L472'>prepare</a>           472 deps/ecto/lib/ecto/repo/schema.ex   defp wrap_in_transaction(repo, adapter, model, opts, embeds, assocs, prepare, callbacks, fun) do</span>
+<span class='curline'><a href='../S/127.html#L473'>prepare</a>           473 deps/ecto/lib/ecto/repo/schema.ex     if transaction_required?(model, embeds, assocs, prepare, callbacks) and</span>
+<span class='curline'><a href='../S/127.html#L487'>prepare</a>           487 deps/ecto/lib/ecto/repo/schema.ex   defp transaction_required?(model, embeds, assocs, prepare, callbacks) do</span>
+<span class='curline'><a href='../S/127.html#L488'>prepare</a>           488 deps/ecto/lib/ecto/repo/schema.ex     embeds != [] or assocs != [] or prepare != [] or</span>
+<span class='curline'><a href='../S/197.html#L151'>prepare</a>           151 deps/postgrex/lib/postgrex.ex   @spec prepare(conn, iodata, iodata, Keyword.t) :: {:ok, Postgrex.Query.t} | {:error, Postgrex.Error.t}</span>
+<span class='curline'><a href='../S/197.html#L154'>prepare</a>           154 deps/postgrex/lib/postgrex.ex     case DBConnection.prepare(conn, query, defaults(opts)) do</span>
+<span class='curline'><a href='../S/190.html#L55'>prepare</a>            55 deps/postgrex/lib/postgrex/protocol.ex     prepare =</span>
+<span class='curline'><a href='../S/190.html#L66'>prepare</a>            66 deps/postgrex/lib/postgrex/protocol.ex                prepare: prepare}</span>
+<span class='curline'><a href='../S/190.html#L584'>prepare</a>           584 deps/postgrex/lib/postgrex/protocol.ex   defp parse_recv(s, %{prepare: prepare} = status, query, buffer) do</span>
+<span class='curline'><a href='../S/190.html#L586'>prepare</a>           586 deps/postgrex/lib/postgrex/protocol.ex       {:ok, msg_parse_complete(), buffer} when prepare == :parse_execute -&gt;</span>
+<span class='curline'><a href='../S/190.html#L589'>prepare</a>           589 deps/postgrex/lib/postgrex/protocol.ex       {:ok, msg_parse_complete(), buffer} when prepare == :parse_describe -&gt;</span>
+<span class='curline'><a href='../S/190.html#L592'>prepare</a>           592 deps/postgrex/lib/postgrex/protocol.ex       {:ok, msg_error(fields: fields), buffer} when prepare == :parse_execute -&gt;</span>
+<span class='curline'><a href='../S/190.html#L596'>prepare</a>           596 deps/postgrex/lib/postgrex/protocol.ex       {:ok, msg_error(fields: fields), buffer} when prepare == :parse_describe -&gt;</span>
+</pre>
+</body>
+</html>

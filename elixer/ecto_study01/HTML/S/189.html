@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title>deps/postgrex/lib/postgrex/parameters.ex</title>
+<meta name='robots' content='noindex,nofollow' />
+<meta name='generator' content='GLOBAL-6.5.2' />
+<meta http-equiv='Content-Style-Type' content='text/css' />
+<link rel='stylesheet' type='text/css' href='../style.css' />
+</head>
+<body>
+<a id='TOP' name='TOP'></a><h2 class='header'><a href='../mains.html'>root</a>/<a href='../files/216.html'>deps</a>/<a href='../files/252.html'>postgrex</a>/<a href='../files/253.html'>lib</a>/<a href='../files/254.html'>postgrex</a>/parameters.ex</h2>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L9'>[^]</a><a href='#L78'>[v]</a>[top]<a href='#BOTTOM'>[bottom]</a><a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+<hr />
+<h2 class='header'>DEFINITIONS</h2>
+This source file includes following definitions.
+<ol>
+<li><a href='#L9' title='Defined at 9.'>start_link</a></li>
+<li><a href='#L14' title='Defined at 14.'>insert</a></li>
+<li><a href='#L19' title='Defined at 19.'>put</a></li>
+<li><a href='#L33' title='Defined at 33.'>delete</a></li>
+<li><a href='#L38' title='Defined at 38.'>fetch</a></li>
+<li><a href='#L50' title='Defined at 50.'>init</a></li>
+<li><a href='#L57' title='Defined at 57.'>handle_call</a></li>
+<li><a href='#L63' title='Defined at 63.'>handle_cast</a></li>
+<li><a href='#L68' title='Defined at 68.'>handle_info</a></li>
+<li><a href='#L75' title='Defined at 75.'>parse</a></li>
+<li><a href='#L76' title='Defined at 76.'>describe</a></li>
+<li><a href='#L77' title='Defined at 77.'>encode</a></li>
+<li><a href='#L78' title='Defined at 78.'>decode</a></li>
+</ol>
+<hr />
+<pre>
+<a id='L1' name='L1'></a>defmodule Postgrex.Parameters <strong class='reserved'>do</strong>
+<a id='L2' name='L2'></a>  @moduledoc false
+<a id='L3' name='L3'></a>
+<a id='L4' name='L4'></a>  use GenServer
+<a id='L5' name='L5'></a>
+<a id='L6' name='L6'></a>  defstruct []
+<a id='L7' name='L7'></a>  @type t :: %__MODULE__<em class='brace'>{</em><em class='brace'>}</em>
+<a id='L8' name='L8'></a>
+<a id='L9' name='L9'></a>  def <a href='../R/900.html' title='Multiple referred from 71 places.'>start_link</a>() <strong class='reserved'>do</strong>
+<a id='L10' name='L10'></a>    GenServer.<a href='../D/1059.html' title='Multiple defined in 41 places.'>start_link</a>(__MODULE__, nil, [name: __MODULE__])
+<a id='L11' name='L11'></a>  end
+<a id='L12' name='L12'></a>
+<a id='L13' name='L13'></a>  @spec <a href='../D/691.html' title='Multiple defined in 17 places.'>insert</a>(%<em class='brace'>{</em><a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a> =&gt; binary<em class='brace'>}</em>) :: reference
+<a id='L14' name='L14'></a>  def <a href='../R/554.html' title='Multiple referred from 34 places.'>insert</a>(<a href='../S/197.html#L330' title='Defined at 330 in deps/postgrex/lib/postgrex.ex.'>parameters</a>) <strong class='reserved'>do</strong>
+<a id='L15' name='L15'></a>    GenServer.<a href='../D/323.html' title='Multiple defined in 2 places.'>call</a>(__MODULE__, <em class='brace'>{</em>:insert, <a href='../S/197.html#L330' title='Defined at 330 in deps/postgrex/lib/postgrex.ex.'>parameters</a><em class='brace'>}</em>)
+<a id='L16' name='L16'></a>  end
+<a id='L17' name='L17'></a>
+<a id='L18' name='L18'></a>  @spec <a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(reference, <a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a>, binary) :: <a href='../D/305.html' title='Multiple defined in 4 places.'>boolean</a>
+<a id='L19' name='L19'></a>  def <a href='../R/765.html' title='Multiple referred from 92 places.'>put</a>(ref, name, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>) <strong class='reserved'>do</strong>
+<a id='L20' name='L20'></a>    try <strong class='reserved'>do</strong>
+<a id='L21' name='L21'></a>      :ets.lookup_element(__MODULE__, ref, 2)
+<a id='L22' name='L22'></a>    rescue
+<a id='L23' name='L23'></a>      ArgumentError -&gt;
+<a id='L24' name='L24'></a>        false
+<a id='L25' name='L25'></a>    <strong class='reserved'>else</strong>
+<a id='L26' name='L26'></a>      <a href='../S/197.html#L330' title='Defined at 330 in deps/postgrex/lib/postgrex.ex.'>parameters</a> -&gt;
+<a id='L27' name='L27'></a>        <a href='../S/197.html#L330' title='Defined at 330 in deps/postgrex/lib/postgrex.ex.'>parameters</a> = Map.<a href='../S/189.html#L19' title='Defined at 19 in deps/postgrex/lib/postgrex/parameters.ex.'>put</a>(parameters, name, <a href='../S/63.html#L27' title='Defined at 27 in deps/ecto/integration_test/sql/transaction.exs.'>value</a>)
+<a id='L28' name='L28'></a>        :ets.update_element(__MODULE__, ref, <em class='brace'>{</em>2, <a href='../S/197.html#L330' title='Defined at 330 in deps/postgrex/lib/postgrex.ex.'>parameters</a><em class='brace'>}</em>)
+<a id='L29' name='L29'></a>    end
+<a id='L30' name='L30'></a>  end
+<a id='L31' name='L31'></a>
+<a id='L32' name='L32'></a>  @spec <a href='../D/444.html' title='Multiple defined in 10 places.'>delete</a>(reference) :: :ok
+<a id='L33' name='L33'></a>  def <a href='../R/320.html' title='Multiple referred from 40 places.'>delete</a>(ref) <strong class='reserved'>do</strong>
+<a id='L34' name='L34'></a>    GenServer.<a href='../D/331.html' title='Multiple defined in 58 places.'>cast</a>(__MODULE__, <em class='brace'>{</em>:delete, ref<em class='brace'>}</em>)
+<a id='L35' name='L35'></a>  end
+<a id='L36' name='L36'></a>
+<a id='L37' name='L37'></a>  @spec <a href='../D/597.html' title='Multiple defined in 2 places.'>fetch</a>(reference) :: <em class='brace'>{</em>:ok, %<em class='brace'>{</em><a href='../D/298.html' title='Multiple defined in 2 places.'>binary</a> =&gt; binary<em class='brace'>}</em><em class='brace'>}</em> | :error
+<a id='L38' name='L38'></a>  def <a href='../R/466.html' title='Multiple referred from 32 places.'>fetch</a>(ref) <strong class='reserved'>do</strong>
+<a id='L39' name='L39'></a>    try <strong class='reserved'>do</strong>
+<a id='L40' name='L40'></a>      :ets.lookup_element(__MODULE__, ref, 2)
+<a id='L41' name='L41'></a>    rescue
+<a id='L42' name='L42'></a>      ArgumentError -&gt;
+<a id='L43' name='L43'></a>        :error
+<a id='L44' name='L44'></a>    <strong class='reserved'>else</strong>
+<a id='L45' name='L45'></a>      <a href='../S/197.html#L330' title='Defined at 330 in deps/postgrex/lib/postgrex.ex.'>parameters</a> -&gt;
+<a id='L46' name='L46'></a>        <em class='brace'>{</em>:ok, <a href='../S/197.html#L330' title='Defined at 330 in deps/postgrex/lib/postgrex.ex.'>parameters</a><em class='brace'>}</em>
+<a id='L47' name='L47'></a>    end
+<a id='L48' name='L48'></a>  end
+<a id='L49' name='L49'></a>
+<a id='L50' name='L50'></a>  def <a href='../R/550.html' title='Multiple referred from 12 places.'>init</a>(nil) <strong class='reserved'>do</strong>
+<a id='L51' name='L51'></a>    opts = [:public, :named_table, <em class='brace'>{</em>:read_concurrency, true<em class='brace'>}</em>,
+<a id='L52' name='L52'></a>            <em class='brace'>{</em>:write_concurrency, true<em class='brace'>}</em>]
+<a id='L53' name='L53'></a>    <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a> = :ets.<a href='../D/805.html' title='Multiple defined in 14 places.'>new</a>(__MODULE__, opts)
+<a id='L54' name='L54'></a>    <em class='brace'>{</em>:ok, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L55' name='L55'></a>  end
+<a id='L56' name='L56'></a>
+<a id='L57' name='L57'></a>  def <a href='../R/517.html' title='Multiple referred from 6 places.'>handle_call</a>(<em class='brace'>{</em>:insert, <a href='../S/197.html#L330' title='Defined at 330 in deps/postgrex/lib/postgrex.ex.'>parameters</a><em class='brace'>}</em>, <em class='brace'>{</em>pid, _<em class='brace'>}</em>, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>) <strong class='reserved'>do</strong>
+<a id='L58' name='L58'></a>    ref = Process.<a href='../S/101.html#L143' title='Defined at 143 in deps/ecto/lib/ecto/pools/poolboy/worker.ex.'>monitor</a>(pid)
+<a id='L59' name='L59'></a>    true = :ets.insert_new(<a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>, <em class='brace'>{</em>ref, <a href='../S/197.html#L330' title='Defined at 330 in deps/postgrex/lib/postgrex.ex.'>parameters</a><em class='brace'>}</em>)
+<a id='L60' name='L60'></a>    <em class='brace'>{</em>:reply, ref, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L61' name='L61'></a>  end
+<a id='L62' name='L62'></a>
+<a id='L63' name='L63'></a>  def <a href='../R/518.html' title='Multiple referred from 3 places.'>handle_cast</a>(<em class='brace'>{</em>:delete, ref<em class='brace'>}</em>, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>) <strong class='reserved'>do</strong>
+<a id='L64' name='L64'></a>    :ets.<a href='../D/444.html' title='Multiple defined in 10 places.'>delete</a>(<a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>, ref)
+<a id='L65' name='L65'></a>    <em class='brace'>{</em>:noreply, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L66' name='L66'></a>  end
+<a id='L67' name='L67'></a>
+<a id='L68' name='L68'></a>  def <a href='../R/527.html' title='Multiple referred from 4 places.'>handle_info</a>(<em class='brace'>{</em>:DOWN, ref, :process, _, _<em class='brace'>}</em>, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>) <strong class='reserved'>do</strong>
+<a id='L69' name='L69'></a>    :ets.<a href='../D/444.html' title='Multiple defined in 10 places.'>delete</a>(<a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a>, ref)
+<a id='L70' name='L70'></a>    <em class='brace'>{</em>:noreply, <a href='../S/149.html#L31' title='Defined at 31 in deps/poolboy/src/poolboy.erl.'>state</a><em class='brace'>}</em>
+<a id='L71' name='L71'></a>  end
+<a id='L72' name='L72'></a>end
+<a id='L73' name='L73'></a>
+<a id='L74' name='L74'></a>defimpl DBConnection.<a href='../R/63.html' title='Multiple referred from 69 places.'>Query</a>, <strong class='reserved'>for</strong>: Postgrex.Parameters <strong class='reserved'>do</strong>
+<a id='L75' name='L75'></a>  def <a href='../R/707.html' title='Multiple referred from 20 places.'>parse</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, _), <strong class='reserved'>do</strong>: query
+<a id='L76' name='L76'></a>  def <a href='../R/333.html' title='Multiple referred from 3 places.'>describe</a>(<a href='../D/932.html' title='Multiple defined in 24 places.'>query</a>, _), <strong class='reserved'>do</strong>: query
+<a id='L77' name='L77'></a>  def <a href='../R/398.html' title='Multiple referred from 16 places.'>encode</a>(_, nil, _), <strong class='reserved'>do</strong>: nil
+<a id='L78' name='L78'></a>  def <a href='../R/289.html' title='Multiple referred from 21 places.'>decode</a>(_, <a href='../S/197.html#L330' title='Defined at 330 in deps/postgrex/lib/postgrex.ex.'>parameters</a>, _), <strong class='reserved'>do</strong>: parameters
+<a id='L79' name='L79'></a>end
+</pre>
+<hr />
+<a id='BOTTOM' name='BOTTOM'></a>
+<em class='comment'>/* [&lt;][&gt;]<a href='#L9'>[^]</a><a href='#L78'>[v]</a><a href='#TOP'>[top]</a>[bottom]<a href='../mains.html'>[index]</a><a href='../help.html'>[help]</a> */</em>
+</body>
+</html>
